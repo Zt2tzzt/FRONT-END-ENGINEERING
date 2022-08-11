@@ -2,14 +2,16 @@
 
 官方说明：
 
-- 一个基于 V8 JavaScript 引擎的 JavaScript 运行时环境。
+- 一个基于 V8 引擎的 JavaScript 运行时环境。
 
 自己总结：
 
 - 我们知道 V8 可以嵌入到任何 C++ 应用程序中，无论是 Chrome 还是 Node.js，都是嵌入了 V8 引擎来执行 JavaScript 代码；
-- 在 Chrome 浏览器中，还需要解析、渲染 HTML、CSS 等相关渲染引擎，另外还需要提供支持浏览器操作的API、浏览器 自己的事件循环等；
-- 在 Node.js 中我们也需要进行一些额外的操作，比如文件系统读/写、网络IO、加密、压缩解压文件等操作；
-- Node 和 Node.js 代表的是一个意思。
+- 在 Chrome 浏览器中，
+  - 还有解析、渲染 HTML、CSS 等相关渲染引擎，
+  - 还有提供支持浏览器操作的API、浏览器自己的事件循环等；
+- 在 Node.js 中
+  - 有文件系统读/写、网络IO、加密、压缩解压文件等操作；- Node 和 Node.js 代表的是一个意思。
 
 -----
 
@@ -40,7 +42,7 @@
 
 Node.js 的六大应用场景。
 
-1. 目前前端开发的库都是以node包的形式进行管理；（常用）
+1. 目前前端开发的库都是以 node 包的形式进行管理；（常用）
 2. npm、yarn、pnpm 工具成为前端开发使用最多的工具；（常用）
 3. 越来越多的公司使用 Node.js 作为 web 服务器开发、中间件、代理服务器；
 4. 大量项目需要借助 Node.js 完成前后端渲染的同构应用；
@@ -56,7 +58,7 @@ Node.js 的六大应用场景。
 1. 借助于一些操作系统上的软件管理工具，如 Mac 上的 homebrew；Linux 上的 yum、dnf 等。
 2. 直接下载对应的安装包进行安装；（Windows 下 .msi 后缀代表 Microsoft install）
 
-安装 Node.js 2点注意事项
+安装 Node.js 2点注意事项：
 
 1. 安装过程中会配置环境变量（安装完后，可以在命令行直接使用）；
 2. 会附带安装 npm（Node Package Manager）工具；
@@ -65,8 +67,8 @@ Node.js 的六大应用场景。
 
 安装 Node.js 有哪2个版本，分别适用于什么场景。
 
-- LTS版本：（Long-term support, 长期支持）相对稳定一些，生产环境使用该版本；
-- Current版本：最新的Node版本，包含很多新特性；学习用。
+- LTS 版本：（Long-term support, 长期支持）相对稳定一些，生产环境使用该版本；
+- Current 版本：最新的 Node 版本，包含很多新特性；学习用。
 
 -----
 
@@ -75,7 +77,7 @@ Node.js 的六大应用场景。
 Node 的版本管理工具有哪些（都不支持 Windows）？
 
 - nvm：Node Version Manager；
-- n：Interactively Manage Your Node.js Versions（交互式管理你的Node.js版本）
+- n：Interactively Manage Your Node.js Versions（交互式管理你的 Node.js 版本）
 - nvm 提供了专门针对 Windows 的版本
 
 它们有哪些常用命令？
@@ -158,11 +160,11 @@ Node 输出：Node 输出有哪些常用的 api。
 
 什么是 Node 中的 REPL，
 
-- REPL是 Read-Eval-Print Loop的简称，翻译为“读取-求值-输出”循环；
-- REPL是一个简单的、交互式的编程环境；
+- REPL 是 Read-Eval-Print Loop 的简称，翻译为“读取-求值-输出”循环；
+- REPL 是一个简单的、交互式的编程环境；
 - 浏览器的 console 就可以看成一个REPL
 
-如何使用？
+在 Node 中如何使用？
 
 1. 进入
 
@@ -198,8 +200,8 @@ Node 全局对象
 
 - `__dirname`、`__filename`、`exports`、`module`、`require()`
 	- `__dirname`：获取当前文件所在的路径：不包括后面的文件名。
-	- `__filename`：获取当前文件所在的路径和文件名称：包括后面的文件名称。
-- 这些全局对象，实际上是模块中的变量，只是每个模块都有，看来像是全局变量；
+	- `__filename`：获取当前文件所在的路径和文件名称。
+- 这些全局对象，实际上是**模块中的变量**，只是每个模块都有，看来像是全局变量；
 - 在命令行交互中是不可以使用的；
 
 
@@ -209,11 +211,11 @@ Node 全局对象
 	- 比如 Node 的运行环境、参数信息等； 
 	- 后面会讲解，如何将一些环境变量读取到 process 的 env 中；
 - console 对象：提供了简单的调试控制台，在前面讲解输入内容时已经学习过了。 
-- 定时器函数：在Node中使用定时器有好几种方式： 
+- 定时器函数：在 Node 中使用定时器有好几种方式： 
 	- setTimeout(callback, delay[, ...args])：callback 在 delay 毫秒后执行一次； 
 	- setInterval(callback, delay[, ...args])：callback 每 delay 毫秒重复执行一次； 
 	- setImmediate(callback[, ...args])：callbackI / O 事件后的回调的“立即”执行；
-		- 先不展开讨论它和setTimeout(callback, 0)之间的区别；因为涉及到事件循环的阶段问题，后续详细讲解事件循环相关的知识；
+		- 先不展开讨论它和 setTimeout(callback, 0) 之间的区别；因为涉及到事件循环的阶段问题，后续详细讲解事件循环相关的知识；
 	- process.nextTick(callback[, ...args])：添加到下一次 tick 队列中； 也放到事件循环中说明；
 
 ```JavaScript
@@ -229,7 +231,7 @@ process.nextTick(() => {
 
 什么是 Node.js 中的 global 对象，
 
-- global是一个 Node 的全局对象，前面提到的 process、console、setTimeout 等都有被放到 global 中： 
+- global 是一个 Node 的全局对象，前面提到的 process、console、setTimeout 等都有被放到 global 中： 
 - ES11 中新增 globalThis，也是指向全局对象的；
 - 类似于浏览器中的 window；
 
