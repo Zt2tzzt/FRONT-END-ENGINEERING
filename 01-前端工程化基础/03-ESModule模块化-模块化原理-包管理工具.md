@@ -161,8 +161,8 @@ ES Module 中 import 不能在逻辑代码中使用，为什么？
 ```js
 let flag = true
 if (flag) {
+  // 返回一个 promise
 	import('./foo.js').then(res => {
-		// 返回一个 promise
 		console.log(res.name, res.age)
 	})
 }
@@ -181,7 +181,7 @@ if (flag) {
 ES Module 的解析流程有那几步，理解图解。
 
 1. 构建（Construction），根据地址查找 js 文件，并且下载，将其解析成模块记录（Module Record）；
-2. 实例化（Instantiation），对模块记录进行实例化，并且分配内存空间（环境记录），解析模块的导入和导出语句，把模块指向 对应的内存地址。
+2. 实例化（Instantiation），对模块记录进行实例化，并且分配内存空间（环境记录），解析模块的导入和导出语句，把模块指向对应的内存地址。
 3. 运行（Evaluation），运行代码，计算值，并且将值填充到内存地址中；
 
 <img src="NodeAssets/ES Module 解析三阶段.jpg" alt="ES Module 解析三阶段" style="zoom:150%;" />
@@ -203,7 +203,7 @@ ES Module 的解析流程有那几步，理解图解。
 - 上传到 GitHub 上、或搭建自己的官网，其他程序员通过 GitHub 或官网，下载到代码，并手动的引用；
 	- 缺点是必须知道项目 GitHub 的地址，并且从 GitHub 上手动下载；
 	- 需要在自己的项目中手动的引用，并且管理相关的依赖；
-	- 不需要使用的时候，需要手动来删除相关的依赖；
+	- 不需要使用的时候，则要手动来删除相关的依赖；
 	- 当遇到版本升级或者切换时，需要重复上面的操作；
 
 显然，上面的方式是有效的，但是这种传统的方式非常麻烦，并且容易出错；

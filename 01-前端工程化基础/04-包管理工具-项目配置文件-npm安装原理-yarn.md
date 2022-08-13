@@ -73,7 +73,7 @@ npm 包安装分2种情况，如何理解？
 - 全局安装（global install）： 如：npm install webpack -g;
 	- 全局安装是直接将某个包安装到全局；
 	- 会被添加到 node 全局管理的一个目录，这个目录会添加到环境变量中，可以在命令行中全局使用该目录下的包。
-	- 通常使用npm全局安装的包都是一些工具包：yarn、webpack 等；
+	- 通常使用 npm 全局安装的包都是一些工具包：yarn、webpack 等；
 	- 所以即使全局安装了像 axios 这样的依赖，也并不能在所有的项目中使用。
 - 项目（局部）安装（local install）： 如：npm install webpack
 	- 项目安装会在当前目录下生成一个 node_modules 文件夹
@@ -96,7 +96,7 @@ npm install
 
 npm install 的原理是什么？分2种情况。
 
-- npm install会检测是有 package-lock.json 文件：
+- npm install 会检测是有 package-lock.json 文件：
 - 没有 lock 文件
 	- 分析依赖关系，这是因为可能包会依赖其他的包，并且多个包之间会产生相同依赖的情况；
 	- 从 registry 仓库中下载压缩包（如果我们设置了镜像，那么会从镜像服务器下载压缩包）；
@@ -153,9 +153,9 @@ npm config get cache
 什么是 yarn 工具，它与 npm 命令对应的命令是什么？
 
 - yarn 是由Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 包管理工具； 
-- yarn 是为了弥补 早期npm 的一些缺陷而出现的； 
+- yarn 是为了弥补 早期 npm 的一些缺陷而出现的； 
 - 早期的 npm 存在很多的缺陷，比如安装依赖速度很慢、版本依赖混乱等等一系列的问题；
-- 虽然从npm5版本开始，进行了很多的升级和改进，但是依然很多人喜欢使用 yarn；
+- 虽然从 npm5 版本开始，进行了很多的升级和改进，但是依然很多人喜欢使用 yarn；
 
 <img src="NodeAssets/yarn 与 npm 相对应的命令.jpg" alt="yarn 与 npm 相对应的命令" style="zoom:150%;" />
 
@@ -167,7 +167,7 @@ npm config get cache
 ```shell
 # 查看npm镜像：
 npm config get registry 
-# 我们可以直接设置npm的镜像：
+# 我们可以直接设置 npm 的镜像：
 npm config set registry https://registry.npm.taobao.org
 ```
 - 但是对于大多数人来说，并不希望将 npm 镜像修改： 
