@@ -1,1 +1,3 @@
-console.log('---process.argv---', process.argv)
+import * as bar from './bar.js'
+
+console.log('---bar---', bar.default)
