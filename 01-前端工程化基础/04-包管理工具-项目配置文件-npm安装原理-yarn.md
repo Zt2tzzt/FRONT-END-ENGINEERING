@@ -12,6 +12,7 @@ npm 的配置文件是 package.json，它有什么用？
 -----
 
 package.json 中有哪些常见的属性，它们有什么含义？
+
 - 必须填写的属性：name、version
 	- name 是项目的名称；
 	- version 是当前项目的版本号；
@@ -47,14 +48,14 @@ package.json 中有哪些常见的属性，它们有什么含义？
 	- 事实上也可以指定所在的操作系统 "os" : [ "darwin", "linux" ]，只是很少用到；
 - browserslist 属性（很少用，开发中一般在项目根目录使用 .browserslistrc 文件）
 	- 用于配置打包后的 JavaScript 浏览器的兼容情况，参考；
-	- 否则我们需要手动的添加 polyfills 来让支持某些语法；
+	- 否则我们需要手动的添加 polyfills 来支持某些语法；
 	- 也就是说它是为 webpack 等打包工具服务的一个属性（这里不是详细讲解 webpack 等工具的工作原理，所以不再给出详情）
 
 -----
 
 npm 包版本管理规范是怎样的？
 
-- npm的包通常需要遵从 semver （semantic version）版本规范：
+- npm 的包通常需要遵从 semver （semantic version）版本规范：
 	- semver：https://semver.org/lang/zh-CN/
 	- npm semver：https://docs.npmjs.com/misc/semver
 - semver 版本规范是 X.Y.Z：
@@ -120,13 +121,13 @@ package-lock.json 有哪些属性，分别有什么含义？
 - name：项目的名称；
 - version：项目的版本；
 - lockfileVersion：lock文件的版本；
-- requires：使用requires来跟踪模块的依赖关系；（默认用 dependencies 来记录）
+- requires：使用 requires 来跟踪模块的依赖关系；（默认用 dependencies 来记录）
 - dependencies：项目的依赖
-	- 当前项目依赖 axios，但是axios依赖follow-redireacts；
+	- 如下图，当前项目依赖 axios，但是 axios 依赖follow-redireacts；
 	- axios 中的属性如下：
-		- version 表示实际安装的axios的版本；
-		- resolved 用来记录下载的地址，registry仓库中的位置；
-		- requires/dependencies 记录当前模块的依赖；
+		- version 表示实际安装的 axios 的版本；
+		- resolved 用来记录下载的地址，registry 仓库中的位置；
+		- requires / dependencies 记录当前模块的依赖；
 		- integrity 用来从缓存中获取索引，再通过索引去获取压缩包文件；
 
 <img src="NodeAssets/package-lock.json 结构图.jpg" alt="package-lock.json 结构图" style="zoom:80%;" />
@@ -163,7 +164,7 @@ npm config get cache
 
 什么是 cnpm 工具，它有什么用？
 
-- 由于一些特殊的原因，某些情况下我们没办法很好的从 https://registry.npmjs.org下载下来一些需要的包。
+- 由于一些特殊的原因，某些情况下我们没办法很好的从 https://registry.npmjs.org 下载下来一些需要的包。
 ```shell
 # 查看npm镜像：
 npm config get registry 

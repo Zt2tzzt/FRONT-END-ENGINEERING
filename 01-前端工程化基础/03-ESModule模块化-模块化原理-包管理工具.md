@@ -227,7 +227,7 @@ ES Module 的解析流程有那几步，理解图解。
 1. 在相关项目的 github 或 官网上查看。
 2. 在 npm 包的官网上查看：https://www.npmjs.org/
 
-npm 管理的包放在那里？
+npm 管理的包放在哪里？
 
 - 我们发布自己的包其实是发布到 registry 上面的；
 - 当我们安装一个包时其实是从 registry 上面下载的包；

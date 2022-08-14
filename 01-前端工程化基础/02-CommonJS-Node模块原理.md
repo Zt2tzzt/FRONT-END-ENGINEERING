@@ -142,7 +142,7 @@ Node 中本质上是导出 module.exports，而 CommonJS 的规范中是通过 e
 代码体现 module.exports 和 exports 内存关系。
 
 ```javascript
-exporys === module.exports // true，exports 和 module.exports 在内存中默认指向同一个对象。
+exports === module.exports // true，exports 和 module.exports 在内存中默认指向同一个对象。
 module.exports = {} // 新建了一个对象，Node 中本质上会导出这个对象。
 exports === module.exports // false
 exports.aaa = 'aaa'; // 此时 exports 中的属性不会被导出。没有意义
@@ -180,7 +180,7 @@ exports.aaa = 'aaa'; // 此时 exports 中的属性不会被导出。没有意�
 2. 模块被多次引入时，会缓存，最终只加载（运行）一次
 	- 为什么只会加载运行一次呢？
 	- 这是因为每个模块对象 module 都有一个属性：loaded。
-	- 为 false 表示还没有加载，为 true 表示已经加载；
+	  - 为 false 表示还没有加载，为 true 表示已经加载；
 3. 如果有循环引入，那么加载顺序是什么？ 比如，如果出现下图模块的引用关系，那么加载顺序是什么呢？
 	- 这个其实是一种数据结构：图结构；
 	- 图结构在遍历的过程中，有深度优先搜索（DFS, depth first search）和广度优先搜索（BFS, breadth first search）；
@@ -194,12 +194,12 @@ exports.aaa = 'aaa'; // 此时 exports 中的属性不会被导出。没有意�
 
 CommonJS 规范的缺点是什么？有什么影响？
 
-- CommonJS加载模块是同步的：
+- CommonJS 加载模块是同步的：
 	- 意味着只有等到对应的模块加载完毕，当前模块中的内容才能被运行；
-	- 这个在服务器不会有什么问题，因为服务器加载的js文件都是本地文件，加载速度非常快；耗时操作也都会交给其它线程处理，只需要执行相应的回调即可。
+	- 这个在服务器不会有什么问题，因为服务器加载的 js 文件都是本地文件，加载速度非常快；耗时操作也都会交给其它线程处理，只需要执行相应的回调即可。
 - 如果将它应用于浏览器呢？
 	- 浏览器加载 js 文件需要先从服务器将文件下载下来，之后再加载运行；
-	- 那么采用同步的就意味着后续的 js 代码都无法正常运行，即使是一些简单的DOM操作；
+	- 那么同步的加载策略就意味着后续的 js 代码都无法正常运行，即使是一些简单的 DOM 操作；
 - 所以在浏览器中，我们通常不使用 CommonJS 规范：
 	- 当然在 webpack 中使用 CommonJS 是另外一回事；
 	- 在 webpack 中会对代码进行打包，如果没有分包，会将代码放到一个 JS 文件中。浏览器只需要请求这一个 js 文件。
