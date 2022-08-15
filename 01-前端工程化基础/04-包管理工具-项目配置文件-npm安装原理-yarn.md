@@ -24,9 +24,9 @@ package.json 中有哪些常见的属性，它们有什么含义？
 	- 当值为 true 时，npm 是不能发布它的，这是防止私有项目或模块发布出去的方式；
 - main 属性：
 	- 设置程序的入口。
-		- 比如我们使用 axios 模块 const axios = require('axios');
-		- 如果有 main 属性，实际上是找到对应的 main 属性查找文件的；
-- scripts属性
+		- 比如我们使用 axios 模块 `const axios = require('axios');`
+		- 如果有 main 属性，实际上是找到对应的入口属性查找文件的；
+- scripts 属性
 	- scripts 属性用于配置一些脚本命令，以键值对的形式存在；
 	- 配置后我们可以通过 `npm run` 命令的 key 来执行这个命令；
 	- npm start 和 npm run start 的区别是什么？
@@ -34,7 +34,7 @@ package.json 中有哪些常见的属性，它们有什么含义？
 		- 对于常用的 start、 test、stop、restart 可以省略掉 run 直接通过 npm start 等方式运行；
 - dependencies 属性
 	- dependencies 属性是指定无论开发环境还是生产环境都需要依赖的包；
-	- 通常是我们项目实际开发用到的一些库模块 vue、vuex、vue-router、react、react-dom、axios 等等；
+	- 通常是我们项目实际开发用到的一些库或框架 vue、vuex、vue-router、react、react-dom、axios 等等；
 	- 与之对应的是 devDependencies；
 - devDependencies 属性
 	- 一些包在生产环境是不需要的，比如 webpack、babel 等；
@@ -102,7 +102,7 @@ npm install 的原理是什么？分2种情况。
 	- 分析依赖关系，这是因为可能包会依赖其他的包，并且多个包之间会产生相同依赖的情况；
 	- 从 registry 仓库中下载压缩包（如果我们设置了镜像，那么会从镜像服务器下载压缩包）；
 	- 获取到压缩包后会对压缩包进行缓存（从 npm5 开始有的）；
-	- 将压缩包解压到项目的 node_modules 文件夹中（前面我们讲过，require 的查找顺序会在该包下面查找）
+	- 将压缩包解压到项目的 node_modules 文件夹中（前面我们讲过，require 函数的查找顺序会在该包下面查找）
 - 有 lock 文件
 	- 检测 lock 中包的版本是否和 package.json 中一致（会按照 semver 版本规范检测）；
 		- 如不一致，那么会重新构建依赖关系，直接会走顶层的流程；

@@ -143,7 +143,7 @@ Node 中本质上是导出 module.exports，而 CommonJS 的规范中是通过 e
 
 ```javascript
 exports === module.exports // true，exports 和 module.exports 在内存中默认指向同一个对象。
-module.exports = {} // 新建了一个对象，Node 中本质上会导出这个对象。
+module.exports = {} // 新建了一个对象赋值给 module.exports，Node 中本质上会导出这个对象。
 exports === module.exports // false
 exports.aaa = 'aaa'; // 此时 exports 中的属性不会被导出。没有意义
 ```
@@ -202,8 +202,9 @@ CommonJS 规范的缺点是什么？有什么影响？
 	- 那么同步的加载策略就意味着后续的 js 代码都无法正常运行，即使是一些简单的 DOM 操作；
 - 所以在浏览器中，我们通常不使用 CommonJS 规范：
 	- 当然在 webpack 中使用 CommonJS 是另外一回事；
-	- 在 webpack 中会对代码进行打包，如果没有分包，会将代码放到一个 JS 文件中。浏览器只需要请求这一个 js 文件。
-	-  webpack 会将我们的代码转成浏览器可以直接执行的代码；
+	- 在 webpack 中会对代码进行打包，如果没有分包，会将代码打包到一个 JS 文件中。浏览器只需要请求这一个 js 文件。
+	- webpack 会将我们的代码转成浏览器可以直接执行的代码；
+	  -  不需要使用 `<script src="xxx" type="module"></script>` 来声明是引入 ES Module 文件。
 - 在早期为了可以在浏览器中使用模块化，通常会采用 AMD 或 CMD：
 	- 但是目前一方面现代的浏览器已经支持 ES Modules，另一方面借助于 webpack 等工具可以实现对 CommonJS 或者 ES Module代码的转换；
 	- AMD（Asynchronous Module Definition 异步模块定义） 和 CMD （Common Module Definition 通用模块定义）已经使用非常少了；

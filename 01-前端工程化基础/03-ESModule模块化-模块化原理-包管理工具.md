@@ -54,14 +54,17 @@ ES Module 导入导出的 3 种方式。
 
 2. 将所有需要导出的标识符，放到 export 后面的 {} 中。
 
-	- 注意：这里的 {} 里面不是 ES6 的对象字面量的增强写法，{} 也不是表示一个对象的；
-	- 所以： export {name: name}，是错误的写法；
+  - 注意：这里的 {} 里面不是 ES6 的对象字面量的增强写法，{} 也不是表示一个对象的；
+  - 所以： export {name: name}，是错误的写法；
 
-		```js
-		const name = 'zzt'
-		const age = 18
-		export { name, age }
-		```
+  	```js
+  	const name = 'zzt'
+  	const age = 18
+  	export {
+  		name,
+  	  age
+  	}
+  	```
 
 3. 导出时给标识符起一个别名
 
@@ -151,7 +154,7 @@ ES Module 中 import 不能在逻辑代码中使用，为什么？
 
 - 这是因为 ES Module 在被 JS 引擎解析时，就必须知道它的依赖关系；
 - 由于这个时候 js 代码没有运行，所以无法在进行类似于 if 判断中获取代码的执行情况；
-- 拼接路径的写法也是错误的：因为这样必须到运行时能确定 path 的值；
+- 拼接路径的写法也是错误的：因为这样必须到运行时才能确定 path 的值；
 	```js
 	import { foo } from './util' + '/index.js' // 错误写法。
 	```
