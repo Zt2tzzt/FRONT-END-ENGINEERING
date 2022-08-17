@@ -123,7 +123,7 @@ package-lock.json 有哪些属性，分别有什么含义？
 - lockfileVersion：lock文件的版本；
 - requires：使用 requires 来跟踪模块的依赖关系；（默认用 dependencies 来记录）
 - dependencies：项目的依赖
-	- 如下图，当前项目依赖 axios，但是 axios 依赖follow-redireacts；
+	- 如下图，当前项目依赖 axios，但是 axios 依赖 follow-redireacts；
 	- axios 中的属性如下：
 		- version 表示实际安装的 axios 的版本；
 		- resolved 用来记录下载的地址，registry 仓库中的位置；
@@ -153,7 +153,7 @@ npm config get cache
 
 什么是 yarn 工具，它与 npm 命令对应的命令是什么？
 
-- yarn 是由Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 包管理工具； 
+- yarn 是由 Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 包管理工具； 
 - yarn 是为了弥补 早期 npm 的一些缺陷而出现的； 
 - 早期的 npm 存在很多的缺陷，比如安装依赖速度很慢、版本依赖混乱等等一系列的问题；
 - 虽然从 npm5 版本开始，进行了很多的升级和改进，但是依然很多人喜欢使用 yarn；
@@ -166,7 +166,7 @@ npm config get cache
 
 - 由于一些特殊的原因，某些情况下我们没办法很好的从 https://registry.npmjs.org 下载下来一些需要的包。
 ```shell
-# 查看npm镜像：
+# 查看 npm 镜像：
 npm config get registry 
 # 我们可以直接设置 npm 的镜像：
 npm config set registry https://registry.npm.taobao.org
