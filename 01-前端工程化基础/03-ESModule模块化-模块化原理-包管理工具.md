@@ -54,28 +54,28 @@ ES Module 导入导出的 3 种方式。
 
 2. 将所有需要导出的标识符，放到 export 后面的 {} 中。
 
-  - 注意：这里的 {} 里面不是 ES6 的对象字面量的增强写法，{} 也不是表示一个对象的；
-  - 所以： export {name: name}，是错误的写法；
+    - 注意：这里的 {} 里面不是 ES6 的对象字面量的增强写法，{} 也不是表示一个对象的；
+    - 所以： export { name: name }，是错误的写法；
 
-  	```js
-  	const name = 'zzt'
-  	const age = 18
-  	export {
-  		name,
-  	  age
-  	}
-  	```
+	```js
+	const name = 'zzt'
+	const age = 18
+	export {
+		name,
+		age
+	}
+	```
 
 3. 导出时给标识符起一个别名
 
 	- 通过 as 关键字起别名。
 
-		```js
-		const name = 'zzt'
-		export {
-			name as foo
-		}
-		```
+	```js
+	const name = 'zzt'
+	export {
+		name as foo
+	}
+	```
 
 导入：import 关键字
 
