@@ -15,7 +15,7 @@ Node 中的内置模块 path 有什么用？
 
 常见 API：
 - 从路径中获取信息
-	- `path.dirname()`：获取文件的父文件夹；
+	- `path.dirname()`：获取文件的目录；
 	- `path.basename()`：获取文件名；
 	- `path.extname()`：获取文件扩展名；
 	
@@ -37,20 +37,20 @@ Node 中的内置模块 path 有什么用？
 	const path1 = "/abc/cba"
 	const path2 = "../zzt/kobe/james.txt"
 	// 2.将多个路径拼接在一起: path.join
-	path.join(path1, path2) // \abc\zzt\kobe\james.txt
+	path.join(path1, path2) // 在 Windows 上：\abc\zzt\kobe\james.txt
 	```
 	
 - 拼接绝对路径：`path.resolve()` **常用**
   - path.resolve() 方法会把一个路径或路径片段的序列解析为一个**绝对路径**；
   - 给定的路径的序列参数是**从右往左**被处理的，后面每个 path 被依次解析，直到构造完成一个绝对路径；
   - 如果在处理完所有给定 path 路径序列之后，还没有生成绝对路径，则使用当前工作目录；
-    - 绝对路径用 `/` 开头来表示的路径，而非 `./` 或 `../`
+    - 绝对路径是用 `/` 开头来表示的路径，而非 `./` 或 `../`
   -  生成的路径被规范化并删除尾部斜杠，零长度 path 段被忽略；
   - 如果没有 path 传递段，path.resolve() 将返回当前工作目录的绝对路径；
 
   ```js
   const path = require('path')
-  path.resolve("./abc/cba", "../why/kobe", "./abc.txt") // D:\Workshop\Mobile_HDD\coderwhy-fromt-end-system\FRONT-END-ENGINEERING\demo-project\src\abc\why\kobe\abc.txt
+  path.resolve("./abc/cba", "../zzt/kobe", "./abc.txt") // D:\Workshop\Mobile_HDD\coderwhy-fromt-end-system\FRONT-END-ENGINEERING\demo-project\src\abc\zzt\kobe\abc.txt
   ```
 
 -----
@@ -62,14 +62,13 @@ webpack 可应用于哪些场景？
 - 事实上随着前端的快速发展，目前前端的开发已经变的越来越复杂了： 
 	- 比如开发过程中我们需要通过模块化（CommonJS，ES Module）的方式来开发； 
 	- 比如会使用一些高级的特性来加快我们的开发效率或者安全性，比如通过 ES6+、TypeScript 开发脚本逻辑，通过 sass、 less 等方式来编写 css 样式代码；
-	- 比如开发过程中，我们还希望实时的监听文件的变化来并且反映到浏览器上，提高开发的效率； 
+	- 比如开发过程中，我们还希望实时的监听文件的变化，并且反映到浏览器上，提高开发的效率； 
 	- 比如开发完成后我们还需要将代码进行压缩、合并以及其他相关的优化； 
 	- 等等….
 - 但是对于很多的前端开发者来说，并不需要思考这些问题，日常的开发中根本就没有面临这些问题： 
 	- 这是因为目前前端开发我们通常都会直接使用三大框架来开发：Vue、React、Angular； 
 	- 事实上，这三大框架的创建过程都是借助于脚手架（CLI）的； 
-		- Vue-CLI、create-react-app、Angular-CLI 都是基于 webpack 来帮助我们支持模块化、less、TypeScript、打包优化
-等的；
+		- Vue-CLI、create-react-app、Angular-CLI 都是基于 webpack 来帮助我们支持模块化、其中就包括 less、TypeScript、打包优等等；
 
 -----
 
@@ -113,7 +112,7 @@ webpack 的使用前提，依赖 Node 环境，
 
 - webpack 的中文官方文档是https://webpack.docschina.org/
 
-webpack 的安装分两部分 webpack，webpack-cli（如果要在命令行行执行命令，那么必须安装）
+webpack 的安装分两部分 webpack，webpack-cli（如果要在命令行执行命令，那么必须安装）
 
 ```shell
 npm install webpack webpack-cli -D 
@@ -199,7 +198,7 @@ module.exports = {
 1. 执行 webpack 命令时：
 
 	 ```shell
-	 webpack --config zzt.config.js
+	npx webpack --config zzt.config.js
 	```
 
 2. 在 `package.json` 文件中脚本做配置
