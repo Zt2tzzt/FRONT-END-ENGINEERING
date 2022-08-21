@@ -23,9 +23,9 @@ Node 中的内置模块 path 有什么用？
 	const path = require("path")
 	const filepath = "C://abc/cba/nba.txt"
 	// 1.可以从一个路径中获取一些信息
-	path.extname(filepath) // .txt
-	path.basename(filepath) // nba.txt
 	path.dirname(filepath) // C://abc/cba
+	path.basename(filepath) // nba.txt
+	path.extname(filepath) // .txt
 	```
 	
 - 路径的拼接：`path.join()`
@@ -82,6 +82,8 @@ webpack 可应用于哪些场景？
 
 ---
 
+## webpack 的工作原理
+
 理解 webpack 的工作图解。
 
 <img src="NodeAssets/webpack工作原理图.jpg" alt="webpack工作原理图" style="zoom:150%;" />
@@ -121,7 +123,7 @@ npm install webpack webpack-cli -D
 两者的关系：
 
 1. 执行 webpack 命令，会执行 `node_module/.bin` 目录下的 webpack。
-2. webpack 在执行时依赖 webpack-cli 的，如果没有安装就会报错。
+2. webpack 在执行时依赖 webpack-cli 对命令进行解析，如果没有安装就会报错。
 3. 而 webpack-cli 中代码执行时，才是真正利用 webpack 进行编译和打包的过程。
 4. 第三方脚手架事实上没有使用 webpack-cli。而是类似于自己的 `vue-cli-service` 的东西。
 
@@ -129,11 +131,13 @@ npm install webpack webpack-cli -D
 
 -----
 
+## webpack 打包步骤：
+
 webpack 默认打包步骤：
 
-1. 在项目目录下执行 `webpack` 的命令，webpack 会查找当前项目下 `src/index.js` 作为入口。如果没有则会报错。
+1. 在项目目录下执行 `webpack` 的命令，webpack 会查找当前项目下 `./src/index.js` 作为入口。如果没有则会报错。
 
-2. 在项目目录下生成 `./dist/main.js` 文件
+2. 在项目目录下默认生成 `./dist/main.js` 文件
 
    - 这个文件中代码被压缩和丑化了。
 
@@ -174,6 +178,8 @@ webpack 默认打包步骤：
 	 ```
 
 -----
+
+## webpack 配置文件
 
 webpack 配置文件一般名为 `webpack.config.js`，使用 CommonJS 规范。
 

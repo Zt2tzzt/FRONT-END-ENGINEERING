@@ -239,7 +239,7 @@ PostCSS 如何单独使用，
   module.exports = {
     plugins: [
       // require('autoprefixer')
-      'autoprefixer'
+      'autoprefixer' // 可省略 require
     ]
   }
   ```
@@ -391,9 +391,9 @@ webpack5 中内置的资源模块类型（asset module type）4个，作用
 
 开发中如何选择？
 
-- 往往是小的图片需要转换 base64，但是大的图片直接请求即可 。
+- 往往是小的图片需要转换 base64，而大的图片直接请求即可 。
 - 这是因为小的图片转换 base64 之后可以和页面一起被请求，减少不必要的请求过程；
-- 而大的图片也进行转换，反而会影响页面的请求速度；
+- 如果大的图片也进行 base64 转换，反而会影响页面的请求速度；
 
 ------
 

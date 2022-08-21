@@ -25,7 +25,7 @@ package.json 中有哪些常见的属性，它们有什么含义？
 - main 属性：
 	- 设置程序的入口。
 		- 比如我们使用 axios 模块 `const axios = require('axios');`
-		- 如果有 main 属性，实际上是找到对应的入口属性查找文件的；
+		- 实际上是找到 axios 包中，package.json 文件的 main 属性，作为对应的入口属性查找文件的；
 - scripts 属性
 	- scripts 属性用于配置一些脚本命令，以键值对的形式存在；
 	- 配置后我们可以通过 `npm run` 命令的 key 来执行这个命令；
@@ -97,7 +97,7 @@ npm install
 
 npm install 的原理是什么？分2种情况。
 
-- npm install 会检测是有 package-lock.json 文件：
+- npm install 会检测是否有 package-lock.json 文件：
 - 没有 lock 文件
 	- 分析依赖关系，这是因为可能包会依赖其他的包，并且多个包之间会产生相同依赖的情况；
 	- 从 registry 仓库中下载压缩包（如果我们设置了镜像，那么会从镜像服务器下载压缩包）；
@@ -172,7 +172,7 @@ npm config get registry
 npm config set registry https://registry.npm.taobao.org
 ```
 - 但是对于大多数人来说，并不希望将 npm 镜像修改： 
-	1. 不太希望随意修改 npm 原本从官方下来包的渠道； 
+	1. 不太希望随意修改 npm 原本从官方下载包的渠道； 
 	2. 担心某天淘宝的镜像挂了或者不维护了，又要改来改去；
 - 这个时候，我们可以使用 cnpm，并且将 cnpm 设置为淘宝的镜像：
 ```shell
