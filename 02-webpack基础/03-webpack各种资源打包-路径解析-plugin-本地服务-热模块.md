@@ -4,9 +4,9 @@
 
 ## 使用 Babel 对 JS 文件打包
 
-Babel是什么？有什么用？
+Babel 是什么？有什么用？
 
-- Babel是一个工具链，最早用于在旧浏览器或环境中将ES6+代码转成向后兼容的版本。
+- Babel 是一个工具链，最早用于在旧浏览器或环境中将 ES6+ 代码转成向后兼容的版本。
 - 现在主要用于语法转换，源代码转换等，比如 TypeScript，JSX 等文件的源码转换。
 
 Babel本质上是什么？
@@ -26,7 +26,7 @@ Babel本质上是什么？
    npm install @babel/core @babel/cli -D
    ```
 
-2. 使用babel来处理我们的源代码
+2. 使用 babel 来处理我们的源代码
 
    ```shell
    npx babel demo.js --out-dir dist --out-file main.js
@@ -178,7 +178,7 @@ Vue 框架源码打包后的两大版本及特点，
 
 vue 中编写 DOM 元素有3种方式：
 
-- t在 HTML 文件中编写 emplate 模板并引用的方式。
+- 在 HTML 文件中编写 template 模板并引用 vue 框架的方式。
   - 需要通过源码中的一部分代码来进行编译。
 - 通过 `.vue` 文件中的 template 来编写。
   - 通过在 vue-loader 中对其进行编译和处理
@@ -191,7 +191,7 @@ vue 中编写 DOM 元素有3种方式：
 
 webpack 对 vue 代码打包的步骤：
 
-1. 安装 vue 依赖（vue3已经是默认版本）
+1. 安装 vue 依赖（vue3 已经是默认版本）
 
    ```shell
    npm install vue
@@ -218,6 +218,7 @@ webpack 对 vue 代码打包的步骤：
          <p>{{content}}</p>
        </div>
      </template>
+     <script src="./dist/main.js"></script>
    </body>
    </html>
    ```
@@ -251,12 +252,12 @@ webpack 对 vue 代码打包的步骤：
    }
    ```
 
-   - 从Vue3开始，使用 esm-bundler 版本，强烈建议配置两个全局标识（GlobalFeatureFlags）：
+   - 从 Vue3 开始，使用 esm-bundler 版本，强烈建议配置两个全局标识（GlobalFeatureFlags）：
    	- `__VUE_OPTIONS_API__ `：是否需要支持 Options API，默认 true，配置 false 可做 tree-shaking 优化代码。
    	- `__VUE_PROD_DEVTOOLS__`：是否在生产环境使用 devtool 调试工具，默认为 false。
-   	- 在 webpack 中使用 DefinePlugin 插件注入。
+   - 在 webpack 中使用 DefinePlugin 插件注入。
 
-4. 执行webpack打包命令。
+4. 执行 webpack 打包命令。
 
    ```shell
    npx webpack
@@ -269,6 +270,8 @@ webpack 对 vue 代码打包的步骤：
 webpack 对 vue 的 SFC 文件打包的步骤：
 
 1. 编写一个 `app.vue` 文件，并在入口 js 文件中引入
+
+   ./src/index.js
 
    ```javascript
    import App from './vue/App.vue'
@@ -303,7 +306,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
    npm install @vue/compiler-sfc -D
    ```
 
-5. 在`webpack.config.js`中配置对应的vue插件：
+5. 在 `webpack.config.js` 中配置对应的vue插件：
 
    ```javascript
    const { VueLoaderPlugin } = require('vue-loader/dist/index')
@@ -318,7 +321,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
      ]
    }
    ```
-   
+
 6. 执行 webpack 打包命令：
 
    ```shell
@@ -328,6 +331,12 @@ webpack 对 vue 的 SFC 文件打包的步骤：
 ------
 
 将 template 放入 SFC 文件后，可改变引入的 Vue 依赖路径为 `vue`，这是因为 @vue/compiler-sfc 已经对 template 做了解析。。
+
+./src/index.js
+
+```js
+import { createApp } from 'vue' // 这样写，表示引入的 runtime 版本，即 vue.runtime.esm-bundle.js。
+```
 
 ------
 
@@ -345,12 +354,14 @@ resolve 中的 extensions 和 alias
 
 - extensions 是解析到文件时自动添加扩展名： 
 	- 默认值是 ['.wasm', '.mjs', '.js', '.json']； 
-	- 所以如果我们代码中想要添加加载 .vue 或者 jsx 或者 ts 等文件时，我们必须自己写上扩展名；
+	- 所以如果我们代码中想要添加加载 .vue 或者 .jsx 或者 .ts 等文件时，我们必须自己写上扩展名；
 - 另一个非常好用的功能是配置别名 alias： 
 	- 特别是当我们项目的目录结构比较深的时候，或者一个文件的路径可能需要 ../../../这种路径片段；
 	- 我们可以给某些常见的路径起一个别名；
 
-resolve怎么配置：
+resolve 怎么配置：
+
+./webpack.config.js
 
 ```javascript
 const path = require('path')
@@ -384,27 +395,26 @@ webpack 能解析的3种路径
 
 webpack 解析时如何确认是文件还是目录？
 
-- 当作是一个文件
+1. 当作是一个文件
+   1. 有扩展名，直接打包文件。
 
-  1. 有扩展名，直接打包文件。
+   2. 无扩展名，使用 `resolve.extensions` 选项作为文件扩展名解析。
 
-  2. 无扩展名，使用 `resolve.extensions` 选项作为文件扩展名解析。
+2. 当作是目录
+   1. 根据 `resolve.mainFiles` 配置选项中指定的文件顺序查找，默认值是['index']
 
-- 当作是目录
-
-  3. 根据 `resolve.mainFiles` 配置选项中指定的文件顺序查找，默认值是['index']
-
-  4. 根据 `resolve.extensions` 来解析扩展名。
+   2. 根据 `resolve.extensions` 来解析扩展名。
 
 ------
 
 # 插件的使用
 
-plugin 有什么用，它与 loader 的区别。理解作用图。
+plugin 有什么用，它与 loader 的区别。
 
-- Loader是用于特定的模块类型进行转换。
-
+- Loader 是用于特定的模块类型进行转换。
 - Plugin 可以用于执行更加广泛的任务，比如打包优化，资源管理，环境变量注入等。它的作用可覆盖 webpack 的整个生命周期。
+
+理解作用图：通过插件将 css 打包成独立文件，作为外部样式引入。
 
 <img src="NodeAssets/plugin作用图.jpg" alt="plugin作用图" style="zoom:150%;" />
 
@@ -416,7 +426,7 @@ ClearWebpackPlugin 的作用。
 
 - 每次重新打包后，自动删除原有的 dist 文件夹。
 
-- 现在已经可以在 output 中通过配置达到该效果
+- 现在已经可以在 output 中通过配置达到该效果。
 
   ```js
   module.exports = {
@@ -483,9 +493,11 @@ HtmlWebpackPlugin 的作用，
 DefinePlugin 的作用，它是 webpack 默认提供的插件。
 
 - 允许在编译时创建配置的全局变量。
-- 默认会注入 `process.env.NODE_ENV`
+- 默认会注入 `process.env.NODE_ENV` 这个变量。
 
 使用场景：在 HTML 模板文件中引用了一个变量 BASE_URL
+
+./public/index.html
 
 ```html
 <link rel="icon" href="<%= BASE_URL %>favicon.ico">
@@ -505,6 +517,8 @@ module.exports = {
 ```
 
 ------
+
+## CopyWebpackPlugin 
 
 CopyWebpackPlugin 插件的作用：
 
@@ -543,7 +557,7 @@ CopyWebpackPlugin 插件的作用：
 
 ------
 
-在 `webpack-config.js` 文件中配置 node 和 devtool，分别由什么样
+在 `webpack-config.js` 文件中配置 node 和 devtool。
 
 ```javascript
 module.exports = {
@@ -633,16 +647,16 @@ webpack-dev-server 有什么用：
 
 使用 webpack-dev-server 的注意事项：
 
-- webpack3 以前，需要从 webpack-dev-server 启动服务，现在有了 webpack-cli，当发现命令中有 serve，会自动帮助我们启动。
+- webpack3 以前，需要从 webpack-dev-server 启动服务，现在有了 webpack-cli，当发现命令中有 `serve`，会自动帮助我们启动。
 - webpack-dev-server 会帮助我们基于 express 框架搭建一个本地服务。
 - webpack-dev-server 在编译之后不会输出任何文件，而是将打包后的文件保留在内存中。
   - 事实上 webpack-dev-server 使用了一个库叫 memfs（memory-fs webpack 自己写的）
 
 ------
 
-## 静态资源打包配置
+## 开发阶段静态资源打包配置
 
-devServer 中的 `contentBase` 已弃用，代替它的是`static`属性，有什么用：
+devServer 中的 `contentBase` 已弃用，代替它的是 `static` 属性，有什么用：
 
 - 指定一个目录进行访问。（在 CopyWebpackPlugin 中复制的文件，可放在 static 指定的目录下，在开发阶段使用，而不轻易的对所有资源打包，提高效率）
 
@@ -667,11 +681,11 @@ module.exports = {
 - HMR 全称是 Hot Module Replacement，译为模块热替换。
 - 指在应用程序运行中，替换，添加，删除模块，而无需刷新整个页面。（模块通常指文件）
 
-HMR的好处，2点：
+HMR 的好处，2点：
 
 - 不重新加载页面，保留应用程序某些状态不丢失。
 - 只更新变化的内容，节省开发的时间。
-- 修改了css、js源代码，会立即在浏览器更新，相当于直接在浏览器的devtools中直接修改样式；
+- 修改了 css、js 源代码，会立即在浏览器更新，相当于直接在浏览器的 devtools 中直接修改样式；
 
 如何使用 HMR，需要基于 webpack-dev-server 中使用。
 
@@ -701,7 +715,7 @@ HMR的好处，2点：
 
 在实际开发项目时，是否需要经常手动写 module.hot.accept 代码呢？2个例子：
 
-- vue 开发中，vue-loader支持 vue 组件的 HMR，提供开箱即用的体验。
+- vue 开发中，vue-loader 支持 vue 组件的 HMR，提供开箱即用的体验。
 - react 开发中，react-refresh（React Hot Loader 已弃用）实时调整 react 组件。
 
 ------

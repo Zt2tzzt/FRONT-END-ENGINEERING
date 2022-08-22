@@ -68,7 +68,7 @@ webpack 可应用于哪些场景？
 - 但是对于很多的前端开发者来说，并不需要思考这些问题，日常的开发中根本就没有面临这些问题： 
 	- 这是因为目前前端开发我们通常都会直接使用三大框架来开发：Vue、React、Angular； 
 	- 事实上，这三大框架的创建过程都是借助于脚手架（CLI）的； 
-		- Vue-CLI、create-react-app、Angular-CLI 都是基于 webpack 来帮助我们支持模块化、其中就包括 less、TypeScript、打包优等等；
+		- Vue-CLI、create-react-app、Angular-CLI 都是基于 webpack 来帮助我们支持模块化、其中就包括 less、TypeScript、打包优化等等；
 
 -----
 
@@ -112,7 +112,7 @@ webpack 可应用于哪些场景？
 
 webpack 的使用前提，依赖 Node 环境，
 
-- webpack 的中文官方文档是https://webpack.docschina.org/
+- webpack 的中文官方文档是 https://webpack.docschina.org/
 
 webpack 的安装分两部分 webpack，webpack-cli（如果要在命令行执行命令，那么必须安装）
 

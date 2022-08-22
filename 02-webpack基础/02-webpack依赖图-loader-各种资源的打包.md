@@ -4,7 +4,7 @@ webpack 依赖图的概念3点理解。
 
 <img src="NodeAssets/webpack工作原理图.jpg" alt="webpack工作原理图" style="zoom:150%;" />
 
-1. webpack 在处理应用程序时，会根据命令或者配置文件找到入口文件，默认是 `src/index.js`。
+1. webpack 在处理应用程序时，会根据命令或者配置文件找到入口文件，默认是 `./src/index.js`。
 2. 从入口开始，会生成一个依赖关系图，其中包含应用程序所需所有模块（如 js 文件，css文件，图片，字体等）
 3. 然后遍历图结构，打包一个个模块（根据文件不同使用不同 loader 解析）
 
@@ -34,15 +34,15 @@ import '../css/style.css'
 loader 的配置方式
 
 - 配置方式表示的意思是在我们的 webpack.config.js 文件中写明配置信息： 
-	- module.rules 中允许我们配置多个 loader（因为我们也会继续使用其他的 loader，来完成其他文件的加载）； 
+	- module.rules 中允许我们配置多个 loader（因为我们也会使用不止一个 loader，来完成其他文件模块的加载）； 
 	- 这种方式可以更好的表示 loader 的配置，也方便后期的维护，同时也让你对各个 Loader 有一个全局的概览；
 
 module.rules 的配置如下： 
 
 - rules 属性对应的值是一个数组：[Rule] 
-- 数组中存放的是一个个的 Rule，Rule 是一个对象，对象中可以设置多个属性： 
+- 数组中存放的是一个个 Rule 对象，其中可以设置多个属性： 
 	- test 属性：用于对 resource（资源）进行匹配的，通常会设置成正则表达式； 
-	- use 属性：对应的值时一个数组：[UseEntry] 
+	- use 属性：对应的值是一个数组：[UseEntry] 
 		- UseEntry 是一个对象，可以通过对象的属性来设置一些其他属性 
 			- loader：必须的属性，对应的是一个字符串； 
 			- options：可选的属性，值是一个字符串或者对象，值会被传入到 loader 中； 
@@ -320,7 +320,7 @@ document.body.append(imgEl)
 - [name]：处理文件的名称。
 - [hash]：文件的内容，使用 MD4 的散列函数处理，生成的一个128位的 hash 值（32个十六进制）
 - [contentHash]：在 file-loader 中和 [hash] 结果是一致的。
-- [hash:\<length\>]：截图 hash 的长度，默认32个字符太长了。
+- [hash:\<length\>]：截取 hash 的长度，默认32个字符太长了。
 - [path]：文件相对于 webpack 配置文件的路径。
 
 ------
@@ -381,9 +381,9 @@ module.exports = {
 
 webpack5 中内置的资源模块类型（asset module type）4个，作用
 
-- asset/resource：发送一个单独的文件并导出 URL，之前通过使用 file-loader 实现。
+- asset/resource：发送一个单独的文件并导出 URL，类似 file-loader 的作用。
   - 缺点：要发送额外的网络请求下载资源。
-- asset/inline：导出一个资源的 data URL，之前通过使用 url-loader 实现。
+- asset/inline：导出一个资源的 data URL，类似 url-loader 的作用。
   - 缺点：可能造成 JS 文件过大，代码执行阻塞。
 - asset/source：导出资源的源代码，之前通过使用 raw-loader 实现。
   - 如二进制的文件源码，没什么用，只有需要自己对源代码做解码的时候才会用到。
