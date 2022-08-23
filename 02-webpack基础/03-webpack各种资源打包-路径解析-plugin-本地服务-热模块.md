@@ -11,16 +11,16 @@ Babel 是什么？有什么用？
 
 Babel本质上是什么？
 
-- Babel本质上是一个编译器。
+- Babel 本质上是一个编译器。
 
 ------
 
- Babel 与 PostCS 一样都支持单独（脱离 webpack）运行，如何单独使用？
+ Babel 与 PostCSS 一样都支持单独（脱离 webpack）运行，如何单独使用？
 
 1. 安装两个库：
 
-   - @babel/core，babel核心代码，必须安装。
-   - @babek/cli：可以让我们在命令行使用babel。
+   - @babel/core，babel 核心代码，必须安装。
+   - @babek/cli：可以让我们在命令行使用 babel。
 
    ```shell
    npm install @babel/core @babel/cli -D
@@ -44,16 +44,14 @@ Babel本质上是什么？
    npx babel demo.js --out-dir dist --plugins=@babel/plugin-transform-arrow-function
    ```
 
-2. 安装快级作用域语法转换插件，并在命令中使用：
-
-   - 将 const 关键字转成 var
+2. 安装快级作用域语法转换插件，并在命令中使用：将 const 关键字转成 var
 
    ```shell
-   npm install @babel/plugin-transform-block-scoping -D
+npm install @babel/plugin-transform-block-scoping -D
    ```
-
+   
    ```shell
-   npx babel demo.js --out-dir dist --plugins=@babel/plugin-transform-block-scoping,babel/plugin-transform-arrow-function
+npx babel demo.js --out-dir dist --plugins=@babel/plugin-transform-block-scoping,babel/plugin-transform-arrow-function
    ```
 
 插件过多，一个个设置比较麻烦，可以使用预设：
@@ -306,7 +304,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
    npm install @vue/compiler-sfc -D
    ```
 
-5. 在 `webpack.config.js` 中配置对应的vue插件：
+5. 在 `webpack.config.js` 中配置对应的 vue 插件：
 
    ```javascript
    const { VueLoaderPlugin } = require('vue-loader/dist/index')
@@ -346,7 +344,7 @@ resolve 有什么用：
 
 - 在开发中我们会有各种各样的模块依赖，这些模块可能来自于自己编写的代码，也可能来自第三方库；
 
-- 用于设置模块如何被解析，帮助 webpack 从每个 require / import 语句中，找到需要引入的模块，
+- resolve 用于设置模块如何被解析，帮助 webpack 从每个 require / import 语句中，找到需要引入的模块，
 
 - webpack 使用 `enhanced-resolve`  这个库来解析文件路径。
 
@@ -388,7 +386,7 @@ webpack 能解析的3种路径
 	- 在这种情况下，使用 import 或 require 的资源文件所处的目录，被认为是上下文目录； 
 	- 在 import / require 中给定的相对路径，会拼接此上下文路径，来生成模块的绝对路径；
 - 模块路径：
-	- 使用 `resolve.modules` 中指定的所有目录检模块索，默认是['node_modules']
+	- 使用 `resolve.modules` 中指定的所有目录检索模块，默认是 ['node_modules']
 	- 我们可以通过设置别名 alias 的方式来替换初始模块路径；
 
 ------
@@ -472,7 +470,7 @@ HtmlWebpackPlugin 的作用，
    npm install html-webpack-plugin -D
    ```
 
-2. 在插件中配置，默认会根据插件中的一个ejs 模板来生成。其中使用`<%= 变量 %>`来做数据填充。
+2. 在插件中配置，默认会根据插件中的一个ejs 模板来生成。其中使用 `<%= 变量 %>` 来做数据填充。
 
    ```javascript
    const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -658,7 +656,7 @@ webpack-dev-server 有什么用：
 
 devServer 中的 `contentBase` 已弃用，代替它的是 `static` 属性，有什么用：
 
-- 指定一个目录进行访问。（在 CopyWebpackPlugin 中复制的文件，可放在 static 指定的目录下，在开发阶段使用，而不轻易的对所有资源打包，提高效率）
+- 指定一个目录进行访问。（在 CopyWebpackPlugin 中复制的文件，可放在 static 指定的目录下，在开发阶段使用，不轻易的对所有资源打包，提高效率
 
 配置 devServer 中的 static：
 
@@ -685,7 +683,7 @@ HMR 的好处，2点：
 
 - 不重新加载页面，保留应用程序某些状态不丢失。
 - 只更新变化的内容，节省开发的时间。
-- 修改了 css、js 源代码，会立即在浏览器更新，相当于直接在浏览器的 devtools 中直接修改样式；
+- 修改了 css、js 源代码，会在浏览器立即更新，相当于直接在浏览器的 devtools 中修改样式；
 
 如何使用 HMR，需要基于 webpack-dev-server 中使用。
 
@@ -722,11 +720,11 @@ HMR 的好处，2点：
 
 HMR原理的理解，2方面，。
 
-webpack-dev-server会创建两个服务：
+webpack-dev-server 会创建两个服务：
 
 - express server 负责直接提供静态资源服务（打包后的资源被浏览器请求和解析）
 - Socket Server
-  1. webpack compiler 监听到对应模块发生变化时，生成两个文件 .json（manifest文件）和 .js 文件（update chunk）。
+  1. webpack compiler 监听到对应模块发生变化时，生成两个文件 .json（ manifest 文件）和 .js 文件（update chunk）。
   2. 将这两个文件主动发送给客户端（浏览器）
   3. 浏览器通过 HMR runtime 机制，加载这两个文件，针对修改的模块做更新。
 
