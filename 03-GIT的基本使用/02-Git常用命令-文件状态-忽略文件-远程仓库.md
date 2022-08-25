@@ -289,7 +289,7 @@ git pull 遇到的问题，如何解决
    - **解决办法**：如果我们想要直接执行 git fetch （git pull 的第一步）是有一个前提的：必须给当前本地分支设置一个上游分支（跟踪分支）：
 
      ```shell
-     git branch --set-upstream-to=origin main # 将当前分支，与远程的 origin main 分支进行关联跟踪。
+     git pull # 先要 pull 或者 fetch 远程仓库分支，本地才能有该分支，如 origin/main
      git branch --set-upstream-to=origin/main # 将当前分支，与远程拉取到本地的 origin/main 分支进行关联跟踪。
      git pull # 将上有分支的代码，拉取到当前分支
      ```
