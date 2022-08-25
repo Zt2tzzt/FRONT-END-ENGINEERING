@@ -27,7 +27,7 @@
 
   ```shell
   git fetch
-    git fetch origin
+  git fetch origin
   ```
 
   - 获取到代码后默认并没有合并到本地仓库，我们需要通过 merge 来合并； -
@@ -36,7 +36,7 @@
     git merge
     ```
 
-  - 从远程仓库 pull 代码：上面的两次操作有点繁琐，我们可以通过一个命令来操作
+  - 上面的两次操作有点繁琐，我们可以通过一个命令来操作，从远程仓库 pull 代码：
 
     ```shell
     git pull # 相当于 git fetch + git merge(rebase)
@@ -48,7 +48,7 @@
 
 - 找不到远程仓库对应的分支，
 
-3 个问题以及解决。
+3 个问题，如何解决。
 
 - 为本地分支指明要推送的远程分支
 
@@ -61,14 +61,14 @@
 
   - 默认值是 `simple`，表示 push 远程同名的分支，
 
-  - 将其改为 `upstream`，表示 push 本地分支关联跟踪的远程上游分支，然后直接使用 git push 命令，即可 push 成功。
+  - 将其改为 `upstream`，表示 push 本地分支关联跟踪的远程上游分支。
 
     ```shell
-      # 此时本地当前分支为 master
-      git fetch # 或者 git pull，因为本地还没有 main 分支，先要将远程 main 分支获取到本地形成 origin/main 分支。
-      git branch --set-upstream-to=origin/main # 将当前分支，与远程的 origin main 分支进行关联跟踪。
-      git config push.default upstream # 只在当前仓库配置。
-      git push
+    # 此时本地当前分支为 master
+    git fetch # 或者 git pull，因为本地还没有 main 分支，先要将远程 main 分支获取到本地形成 origin/main 分支。
+    git branch --set-upstream-to=origin/main # 将当前分支，与远程的 origin main 分支进行关联跟踪。
+    git config push.default upstream # 只在当前仓库配置。
+    git push
     ```
 
   - 将其改为 `current`，表示 push 到远程同名的分支，没有则创建与本地同名的分支。
