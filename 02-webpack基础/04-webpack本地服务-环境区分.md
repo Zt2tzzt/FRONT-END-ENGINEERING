@@ -107,7 +107,7 @@ module.exports = {
    const path = require('path')
    module.exports = {
      context: path.resolve(__dirname, './'), // 为入口文件设置相对路径，此时代表 ./config 目录，
-     entry: "../src/index.js" // 默认是 ./src/index.js
+     entry: "../src/index.js" // 默认是 ./src/index.js，即 webpack 运行的目录，即项目根目录
    }
    ```
 

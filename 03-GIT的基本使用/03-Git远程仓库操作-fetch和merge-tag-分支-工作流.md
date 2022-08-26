@@ -42,19 +42,19 @@
     git pull # 相当于 git fetch + git merge(rebase)
     ```
 
-## 推送代码到远程仓库遇到的 2 个问题
+## 推送代码到远程仓库遇到的问题
 
 当本地分支名与远程分支名不想同时，push 遇到的问题：
 
 - 找不到远程仓库对应的分支，
 
-3 个问题，如何解决。
+3个解决方法。
 
 - 为本地分支指明要推送的远程分支
 
   ```shell
   git push origin master:main # 表示把本地 master 分支推送到远程 main 分支。
-  git push origin head:main # head 指向 master
+  git push origin head:main # head 代表当前所在分支，如 master
   ```
 
 - 为 push 设置 default 行为（push.default），
@@ -65,7 +65,7 @@
 
     ```shell
     # 此时本地当前分支为 master
-    git fetch # 或者 git pull，因为本地还没有 main 分支，先要将远程 main 分支获取到本地形成 origin/main 分支。
+    git fetch # （git pull），因为本地还没有 main 分支，先要将远程 main 分支获取到本地形成 origin/main 分支。
     git branch --set-upstream-to=origin/main # 将当前分支，与远程的 origin main 分支进行关联跟踪。
     git config push.default upstream # 只在当前仓库配置。
     git push
@@ -109,12 +109,12 @@
 
 - 项目没有 git 仓库，且需要自己搭建，2 种方案：
 
-  - 创建一个远程仓库（**推荐**）。
+  - 方案一：创建一个远程仓库（**推荐**）。
 
     1. 在 Git 服务器创建一个仓库。
     2. 重复上文【项目已有远程仓库的操作】
 
-  - 创建一个本地仓库，并推送到远程仓库。
+  - f方案二：创建一个本地仓库，并推送到远程仓库。
 
     - 写法一
 
@@ -180,18 +180,17 @@ Git 的标签 tag 相关操作。
 
 - 删除远程 tag：
 
-  - 要删除远程的 tag 我们可以通过
+  - 要删除远程的 tag 我们可以通过：`git push <remote> -–delete <tagname>`
 
   ```shell
-  git push <remote> -–delete <tagname>
   git push origin --delete v1.1.0
   ```
-
+  
 - 检出 tag：
 
   - 如果你想查看某个标签所指向的文件版本，可以使用 git checkout 命令；
 
-- 通常我们在检出 tag 的时候还会创建一个对应的分支，因为不能再原 tag 上修改（分支后续了解）；
+  - 通常我们在检出 tag 的时候还会创建一个对应的分支，因为不能再原 tag 上修改（分支后续了解）；
 
   ```shell
   git checkout v1.1.0
@@ -206,7 +205,7 @@ Git 的标签 tag 相关操作。
 git add .
 
 1. 在 ./.git/object/ 中创建了进制数开头的目录如“00...”，里面保存的是二进制文件。如 “d2...”
-2. 使用 `git cat-file -t 00d2`，来查看文件类型，显示 blob
+2. 使用 `git cat-file -t 00d2`，来查看文件类型，显示 blob，表示文件是二进制文件。
 3. 使用 `git cat-file -p 00d2`，来查看文件保存的内容，也就是添加到暂存区的内容。
 
 git commit -m 'starting the project'
@@ -214,7 +213,7 @@ git commit -m 'starting the project'
 1. 在 ./git/object/ 中又创建了进制数开头的目录如“46...”和“eb...”，里面保存的是二进制文件如“58...”和“5c...”
 2. 使用 `git cat-file -p 4658`，可查看到另一个二进制文件，其中有索引信息以及对应的工作区文件名称，这个文件被称为==树（tree）文件==。
 3. 使用 `git cat-file -p eb5c`，可查看到另一个二进制文件，其中有==提交作者信息==，==树文件的索引==和==提交信息==，这个文件就是提交文件。每次提交的校验和，就是该文件的索引。
-4. 使用 `git cat-file -p` 树文件的索引，可查看到第一步中的文件，也就使用 `git add .` 是添加到暂存区的内容。
+4. 使用 `git cat-file -p` 树文件的索引，可查看到第一步中的文件，也就是使用 `git add .` 添加到暂存区的内容。
 
 ## Git 的提交对象以及原理。
 
@@ -287,7 +286,7 @@ Git 本地是怎么创建新分支的；
 ## 创建本地分支同时切换。
 
 ```shell
-git checkout -b <newbranchname>
+git checkout -b dev # 创建一个 dev 分支
 ```
 
 ---
@@ -383,7 +382,7 @@ git branch –D hotfix # 强制删除某一个分支
 
   <img src="NodeAssets/远程分支clone.jpg" alt="远程分支clone" style="zoom:50%;" />
 
-- 如果其他人修改了代码，那么远程分支结构如下：
+- 如果其他人修改了代码并做了提交和推送，那么远程分支结构如下：
 
   <img src="NodeAssets/远程分支被修改.jpg" alt="远程分支被修改" style="zoom:52%;" />
 
@@ -395,34 +394,23 @@ git branch –D hotfix # 强制删除某一个分支
 
 ## Git 远程分支的管理。
 
-1. 推送分支到远程
-
-  - 当你想要公开分享一个分支时，需要将其推送到有写入权限的远程仓库上；
-
-  ```shell
-  git push <remote> <branch>`
-  ```
-
+1. 推送分支到远程;
+   - 当你想要公开分享一个分支时，需要将其推送到有写入权限的远程仓库上；
+- `git push <remote> <branch>`
+   
 2. 跟踪远程分支
-
-  - 当克隆一个仓库时，它通常会自动地创建一个跟踪 origin/master 的 master 分支（只会 clone 并跟踪主分支）；
-
-  - 如果你愿意的话可以设置其他的跟踪分支，可以通过运行。
-
-    ```shell
-    git checkout --track <remote>/<branch>
-    ```
-
-  - 如果你尝试检出的分支 (a) 不存在且 (b) 刚好只有一个名字与之匹配的远程分支，那么 Git 就会为你创建一个跟踪分支；
-
-  	```shell
-  	git checkout --track origin/dev
-  	git checkout dev # 简写，做了4步操作。
-  	# 1.检查远程服务器是否有 dev 这个分支
-  	# 2.创建一个本地的 dev 分支
-  	# 3.让本地的 dev 分支自动跟踪 origin/dev
-  	# 4.切换到 dev 分支
-  	```
+   - 当克隆一个仓库时，它通常会自动地创建一个跟踪 origin/master 的 master 分支（只会 clone 并跟踪主分支）；
+   - 如果你愿意的话可以设置其他的跟踪分支，可以通过运行 `git checkout --track <remote>/<branch>`
+   - 如果你尝试检出的分支 (a) 不存在且 (b) 刚好只有一个名字与之匹配的远程分支，那么 Git 就会为你创建一个跟踪分支；
+   
+   ```shell
+   git checkout --track origin/dev
+   git checkout dev # 简写，做了4步操作。
+   # 1.检查远程服务器是否有 dev 这个分支
+   # 2.创建一个本地的 dev 分支
+   # 3.让本地的 dev 分支自动跟踪 origin/dev
+   # 4.切换到 dev 分支
+   ```
 
 3. 删除远程分支
 
@@ -476,7 +464,7 @@ git branch –D hotfix # 强制删除某一个分支
 - 事实上，rebase 和 merge 是对 Git 历史的不同处理方法： 
 	- merge 用于记录 git 的所有历史，那么分支的历史错综复杂，也全部记录下来； 
 	- rebase 用于简化历史记录，将两个分支的历史简化，整个历史更加简洁；
-- 了解了 rebase 的底层原理，就可以根据自己的特定场景选择 merge 或者 rebase。注意：rebase 有一条黄金法则：**永远不要在主分支上使用 rebase**：
+- 了解了 rebase 的底层原理，就可以根据自己的特定场景选择 merge 或者 rebase。注意：rebase 有一条黄金法则：**永远不要在主分支上使用 rebase**(不要将主分支变基到其它分支，而是将其它分支变基到主分支：
 	- 如果在 main 上面使用 rebase，会造成大量的提交历史在 main 分支中不同；
 	- 而多人开发时，其他人依然在原来的 main 中，对于提交历史来说会有很大的变化；
 	

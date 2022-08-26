@@ -279,7 +279,18 @@ postcss-preset-env 是 postcss 预设的插件，作用是：
 在项目中引入图片的2种方式
 
 - img 元素，设置 src 属性； 
+
+  ```html
+  <img src="xxx" alt="">
+  ```
+
 - 其他元素（比如 div ），设置 background-image 的 css 属性；
+
+  ```css
+  div {
+    background-image: url("xxx")
+  }
+  ```
 
 ------
 
@@ -336,7 +347,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            // outputPath: 'img', // 可在name中直接设置。
+            // outputPath: 'img', // 可在 name 中直接设置。
             name: 'img/[name]_[hash:8].[ext]'
           }
         }

@@ -62,14 +62,13 @@ Git 将文件添加到暂存区（暂缓区）。
 Git 文件更新提交到 git 仓库。
 
 - 当暂存区已经准备就绪，可以提交时。
-	- 每次准备提交前，先用 git status 看下，所需要的文件是不是都已暂存起来了；
-	- 再运行提交命令 git commit；
-	- 可以在 commit 命令后添加 -m 选项，将提交信息与命令放在同一行;
-
-	```shell
+	- 每次准备提交前，先用 `git status`看下，所需要的文件是不是都已暂存起来了；
+	- 再运行提交命令，在 commit 命令后添加 -m 选项，将提交信息与命令放在同一行;
+	
+```shell
 	git commit –m "[提交信息]"
 	```
-
+	
 - 我们修改文件的 add 操作，加上 commit 的操作有点繁琐，那么可以将两个命令结合来使用：
 
   ```shell
@@ -100,7 +99,7 @@ Git 文件更新提交到 git 仓库。
 
 什么是 Git 的校验和？
 
-- Git 中所有的数据在存储前都计算校验和，然后以校验和来引用（git log 会展示每次 commit 的校验和，也就是每次 commit 的 id）。
+- Git 中所有的数据在存储前都会计算校验和，然后以校验和来引用（git log 会展示每次 commit 的校验和，也就是每次 commit 的 id）。
 - Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）；
 - 这是一个由 40 个十六进制字符（0-9 和 a-f）组成的字符串，基于 Git 中文件的内容或目录结构计算出来；
 
@@ -243,7 +242,7 @@ Windows 中如何查看凭证？
 
 git pull 遇到的问题，如何解决
 
-- 从远程仓库上 clone 下来的代码，带有自己的远程仓库的，查看远程仓库地址：
+- 从远程仓库上 clone 下来的代码，会带有自己的远程仓库，查看远程仓库地址：
 
   ```shell
   git remote
@@ -252,7 +251,7 @@ git pull 遇到的问题，如何解决
 
 - 添加远程地址：我们也可以继续添加远程服务器（让本地的仓库和远程服务器仓库建立连接）：
 
-  - `git remote add \<shortname\> \<url\>`
+  - `git remote add <shortname> <url>`
 
   ```shell
   git remote add origin https://gitee.com/Zt2tzzt/front-end--engineering.git
@@ -291,7 +290,7 @@ git pull 遇到的问题，如何解决
      ```shell
      git pull # 先要 pull 或者 fetch 远程仓库分支，本地才能有该分支，如 origin/main
      git branch --set-upstream-to=origin/main # 将当前分支，与远程拉取到本地的 origin/main 分支进行关联跟踪。
-     git pull # 将上有分支的代码，拉取到当前分支
+     git pull # 将上游分支的代码，拉取到当前分支
      ```
 
    > 使用 git clone 下载远程仓库后，master 分支会自动关联跟踪远程 origin/master 分支
