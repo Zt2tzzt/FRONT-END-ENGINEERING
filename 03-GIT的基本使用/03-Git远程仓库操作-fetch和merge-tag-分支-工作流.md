@@ -1,6 +1,6 @@
 # Git 远程仓库管理
 
-远程仓库的交互，，
+远程仓库的交互，
 
 - 从远程仓库 clone 代码：将存储库克隆到新创建的目录中；
 
@@ -124,12 +124,13 @@
       git branch --set-upstream-to=origin/main # 为本地仓库当前分支建立上游分支，关联远程仓库的 main 分支
       git fetch
       git merge --allow-unrelated-histories
+      git config push.default upstream
       git push
       # git push -u origin main 将本地当前分支推送到远程 main 分支，并设置上游分支
-      ```
-
-    - 写法二
-
+  ```
+    
+- 写法二
+    
       ```shell
       git checkout main # 原理参考上文【推送代码到远程仓库遇到的2个问题】
       git push
@@ -175,7 +176,7 @@ Git 的标签 tag 相关操作。
 - 删除本地 tag： 要删除掉你本地仓库上的标签，可以使用命令
 
   ```shell
-  git tag -d <tagname>
+  git tag -d v1.0.0
   ```
 
 - 删除远程 tag：
@@ -193,7 +194,8 @@ Git 的标签 tag 相关操作。
   - 通常我们在检出 tag 的时候还会创建一个对应的分支，因为不能再原 tag 上修改（分支后续了解）；
 
   ```shell
-  git checkout v1.1.0
+  git branch newbranch v1.0.0
+  git checkout newbranch
   ```
 
 ---
@@ -397,7 +399,7 @@ git branch –D hotfix # 强制删除某一个分支
 1. 推送分支到远程;
    - 当你想要公开分享一个分支时，需要将其推送到有写入权限的远程仓库上；
 - `git push <remote> <branch>`
-   
+  
 2. 跟踪远程分支
    - 当克隆一个仓库时，它通常会自动地创建一个跟踪 origin/master 的 master 分支（只会 clone 并跟踪主分支）；
    - 如果你愿意的话可以设置其他的跟踪分支，可以通过运行 `git checkout --track <remote>/<branch>`
@@ -464,7 +466,7 @@ git branch –D hotfix # 强制删除某一个分支
 - 事实上，rebase 和 merge 是对 Git 历史的不同处理方法： 
 	- merge 用于记录 git 的所有历史，那么分支的历史错综复杂，也全部记录下来； 
 	- rebase 用于简化历史记录，将两个分支的历史简化，整个历史更加简洁；
-- 了解了 rebase 的底层原理，就可以根据自己的特定场景选择 merge 或者 rebase。注意：rebase 有一条黄金法则：**永远不要在主分支上使用 rebase**(不要将主分支变基到其它分支，而是将其它分支变基到主分支：
+- 了解了 rebase 的底层原理，就可以根据自己的特定场景选择 merge 或者 rebase。注意：rebase 有一条黄金法则：**永远不要在主分支上使用 rebase**（不要将主分支变基到其它分支，而是将其它分支变基到主分支）：
 	- 如果在 main 上面使用 rebase，会造成大量的提交历史在 main 分支中不同；
 	- 而多人开发时，其他人依然在原来的 main 中，对于提交历史来说会有很大的变化；
 	

@@ -408,7 +408,7 @@ webpack5 中内置的资源模块类型（asset module type）4个，作用
 
 ------
 
-使用 asset module type 配置文件名和路径，2种，实现 limit 效果。
+使用 asset module type 配置文件名和路径（2种），实现 limit 效果。
 
 ```javascript
 module.exports = {

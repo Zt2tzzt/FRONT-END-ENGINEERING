@@ -1,11 +1,13 @@
 # ES Module 模块化
 
-使用 ESMoudle 开发 2 种情况
+## 使用 ESMoudle 开发 2 种情况
 
 - 在支持的浏览器上可直接开发，
 - 在不支持的浏览器上，需要通过 webpack 打包成一个普通 JS 文件，甚至可以与 CommonJS 混用。
 
 ---
+
+## 与 CommonJS 的不同之处
 
 ES Module 是 ECMA 自己推出的模块化解决方案。它与 CommonJS 的不同之处。
 
@@ -17,6 +19,8 @@ ES Module 是 ECMA 自己推出的模块化解决方案。它与 CommonJS 的不
 使用 ES Module 将自动开启严格模式：use strict
 
 ---
+
+## 基本使用
 
 浏览器环境中，ES Module 的基本使用。注意事项。
 
@@ -42,9 +46,9 @@ export const name = 'zzt'
 
 ---
 
-ES Module 导入导出的 3 种方式。
+## 导入导出的 3 种方式
 
-导出：export 关键字
+### 导出：export 关键字
 
 1. 在语句声明的前面直接加上 export 关键字
 
@@ -77,7 +81,7 @@ ES Module 导入导出的 3 种方式。
 	}
 	```
 
-导入：import 关键字
+### 导入：import 关键字
 
 1. import {标识符列表} from '模块'；
 
@@ -106,6 +110,8 @@ ES Module 导入导出的 3 种方式。
 
 ---
 
+## export 和 import 结合使用
+
 ES Module 中 export 和 import 结合使用，
 
 util/index.js
@@ -129,7 +135,7 @@ export * from './parse.js'
 
 ---
 
-ES Module 中 default 的用法。
+## 默认导出 default 的用法
 
 - `default` 关键字在导出时使用，意为默认导出。
 - 默认导出 export 时可以不需要指定名字；
@@ -150,7 +156,7 @@ import parseLyric from './parse_lyric.js'
 
 ---
 
-ES Module 中 import 不能在逻辑代码中使用，为什么？
+## import 不能在逻辑代码中使用
 
 - 这是因为 ES Module 在被 JS 引擎解析时，就必须知道它的依赖关系；
 - 由于这个时候 js 代码没有运行，所以无法在进行类似于 if 判断中获取代码的执行情况；
@@ -173,7 +179,7 @@ if (flag) {
 
 ---
 
-什么是 import.meta
+## 什么是 import.meta
 
 - 是一个给 JavaScript 模块暴露特定上下文的元数据属性的对象。
 - 它包含了这个模块的信息，比如说这个模块的 URL；
@@ -201,7 +207,7 @@ ES Module 的解析流程有那几步，理解图解。
 
 # 包管理工具
 
-前端代码共享的 2 种方案。
+## 前端代码共享的 2 种方案
 
 - 上传到 GitHub 上、或搭建自己的官网，其他程序员通过 GitHub 或官网，下载到代码，并手动的引用；
 	- 缺点是必须知道项目 GitHub 的地址，并且从 GitHub 上手动下载；
@@ -219,7 +225,7 @@ ES Module 的解析流程有那几步，理解图解。
 
 ---
 
-什么是 npm？
+## 什么是 npm
 
 - Node Package Manager，也就是 Node 包管理器；
 - 但是目前已经不仅仅是 Node 包管理器了，在前端项目中我们也在使用它来管理依赖的包；

@@ -44,7 +44,7 @@ Babel本质上是什么？
    npx babel demo.js --out-dir dist --plugins=@babel/plugin-transform-arrow-function
    ```
 
-2. 安装快级作用域语法转换插件，并在命令中使用：将 const 关键字转成 var
+2. 安装快级作用域语法转换插件，并在命令中使用：可将 const 关键字转成 var
 
    ```shell
 npm install @babel/plugin-transform-block-scoping -D
@@ -567,7 +567,7 @@ module.exports = {
 mode：可告知 webpack 使用响应模式的内置优化：
 
 - production：默认值，准备打包上线的时候，设置.打包的文件会被压缩和丑化。
-- development：devlopment 开发阶段，会设置 devlopment
+- development：开发阶段，会设置 devlopment
 - none：不使用任何默认优化选项。
 
 <img src="NodeAssets/mode的配置.jpg" alt="mode的配置" style="zoom:150%;" />
@@ -583,8 +583,9 @@ devtool：选择一种源映射方式，
 为什么要搭建本地服务？
 
 - 目前我们开发的代码，为了运行需要有两个操作： 
-- 操作一：npm run build，编译相关的代码； 
-- 操作二：通过 live server 或者直接通过浏览器，打开 index.html 代码，查看效果；
+  1. npm run build，编译相关的代码； 
+
+  2. 通过 live server 或者直接通过浏览器，打开 index.html 文件，查看效果；
 - 这个过程经常操作会影响我们的开发效率，我们希望可以做到，当文件发生变化时，可以自动的完成编译和展示（刷新页面）；
 
 webpack 中3种自动编译的方式。
@@ -724,7 +725,7 @@ webpack-dev-server 会创建两个服务：
 
 - express server 负责直接提供静态资源服务（打包后的资源被浏览器请求和解析）
 - Socket Server
-  1. webpack compiler 监听到对应模块发生变化时，生成两个文件 .json（ manifest 文件）和 .js 文件（update chunk）。
+  1. webpack compiler 监听到对应模块发生变化时，生成两个文件：.json（ manifest 文件）和 .js 文件（update chunk）。
   2. 将这两个文件主动发送给客户端（浏览器）
   3. 浏览器通过 HMR runtime 机制，加载这两个文件，针对修改的模块做更新。
 

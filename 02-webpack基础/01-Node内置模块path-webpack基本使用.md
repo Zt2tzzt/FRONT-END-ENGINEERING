@@ -192,7 +192,7 @@ module.exports = {
 	entry: './src/main.js',
 	output: {
 		filename: 'bundle.js',
-		path: path.resolve(__dirname, './dist') // path 必须是绝对路径，所以使用 resolve。
+		path: path.resolve(__dirname, './build') // path 必须是绝对路径，所以使用 resolve。
 	}
 }
 ```
@@ -201,7 +201,7 @@ module.exports = {
 
 指定 webpack 配置文件名，如果将项目目录下的 webpack.config.js 修改为了 zzt.config.js：
 
-1. 执行 webpack 命令时：
+1. 执行 webpack 命令时，需要指定配置文件名：
 
 	 ```shell
 	npx webpack --config zzt.config.js

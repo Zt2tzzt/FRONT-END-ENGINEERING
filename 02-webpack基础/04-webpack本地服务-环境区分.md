@@ -1,5 +1,7 @@
 # 本地服务配置
 
+## host 配置
+
 devServer 中使用 host 设置主机地址，两个值，区别
 
 - 默认值是 locahost：
@@ -19,6 +21,8 @@ module.exports = {
 ```
 
 ------
+
+##  port，open，compress 配置
 
 devServer 中 port，open，compress 等属性的配置，可用的值含义。
 
@@ -40,7 +44,7 @@ module.exports = {
 
 ------
 
-跨域问题怎么产生的？
+## 跨域问题怎么产生的？
 
 比如一个 api 请求是 `http://localhost:8888` ，但本地启动服务器域名是 `http://localhost:8000`，这个时候浏览器发送网络请求就会出现跨域问题。
 
@@ -50,9 +54,11 @@ module.exports = {
 - 让服务器关闭跨域。
 - 使用 nginx 代理访问静态资源和 api
 
-以上方式都需要后端参与，那么在开发中我们如何临时解决跨域问题？
+以上方式都需要后端参与，那么在开发中我们如何临时解决跨域问题？在 webpack 中设置代理。
 
 ------
+
+## proxy 配置
 
 devServer 中 proxy 有什么用：
 
@@ -79,6 +85,8 @@ module.exports = {
 
 ------
 
+# 环境区分
+
 区分开发和生产环境的 `webpack.config.js` 步骤
 
 1. 在根目录下建立 `config` 文件夹
@@ -90,6 +98,8 @@ module.exports = {
    ```shell
    npm install webpack-merge -D
    ```
+
+   webpack.dev.config.js
 
    ```javascript
    const { merge } = require('webpack-merge') 
