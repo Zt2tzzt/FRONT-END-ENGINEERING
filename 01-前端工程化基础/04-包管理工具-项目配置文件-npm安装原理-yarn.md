@@ -38,7 +38,7 @@ package.json 中有哪些常见的属性，它们有什么含义？
 	- 与之对应的是 devDependencies；
 - devDependencies 属性
 	- 一些包在生产环境是不需要的，比如 webpack、babel 等；
-	- 这个时候我们会通过 npm install webpack --save-dev，将它安装到 devDependencies 属性中；
+	- 这个时候我们会通过 `npm install webpack --save-dev`，将它安装到 devDependencies 属性中；
 - peerDependencies 属性
 	- 还有一种项目依赖关系是对等依赖，也就是你依赖的一个包，它必须是以另外一个宿主包为前提的；
 	- 比如 element-plus 是依赖于 vue3 的，ant design 是依赖于 react、react-dom；
