@@ -44,13 +44,13 @@
 
 ## 推送代码到远程仓库遇到的问题
 
-当本地分支名与远程分支名不想同时，push 遇到的问题：
+当本地分支名与远程分支名不相同时，push 遇到的问题：
 
 - 找不到远程仓库对应的分支，
 
 3个解决方法。
 
-- 为本地分支指明要推送的远程分支
+- 为本地分支指明要推送的远程分支：
 
   ```shell
   git push origin master:main # 表示把本地 master 分支推送到远程 main 分支。
@@ -71,7 +71,7 @@
     git push
     ```
 
-  - 将其改为 `current`，表示 push 到远程同名的分支，没有则创建与本地同名的分支。
+  - 将其改为 `current`，表示 push 到远程同名的分支，没有则在远程创建与本地同名的分支，并推送。
 
     ```shell
     # 此时本地当前分支为 master
@@ -114,7 +114,7 @@
     1. 在 Git 服务器创建一个仓库。
     2. 重复上文【项目已有远程仓库的操作】
 
-  - f方案二：创建一个本地仓库，并推送到远程仓库。
+  - 方案二：创建一个本地仓库，并推送到远程仓库。
 
     - 写法一
 
@@ -127,17 +127,17 @@
       git config push.default upstream
       git push
       # git push -u origin main 将本地当前分支推送到远程 main 分支，并设置上游分支
-  ```
-    
-- 写法二
-    
+      ```
+      
+    - 写法二
+  
       ```shell
       git checkout main # 原理参考上文【推送代码到远程仓库遇到的2个问题】
       git push
       # 如果本地当前分支（如 master）不再使用，可删除该分支
       ```
 
----
+------
 
 常见的开源协议划分，理解图解。
 
@@ -170,7 +170,7 @@ Git 的标签 tag 相关操作。
 
   ```shell
   git push origin v1.0.0
-  git push prigin --tags # 推送所有标签到远程
+  git push origin --tags # 推送所有标签到远程
   ```
 
 - 删除本地 tag： 要删除掉你本地仓库上的标签，可以使用命令
@@ -191,7 +191,7 @@ Git 的标签 tag 相关操作。
 
   - 如果你想查看某个标签所指向的文件版本，可以使用 git checkout 命令；
 
-  - 通常我们在检出 tag 的时候还会创建一个对应的分支，因为不能再原 tag 上修改（分支后续了解）；
+  - 通常我们在检出 tag 的时候还会创建一个对应的分支，因为不能在原 tag 上修改（分支后续了解）；
 
   ```shell
   git branch newbranch v1.0.0
@@ -213,9 +213,9 @@ git add .
 git commit -m 'starting the project'
 
 1. 在 ./git/object/ 中又创建了进制数开头的目录如“46...”和“eb...”，里面保存的是二进制文件如“58...”和“5c...”
-2. 使用 `git cat-file -p 4658`，可查看到另一个二进制文件，其中有索引信息以及对应的工作区文件名称，这个文件被称为==树（tree）文件==。
-3. 使用 `git cat-file -p eb5c`，可查看到另一个二进制文件，其中有==提交作者信息==，==树文件的索引==和==提交信息==，这个文件就是提交文件。每次提交的校验和，就是该文件的索引。
-4. 使用 `git cat-file -p` 树文件的索引，可查看到第一步中的文件，也就是使用 `git add .` 添加到暂存区的内容。
+2. 使用 `git cat-file -p 4658`，可查看到另一个二进制文件，其中有索引信息以及对应的工作区文件名称，这个文件被称为**树（tree）文件**。
+3. 使用 `git cat-file -p` 树文件的索引，可查看到 `git add .` 操作第一步中的文件，也就是使用 `git add .` 添加到暂存区的内容。
+4. 使用 `git cat-file -p eb5c`，可查看到另一个二进制文件，其中有**提交作者信息**，**树文件的索引**和**提交信息**，这个文件就是提交文件。每次提交的校验和，就是该文件的索引。
 
 ## Git 的提交对象以及原理。
 
@@ -288,7 +288,7 @@ Git 本地是怎么创建新分支的；
 ## 创建本地分支同时切换。
 
 ```shell
-git checkout -b dev # 创建一个 dev 分支
+git checkout -b dev # 创建一个 dev 分支，并切换到 dev 分支
 ```
 
 ---
@@ -304,7 +304,10 @@ git checkout -b dev # 创建一个 dev 分支
 3. 切换到 tag v1.0.0，并且创建一个分支 hotfix，
 
    ```shell
+   git checkout v1.0.0
    git checkout -b hotfix
+   # 或者
+   git checkout -b hotfix v1.0.0
    ```
 
    <img src="NodeAssets/Git的使用场景2.jpg" alt="Git的使用场景2" style="zoom:50%;" />
@@ -347,7 +350,7 @@ git branch –D hotfix # 强制删除某一个分支
 - 对 2 个分支进行合并（不论远程还是本地），某些情况下会出现冲突，比如两分支在同一文件中都做了修改。
 - 这时，合并的文件会出现“<<<<<<”，“\=\=\=\=\=”这样的符号。
 - 可手动删除这些符号，进行合并。
-- 也可使用现有 IDE（如 VSCode）中给出的选项，进行合并。
+- 也可使用现有编辑工具（如 VSCode）中给出的选项，进行合并。
 
 <img src="NodeAssets/合并冲突.jpg" alt="合并冲突" style="zoom:100%;" />
 
@@ -379,7 +382,7 @@ git branch –D hotfix # 强制删除某一个分支
 ## 什么是 Git 的远程分支。
 
 - 远程分支是也是一种分支结构：
-- 以 `<remote>/<branch>` 的形式命名的；
+- 以 `<remote>/<branch>` 的形式命名；
 - 如果我们刚刚 clone 下来代码，分支的结构如下：
 
   <img src="NodeAssets/远程分支clone.jpg" alt="远程分支clone" style="zoom:50%;" />
@@ -403,15 +406,15 @@ git branch –D hotfix # 强制删除某一个分支
 2. 跟踪远程分支
    - 当克隆一个仓库时，它通常会自动地创建一个跟踪 origin/master 的 master 分支（只会 clone 并跟踪主分支）；
    - 如果你愿意的话可以设置其他的跟踪分支，可以通过运行 `git checkout --track <remote>/<branch>`
-   - 如果你尝试检出的分支 (a) 不存在且 (b) 刚好只有一个名字与之匹配的远程分支，那么 Git 就会为你创建一个跟踪分支；
+   - 如果你尝试检出的分支不存在且刚好只有一个名字与之匹配的远程分支，那么 Git 就会为你创建一个跟踪分支；
    
    ```shell
    git checkout --track origin/dev
    git checkout dev # 简写，做了4步操作。
-   # 1.检查远程服务器是否有 dev 这个分支
-   # 2.创建一个本地的 dev 分支
-   # 3.让本地的 dev 分支自动跟踪 origin/dev
-   # 4.切换到 dev 分支
+   # 1.创建一个本地的 dev 分支
+   # 2.切换到 dev 分支
+   # 3.检查远程服务器是否有 dev 这个分支
+   # 4.让本地的 dev 分支自动跟踪 origin/dev
    ```
 
 3. 删除远程分支

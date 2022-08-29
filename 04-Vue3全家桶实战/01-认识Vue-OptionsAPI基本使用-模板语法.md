@@ -343,7 +343,7 @@ Options API 中还有哪些其它属性？
 -  Vue 也支持 jsx 的开发模式： 
 	- 但是大多数情况下，使用基于 HTML 的模板语法； 
 	- 在模板中，允许开发者以声明式的方式将 DOM 和底层组件实例的数据绑定在一起；
-	- 在底层的实现中，Vue 将模板编译成虚拟 DOM 渲染函数，这个会在后续讲到；
+	- 在底层的实现中，Vue 将模板编译成虚拟 DOM 渲染函数。
 
 -----
 
@@ -353,7 +353,7 @@ Mustache 语法（双大括号语法/插值语法）的使用。
 
 ```html
 <!-- data 中的属性 -->
-<h2>{{message}}</h2>
+<h2>{{ message }}</h2>
 <!-- 表达式 -->
 <h2>{{ counter * 10 }}</h2>
 <h2>{{ message.split(' ').reverse().join(' ') }}</h2>
@@ -548,11 +548,11 @@ v-bind 绑定 style，对象语法
 ```html
 <body>
   <div id="app">
-    <!-- 使用v-bind绑定style时，CSS属性名可以写成驼峰式，或者短横线分隔（需要用引号括起来） -->
+    <!-- 使用 v-bind 绑定 style 时，CSS 属性名可以写成驼峰式，或者短横线分隔（需要用引号括起来） -->
     <div :style="{color: finalColor, 'font-size': '30px'}">哈哈哈</div>
     <div :style="{color: finalColor, fontSize: '30px'}">哈哈哈</div>
     <div :style="{color: finalColor, fontSize: finalFontSize + 'px'}">哈哈哈</div>
-    <!-- 绑定一个data中的属性值，并且是一个对象 -->
+    <!-- 绑定一个 data 中的属性值，并且是一个对象 -->
     <div :style="FinalStyleObj">呵呵呵</div>
     <!-- 调用一个方法 -->
     <div :style="getFinalStyleObj()">嘿嘿嘿</div>
