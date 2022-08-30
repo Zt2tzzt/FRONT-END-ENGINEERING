@@ -76,7 +76,7 @@ module.exports = {
 					"^/api": '' // 在代理路径中删除掉/api
 				},
         secure: false, // 在 https 的情况下，仍代理，默认为 true
-        changeOrigin: true // 表示是否更新代理后，请求的 headers 中 host 地址，默认 http://localhost:8000 ,应该为http://localhost:8888
+        changeOrigin: true // 表示是否更新代理后，请求的 headers 中 host 地址，默认 http://localhost:8000 ,应该为 http://localhost:8888
       }
     }
   }

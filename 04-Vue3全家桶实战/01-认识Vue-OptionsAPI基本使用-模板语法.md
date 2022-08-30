@@ -23,7 +23,7 @@ vue3 与 vue2 的区别
 	- 源码使用 TypeScript 进行重写。（Vue2 中使用 Flow 来进行类型检测）
 - 性能方面：
 	- 使用 Proxy 进行数据劫持。
-		1. Vue2 中使用 `Object.defineProperly`中的 getter 和 setter 方法进行数据劫持，
+		1. Vue2 中使用 `Object.defineProperly` 中的 getter 和 setter 方法进行数据劫持，
 		2. 这种方法无法劫持对象添加或删除属性，
 		3. 所以不得不提供一些像 $set 或 $delete 这样特殊的 API
 	- 删除了一些不必要的 API。
@@ -372,7 +372,7 @@ Mustache 语法（双大括号语法/插值语法）的使用。
 
 ## 其它指令
 
-v-once 将所有元素/组件以及所有子元素视为静态内容，可用于性能优化。
+v-once 将所有元素/组件以及所有子元素视为静态内容只渲染一次，可用于性能优化。
 
 ```html
 <h2 v-once>

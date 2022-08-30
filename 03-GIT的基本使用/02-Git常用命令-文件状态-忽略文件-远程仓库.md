@@ -62,7 +62,7 @@ Git 将文件添加到暂存区（暂缓区）。
 Git 文件更新提交到 git 仓库。
 
 - 当暂存区已经准备就绪，可以提交时。
-	- 每次准备提交前，先用 `git status`看下，所需要的文件是不是都已暂存起来了；
+	- 每次准备提交前，先用 `git status` 看下，所需要的文件是不是都已暂存起来了；
 	- 再运行提交命令，在 commit 命令后添加 -m 选项，将提交信息与命令放在同一行;
 	
 ```shell
@@ -103,7 +103,7 @@ Git 文件更新提交到 git 仓库。
 - Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）；
 - 这是一个由 40 个十六进制字符（0-9 和 a-f）组成的字符串，基于 Git 中文件的内容或目录结构计算出来；
 
-<img src=".//NodeAssets/git的校验和.jpg" alt="git的校验和" style="zoom:150%;" />
+<img src=".//NodeAssets/git的校验和.jpg" alt="git的校验和" style="zoom:80%;" />
 
 -----
 
@@ -142,7 +142,7 @@ Git 文件更新提交到 git 仓库。
 
 我们可以通过 HEAD 来改变 Git 目前的版本指向：
 
-- 上一个版本就是 `HEAD^`，上上一个版本就是 `HEAD^^`；
+- 指向上一个版本就是 `HEAD^`，指向上上一个版本就是 `HEAD^^`；
 
   ```shell
   git reset --hard HEAD^
@@ -157,7 +157,7 @@ Git 文件更新提交到 git 仓库。
 - 我们可以指定某一个 commit id 进行回退；
 
   ```shell
-  git reset --hard 2d44982 # id 前7位即可，保证不重复
+  git reset --hard 2d44982 # id 前7位即可，保证不重复即可
   ```
 
 git reflog 的作用。
@@ -203,7 +203,7 @@ git reflog
 什么是远程仓库验证中的凭证？
 
 1. http 本身是一种无状态的连接。意味着连接的时候，并不知道上一次是否有携带这个凭证。
-2. 也就意味着，每一个连接都需要用户名和密码。
+2. 也就意味着，每一个连接都需要输入用户名和密码。
 
 幸运的是，Git 拥有一个凭证系统（ Git Crediential ）来处理这个事情；了解它有哪些选项
 
@@ -216,7 +216,7 @@ git reflog
 
 Windows 中如何查看凭证？
 
-- 控制面板 -> 用户账号 -> 凭证管理器 -> Windows 凭证
+- 控制面板 -> 用户账户 -> 凭证管理器 -> Windows 凭证
 
 -----
 
@@ -291,7 +291,7 @@ git pull 遇到的问题，如何解决
      ```shell
      git pull # 先要 pull 或者 fetch 远程仓库分支，本地才能有该分支，如 origin/main
      git branch --set-upstream-to=origin/main # 将当前分支，与远程拉取到本地的 origin/main 分支进行关联跟踪。
-     git pull # 将上游分支的代码，拉取到当前分支
+     git pull # 将上游分支的代码，拉取到当前分支并合并
      ```
 
    > 使用 git clone 下载远程仓库后，master 分支会自动关联跟踪远程 origin/master 分支
@@ -302,7 +302,7 @@ git pull 遇到的问题，如何解决
 
    - **原因**：我们将两个不相干的分支进行了合并。
 
-     > 过去 git merge 允许将两个没有共同基础（base，可理解为共同的祖先）的分支进行合并。这导致了一个后果：新创建的项目可能被一个毫不留意的维护者合并了很多没有必要的历史，到一个已经存在的项目中，目前这个命令已经被纠正，但是我们依然可以通过 --allow-unrelated-histories 选项来逃逸这个限制，以此合并两个独立的项目；
+     > 过去 git merge 允许将两个没有共同基础（base，可理解为共同的祖先）的分支进行合并。这导致了一个后果：新创建的项目可能被一个毫不留意的维护者合并了很多没有必要的历史，到一个已经存在的项目中，目前这个命令已经被纠正，但是我们依然可以通过 `--allow-unrelated-histories` 选项来逃逸这个限制，以此合并两个独立的项目；
 
      ```shell
      git merge --allow-unrelated-histories

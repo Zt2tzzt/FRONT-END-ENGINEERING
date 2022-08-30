@@ -75,7 +75,7 @@ npx babel demo.js --out-dir dist --plugins=@babel/plugin-transform-block-scoping
 Babel 编译器的工作流程，3点：对应的步骤，理解原理图。
 
 1. 解析阶段（Parsing）
-   - 原生代码 -> 词法分析 -> token数组 -> 语法分析（也称为Parsing）-> AST
+   - 原生代码 -> 词法分析 -> token 数组 -> 语法分析（也称为 Parsing）-> AST
 2. 转换阶段（Transformation）
    - AST -> 遍历 -> 访问 -> 应用插件
 3. 生成阶段（Code Generation）
@@ -719,7 +719,7 @@ HMR 的好处，2点：
 
 ------
 
-HMR原理的理解，2方面，。
+HMR 原理的理解，2方面，。
 
 webpack-dev-server 会创建两个服务：
 
