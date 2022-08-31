@@ -119,6 +119,7 @@
     - 写法一
 
       ```shell
+      git init
       git remote add origin [url] # 关联一个远程仓库
       git fetch
       git branch --set-upstream-to=origin/main # 为本地仓库当前分支建立上游分支，关联远程仓库的 main 分支
@@ -129,8 +130,8 @@
       # git push -u origin main 将本地当前分支推送到远程 main 分支，并设置上游分支
       ```
       
-    - 写法二
-  
+  - 写法二
+    
       ```shell
       git checkout main # 原理参考上文【推送代码到远程仓库遇到的2个问题】
       git push
@@ -204,13 +205,13 @@ Git 的标签 tag 相关操作。
 
 ## 相关操作
 
-git add .
+`git add .`
 
 1. 在 ./.git/object/ 中创建了进制数开头的目录如“00...”，里面保存的是二进制文件。如 “d2...”
 2. 使用 `git cat-file -t 00d2`，来查看文件类型，显示 blob，表示文件是二进制文件。
-3. 使用 `git cat-file -p 00d2`，来查看文件保存的内容，也就是添加到暂存区的内容。
+3. 使用 `git cat-file -p 00d2`，来查看文件保存的内容，发现是添加到暂存区的内容。
 
-git commit -m 'starting the project'
+`git commit -m 'starting the project'`
 
 1. 在 ./git/object/ 中又创建了进制数开头的目录如“46...”和“eb...”，里面保存的是二进制文件如“58...”和“5c...”
 2. 使用 `git cat-file -p 4658`，可查看到另一个二进制文件，其中有索引信息以及对应的工作区文件名称，这个文件被称为**树（tree）文件**。
