@@ -65,7 +65,7 @@ vue3 与 vue2 的区别
   <!-- CDN 地址 -->
   <script src="https://unpkg.com/vue@next"></script>
   <script>
-    // 使用Vue
+    // 使用 Vue
     const app = Vue.createApp({
       template: `<h2>Hello World</h2><span>呵呵呵</span>`
     })
@@ -253,12 +253,10 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
     counterEl.textContent = counter
     // 2.监听按钮的点击
     addBtnEl.onclick = function() {
-      counter++
-      counterEl.textContent = counter
+      counterEl.textContent = ++counter
     }
     subBtnEl.onclick = function() {
-      counter--
-      counterEl.textContent = counter
+      counterEl.textContent = --counter
     }
   </script>
 </body>

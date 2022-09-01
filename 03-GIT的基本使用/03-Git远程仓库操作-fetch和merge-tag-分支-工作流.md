@@ -129,7 +129,7 @@
       git push
       # git push -u origin main 将本地当前分支推送到远程 main 分支，并设置上游分支
       ```
-      
+    
   - 写法二
     
       ```shell
@@ -402,7 +402,7 @@ git branch –D hotfix # 强制删除某一个分支
 
 1. 推送分支到远程;
    - 当你想要公开分享一个分支时，需要将其推送到有写入权限的远程仓库上；
-- `git push <remote> <branch>`
+   - `git push <remote> <branch>`
   
 2. 跟踪远程分支
    - 当克隆一个仓库时，它通常会自动地创建一个跟踪 origin/master 的 master 分支（只会 clone 并跟踪主分支）；
