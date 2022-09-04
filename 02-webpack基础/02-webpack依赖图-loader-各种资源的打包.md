@@ -159,7 +159,7 @@ npx lessc ./src/css/title.less title.css
 什么是 PostCSS，3点：
 
 1. PostCSS 是一个通过 JavaScript 来转换样式的工具。
-2. 它可自动进行一些 css 转换和适配，比如自动添加浏览器前缀，css 样式的重置（语法向下兼容）。
+2. 它可自动进行一些 css 转换和适配，比如自动添加浏览器前缀，css 样式的重置（使得语法向下兼容）。
 3. 但是，实现这些功能，需要借助 PostCSS 插件，如 autoprefixer，可用于添加 css 前缀的插件。
 
 PostCSS 如何单独使用，

@@ -191,8 +191,8 @@ const path = require('path')
 module.exports = {
 	entry: './src/main.js',
 	output: {
-		filename: 'bundle.js',
-		path: path.resolve(__dirname, './build') // path 必须是绝对路径，所以使用 resolve。
+		path: path.resolve(__dirname, './build'), // path 必须是绝对路径，所以使用 resolve。
+		filename: 'bundle.js'
 	}
 }
 ```

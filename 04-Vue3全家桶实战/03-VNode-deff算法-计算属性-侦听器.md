@@ -54,14 +54,14 @@
   </script>
 </body>
 ```
-- 有无key分别使用的方法。源码位置：packages -> runtime-core -> src -> renderer.ts
+- 有无 key 分别使用的方法（源码位置：packages -> runtime-core -> src -> renderer.ts）
 - 没 key，使用 `patchUnKeyedChildren` 方法。3步
 	1. 取到旧 VNodes 和新 VNodes，比较两者长度，取小的那个遍历。
 	2. 遍历时，依次将旧 VNode 与新 VNode 做 patch 操作，有不同的元素则更新，
 	3. 遍历完后，旧 VNodes 中元素比较多，则卸载多余的元素。新 VNodes 比较多，则更新多余元素。
 	
 	<img src="NodeAssets/diff算法没key的过程.jpg" alt="diff算法没key的过程" style="zoom:80%;" />
-- 有 key，使用 patchKeyedChildren 方法。5步
+- 有 key，使用 `patchKeyedChildren` 方法。5步
 	1. while 循环从头比较新旧 VNodes 节点元素的 type（tag）和 key，遇到相同节点就继续，遇到不同节点就跳出循环。
 	
 	   <img src="NodeAssets/diff算法有key的过程1.jpg" alt="diff算法有key的过程1" style="zoom:80%;" />
@@ -157,8 +157,8 @@
 ```html
 <!-- 
 如果模板中，多次引用一个计算逻辑的结果，
-计算属性对应的函数指挥运行一次，
-methods 对应的函数会运行3次 
+ 计算属性对应的函数只会运行一次，
+ methods 对应的函数会运行3次 
 -->
 <h2>{{ fullname }}</h2>
 <h2>{{ fullname }}</h2>
@@ -241,7 +241,7 @@ methods 对应的函数会运行3次
       data() {
         return {
           message: "Hello Vue",
-          info: { name: "why", age: 18 }
+          info: { name: "zzt", age: 18 }
         }
       },
       methods: {
@@ -323,14 +323,19 @@ const app = {
         },
 				// watch 的3种写法，分别为 info 设值了3个监听器
         info: [
-          'handle1', // 引用 methods 中的方法
-          function(newVal, oldVal) {
+          // 1.引用 methods 中的方法作为侦听函数
+          'handle1',
+          // 2.基本用法
+          function(newVal, oldVal) { 
             console.log('handle2 triggered');
           },
+          // 3.配置选项用法
           {
             handler(newVal, oldVal) {
               console.log('handle3 triggered');
-            }
+            },
+            deep: true,
+            immediate: true
           }
         ]
       }
@@ -490,7 +495,7 @@ const books = [
       },
       computed: {
         totalPrice() {
-          return this.books.reduce((preValue, item) => return preValue + item.price * item.count, 0)
+          return this.books.reduce((accumulation, currentItem) => return accumulation + currentItem.price * currentItem.count, 0)
         }
       },
       methods: {
@@ -498,10 +503,12 @@ const books = [
           return "¥" + price
         },
         decrement(index, item) 
+          // 两种方式都可以
           // this.books[index].count--
           item.count--
         },
         increment(index, item) {
+          // 两种方式都可以
           // this.books[index].count++
           item.count++
         },
