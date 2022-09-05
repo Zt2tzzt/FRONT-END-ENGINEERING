@@ -215,7 +215,7 @@
 
 源码对计算属性 computed 的处理，理解。
 
-- 会判断选项内容是否为一个函数，是则绑定一个publicThis，不是则会取选项的 get 属性判断是否为方法。
+- 会判断选项内容是否为一个函数，是则绑定一个 publicThis，不是则会取选项的 get 属性判断是否为方法。
 
 -----
 
@@ -274,8 +274,8 @@
 const app = {
 	watch: {
 		info(newValue, oldValue) {
-			console.log({ ...newValue }) // 方法一
-			console.log(Vue.toRaw(newValue)) // 方法二
+			console.log({ ...newValue }) // 方法一，利用对象的展开语法，浅拷贝。
+			console.log(Vue.toRaw(newValue)) // 方法二，利用 Vue 提供的方法。
 		}
 	}
 }
