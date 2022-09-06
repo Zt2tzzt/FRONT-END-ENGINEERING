@@ -210,23 +210,21 @@ v-model 有哪些常见的修饰符？有什么用？
   - 需要将 input 元素的 type 设置为 number，v-model 绑定的值才是 number 类型（Vue2 中即使设置了，类型也不会改变）；
 
     ```html
-    <input type="number" v-model="score" />
-    <!-- 在 Vue2 中绑定的仍是 string 类型 -->
+    <input type="number" v-model="score" /><!-- 在 Vue2 中绑定的仍是 string 类型 -->
     <input type="text" v-model.number="score" />
     ```
-
-  - 如果我们希望绑定 input 元素值的默认类型，即 string 类型转换为 number 类型，那么可以使用 .number 修饰符：
-
-  - 另外，在我们进行逻辑判断时，如果是一个 string 类型，在可以转化的情况下会进行隐式转换的：
-
-    ```js
+    
+- 如果我们希望绑定 input 元素值的默认类型，即 string 类型转换为 number 类型，那么可以使用 .number 修饰符：
+  
+- 另外，在我们进行逻辑判断时，如果是一个 string 类型，在可以转化的情况下会进行隐式转换的：
+  
+  ```js
     const score = '100'
-    if (score > 90) {
-    	// 逻辑判断时, 可以转化的情况下, 会隐士的将一个 string 类型转成一个 number 类型, 再来进行判断
+    if (score > 90) {	// 逻辑判断时, 可以转化的情况下, 会隐士的将一个 string 类型转成一个 number 类型, 再来进行判断
     	console.log('优秀')
     }
     ```
-
+  
 - trim 修饰符：
 
   - 自动过滤用户输入的首尾空白字符。

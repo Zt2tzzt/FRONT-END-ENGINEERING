@@ -2,14 +2,14 @@
 
 # 各种资源打包
 
-## 使用 Babel 对 JS 文件打包
+## JS 文件打包（使用 Babel）
 
 Babel 是什么？有什么用？
 
 - Babel 是一个工具链，最早用于在旧浏览器或环境中将 ES6+ 代码转成向后兼容的版本。
 - 现在主要用于语法转换，源代码转换等，比如 TypeScript，JSX 等文件的源码转换。
 
-Babel本质上是什么？
+Babel 本质上是什么？
 
 - Babel 本质上是一个编译器。
 
@@ -66,9 +66,7 @@ npx babel demo.js --out-dir dist --plugins=@babel/plugin-transform-block-scoping
    npx babel demo.js --out-dir dist --presets=@babel/preset-env
    ```
 
-------
-
-安装库的方式如 `@babel/core`，表示代码仓库通过 monoRepo 的方式来管理。
+> 安装库的方式如 `@babel/core`，表示代码仓库通过 monoRepo 的方式来管理。
 
 ------
 
@@ -144,7 +142,7 @@ Babel 配置文件的2种命名方式：
 
 ------
 
-使用单独配置文件配置babel
+使用单独配置文件配置 babel
 
 ./babel.config.js
 
@@ -224,7 +222,7 @@ webpack 对 vue 代码打包的步骤：
    ./src/index.js
 
    ```javascript
-   import { createApp } from 'vue.esm.bundle.js' /* 手动指定非 runtime 版本 */
+   import { createApp } from 'vue/dist/vue.esm.bundle.js' /* 手动指定非 runtime 版本 */
    createApp({
      template: '#my-app',
      data() {
@@ -273,7 +271,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
 
    ```javascript
    import App from './vue/App.vue'
-   import { createApp } from 'vue.esm.bundle.js' /* 后续安装 @vue/compiler-sfc，配置 vue-loader-plugin 后，可改为默认引入方式，即 vue */
+   import { createApp } from 'vue/dist/vue.esm.bundle.js' /* 后续安装 @vue/compiler-sfc，配置 vue-loader-plugin 后，可改为默认引入方式，即 vue */
    createApp(App).mount('#app')
    ```
 
@@ -348,7 +346,7 @@ resolve 有什么用：
 
 - webpack 使用 `enhanced-resolve`  这个库来解析文件路径。
 
-resolve 中的 extensions 和 alias
+resolve 中的 `extensions` 和 `alias`
 
 - extensions 是解析到文件时自动添加扩展名： 
 	- 默认值是 ['.wasm', '.mjs', '.js', '.json']； 
@@ -657,7 +655,9 @@ webpack-dev-server 有什么用：
 
 devServer 中的 `contentBase` 已弃用，代替它的是 `static` 属性，有什么用：
 
-- 指定一个目录进行访问。（在 CopyWebpackPlugin 中复制的文件，可放在 static 指定的目录下，在开发阶段使用，不轻易的对所有资源打包，提高效率
+1. 指定一个目录进行访问。（在 CopyWebpackPlugin 中要复制的文件，可放在 static 指定的目录下；
+
+2. 在开发阶段使用，不轻易的对所有资源打包，提高效率
 
 配置 devServer 中的 static：
 

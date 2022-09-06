@@ -113,12 +113,12 @@ git 的配置分类，
   - 每台计算机上只需要配置一次，程序升级时会保留配置信息； 
   - 可以在任何时候再次通过运行命令来修改它们；
 - Git 自带一个 git config 的工具来帮助设置控制 Git 外观和行为的配置变量： 
-  - `/etc/gitconfig` 文件：包含系统上每一个用户及他们仓库的通用配置 
+  - `Git/etc/gitconfig` 文件：包含系统上每一个用户及他们仓库的通用配置 
     - 如果在执行 git config 时带上 `--system` 选项，那么它就会读写该文件中的配置变量； 
     - 由于它是系统配置文件，因此你需要管理员或超级用户权限来修改它。（开发中通常不修改）
-  - `~/.gitconfig` 或 `C/User/ZeTian/.gitconfig` 文件：只针对当前用户（**常用**）。
+  - `~/.gitconfig` （MAC） 或 `C/User/ZeTian/.gitconfig` （Windows） 文件：只针对当前用户（**常用**）。
     - 你可以传递 `--global` 选项让 Git 读写此文件，这会对你系统上所有的仓库生效；
-  - 当前使用仓库的 Git 目录中的 config 文件（即 `.git/config`）：针对该仓库
+  - 当前使用仓库的 Git 目录中的 config 文件（即 `/.git/config`）：针对该仓库
     - 你可以传递 `--local` 选项让 Git 强制读写此文件，虽然默认情况下用的就是它；
 
 配置选项用户名和邮箱，
@@ -134,7 +134,7 @@ git config --global user.email "[emailaddress]" #邮箱
 查找不同级别的配置文件，确认已配置的信息。
 
 ```shell
-git config --system --list # 查看系统 config（配置文件目录：...Git\etc\gitconfig）
+git config --system --list # 查看系统 config（配置文件目录：\Git\etc\gitconfig）
 git config --global --list # 查看当前用户 (global) 配置（配置文件目录：C:\User\Administrator\gitconfig）
 ```
 

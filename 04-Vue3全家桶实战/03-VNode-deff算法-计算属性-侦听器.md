@@ -1,4 +1,4 @@
-# 认识 VNode
+#  认识 VNode
 
 什么是 VNode
 
