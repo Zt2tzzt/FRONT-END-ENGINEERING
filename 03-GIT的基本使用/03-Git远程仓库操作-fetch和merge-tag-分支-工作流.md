@@ -41,6 +41,13 @@
     ```shell
     git pull # 相当于 git fetch + git merge(rebase)
     ```
+    
+  - 如果想让远程分支覆盖本地工作区中的内容，使用 `git reset --hard <remote>/<branch>`
+  
+    ```shell
+    get reset --hard origin/master
+    git pull
+    ```
 
 ## 推送代码到远程仓库遇到的问题
 
@@ -129,8 +136,8 @@
       git push
       # git push -u origin main 将本地当前分支推送到远程 main 分支，并设置上游分支
       ```
-    
-  - 写法二
+      
+    - 写法二
     
       ```shell
       git checkout main # 原理参考上文【推送代码到远程仓库遇到的2个问题】
@@ -153,7 +160,13 @@ Git 的标签 tag 相关操作。
 - 对于重大的版本我们常常会打上一个标签，以表示它的重要性：
 
   - Git 可以给仓库历史中的某一个提交打上标签（可理解为在提交对象上的一个指针）；
-  - 比较有代表性的是人们会使用这个功能来标记发布结点（ v1.0 .0、 v2.0.0 等等）；
+  - 比较有代表性的是人们会使用这个功能来标记发布节点（ v1.0 .0、 v2.0.0 等等）；
+
+- 查看当前仓库已有标签
+
+  ```shell
+  git tag
+  ```
 
 - 创建标签：
 
@@ -313,7 +326,7 @@ git checkout -b dev # 创建一个 dev 分支，并切换到 dev 分支
 
    <img src="NodeAssets/Git的使用场景2.jpg" alt="Git的使用场景2" style="zoom:50%;" />
 
-4. 在 hotfix 分支上，对 bug 进行修复，完成修复后，重新打上一个新的 tag v1.0.1；
+4. 在 hotfix 分支上，对 bug 进行修复，完成修复后进行提交，并新打上一个 tag v1.0.1；
 
    <img src="NodeAssets/Git的使用场景3.jpg" alt="Git的使用场景3" style="zoom:50%;" />
 
@@ -388,7 +401,7 @@ git branch –D hotfix # 强制删除某一个分支
 
   <img src="NodeAssets/远程分支clone.jpg" alt="远程分支clone" style="zoom:50%;" />
 
-- 如果其他人修改了代码并做了提交和推送，那么远程分支结构如下：
+- 如果其他人修改了代码并做了提交和推送，那么远程分支和本地分支结构如下：
 
   <img src="NodeAssets/远程分支被修改.jpg" alt="远程分支被修改" style="zoom:52%;" />
 

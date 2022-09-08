@@ -141,7 +141,7 @@ v-model 在 input（checkbox（单选，多选），radio），textarea，select
 - 目前我们在前面的案例中大部分的值都是在 template 中固定好的：
   - 比如 gender 的两个输入框值 male、female；
   - 比如 hobbies 的四个输入框值 sing, jump, rap, basketball；
-- 在真实开发中，我们的数据可能是来自服务器的，那么我们就可以先将值请求下来，绑定到 data 返回的对象中，再通过 v-bind 来 进行值的绑定，这个过程就是值绑定。
+- 在真实开发中，我们的数据可能是来自服务器的，那么我们就可以先将值请求下来，绑定到 data 返回的对象中，再通过 v-bind 来进行值的绑定，这个过程就是值绑定。
 
 ```html
 <body>
@@ -213,7 +213,7 @@ v-model 有哪些常见的修饰符？有什么用？
     <input type="number" v-model="score" /><!-- 在 Vue2 中绑定的仍是 string 类型 -->
     <input type="text" v-model.number="score" />
     ```
-    
+  
 - 如果我们希望绑定 input 元素值的默认类型，即 string 类型转换为 number 类型，那么可以使用 .number 修饰符：
   
 - 另外，在我们进行逻辑判断时，如果是一个 string 类型，在可以转化的情况下会进行隐式转换的：
@@ -223,7 +223,7 @@ v-model 有哪些常见的修饰符？有什么用？
     if (score > 90) {	// 逻辑判断时, 可以转化的情况下, 会隐士的将一个 string 类型转成一个 number 类型, 再来进行判断
     	console.log('优秀')
     }
-    ```
+  ```
   
 - trim 修饰符：
 
@@ -314,8 +314,7 @@ Vue 的组件化开发 3 点理解。
 ```html
 <body>
 	<div id="app">
-		<HomeNav></HomeNav>
-		<!-- 在 HTML 文件中无法使用这种写法，大小写不敏感 -->
+		<HomeNav></HomeNav><!-- 在 HTML 文件中无法使用这种写法，大小写不敏感 -->
 		<home-nav></home-nav>
 		<product-item></product-item>
 		<product-item></product-item>
@@ -508,8 +507,8 @@ vue create [项目的名称] # 使用它创建项目
 ```shell
 Vue CLI v4.5.15
 ? Please pick a preset: (Use arrow keys)  # 选择预设
-	Default ([Vue 2] babel, eslint) # 选择vue2的版本，默认选择babel和eslint
-	Default (Vue 3) ([Vue 3] babel, eslint) # 选择vue3版本，默认选择babel和eslint
+	Default ([Vue 2] babel, eslint) # 选择vue2的版本，默认选择 babel 和 eslint
+	Default (Vue 3) ([Vue 3] babel, eslint) # 选择vue3版本，默认选择 babel 和 eslint
 > Manually select features # 手动选择希望获取到的特性
 ```
 
@@ -517,14 +516,14 @@ Vue CLI v4.5.15
 Vue CLI v4.5.15
 ? Please pick a preset: Manually select features
 ? Check the features needed for your project: (Press <space> to select, <a> to toggle all, <i> to invert selection)
->(*) Choose Vue version # 是否选择vue版本
- (*) Babel # 是否选择babel
- ( ) TypeScript # 是否使用ts
- ( ) Progressive Web App (PWA) Support # 是否支持PWA
- ( ) Router # 是否默认添加Router
- ( ) Vuex # 是否默认添加Vuex
- ( ) CSS Pre-processors # 是否选择CSS预处理器
- (*) Linter / Formatter # 是否选择ESLint对代码进行格式化限制。
+>(*) Choose Vue version # 是否选择 vue 版本
+ (*) Babel # 是否选择 babel
+ ( ) TypeScript # 是否使用 ts
+ ( ) Progressive Web App (PWA) Support # 是否支持 PWA
+ ( ) Router # 是否默认添加 Router
+ ( ) Vuex # 是否默认添加 Vuex
+ ( ) CSS Pre-processors # 是否选择 CSS 预处理器
+ (*) Linter / Formatter # 是否选择 ESLint 对代码进行格式化限制。
  ( ) Unit Testing # 是否添加单元测试
  ( ) E2E Testing # 是否添加端到端测试。
 ```
