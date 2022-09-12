@@ -93,7 +93,7 @@ Provide / Inject 基本使用，函数写法，处理响应式数据（需要解
 
 事件总线的使用，
 
-- 为了使框架功能专一，Vue3 移除了实例上的 `$on`, `$off`, `$once` 方法，要用第三方库实现全局事件总线，官方推荐 mitt 库或 tiny-emitter 库。
+- 为了使框架功能专一，Vue3 移除了实例上的 `$on`, `$off`, `$once` 方法，官方推荐用第三方库实现全局事件总线，如 mitt 库或 tiny-emitter 库。
 
 - 这里介绍 hy-event-store 库，它是一个轻量级的库，可以实现事件总线和状态管理的功能，
 
@@ -243,7 +243,7 @@ $refs 的使用步骤：
 
 1. 给元素或组件绑定一个 ref 的 attribute。
 2. 在组件实例中使用 $refs，它是一个对象，持有注册过 ref attribute 的所有 DOM 元素和子组件实例。
-3. 元素会返回它本身，组件会返回一个 Prox 且可以访问其中 data 定义的变量，调用 methods 中的方法。
+3. 元素会返回它本身，组件会返回一个 Proxy 且可以访问其中 data 定义的变量，调用 methods 中的方法。
 
 
 父组件 App.vue
@@ -569,7 +569,7 @@ keep-alive 的属性
 webpack 的代码分包理解。
 
 1. 默认情况下，在构建整个组件树的过程中，组件之间通过模块化直接依赖。
-2. webpack 在打包时会将组件模块打包到一起（比如一个 `app.js` 文件）将第三方库打包到一起（比如一个 `chunk-vendors.js` 文件）
+2. webpack 在打包时会将组件模块打包到一起（比如一个 `app.js` 文件），将第三方库打包到一起（比如一个 `chunk-vendors.js` 文件）。
 
 webpack 分包的使用场景：
 
@@ -793,11 +793,9 @@ App.vue
 
 ```vue
 <template>
-	<!-- 
-				v-model:title 做了2件事：
+	<!--  v-model:title 做了2件事：
 				1.使用 v-bind 绑定了 title 属性。:title
-				2.使用 v-on 监听了 update:title 的事件。@update:title=“title=$event”
-	-->
+				2.使用 v-on 监听了 update:title 的事件。@update:title=“title=$event” 	-->
   <MyCpn v-model="message" v-model:title="title"></MyCpn>
 </template>
 <script>
@@ -906,7 +904,7 @@ export default {
 
 ------
 
-Mixin冲突合并的规则，分3种情况：
+Mixin 冲突合并的规则，分3种情况：
 
 1. 如果是 data 函数返回的对象，保留组件自身的。
 2. 如果是生命周期钩子函数，会合并到数组中，都会被调用。
@@ -1021,7 +1019,7 @@ setup 函数主要有2个参数：
 > setup 函数中不允许使用 `this`
 >
 > 1. setup 被调用之前，data, computed, methods 等选项都没有被解析。
-> 2. setup 中未绑定 this，所以它的 this 没有指向组件实例 Instance。
+> 2. setup 函数调用时未绑定 this，所以它的 this 没有指向组件实例 Instance，而是 undefined。
 
 setup 函数的返回值，可以用来做什么：
 
@@ -1060,12 +1058,8 @@ import { ref } from 'vue'
 export default function useCounter() {
   // 定义 counter 默认不是响应式数据，需要使用 ref 将它变为响应式数据，方便在 tenplate 中使用。
   let counter = ref(100)
-  const increment = () => {
-    counter.value++
-  }
-  const decrement = () => {
-    counter.value--
-  }
+  const increment = () => counter.value++
+  const decrement = () => counter.value--
   return { counter, increment, decrement }
 }
 ```

@@ -1,6 +1,6 @@
 # VueCLI 的运行原理
 
-npm run serve -> vue-cli-service serve -> node_modules/.bin/vue-cli-service -> @vue/cli-service -> 经过一系列操作加载 webpack 配置 -> 启动 devServer 服务器。
+命令 npm run serve -> 命令 vue-cli-service serve -> node_modules/.bin/vue-cli-service -> @vue/cli-service -> 经过一系列操作加载 webpack 配置 -> 启动 devServer 服务器。
 
 <img src="NodeAssets/Vue CLI运行原理.jpg" alt="Vue CLI 运行原理" style="zoom:80%;" />
 
@@ -74,7 +74,7 @@ vue 的 sfc 文件 css 作用域的理解
 
   - 然而，组件要是没有根元素，或使用的是元素选择器添加样式，可能还是会出现穿透效果。
 
-- 所以在开发中，一般还是推荐给组件**加上根元素**，**通过 class 来给样式**。
+- 所以在开发中，一般推荐给组件**加上根元素**，**通过 class 来给样式**。
 
 -----
 
@@ -176,7 +176,7 @@ Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成
 
 1. 浏览器发送请求给 vite 中的 Connect 服务器。
 2. Connect 服务器对请求进行转发。
-3. 给浏览器返回编译后的代码，浏览器可直接解析。（比如，浏览器中获取的仍是.ts 结尾的代码，但里面的代码是 js 的语法）
+3. 给浏览器返回编译后的代码，浏览器可直接解析（比如，浏览器中获取的仍是.ts 结尾的代码，但里面的代码是 js 的语法）。
 
 ------
 
