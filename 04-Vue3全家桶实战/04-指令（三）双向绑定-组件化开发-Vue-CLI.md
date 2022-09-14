@@ -52,13 +52,7 @@ v-model 在 input（checkbox（单选，多选），radio），textarea，select
 		<!-- 1.绑定 textarea -->
 		<label for="intro">
 			自我介绍
-			<textarea
-				id="intro"
-				name="intro"
-				cols="30"
-				rows="10"
-				v-model="intro"
-			></textarea>
+			<textarea id="intro" name="intro" cols="30" rows="10" v-model="intro"></textarea>
 		</label>
 		<h2>intro: {{intro}}</h2>
 		<!-- 2.input checkbox -->
@@ -79,13 +73,7 @@ v-model 在 input（checkbox（单选，多选），radio），textarea，select
 			<input id="rap" type="checkbox" value="rap" v-model="hobbies" /> rap
 		</label>
 		<label for="basketball">
-			<input
-				id="basketball"
-				type="checkbox"
-				value="basketball"
-				v-model="hobbies"
-			/>
-			篮球
+			<input id="basketball" type="checkbox" value="basketball" v-model="hobbies" /> 篮球
 		</label>
 		<h2>hobbies: {{hobbies}}</h2>
 		<!-- 3.input radio -->
@@ -99,19 +87,23 @@ v-model 在 input（checkbox（单选，多选），radio），textarea，select
 		<h2>性别: {{gender}}</h2>
 		<!-- 4.select -->
 		<!-- 4.1. 单选，只能选中一个值，v-model 绑定的是一个值； -->
-		<select v-model="fruit">
-			<option value="apple">苹果</option>
-			<option value="orange">橘子</option>
-			<option value="banana">香蕉</option>
-		</select>
+		<label for="fruit">
+			<select id="fruit" name="fruit" v-model="fruit">
+				<option value="apple">苹果</option>
+				<option value="orange">橘子</option>
+				<option value="banana">香蕉</option>
+			</select>
+		</label>
 		<h2>单选水果: {{fruit}}</h2>
 		<!-- 4.2. 多选，可以选中多个值，v-model 绑定的是一个数组；当选中多个值时，就会将选中的 option 对应的 value 添加到数组 fruits 中；-->
 		<span>喜欢的水果:</span>
-		<select multiple size="2" v-model="fruits">
-			<option value="apple">苹果</option>
-			<option value="orange">橘子</option>
-			<option value="banana">香蕉</option>
-		</select>
+		<label for="fruits">
+			<select id="fruits" name="fruits" multiple size="2" v-model="fruits">
+				<option value="apple">苹果</option>
+				<option value="orange">橘子</option>
+				<option value="banana">香蕉</option>
+			</select>
+		</label>
 		<h2>多选水果: {{fruits}}</h2>
 	</div>
 	<script src="https://unpkg.com/vue@next"></script>
@@ -147,23 +139,19 @@ v-model 在 input（checkbox（单选，多选），radio），textarea，select
 <body>
 	<div id="app">
 		<!-- 1.select 的值绑定 -->
-		<select multiple size="3" v-model="fruits">
-			<option v-for="item in allFruits" :key="item.value" :value="item.value">
-				{{item.text}}
-			</option>
-		</select>
+    <label for="fruits">
+      <select id="fruits" name="fruits" multiple size="3" v-model="fruits">
+        <option v-for="item in allFruits" :key="item.value" :value="item.value">
+          {{item.text}}
+        </option>
+      </select>
+    </label>
 		<h2>多选: {{fruits}}</h2>
 		<!-- 2.checkbox 的值绑定 -->
 		<div class="hobbies">
 			<h2>请选择你的爱好:</h2>
 			<label v-for="item in allHobbies" :key="item.value" :for="item.value">
-				<input
-					:id="item.value"
-					type="checkbox"
-					:value="item.value"
-					v-model="hobbies"
-				/>
-				{{item.text}}
+				<input :id="item.value" type="checkbox" :value="item.value" v-model="hobbies" /> {{item.text}}
 			</label>
 			<h2>爱好: {{hobbies}}</h2>
 		</div>
@@ -213,17 +201,17 @@ v-model 有哪些常见的修饰符？有什么用？
     <input type="number" v-model="score" /><!-- 在 Vue2 中绑定的仍是 string 类型 -->
     <input type="text" v-model.number="score" />
     ```
+    
+  - 如果我们希望绑定 input 元素值的默认类型，即 string 类型转换为 number 类型，那么可以使用 .number 修饰符：
+    
+  - 另外，在我们进行逻辑判断时，如果是一个 string 类型，在可以转化的情况下会进行隐式转换的：
   
-- 如果我们希望绑定 input 元素值的默认类型，即 string 类型转换为 number 类型，那么可以使用 .number 修饰符：
-  
-- 另外，在我们进行逻辑判断时，如果是一个 string 类型，在可以转化的情况下会进行隐式转换的：
-  
-  ```js
+    ```js
     const score = '100'
-    if (score > 90) {	// 逻辑判断时, 可以转化的情况下, 会隐士的将一个 string 类型转成一个 number 类型, 再来进行判断
-    	console.log('优秀')
+    if (score > 90) {	// 逻辑判断时, 可以转化的情况下, 会隐式的将一个 string 类型转成一个 number 类型, 再来进行判断
+      console.log('优秀')
     }
-  ```
+    ```
   
 - trim 修饰符：
 

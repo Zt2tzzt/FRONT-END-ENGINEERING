@@ -17,8 +17,8 @@
 
 - 虚拟 DOM 就是一大堆 VNode 元素组成的 VNode Tree
 - 不考虑组件的情况，虚拟 DOM 中的 VNode 和真实 DOM 中的元素一一对应。
-- 虚拟 DOM 最大的好处是跨平台。
-- 在 vue 中，虚拟 DOM 可以做 Diff 算法。
+
+> 虚拟 DOM 最大的好处是跨平台。在 vue 中，虚拟 DOM 可以做 Diff 算法。
 
 <img src="NodeAssets/Vue中HTML元素的渲染过程.jpg" alt="Vue中HTML元素的渲染过程" style="zoom:80%;" />
 
@@ -70,7 +70,7 @@
 	
 	   <img src="NodeAssets/diff算法有key的过程2.jpg" alt="diff算法有key的过程2" style="zoom:80%;" />
 	
-	3. 如果新 VNode 更多，使用 null 与新 VNode 做 patch 操作（相当于挂载新 VNode ）。
+	3. 如果新 VNode 更多，使用 null 与新 VNode 做 patch 操作（相当于挂载新 VNode）。
 	
 	   <img src="NodeAssets/diff算法有key的过程3.jpg" alt="diff算法有key的过程3" style="zoom:80%;" />
 	
@@ -256,7 +256,7 @@
         },
         info(newValue, oldValue) {
           // 如果是对象类型, 那么拿到的是代理对象 proxy
-          console.log(newValue.name, oldValue.name) // 默认情况下，侦听器只能侦听对象引用的变化。对象中属性发生改变，newVal 和 oldVal 相同。
+          console.log(newValue.name, oldValue.name) // 默认情况下，侦听器只能侦听对象引用的变化。对象中属性发生改变，newValue 和 oldValue 相同。
         }
       }
     })
