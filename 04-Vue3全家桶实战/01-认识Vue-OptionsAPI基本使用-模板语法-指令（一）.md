@@ -19,8 +19,8 @@ Vue 在前端处于什么地位？
 vue3 与 vue2 的区别
 
 - 源码方面：
-	- 通过 monorepo 的形式来管理源代码。
-	- 源码使用 TypeScript 进行重写。（Vue2 中使用 Flow 来进行类型检测）
+	- Vue3 通过 monorepo 的形式来管理源代码。
+	- Vue3 源码使用 TypeScript 进行重写。（Vue2 中使用 Flow 来进行类型检测）
 - 性能方面：
 	- 使用 Proxy 进行数据劫持。
 		1. Vue2 中使用 `Object.defineProperly` 中的 getter 和 setter 方法进行数据劫持，
@@ -39,7 +39,7 @@ vue3 与 vue2 的区别
 		- 其中包括 data, props, methods, computed, 生命周期等等这些选项。
 		- 造成编写代码时，一个逻辑可能是在不同的地方，代码内聚性非常差。
 		- Composition API 可以将相关联的代码放到同一处进行处理，而不需要在多个 Options 之间寻找
-	- Hooks 函数增加代码的复用性：
+	- Hook 函数增加代码的复用性：
 		- vue2 通常使用 mixin 在多个组件之间共享逻辑。
 		- 而 mixin 也是由一大堆 Options 组成，并且多个 mixin 会存在名命冲突的问题。
 		- Vue3 中可以通过 Hook 函数，将一部分独立的逻辑抽取出去，并且还可以做到到响应式。
@@ -262,7 +262,7 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
 </body>
 ```
 
-- 原生开发和 Vue 开发分别对应命令式编程和声明式编程；
+- 原生开发和 Vue 开发分别对应**命令式编程**和**声明式编程**；
 - 命令式编程关注的是 “how to do” 自己完成整个 "how" 的过程；
 - 声明式编程关注的是 “what to do”，由框架(机器)完成 “how” 的过程；
 
@@ -317,9 +317,9 @@ methods 属性有什么用？
 
 > methods 中定义的方法，不能是箭头函数，不然 this 会指向上级作用域中的 this，即 window
 
-其中 this 的指向。
+methods 中 this 的指向。
 
-- proxy 代理后的对象，里面可以操作 data 中的数据。
+- 一个 proxy 代理后的组件实例对象，里面可以操作 data 中的数据。
 
 -----
 
@@ -644,7 +644,7 @@ v-bind 动态绑定 attribute 名称
 
 v-bind 以对象形式直接给元素绑定 attributes 的使用
 
-- 经常用来给组件传递 prop。
+- 经常用来给组件传递 props。
 
 ```html
 <body>

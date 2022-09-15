@@ -31,10 +31,10 @@
 - 方式三：使用 npx
 
   ```shell
-	npx webpack --version
+  npx webpack --version
   ```
-  
-  - webpack 比较特殊，命令行直接输入 `webpack --version`，也会去 mode_module 下查找 webpack 命令。
+
+  > webpack 比较特殊，命令行直接输入 `webpack --version`，也会去 mode_module 下查找 webpack 命令。
 
 -----
 
@@ -107,6 +107,9 @@ pnpm 4大优势理解：
 
 - 硬连接（英语：hard link）是电脑文件系统中的多个文件平等地共享同一个文件存储单元； 
 - 删除一个文件名字后，还可以用其它名字继续访问该文件；
+
+硬连接的弊端：
+
 - 硬链接只能操作文件，不能操作目录，因此，使用 pnpm 下载 axios 时，会将 axios 中的所有文件保存一份在 pnpm 指定的区域内。
 - 硬连接不能跨磁盘，所以项目文件与 pnpm 保存包的特定位置需要在同一磁盘。
 

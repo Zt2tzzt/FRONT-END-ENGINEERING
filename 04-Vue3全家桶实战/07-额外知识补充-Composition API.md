@@ -77,7 +77,7 @@ Provide / Inject 基本使用，函数写法，处理响应式数据（需要解
 ```vue
 <template>
   <div class="banner">
-    <h2>HomeBanner: {{ name }} - {{ age }} - {{message.value}}</h2>
+    <h2>HomeBanner: {{ name }} - {{ age }} - {{ message.value }}</h2>
   </div>
 </template>
 <script>
@@ -118,7 +118,7 @@ hy-event-store 基本使用
    上级组件 Category.vue
    
    ```vue
-    <template>
+   <template>
      <div>
    		<h2>Category</h2>
      </div>
@@ -128,7 +128,7 @@ hy-event-store 基本使用
      export default {
        methods: {
          zztEventHandler(name, age, height) {
-           console.log("zztEvent在category中监听", name, age, height)
+           console.log("zztEvent 在 category 中监听", name, age, height)
          }
        },
        created() {
@@ -234,9 +234,9 @@ hy-event-store 基本使用
 
 # 在 Vue 中获取 DOM 对象
 
-在 Vue 开发中我们是不推荐进行 DOM 操作的； 
+在 Vue 开发中不推荐进行 DOM 操作； 
 
-2. 如果一定要获取 DOM。这个时候，我们可以给元素或者组件绑定一个 ref 的 attribute 属性；
+1. 如果一定要获取 DOM。这个时候，我们可以给元素或者组件绑定一个 ref 的 attribute 属性；
 2. 再通过 `this.$refs` 来获取元素 DOM 对象。
 
 $refs 的使用步骤：
@@ -282,8 +282,8 @@ $refs 的使用步骤：
         this.$refs.banner.bannerClick()
         // 3.2.获取 banner 中的根元素
         console.log(this.$refs.banner.$el)
-        // 3.3.如果 banner template 是多个根, 拿到的是第一个 node 节点，一般是 text 文本节点，需要通过元素导航去拿到根节点。
-        // console.log(this.$refs.banner.$el.nextElementSibling)
+        // 3.3.如果 banner template 是多个根, 拿到的是第一个 node 节点，一般是 text 文本节点，需要通过元素导航去拿到多个根节点中的某一个。
+        console.log(this.$refs.banner.$el.nextElementSibling)
         // 注意: 开发中不推荐一个组件的 template 中有多个根元素
         // 4.组件实例还有两个属性(了解):
         console.log(this.$parent) // 获取父组件
@@ -448,6 +448,8 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
 </style>
 ```
 
+> 使用 component 时，父子组件通信的方式与之前的不变
+
 -----
 
 # 内置 keep-alive 组件
@@ -457,7 +459,7 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
 - 默认情况下，组件切换后会被销毁，切换回来会重新创建组件；
 - 如果希望保持组件的状态，则需要使用 keep-alive。
 
-App.vue
+父组件 App.vue
 
 ```vue
 <template>
@@ -497,9 +499,6 @@ App.vue
     methods: {
       itemClick(tab) {
         this.currentTab = tab
-      },
-      homeClick(payload) {
-        console.log("homeClick:", payload)
       }
     }
   }
@@ -555,9 +554,9 @@ keep-alive 的属性
 - exclude - string | RegExp | Array。任何名称匹配的组件都不会被缓存； 
 - max - number | string。最多可以缓存多少组件实例，一旦达到这个数字，那么缓存组件中最近没有被访问的实例会被销毁；
 
-> keep-alive 中属性 include / exclude 实际上匹配的是组件中设置属性`name`值。
+> keep-alive 中属性 include / exclude 实际上匹配的是组件中设置属性 `name` 值。
 
-对于缓存的组件来说，再次进入时，我们是不会执行 created 或者 mounted 等生命周期函数的： 
+对于 keep-alive 缓存的组件来说，再次进入时，是不会执行 created 或者 mounted 等生命周期函数的： 
 
 - 但是有时候我们确实希望监听到何时重新进入到了组件，何时离开了组件；
 - 这个时候我们可以使用 `activated` 和 `deactivated` 这两个生命周期钩子函数来监听；
@@ -710,7 +709,7 @@ export default {
 <template>
   <MyCpn v-model="message"></MyCpn>
   <!-- 等价于↓ -->
-  <MyCpn :modelValue="message" @update:modelValue="message = $event"></MyCpn><!-- $event 是子组件传来的值 -->
+  <MyCpn :modelValue="message" @update:modelValue="newVal => message = newVal"></MyCpn>
 </template>
 <script>
 	import Mycpn from './MyCpn.vue'
@@ -969,7 +968,7 @@ Home.vue
 
 ```vue
 <template>
-  <button @click="bar">Hoem按钮</button>
+  <button @click="bar">Hoem 按钮</button>
 </template>
 <script>
 import BasePage from "./BasePage.vue";

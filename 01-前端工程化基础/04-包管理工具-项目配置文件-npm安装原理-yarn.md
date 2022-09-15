@@ -1,3 +1,7 @@
+
+
+# 认识配置文件 package.json
+
 npm 的配置文件是 package.json，它有什么用？
 
 - 事实上，每一个项目都会有一个对应的配置文件，无论是前端项目（Vue、React）还是后端项目（Node）；
@@ -53,6 +57,8 @@ package.json 中有哪些常见的属性，它们有什么含义？
 
 -----
 
+# Semver 包管理规范
+
 npm 包版本管理规范是怎样的？
 
 - npm 的包通常需要遵从 semver （semantic version）版本规范：
@@ -64,10 +70,12 @@ npm 包版本管理规范是怎样的？
 	- Z修订号（patch）：当你做了向下兼容的问题修正（没有新功能，修复了之前版本的bug）；
 -  ^ 和 ~ 的区别：
 	- x.y.z：表示一个明确的版本号；
-	- ^x.y.z：表示x是保持不变的，y和z永远安装最新的版本；
-	- ~x.y.z：表示x和y保持不变的，z永远安装最新的版本；
+	- ^x.y.z：表示 x 是保持不变的，y 和 z 永远安装最新的版本；
+	- ~x.y.z：表示x和y保持不变的，z 永远安装最新的版本；
 
 -----
+
+# npm 包的安装
 
 npm 包安装分2种情况，如何理解？
 
@@ -95,9 +103,10 @@ npm install
 
 -----
 
-npm install 的原理是什么？分2种情况。
+# npm 包的安装原理
 
-- npm install 会检测是否有 package-lock.json 文件：
+npm install 的原理是什么？分2种情况。npm install 会检测是否有 package-lock.json 文件：
+
 - 没有 lock 文件
 	- 分析依赖关系，这是因为可能包会依赖其他的包，并且多个包之间会产生相同依赖的情况；
 	- 从 registry 仓库中下载压缩包（如果我们设置了镜像，那么会从镜像服务器下载压缩包）；
@@ -116,11 +125,13 @@ npm install 的原理是什么？分2种情况。
 
 -----
 
+# package-lock.json
+
 package-lock.json 有哪些属性，分别有什么含义？
 
 - name：项目的名称；
 - version：项目的版本；
-- lockfileVersion：lock文件的版本；
+- lockfileVersion：lock 文件的版本；
 - requires：使用 requires 来跟踪模块的依赖关系；（默认用 dependencies 来记录）
 - dependencies：项目的依赖
 	- 如下图，当前项目依赖 axios，但是 axios 依赖 follow-redireacts；
@@ -133,6 +144,8 @@ package-lock.json 有哪些属性，分别有什么含义？
 <img src="NodeAssets/package-lock.json 结构图.jpg" alt="package-lock.json 结构图" style="zoom:80%;" />
 
 -----
+
+# npm 的其它命令
 
 npm 还有哪些其它常用命令？
 
@@ -151,6 +164,8 @@ npm config get cache
 
 -----
 
+# yarn
+
 什么是 yarn 工具，它与 npm 命令对应的命令是什么？
 
 - yarn 是由 Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 包管理工具； 
@@ -161,6 +176,8 @@ npm config get cache
 <img src="NodeAssets/yarn 与 npm 相对应的命令.jpg" alt="yarn 与 npm 相对应的命令" style="zoom:150%;" />
 
 -----
+
+# cnpm
 
 什么是 cnpm 工具，它有什么用？
 

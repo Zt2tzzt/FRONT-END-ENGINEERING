@@ -1,6 +1,6 @@
 # VueCLI 的运行原理
 
-命令 npm run serve -> 命令 vue-cli-service serve -> node_modules/.bin/vue-cli-service -> @vue/cli-service -> 经过一系列操作加载 webpack 配置 -> 启动 devServer 服务器。
+执行命令 npm run serve -> 执行命令 vue-cli-service serve -> node_modules/.bin/vue-cli-service -> @vue/cli-service -> 经过一系列操作加载 webpack 配置 -> 启动 devServer 服务器。
 
 <img src="NodeAssets/Vue CLI运行原理.jpg" alt="Vue CLI 运行原理" style="zoom:80%;" />
 

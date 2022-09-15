@@ -141,7 +141,7 @@ console.log('---process.argv---', process.argv)
 process.argv 名称的由来。
 
 - Node 是由 C语言编写的。
-- 在C/C++程序中的 main 函数中，实际上可以获取到两个参数：
+- 在 C/C++ 程序中的 main 函数中，实际上可以获取到两个参数：
 	1. argc：argument counter 的缩写，传递参数的个数；
 	2. argv：argument vector（向量、矢量）的缩写，传入的具体参数。
 		- vector 翻译过来是矢量的意思，在程序中表示的是一种数据结构。
@@ -152,7 +152,7 @@ process.argv 名称的由来。
 
 Node 输出：Node 输出有哪些常用的 api。
 
-- console.log - 最常用的输入内容的方式：
+- console.log - 最常用的输出内容的方式：
 - console.clear - 清空控制台：
 - console.trace - 打印函数的调用栈：
 
@@ -162,7 +162,7 @@ Node 输出：Node 输出有哪些常用的 api。
 
 - REPL 是 Read-Eval-Print Loop 的简称，翻译为“读取-求值-输出”循环；
 - REPL 是一个简单的、交互式的编程环境；
-- 浏览器的 console 就可以看成一个REPL
+- 浏览器的 console 就可以看成一个 REPL
 
 在 Node 中如何使用？
 
@@ -201,7 +201,7 @@ Node 全局对象
 - `__dirname`、`__filename`、`exports`、`module`、`require()`
 	- `__dirname`：获取当前文件所在的路径：不包括后面的文件名。
 	- `__filename`：获取当前文件所在的路径和文件名称。
-- 这些全局对象，实际上是**模块中的变量**，只是每个模块都有，看来像是全局变量；
+- 这些全局对象，实际上是**模块中的变量**，只是每个模块都有，看起来像是全局变量；
 - 在命令行交互中是不可以使用的；
 
 
