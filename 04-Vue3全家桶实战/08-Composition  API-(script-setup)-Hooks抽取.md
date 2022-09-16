@@ -58,7 +58,7 @@ reactive API 的基本使用：
 
 需要注意的是：
 
-1. 在 \<template\> 模板中引入 ref 的值时，vue 会自动帮助我们进行解包操作，并不需要通过 `ref.value` 的方式使用。
+1. 在 \<template\> 模板中引入 ref 的值时，vue 会自动帮助我们进行浅层解包操作，并不需要通过 `ref.value` 的方式使用。
 2. 在 setup 函数内部，它依然是一个 ref 引用，所以需要通过 `ref.value` 的方式来使用。
 
 ------
@@ -66,7 +66,7 @@ reactive API 的基本使用：
 如何理解 ref API 的浅层解包。
 
 - 在早期，如果 ref 对象在外层包裹一个对象，那么它在 template 模板中不会自动解包，除非外层包裹的对象是 reactive 对象。
-- 现在已经能做到不完全的深层解包。
+- 现在已经能做到不完全的深层解包（解包后可读取，不能操作）。
 
 ref API 的基本使用：
 
@@ -81,9 +81,7 @@ ref API 的基本使用：
         counter.value++
       }
       // 将 ref 对象，放入到对象中，在 template 中使用时，最初是浅层解包，现已可以做到不完全的深层解包（见 template）。
-      const info = {
-        counter
-      }
+      const info = { counter }
       return {
         counter,
         increment,
@@ -195,10 +193,7 @@ readonly API 结合普通对象和响应式对象的使用：
       function roInfoBtnClick() {
         context.emit("changeRoInfoName", "james")
       }
-      return {
-        showInfobtnClick,
-        roInfoBtnClick
-      }
+      return { roInfoBtnClick }
     }
   }
 </script>
@@ -363,7 +358,7 @@ setup 函数的执行过程
 	- 通过 callWithErrorHandling 的函数执行 setup；
 	
 	<img src="NodeAssets/setup函数执行.jpg" alt="setup函数执行" style="zoom:80%;" />
-- 从上面的代码我们可以看出， 组件的 instance 肯定是在执行 setup 函数之前就创建出来的。
+- 从上面的代码我们可以看出， 组件的 instance 肯定是在执行 setup 函数之前就创建出来的，并且 setup 函数在执行时没有绑定 this。
 
 -----
 
@@ -523,8 +518,8 @@ watch 与 watchEffect 的区别：
 
 watch 侦听单个数据源，可传2种类型：
 
-- 一个 getter 函数，该函数返回值必须要引用响应式对象（如 reactive 或 ref）。
-- 一个响应式对象，reactive 或者 ref（常用）
+- 一个 getter 函数，该函数返回值必须要引用响应式对象（如 reactive 或 ref 对象）。
+- 一个响应式对象，reactive 或者 ref 对象（常用）
 
 ------
 
@@ -594,13 +589,13 @@ const info = reactive({
     name: 'lingard'
   }
 });
-const changeData = () => {
-  info.friend.name = "james";
-}
 watch(info, (newVal, oldVal) => {
   // info 默认能做深度监听。
   console.log('监听到 info 中的值改变')
 })
+const changeData = () => {
+  info.friend.name = "james";
+}
 ```
 
 watch 传入的 get 函数返回一个响应式对象的展开复制，即一个**普通对象**，是不会做深度侦听的，在 watch 中配置使用深度侦听和立即执行。
@@ -612,15 +607,15 @@ const info = reactive({
     name: 'lingard'
   }
 });
-const changeData = () => {
-  info.friend.name = "james";
-}
 watch(() => ({...info}), (newVal, oldVal) => {
   // info 默认不能做深度监听。需要配置
 }, {
   deep: true, // 深度监听
   immediate: true // 立即执行
 })
+const changeData = () => {
+  info.friend.name = "james";
+}
 ```
 
 -----
@@ -668,7 +663,7 @@ watch(() => ({...info}), (newVal, oldVal) => {
    </style>
    ```
    
-3. 也可以使用 `watcheffect` 通过 titleRef 来拿元素，会发现获取了2次，第一次为 null，第二次为元素本身。这是因为：
+3. 也可以使用 `watcheffect` 通过 titleRef 来拿元素，会发现副作用执行了2次，第一次 titleRef 为 null，第二次为元素本身。这是因为：
 
    1. setup 函数在执行时，watchEffect 会立即执行副作用函数，这个时候 DOM 并没有挂载，所以获取 null
    2. 当 DOM 挂载时，会给 titleRef 的 ref 对象赋新的值，副作用函数再次执行，获取对应的元素。
@@ -962,8 +957,7 @@ export default function (key, value) {
 
 `<script setup>` 里面的代码会被编译成组件 setup() 函数的内容： 
 
-- 这意味着与普通的 \<script\> 只在组件被首次引入的时候执行一次不同；
-- \<script setup\> 中的代码会在每次组件实例被创建的时候执行。
+>  这意味着与普通的 \<script\> 只在组件被首次引入的时候执行一次不同；\<script setup\> 中的代码会在每次组件实例被创建的时候执行。
 
 基本用法
 

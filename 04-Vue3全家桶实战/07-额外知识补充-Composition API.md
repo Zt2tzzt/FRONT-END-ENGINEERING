@@ -28,7 +28,7 @@ provide 和 inject 可看作 “long range props”，2点理解。
 1. 父组件不需要知道哪些子组件使用 provide 的 properties。
 2. 子组件不需要知道 inject 的 properties 来自哪里。
 
-Provide / Inject 基本使用，函数写法，处理响应式数据（需要解包）。
+Provide / Inject 基本使用，provide 的函数写法，处理响应式数据（需要解包）。
 
 父组件：App.vue
 
@@ -554,7 +554,7 @@ keep-alive 的属性
 - exclude - string | RegExp | Array。任何名称匹配的组件都不会被缓存； 
 - max - number | string。最多可以缓存多少组件实例，一旦达到这个数字，那么缓存组件中最近没有被访问的实例会被销毁；
 
-> keep-alive 中属性 include / exclude 实际上匹配的是组件中设置属性 `name` 值。
+> keep-alive 中属性 include / exclude 实际上匹配的是组件中设置属性 `name` 选项值。
 
 对于 keep-alive 缓存的组件来说，再次进入时，是不会执行 created 或者 mounted 等生命周期函数的： 
 
@@ -1022,7 +1022,7 @@ setup 函数主要有2个参数：
 
 setup 函数的返回值，可以用来做什么：
 
-- 在模板 template 中使用。（可代替 data, methods 等等选项中定义的内容）
+- 在模板 template 中使用（可代替 data, methods 等等选项中定义的内容）
 
 基本使用 & Hooks 抽取代码体验
 
