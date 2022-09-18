@@ -30,7 +30,7 @@ Node 中的内置模块 path 有什么用？
 	
 - 路径的拼接：`path.join()`
 	- 如果我们希望将多个路径进行拼接，但是不同的操作系统可能使用的是不同的分隔符；
-	- 这个时候我们可以使用 path.join 函数；
+	- 这个时候我们可以使用 `path.join()` 函数；
 	
 	```js
 	const path = require('path')
@@ -75,9 +75,9 @@ webpack 可应用于哪些场景？
 一句话说明 webpack 是什么
 
 - webpack 是一个为现代 JavaScript 应用程序而生的静态模块化打包工具。
-	- 现代的（modern）：现代前端开发面临各种各样的问题，催生了 webpack 的出现发展
-	- 静态的（static）：最终可以将代码打包成静态资源（部署到静态服务器）
-	- 模块化（module）：默认支持各种模块化开发，ESMoudule、CommonJS、AMD、CMD
+	- 现代的（modern）：现代前端开发面临各种各样的问题，催生了 webpack 的出现发展。
+	- 静态的（static）：最终可以将代码打包成静态资源（部署到静态服务器）。
+	- 模块化（module）：默认支持各种模块化开发，ESMoudule、CommonJS、AMD、CMD。
 	- 打包（bundler）：webpack 可帮助我们进行打包，所以它是一个打包工具。
 
 ---

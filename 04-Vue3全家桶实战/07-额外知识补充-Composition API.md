@@ -794,7 +794,7 @@ App.vue
 <template>
 	<!--  v-model:title 做了2件事：
 				1.使用 v-bind 绑定了 title 属性。:title
-				2.使用 v-on 监听了 update:title 的事件。@update:title=“title=$event” 	-->
+				2.使用 v-on 监听了 update:title 的事件。@update:title=“newValue => title = newValue” 	-->
   <MyCpn v-model="message" v-model:title="title"></MyCpn>
 </template>
 <script>

@@ -103,7 +103,7 @@
 什么是计算属性 computed？
 
 - 官方并没有给出直接的概念解释； 
-- 而是说：对于任何包含响应式数据的复杂逻辑，你都应该使用计算属性； 
+- 而是说：对于任何**包含响应式数**据的复杂逻辑，你都应该使用计算属性； 
 - 计算属性将被混入到组件实例中
 	- 所有 getter 和 setter 的 this 上下文自动地绑定为组件实例；
 
@@ -495,7 +495,7 @@ const books = [
       },
       computed: {
         totalPrice() {
-          return this.books.reduce((accumulation, currentItem) => return accumulation + currentItem.price * currentItem.count, 0)
+          return this.books.reduce((accumulation, currentItem) => accumulation + currentItem.price * currentItem.count, 0)
         }
       },
       methods: {

@@ -1,25 +1,24 @@
-<template>
-  <Counter />
-</template>
+<script setup>
+import { ref } from 'vue';
+import RoomArea from './components/RoomArea.vue';
 
-<script>
-import Counter from './components/Counter.vue'
-
-export default {
-  name: 'App',
-  components: {
-    Counter
-  }
-}
+const hightScore = ref({})
+// 1.模拟网络请求获取数据
+setTimeout(() => {
+  import('./data/high_score.json').then(res => hightScore.value = res.default)
+}, 1000);
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<template>
+  <div class="app">
+    <RoomArea :areaData="hightScore" />
+  </div>
+</template>
+
+<style scoped lang="less">
+.app {
+    width: 1032px;
+    padding: 40px;
+    margin: 0 auto;
+  }
 </style>
