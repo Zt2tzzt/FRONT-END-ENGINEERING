@@ -13,7 +13,7 @@ Vue 阶段性案例练习，房源展示。网络请求模拟。见 `demo-projec
 - 路由其实是网络工程中的一个术语： 
 - 在架构一个网络时，非常重要的两个设备就是路由器和交换机。 
 - 当然，目前在我们生活中路由器也是越来越被大家所熟知，因为我们生活中都会用到路由器：路由器可用来给每个终端设备分配 ip 地址，如 192.168.154.26，这样的私网 ip 地址。
-- 事实上，路由器主要维护的是一个映射表；（ip 地址 <-> 终端设备（mac地址））
+- 事实上，路由器主要维护的是一个映射表；（ip 地址 <-> 终端设备（mac 地址））
 - 映射表会决定数据的流向；
 
 -----
@@ -255,7 +255,7 @@ src/App.vue
 
 -----
 
-## 路由的默认路径。
+## 路由的默认路径（重定向）。
 
 使用场景：
 
@@ -321,7 +321,7 @@ const routes = [
 
 ```javascript
 const routes = [
-  { path: '/home', component: () => /* webpackChunkName: "home-chunk" */import('../pages/Home.vue') }
+  { path: '/home', component: () => /* webpackChunkName: "home-chunk" */ import('../pages/Home.vue') }
 ]
 ```
 
@@ -343,7 +343,7 @@ dist
 
 ## 路由的 name 和 meta 属性。
 
-- name：路由记录独一无二的名称，可通过名字来做跳转-（很少用），**动态添加路由**时也可使用。
+- name：路由记录独一无二的名称，可通过名字来做跳转-（很少用），一般用于**动态添加路由**（后续学习）。
 - meta：自定义数据，某些地方会拿到 route 对象，可访问 meta，也可用于导航守卫。
 
 ```javascript
@@ -361,18 +361,19 @@ const routes = [
 ```
 
 ```js
+this.$route.meta
 const route = useRoute()
 route.meta
 ```
 
 -----
 
-## 动态路由；
+## 动态路由（匹配路径参数）；
 
 ### 使用场景：
 
 - 动态匹配路径中的值。
-- 很多时候我们需要将给定匹配模式的路由映射到同一个组件： 
+- 很多时候我们需要将给定匹配模式的路由映射到同一个组件：
 - 例如，我们可能有一个 User 组件，它应该对所有用户进行渲染，但是用户的 ID 是不同的；
 - 在 Vue Router 中，我们可以在路径中使用一个动态字段来实现，我们称之为**路径参数**；
 
@@ -490,7 +491,7 @@ NotFound.vue
 
 -----
 
-## 路由的嵌套
+## 路由的嵌套（子路由）
 
 ### 使用场景：
 
@@ -511,8 +512,7 @@ const routes = [
     component: () => import('../pages/Home.vue'),
     children: [
     	// 嵌套路由中，path 不需要“/”，redirect 需要写完整路径
-      // 路由嵌套中的子路由，做页面重定向时，如果没有写明路径，推荐加上一个 name 属性。
-    	{ path: '', redirect: '/home/product', name: 'home-product' },
+    	{ path: '', redirect: '/home/product' },
   		{ path: 'product', component: () => import('../pages/HomeProduct.vue') }
     ]
   },
@@ -610,8 +610,15 @@ export default {
 About.vue
 
 ```vue
+<template>
 <!-- 拿到参数 -->
 <h2>query: {{$route.query.name}} - {{$route.query.age}}</h2>
+</template>
+<script setup>
+const route = useRoute()
+route.query.name
+route.query.age
+</script>
 ```
 
 ------

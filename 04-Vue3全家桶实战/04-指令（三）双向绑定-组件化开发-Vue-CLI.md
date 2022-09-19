@@ -10,7 +10,7 @@
   - 它会根据控件类型自动选取正确的方法来更新元素；
 - 尽管有些神奇，但 v-model 本质上不过是语法糖，它负责监听用户的输入事件来更新数据，并在某种极端场景下进行一些特殊处理；
 
-基本使用
+## 基本使用
 
 ```html
 <body>
@@ -21,7 +21,7 @@
 		<input
 			type="text"
 			:value="message"
-			@input="message = $event.target.value"
+			@input="event => message = event.target.value"
 		/>
 		<!-- 等价于 -->
 		<input type="text" v-model="message" />
@@ -42,9 +42,11 @@
 
 ---
 
+## 绑定 input, textarea, select
+
 v-model 在 input（checkbox（单选，多选），radio），textarea，select 中的使用。
 
-- input 的类型为 checkout，radio 且有 v-model 指令时，name 属性（用于做提交）可以省略。
+> input 的类型为 checkout，radio 且有 v-model 指令时，name 属性（用于做提交）可以省略。
 
 ```html
 <body>
@@ -128,6 +130,8 @@ v-model 在 input（checkbox（单选，多选），radio），textarea，select
 
 ---
 
+## 值绑定
+
 什么是 v-model 的值绑定？
 
 - 目前我们在前面的案例中大部分的值都是在 template 中固定好的：
@@ -185,6 +189,8 @@ v-model 在 input（checkbox（单选，多选），radio），textarea，select
 ```
 
 ---
+
+## 修饰符
 
 v-model 有哪些常见的修饰符？有什么用？
 

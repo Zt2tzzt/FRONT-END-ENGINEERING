@@ -5,7 +5,7 @@ webpack 依赖图的概念3点理解。
 <img src="NodeAssets/webpack工作原理图.jpg" alt="webpack工作原理图" style="zoom:150%;" />
 
 1. webpack 在处理应用程序时，会根据命令或者配置文件找到入口文件，默认是 `./src/index.js`。
-2. 从入口开始，会生成一个依赖关系图，其中包含应用程序所需所有模块（如 js 文件，css文件，图片，字体等）
+2. 从入口开始，会生成一个依赖关系图，其中包含应用程序所需所有模块（如 js 文件，css 文件，图片，字体等）
 3. 然后遍历图结构，打包一个个模块（根据文件不同使用不同 loader 解析）
 
 ------
@@ -70,7 +70,7 @@ css-loader 的3种使用方案。
    import "css-loader!../css/style.css"
    ```
 
-2. CLI方式（webpack5 中不再使用），不方便管理。
+2. CLI 方式（webpack5 中不再使用），不方便管理。
 
 3. 在 `webpack.config.js` 中写明配置信息，方便后期维护。
 
@@ -231,7 +231,7 @@ PostCSS 如何单独使用，
 
 如何单独的使用 PostCSS 配置文件：
 
-- 可以i将配置信息放到单独的文件中进行管理，在项目根目录下创建 `postcss.config.js`
+- 可以将配置信息放到单独的文件中进行管理，在项目根目录下创建 `postcss.config.js`
 
   ./postcss.config.js
   
@@ -392,13 +392,13 @@ module.exports = {
 
 webpack5 中内置的资源模块类型（asset module type）4个，作用
 
-- asset/resource：发送一个单独的文件并导出 URL，类似 file-loader 的作用。
+- `asset/resource`：发送一个单独的文件并导出 URL，类似 file-loader 的作用。
   - 缺点：要发送额外的网络请求下载资源。
-- asset/inline：导出一个资源的 data URL，类似 url-loader 的作用。
+- `asset/inline`：导出一个资源的 data URL，类似 url-loader 的作用。
   - 缺点：可能造成 JS 文件过大，代码执行阻塞。
-- asset/source：导出资源的源代码，之前通过使用 raw-loader 实现。
+- `asset/source`：导出资源的源代码，之前通过使用 raw-loader 实现。
   - 如二进制的文件源码，没什么用，只有需要自己对源代码做解码的时候才会用到。
-- asset：在发送一个单独的文件和导出一个data URL 之间自动选择，之前通过使用 url-loader，并且配置资源体积限制实现。
+- `asset`：在发送一个单独的文件和导出一个data URL 之间自动选择，之前通过使用 url-loader，并且配置资源体积限制实现。
 
 开发中如何选择？
 

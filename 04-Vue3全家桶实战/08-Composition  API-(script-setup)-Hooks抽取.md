@@ -201,8 +201,8 @@ readonly API 结合普通对象和响应式对象的使用：
   <div>
     <!-- 使用 readonly 的数据 -->
     <h2>ShowInfo: {{ roInfo }}</h2>
-    <button @click="roInfo.name = 'james'">ShowInfo按钮</button><!-- 直接修改父组件中传过来的 readonly 对象，代码就会无效(报警告) -->
-    <button @click="roInfoBtnClick">roInfo按钮</button><!-- 正确的做法 -->
+    <!-- <button @click="roInfo.name = 'james'">ShowInfo按钮</button> 直接修改父组件中传过来的 readonly 对象，代码就会无效(报警告) -->
+    <button @click="roInfoBtnClick">roInfo按钮</button> <!-- 正确的做法 -->
   </div>
 </template>
 <style scoped>
@@ -213,12 +213,12 @@ readonly API 结合普通对象和响应式对象的使用：
 
 # reactive 相关 API
 
-- isProxy - 检查对象是否由 `reactive` 或 `readonly` 创建的 Proxy。
-- isReactive - 检查对象是否由 `reactive` 创建的响应式代理（reactive 对象包裹的 `readonly` 也会返回 true）。
-- isReadonly - 检查对象是否由 `readonly` 创建的只读代理。
-- toRaw - 返回 `reactive` 或 `readonly` 代理的原始对象（不建议保留对原始对象的持久引用，谨慎使用）。
-- shallowReactive - 创建一个响应式代理，它跟踪自身 property 的响应式，但不执行嵌套对象的深层响应式转换（深层还是原始对象）。
-- shallowReadonly - 创建一个 proxy，使其自身 property 为只读，但不执行嵌套对象的深度只读转换（深层还是可读可写的）
+- `isProxy` - 检查对象是否由 `reactive` 或 `readonly` 创建的 Proxy。
+- `isReactive` - 检查对象是否由 `reactive` 创建的响应式代理（reactive 对象包裹的 `readonly` 也会返回 true）。
+- `isReadonly` - 检查对象是否由 `readonly` 创建的只读代理。
+- `toRaw` - 返回 `reactive` 或 `readonly` 代理的原始对象（不建议保留对原始对象的持久引用，谨慎使用）。
+- `shallowReactive` - 创建一个响应式代理，它跟踪自身 property 的响应式，但不执行嵌套对象的深层响应式转换（深层还是原始对象）。
+- `shallowReadonly` - 创建一个 proxy，使其自身 property 为只读，但不执行嵌套对象的深度只读转换（深层还是可读可写的）
 
 基本使用举例
 
@@ -266,11 +266,11 @@ export default {
 
 # ref 相关 API
 
-- isRef - 判断值是否是一个 ref 对象。
-- unref - 用于获取 ref 引用中的 value，这是 `val = isRef(val) ? val.value : val` 的语法糖函数。
-- shallowRef - 创建一个浅层的 ref 对象。
-- triggerRef - 手动触发和 shallowRef 相关联的副作用。
-- customRef - 创建一个自定义 ref，对其依赖项跟踪和重新触发。
+- `isRef` - 判断值是否是一个 ref 对象。
+- `unref` - 用于获取 ref 引用中的 value，这是 `val = isRef(val) ? val.value : val` 的语法糖函数。
+- `shallowRef` - 创建一个浅层的 ref 对象。
+- `triggerRef` - 手动触发和 shallowRef 相关联的副作用。
+- `customRef` - 创建一个自定义 ref，对其依赖项跟踪和重新触发。
 
 shallowRef 和 triggerRef 的结合使用案例实现。
 
@@ -364,9 +364,11 @@ setup 函数的执行过程
 
 # computed API
 
+Vue 官方文档推荐，对于任何**包含响应式数据**的复杂逻辑，你都应该使用计算属性
+
 setup 中实现计算属性 API 是 `computed`，基本使用：
 
-1. 接受一个 getter 函数，并为 getter 函数返回的值，返回一个**不变的** ref 对象。
+- 接受一个 getter 函数，并为 getter 函数返回的值，返回一个**不变的** ref 对象。
 
    ```vue
    <script>
@@ -386,7 +388,7 @@ setup 中实现计算属性 API 是 `computed`，基本使用：
    </template>
    ```
    
-2. 接受一个具有 get 和 set 方法的对象，返回一个可变的（可读写）ref 对象。
+- 接受一个具有 get 和 set 方法的对象，返回一个可变的（可读写）ref 对象。
 
    ```Vue
    <script>
@@ -433,8 +435,7 @@ setup 中侦听器提供了2种 API ：
 1. 传入的函数会被立即执行一次，在执行过程中收集依赖。
 2. 当收集的依赖发生变化时，侦听函数会再次执行。
 
-
-基本使用：
+## 基本使用：
 
 ```vue
 <script>
@@ -460,7 +461,7 @@ setup 中侦听器提供了2种 API ：
 </template>
 ```
 
-停止侦听。
+## 停止侦听：
 
 ```javascript
 const stopWatch = watchEffect(() => {
@@ -473,6 +474,8 @@ const changeAge = () => {
   }
 }
 ```
+
+## 清除副作用
 
 什么是 watchEffect 的副作用？
 
@@ -777,7 +780,7 @@ export default {
 </template>
 ```
 
-> Inject 注入的 ref 对象，option 写法不会自动解包，setup 中会自动解包。
+> Inject 注入的 ref 对象，option 写法在 template 中不会自动解包，setup 写法在 template 中会自动解包。
 
 -----
 
@@ -834,8 +837,8 @@ export default {
 <template>
   <p class="content"></p>
   <div class="scroll">
-    <div class="scroll-x">scrollX: {{ scrollX }}</div>
-    <div class="scroll-y">scrollY: {{ scrollY }}</div>
+    <div class="scroll-x">scrollX: {{ position.x }}</div>
+    <div class="scroll-y">scrollY: {{ position.y }}</div>
   </div>
 </template>
 <style scoped>
@@ -854,19 +857,21 @@ export default {
 工具 useScrollPosition.js
 
 ```javascript
-import { ref } from 'vue'
+import { reactive } from 'vue'
 export default function () {
-  const scrollX = ref(0)
-  const scrollY = ref(0)
-  document.addEventListener('scroll', () => {
-    scrollX.value = window.scrollX
-    scrollY.value = window.scrollY
+  const position = reactive({
+    x: 0,
+    y: 0
   })
-  return { scrollX, scrollY }
+  document.addEventListener('scroll', () => {
+    position.x = window.scrollX
+    position.y = window.scrollY
+  })
+  return position
 }
 ```
 
-## 封装一个Hook，用来实现鼠标位置的实时显示
+## 封装一个 Hook，用来实现鼠标位置的实时显示
 
 父组件 App.vue
 
@@ -1015,6 +1020,7 @@ defineExpose({
 <script setup>
 import { onMounted } from 'vue'
 import Hoem from './Home.vue'
+  
 const homeRef = ref(null)
 onMounted(() => {
   homeRef.value.foo()
