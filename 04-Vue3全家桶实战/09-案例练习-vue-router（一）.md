@@ -66,7 +66,7 @@ Vue 阶段性案例练习，房源展示。网络请求模拟。见 `demo-projec
 前后端分离的优势：
 
 - 这样做最大的优点就是前后端责任清晰，后端专注于数据上，前端专注于交互和可视化上； 
-- 并且当移动端( iOS / Android )出现后，后端不需要进行任何处理，依然使用之前的一套 API 即可；
+- 并且当移动端 iOS / Android 出现后，后端不需要进行任何处理，依然使用之前的一套 API 即可；
 
 > 目前比较少的网站采用这种模式开发；
 
@@ -208,16 +208,17 @@ HTML5 中 history 的6种方法改变 URL 而不刷新
 	1. 配置路由映射: 组件和路径映射关系的 routes 数组； 
 	2. 创建基于 hash 或者 history 的模式；
 3. 使用 app 注册路由对象（use方法）；
-4. 路由使用: 通过 `<router-link>` / 编程式导航 和 `<router-view>`；
+4. 路由使用: 通过 `<router-link>` / 编程式导航 进行路由跳转，通过 `<router-view>` 展示路由对应的组件；
 
 基本使用。
 
-src/router/index.js
+src / router / index.js
 
 ```javascript
 import {createRouter, createWebHashHistory} from 'vue-router'
 import Home from '../pages/Home.vue'
 import About from '../pages/About.vue'
+
 const routes = [
 	{ path: '/home', component: Home },
 	{ path: '/about', component: About }
@@ -227,7 +228,6 @@ const router = createRouter({
 	// history: createWebHistory(), // 使用 history 模式
 	history: createWebHashHistory() // 使用 hash 模式
 })
-// router 对象中，有 install 函数，其中执行了 app.component('router-link', ...), app.component('router-view',...)
 export default router
 ```
 
@@ -237,8 +237,9 @@ src/main.js
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+
 const app = createApp(App)
-app.use(router)
+app.use(router) // router 对象中，有 install 函数，其中执行了 app.component('router-link', ...), app.component('router-view',...)
 app.mount('#app')
 ```
 
@@ -246,7 +247,7 @@ src/App.vue
 
 ```vue
 <template>
-  <!-- router-link默认情况下是一个a元素。-->
+  <!-- router-link 默认情况下是一个 a 元素。-->
   <router-link to="/home">首页</router-link>
   <router-link to="/about">关于</router-link>
   <router-view></router-view>
@@ -261,13 +262,13 @@ src/App.vue
 
 - 进入网站时，默认没有匹配路由，则显示 Home 组件
 
-src/router/index.js
+src / router / index.js
 
 基本使用：
 
 ```javascript
 const routes = [
-  { path: '/', component: Home },// 第一种方式
+  { path: '/', component: Home }, // 第一种方式
 ]
 ```
 
@@ -284,7 +285,7 @@ const routes = [
 
 router-link 有哪些属性？
 
-- `to`：可传字符串如`/home`、对象如`{ path: '/home', query: { name: 'zzt', age: 18 } }`
+- `to`：可传字符串如`/home`、对象如 `{ path: '/home', query: { name: 'zzt', age: 18 } }`
 - `replace`：会调用 `router.replace()`，而不是 `router.push()`
 - `active-class`：路由激活后应用于 \<a\> 的 class，默认是 `router-link-active`
 - `exact-active-class`：与嵌套路由有关，路由精准激活时，应用于 \<a\> 的 class,，默认是 `router-link-exact-active`
@@ -343,8 +344,10 @@ dist
 
 ## 路由的 name 和 meta 属性。
 
-- name：路由记录独一无二的名称，可通过名字来做跳转-（很少用），一般用于**动态添加路由**（后续学习）。
-- meta：自定义数据，某些地方会拿到 route 对象，可访问 meta，也可用于导航守卫。
+- name：路由记录独一无二的名称，可通过名字来做跳转-（很少用），一般用于：
+  - **动态添加路由**中的二级子路由（后续学习）。
+  - 删除添加的路由。
+- meta：自定义数据，某些地方会拿到 route 对象，可访问 meta，可用于导航守卫。
 
 ```javascript
 const routes = [
@@ -428,7 +431,7 @@ export default {
 
 ### 动态路由匹配多个参数：
 
-src/router/index.js
+src / router / index.js
 
 ```javascript
 const routes = [

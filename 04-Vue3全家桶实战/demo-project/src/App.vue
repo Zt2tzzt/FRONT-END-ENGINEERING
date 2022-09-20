@@ -6,7 +6,8 @@ const hightScore = ref({})
 // 1.模拟网络请求获取数据
 setTimeout(() => {
   import('./data/high_score.json').then(res => hightScore.value = res.default)
-}, 1000);
+}, 300);
+
 </script>
 
 <template>
@@ -17,8 +18,8 @@ setTimeout(() => {
 
 <style scoped lang="less">
 .app {
-    width: 1032px;
-    padding: 40px;
-    margin: 0 auto;
-  }
+  width: 1032px;
+  padding: 40px;
+  margin: 0 auto;
+}
 </style>
