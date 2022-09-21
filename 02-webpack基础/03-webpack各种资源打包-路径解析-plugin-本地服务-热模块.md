@@ -165,7 +165,7 @@ Vue 框架源码打包后的两大版本及特点，
 
 打包后的不同版本：( `.runtime` 意味着不包含 template 的 compiler，包更小，`.prod` 意味做过压缩和丑化)
 
-- vue(.runtime).global(.prod).js：通过浏览器中的`<script>`标签引用，暴露一个全局的 Vue。
+- vue(.runtime).global(.prod).js：通过浏览器中的 `<script>` 标签引用，暴露一个全局的 Vue。
 - vue(.runtime).esm-broswer(.prod).js：通过原生 ES 模块导入，如在浏览器中使用 `<script type="module">` 引入。
 - vue(.runtime).esm-bundle.js：webpack / rollup 等构建工具中默认使用该版本，如需解析 template，手动指定**非 ` runtime`** 版本。
 - vue.cjs(.prod).js：服务器端渲染使用，通过 require() 在 Node.js 中使用。
@@ -195,7 +195,7 @@ webpack 对 vue 代码打包的步骤：
 
 2. 在 js 文件中引入 vue 并编写 vue 代码：
 
-   ./index.html
+   . / index.html
 
    ```html
    <!DOCTYPE html>
@@ -219,7 +219,7 @@ webpack 对 vue 代码打包的步骤：
    </html>
    ```
 
-   ./src/index.js
+   . / src / index.js
 
    ```javascript
    import { createApp } from 'vue/dist/vue.esm.bundle.js' /* 手动指定非 runtime 版本 */
@@ -267,7 +267,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
 
 1. 编写一个 `app.vue` 文件，并在入口 js 文件中引入
 
-   ./src/index.js
+   . / src / index.js
 
    ```javascript
    import App from './vue/App.vue'
@@ -350,23 +350,23 @@ resolve 中的 `extensions` 和 `alias`
 
 - extensions 是解析到文件时自动添加扩展名： 
 	- 默认值是 ['.wasm', '.mjs', '.js', '.json']； 
-	- 所以如果我们代码中想要添加加载 .vue 或者 .jsx 或者 .ts 等文件时，我们必须自己写上扩展名；
+	- 所以如果我们代码中想要添加加载 `.vue` 或者 `.jsx `或者 `.ts` 等文件时，我们必须自己写上扩展名；
 - 另一个非常好用的功能是配置别名 alias： 
-	- 特别是当我们项目的目录结构比较深的时候，或者一个文件的路径可能需要 ../../../这种路径片段；
+	- 特别是当我们项目的目录结构比较深的时候，或者一个文件的路径可能需要 `../../../` 这种路径片段；
 	- 我们可以给某些常见的路径起一个别名；
 
 resolve 怎么配置：
 
-./webpack.config.js
+. / webpack.config.js
 
 ```javascript
 const path = require('path')
 module.exports = {
   resolve: {
-    // 解析的文件自动添加扩展名
-    extensions: ['.wasm', '.mjs', '.js', '.json', '.vue', '.jxs', 'ts'], // 前4个是默认值。
-    // 常用的路径起别名
-    alias: {
+    modules: ['node_modules'], // 默认值，指定所有目录自动检索。
+    mainFiles: ['index'], // 默认值，指定所有文件名自动解析
+    extensions: ['.wasm', '.mjs', '.js', '.json', '.vue', '.jxs', 'ts'], // 前4个是默认值。指定所有文件扩展自动解析
+    alias: { // 常用的路径起别名
       "@": path.resolve(__dirname, "./src"),
       pages: path.resolve(__dirname, "./src/pages")
     }
@@ -447,7 +447,7 @@ ClearWebpackPlugin 的作用。
    const { cleanWebpackPlugin } = require('clean-webpack-plugin')
    module.exports = {
      plugins: [
-       new CleanWebpackPlugin
+       new CleanWebpackPlugin()
      ]
    }
    ```
@@ -647,7 +647,7 @@ webpack-dev-server 有什么用：
 - webpack3 以前，需要从 webpack-dev-server 启动服务，现在有了 webpack-cli，当发现命令中有 `serve`，会自动帮助我们启动。
 - webpack-dev-server 会帮助我们基于 express 框架搭建一个本地服务。
 - webpack-dev-server 在编译之后不会输出任何文件，而是将打包后的文件保留在内存中。
-  - 事实上 webpack-dev-server 使用了一个库叫 memfs（memory-fs webpack 自己写的）
+  - 事实上 webpack-dev-server 使用了一个库叫 memfs（memory-fs，webpack 自己写的）
 
 ------
 

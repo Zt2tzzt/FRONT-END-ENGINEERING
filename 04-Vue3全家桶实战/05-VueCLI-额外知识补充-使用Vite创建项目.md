@@ -58,7 +58,7 @@ module.exports = defineConfig({
 
 - template -> (compiler) -> createVNode 函数 -> VNode -> 虚拟 DOM -> 真实 DOM
 - vue-loader 完成了 template 转换到 createVNode 函数的编译过程。
-- 在非脚手架（没有 vue-loader 参与打包）的环境中，需要 Vue 的源码来完成上面的编译过程，即需要引入非 runtime 版本的 Vue 源码。
+- 在非脚手架（没有 vue-loader 参与打包）的环境中，需要 Vue 的源码来完成上面的编译 compiler 过程，即需要引入非 runtime 版本的 Vue 源码，如 `vue.esm-buldel.js`。
 
 -----
 
@@ -78,7 +78,7 @@ vue 的 sfc 文件 css 作用域的理解
 
 -----
 
-# Vite 创建项目
+# Vite 创建项目（一）（推荐）
 
 初始化 Vue 项目的第二种方式（一步到位的写法，官方推荐）：
 
@@ -89,9 +89,7 @@ npm init vue@latest
 1. 执行上面的命令，代表远程仓库已有 `create-vue` 工具，
 2. 会安装一个本地工具 create-vue。
 3. 再使用 create-vue 创建一个 vue 项目
-4. 创建出的项目通过 vite 打包
-
------
+4. 创建出的项目会通过 vite 打包
 
 # 什么是 Vite
 
@@ -111,7 +109,9 @@ vite 的定位：下一代构建工具；vite 的发音：/vit/；vite 由两部
 
 vite 依赖 Node 环境，Node 版本要 >= 12.0.0
 
-# vite的安装：
+# vite 的使用（一）：
+
+## 安装
 
 ```shell
 npm install vite -g
@@ -128,13 +128,17 @@ npx vite
 - 引用模块路径不用加后缀名。
 - 引用第三方依赖可直接使用依赖名。
 - 将请求的第三方依赖打包在一个文件中，减少发送请求的次数。
-- 第一次使用 vite 打包，会对第三方依赖做预打包，放在 node_modules/vite 中。
+- 第一次使用 vite 打包，会对第三方依赖做预打包，放在 node_modules / vite 中。
 
 ------
+
+## css 支持
 
 vite 对 css 的支持步骤：
 
 1. 直接导入 css 即可。
+
+## less 支持
 
 vite 对 less 的支持步骤：
 
@@ -145,6 +149,8 @@ vite 对 less 的支持步骤：
    ```
 
 2. 直接导入 less 即可
+
+## postcss 支持
 
 vite 对 postcss 的支持步骤：
 
@@ -166,11 +172,15 @@ vite 对 postcss 的支持步骤：
 
 ------
 
+## TypeScript 支持
+
 Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成编译：
 
 - 直接导入 ts 即可。
 
 ------
+
+# vite 原理
 
 理解 vite 的原理（ vite2 中不再使用 Koa 作为服务器）
 
@@ -179,6 +189,10 @@ Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成
 3. 给浏览器返回编译后的代码，浏览器可直接解析（比如，浏览器中获取的仍是.ts 结尾的代码，但里面的代码是 js 的语法）。
 
 ------
+
+# vite 的使用（二）
+
+## Vue 的支持
 
 vite 对 vue 提供的3种版本的支持。
 
@@ -211,6 +225,8 @@ vite 对 vue3 的 SFC 打包的步骤：
 
 ------
 
+## 打包、预览
+
 vite 的打包操作：
 
 ```shell
@@ -235,6 +251,8 @@ npx vite preview
 
 ------
 
+# 认识 ESBuild
+
 ESBuild 特点：（有 babel 的功能，同时也兼顾一些 webpack 的功能）
 
 - 超快构建速度，且不需要缓存。
@@ -254,7 +272,9 @@ ESBuild 为什么这么快：
 
 ------
 
-如何使用 vite 脚手架来创建项目：
+# Vite 创建项目（二）
+
+如何使用 vite 脚手架来创建项目，2种方式：
 
 - 直接使用 vite 脚手架创建项目，可创建 vue，react 等等项目：
 

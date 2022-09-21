@@ -54,7 +54,7 @@ module.exports = {
 - 让服务器关闭跨域。
 - 使用 nginx 代理访问静态资源和 api
 
-以上方式都需要后端参与，那么在开发中我们如何临时解决跨域问题？在 webpack 中设置代理。
+以上方式都需要后端参与，那么在前端开发中我们如何临时解决跨域问题？在 webpack 中设置代理。
 
 ------
 
@@ -73,7 +73,7 @@ module.exports = {
       '/api': {
 				target: 'http://localhost:8888', // 代理的目标地址，默认情况下将代理 http://localhost:8888/api 这个路径
 				pathRewrite: {
-					"^/api": '' // 在代理路径中删除掉/api
+					"^/api": '' // 在代理路径中删除掉 /api
 				},
         secure: false, // 在 https 的情况下，仍代理，默认为 true
         changeOrigin: true // 表示是否更新代理后，请求的 headers 中 host 地址，默认 http://localhost:8000 ,应该为 http://localhost:8888
@@ -121,7 +121,7 @@ module.exports = {
    }
    ```
 
-5. 配置`package.json`文件中的指令
+5. 配置 `package.json` 文件中的指令
 
    ```json
    "script": {
