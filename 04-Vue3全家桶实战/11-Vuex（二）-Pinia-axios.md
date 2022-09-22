@@ -1,4 +1,4 @@
-# 关于页面数据的2种管理方案
+# Vue 中页面数据的2种管理方案
 
 分层结构的使用。
 
@@ -14,18 +14,18 @@
 
 ## context 参数。
 
-- context 是一个和 store 实例有相同方法和属性的对象。
-- 它与 store 实例相同的属性/方法：state, getters, commit, dispatch.
-- 它特有的属性：rootState, rootGetters.
+- `context` 是一个和 store 实例有相同方法和属性的对象。
+- 它与 store 实例相同的属性/方法：`state`, `getters`, `commit`, `dispatch`.
+- 它特有的属性：`rootState`, `rootGetters`.
 
 
 ## 基本使用。
 
 携带参数，
 
-src/store/index.js
+src / store / index.js
 
-```javascript
+```js
 import { createStore } from 'vuex'
 const store = createStore({
 	state() {
@@ -61,6 +61,7 @@ Home.vue
 </template>
 <script>
 import { useStore } from 'vuex'
+
 export default {
   // VOA 中的写法
 	methods: {
@@ -83,7 +84,7 @@ export default {
 
 ## 对象类型的提交风格
 
-src/store/index.js
+src / store / index.js
 
 ```javascript
 const store = createStore({
@@ -129,7 +130,7 @@ export default {
 
 在 VOA 和 VCA 中使用。
 
-src/store/index.js
+src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
@@ -323,9 +324,9 @@ Home.vue
 
 默认情况下，modules中的 `actions` 和 `mutations` 注册在全局名命空间中。
 
-- 意味着提交一个mutation，那么所有模块中的同名 mutation 都会触发。
+- 意味着提交一个 mutation，那么所有模块中的同名 mutation 都会触发。
 
-src/store/modules/home.js
+src / store / modules / home.js
 
 ```javascript
 const home = {
@@ -353,6 +354,7 @@ src/store/index.js
 ```javascript
 import { createStore } from 'vuex'
 import home from './modules/home'
+
 const store = createStore({
 	state() {
 		return {
@@ -394,7 +396,7 @@ export default {
 
 使 modules 成为带命名空间的模块，需要使用 `namespaced: true`，基本使用。
 
-src/store/modules/home.js
+src / store / modules / home.js
 
 ```javascript
 const home = {
@@ -410,8 +412,8 @@ Home.vue
 <template>
 	<div>
     <!-- 获取home模块中的homeGetter -->
-    HomeGetter: {{ $store.getters['home/homeGetter'] }}
     HomeCouter: {{ $store.state.home.homeCounter }}
+    HomeGetter: {{ $store.getters['home/homeGetter'] }}
 		<button @click="homeIncrement">home+1</button>
   </div>
 </template>
@@ -420,7 +422,7 @@ export default {
 	setup() {
 		const store = useStore()
 		const homeIncrement = () => {
-      // 提交home模块中的 increment mutation，dispatch同理
+      // 提交 home 模块中的 increment mutation，dispatch 同理
 			store.commit('home/increment')
 		}
 		return { homeIncrement }
@@ -435,7 +437,7 @@ export default {
 
 - state, getters, rootState, rootGetters.
 
-src/store/modules/home.js
+src / store / modules / home.js
 
 ```javascript
 const home = {
@@ -459,7 +461,7 @@ export default home
 
 - commit, dispatch, state, rootState, getters, rootGetters
 
-src/store/moudels/home.js
+src / store / moudels / home.js
 
 ```javascript
 const home = {
@@ -486,9 +488,9 @@ export default home
 
 ## 派发事件到根组件。
 
-在modules中使用actions向根提交和派发事件，传第三个参数。
+在 modules 中使用 actions 向根提交和派发事件，传第三个参数。
 
-src/store/modules/home.js
+src / store / modules / home.js
 
 ```javascript
 const home = {
@@ -496,7 +498,7 @@ const home = {
     // {} 解构语法
     homeIncrementAction({commit}) {
       // 第二个参数是payload，第三个参数是对象，设置root:true
-      commit('increment', null, {root: true})
+      commit('increment', null, { root: true } )
     }
   }
 }
@@ -507,7 +509,7 @@ export default home
 
 ### 在 VOA（Vue Options API）中
 
-使用modules中对应状态的辅助函数VOA的2种常用写法。
+使用 modules 中对应状态的辅助函数 VOA 的2种常用写法。
 
 Home.vue
 
@@ -550,13 +552,14 @@ export default {
 
 ### 在 VCA（Vue Composition API）中
 
-使用modules中对应状态的辅助函数VCA写法，针对mapState，mapGetters重新封装。以mapState封装举例：
+使用 modules 中对应状态的辅助函数 VCA 写法，针对 mapState，mapGetters 重新封装。以 mapState 封装举例：
 
-src/hooks/useState.js
+src / hooks / useState.js
 
 ```javascript
 import useMapper from './useMapper'
 import { mapState, createNamespacedHelpers } from 'vuex'
+
 export default function(mapper, moduleName) {
 	let mapperFn = mapState
 	if (typeof moduleName === 'string' && moduleName.length > 0) {
@@ -573,6 +576,7 @@ Home.vue
 import { createNamespacedHelpers } from "vuex"
 import useState from "../hooks/useState"
 import useGetters from "../hooks/useGetters"
+
 const { mapActions, mapMutations } = createNamespacedHelpers('home')
 export default {
 	setup() {
@@ -593,25 +597,17 @@ export default {
 
 # Vue 中 的 nextTick
 
-nextTick是什么，
+nextTick 是什么，
 
-- 一个钩子函数，将回调函数加入Vue中维护的微任务队列。
+- 一个钩子函数，将回调函数加入 Vue 中维护的微任务队列。
 
-nextTick的使用场景。
+nextTick 的使用场景。
 
-- 将回调推迟到下一个DOM更新之后执行，例如向h2标签中添加内容，获取它添加内容后的高度。
+- 将回调推迟到下一个 DOM 更新之后执行，例如向 h2 标签中添加内容，获取它添加内容后的高度。
 
-------
+nextTick 的基本使用。
 
-nextTick的基本使用。
-
-```vue
-<template>
-  <div>
-    <h2 class="title" ref="titleRef">{{message}}</h2>
-    <button @click="addMessageContent">添加内容</button>
-  </div>
-</template>
+```Vue
 <script>
   import { ref, nextTick } from "vue";
   export default {
@@ -629,6 +625,12 @@ nextTick的基本使用。
     }
   }
 </script>
+<template>
+  <div>
+    <h2 class="title" ref="titleRef">{{message}}</h2>
+    <button @click="addMessageContent">添加内容</button>
+  </div>
+</template>
 <style scoped>
   .title {
     width: 120px;
@@ -640,7 +642,7 @@ nextTick的基本使用。
 
 # 认识 pinia，
 
-- Pinia（发音为/piːnjʌ/，如英语中的“peenya”）是最接近piña（西班牙语中的菠萝）的词；
+- Pinia（发音为/piːnjʌ/，如英语中的“peenya”）是最接近 piña（西班牙语中的菠萝）的词；
 - Pinia 开始于大概2019年，最初是作为一个实验为 Vue 重新设计状态管理，让它用起来像组合式API（Composition API）。
 - 从那时到现在，最初的设计原则依然是相同的，并且目前同时兼容 Vue2、Vue3，也并不要求你使用 Composition API；
 - Pinia 本质上依然是一个状态管理的库，用于跨组件、页面进行状态共享（这点和 Vuex、Redux 一样）；
@@ -694,22 +696,20 @@ app.mount('#app')
 
 ## 认识 Pinia 中的 Store 实例
 
-- 一个 Store （如 Pinia）是一个实体，它持有能够绑定到组件树的状态和业务逻辑，也就是保存了全局的状态；
+- Pinia 中一个 store 是一个实体，它持有能够绑定到组件树的状态和业务逻辑，也就是保存了全局的状态；
 - 它有点像始终存在，并且每个人都可以读取和写入的组件；
-- 你可以在你的应用程序中定义任意数量的 Store 来管理你的状态；
-- Store 有三个核心概念：
-	- state、getters、actions；
-	- 等同于组件的 data、computed、methods；
-	- 一旦 store 被实例化，你就可以直接在 store 上访问 state、getters 和 actions 中定义的任何属性；
+- 允许在应用程序中定义任意数量的 store 来管理不同模块的状态；
+- 一个 store 有三个核心概念：
+	- state、getters、actions；概念等同于组件的 data、computed、methods；
+	- 一旦 store 被实例化，就可以直接在 store 上访问 state、getters 和 actions 中定义的任何属性；
 
-定义一个 Store：
+## 定义一个 Store
 
-- 我们需要知道 Store 是使用 defineStore() 定义的；
-- 并且它需要一个唯一名称，作为第一个参数传递；
-- 这个 name，也称为 id，是必要的，Pinia 使用它来将 store 连接到 devtools。
-- 返回的函数统一使用 useXxx 作为命名方案，这是约定的规范；
+- 我们需要知道 store 是使用 `defineStore()` 定义的；
+- 并且它需要一个唯一名称 name，作为第一个参数传递；这个 name，也称为 id，是必要的，Pinia 使用它来将 store 连接到 devtools。
+- 返回的函数统一使用 `useXxx ` 作为命名方案，这是约定的规范；
 
-src / store / home.js 
+src / store / home.js
 
 ```js
 import { defineStore } from 'pinia'
@@ -729,7 +729,7 @@ export default useHome
 
 ## 使用定义的 store
 
-- Store 在它被使用之前是不会创建的，我们可以通过调用之前导出的 useXxx 函数来使用 Store： 
+- Store 在它被使用之前是不会创建的，我们可以通过调用之前导出的 useXxx 函数来使用 Store：
 - 注意 Store 获取到后不能被解构，否则会失去响应式：
 	- 为了从 Store 中提取属性同时保持其响应式，您需要使用 Pinia 库提供的 `storeToRefs()`，或 Vue 提供的 `toRefs()`。
 
@@ -748,7 +748,6 @@ src / components / Home.vue
 	// const { count } = toRefs(homeStore)
   const { count } = storeToRefs(homeStore)
 </script>
-
 <template>
   <div class="home">
     <h2>Home View</h2>
@@ -757,12 +756,11 @@ src / components / Home.vue
     <button @click="incrementCount">count+1</button>
   </div>
 </template>
-
 <style scoped>
 </style>
 ```
 
-# Pinia 核心一 State 
+# Pinia 核心一 State
 
 ## 认识 state
 
@@ -780,10 +778,7 @@ const useHome = defineStore("home", { // 返回一个函数
   state: () => ({
 		name: "zzt",
     age: 18,
-    level: 100,
-		couter: 0,
-    banners: [],
-    recommends: []
+    level: 100
   }),
 })
 export default useHome
@@ -808,7 +803,7 @@ Home.vue
     homeStore.name = "kobe"
     homeStore.age = 20
     homeStore.level = 200
-		
+
   }
 	function changeStatese2() {
 		// 2.一次性修改多个状态
@@ -818,7 +813,6 @@ Home.vue
     })
 	}
 </script>
-
 <template>
   <div class="home">
     <h2>Home View</h2>
@@ -829,7 +823,6 @@ Home.vue
     <button @click="changeState2">修改 state</button>
   </div>
 </template>
-
 <style scoped>
 </style>
 ```
@@ -908,9 +901,9 @@ Home.vue
 
 ## 认识 Geeters
 
-- Getters 相当于 Store 的计算属性： 
-- 它们可以用 defineStore() 中的 getters 属性定义；
-- getters 中可以定义接受一个 state 作为参数的函数；
+- Getters 相当于 Store 的计算属性：
+- 它们可以用 defineStore() 中的 `getters` 属性定义；
+- getters 中可以定义接收一个 state 作为参数的函数；
 
 ## 定义 Getters
 
@@ -931,21 +924,15 @@ const useCounter = defineStore("counter", {
   }),
   getters: {
     // 1.基本使用
-    doubleCount(state) {
-      return state.count * 2
-    },
+    doubleCount: (state) => return state.count * 2,
     // 2.一个 getter 引入另外一个 getter
     doubleCountAddOne() {
       return this.doubleCount + 1 // this 是 store 实例
     },
     // 3.getters 也支持返回一个函数
-    getFriendById(state) {
-      return function(id) {
-				state.friend.find(item => item.id === id)
-      }
-    },
+    getFriendById: (state) => (id) => state.friend.find(item => item.id === id),
     // 4.getters 中用到别的 store 中的数据
-    showMessage(state) {
+    showMessage: (state) => {
       const userStore = useUser() // 1.获取 user 信息
       return `name:${userStore.name}-count:${state.count}` // 2.拼接信息
     }
@@ -962,7 +949,6 @@ export default useCounter
   import useCounter from '@/stores/counter';
   const counterStore = useCounter()
 </script>
-
 <template>
   <div class="home">
     <h2>Home View</h2>
@@ -973,7 +959,6 @@ export default useCounter
     <h2>showMessage: {{ counterStore.showMessage }}</h2>
   </div>
 </template>
-
 <style scoped>
 </style>
 ```
@@ -984,10 +969,10 @@ export default useCounter
 
 ## 认识 Actions
 
-- Actions 相当于组件中的 methods。 
+- Actions 相当于组件中的 methods。
 	- 可以使用 defineStore() 中的 actions 属性定义，并且它们非常适合定义业务逻辑；
 - 和 getters 一样，在 action 中可以通过 this 访问整个 store 实例的所有操作；
-- Actions 中是支持异步操作的。
+- Actions 中是支持异步操作的，通过返回一个 Promise 告知使用者异步操作执行状态。
 
 
 ## 定义 actiuons
@@ -1003,11 +988,12 @@ const useHome = defineStore("home", {
     recommends: []
   }),
   actions: {
-    async fetchHomeMultidata() {
+    async fetchHomeMultidata() { // 异步（async）函数会将返回值包裹在 promise 中返回。
       const res = await fetch("http://123.207.32.32:8000/home/multidata")
       const data = await res.json()
       this.banners = data.data.banner.list
       this.recommends = data.data.recommend.list
+			return data
     }
   }
 })
@@ -1016,35 +1002,279 @@ export default useHome
 
 ## 执行 Actions
 
+Home.vue
 
+```vue
+<script setup>
+  import useHome from '@/stores/home';
 
-
-认识和定义 Actions，执行异步操作，并监听是否完成。
-
------
-
-认识 axios 库
-
------
-
-为什么需要使用 axios 这样的第三方网络请求库？
-
------
-
-axios 功能特点。
-
------
-
-axios 的请求方式，常见的配置选项。baseURL 的使用。
-
------
-
-axios 创建实例的应用场景，基本使用。
-
------
-
-axios 的请求和响应拦截，基本使用。
+  const homeStore = useHome()
+  // 执行 actions
+  homeStore.fetchHomeMultidata().then(res => {
+    console.log("fetchHomeMultidata 的 action 已经完成了:", res)
+  })
+</script>
+<template>
+  <div class="home">
+    <h2>Home View</h2>
+    <h2>轮播的数据</h2>
+    <ul>
+      <template v-for="item in homeStore.banners">
+        <li>{{ item.title }}</li>
+      </template>
+    </ul>
+  </div>
+</template>
+<style scoped>
+</style>
+```
 
 -----
 
-为什么要基于 axios 再进行封装？基本使用。
+# 认识 axios 库
+
+axios 名称的由来，个人理解：
+
+- 没有具体的翻译，一般认为是 ajax i/o system 的缩写。
+
+## 为什么会有 axios 库？
+
+我们已经可以通过 ajax 技术（XMLHttpRequests / Fetch）发送网络请求，为什么还会有 axios 库这种第三方网络请求库？
+
+1. 原生 ajax 操作步骤过多，需要自行封装，才能保持代码的简洁性。
+2. 原生某些功能不具备，如请求拦截，响应拦截。
+3. JS 代码运行环境可能不同，浏览器 / Node，造成发送网络请求的方式也不同 fetch -> http
+
+## 功能特点。
+
+axios 能够帮助我们：
+
+- 在浏览器中发送 ajax 请求；在 node.js 中发送 http 请求
+- 支持 Promise API；
+- 拦截请求和响应；
+- 转换请求和响应数据；
+
+-----
+
+# axios 安装
+
+```shell
+npm install axios
+```
+
+# axios 的请求方式
+
+- `axios(config) `
+- `axios.request(config) `
+- `axios.get(url[, config]) `
+- `axios.delete(url[, config]) `
+- `axios.head(url[, config]) `
+- `axios.post(url[, data[, config]]) `
+- `axios.put(url[, data[, config]])`
+- `axios.patch(url[, data[, config]])`
+
+```js
+import axios from 'axios'
+
+// 1.发送 request 请求
+axios.request({
+  url: "http://123.207.32.32:8000/home/multidata",
+  method: "get"
+}).then(res => {
+  console.log("res:", res.data)
+})
+// 2.发送 get 请求
+axios.get(`http://123.207.32.32:9001/lyric?id=500665346`).then(res => {
+  console.log("res:", res.data.lrc)
+})
+axios.get("http://123.207.32.32:9001/lyric", {
+  params: {
+    id: 500665346
+  }
+}).then(res => {
+  console.log("res:", res.data.lrc)
+})
+// 3.发送 post 请求
+axios.post("http://123.207.32.32:1888/02_param/postjson", {
+  name: "coderwhy",
+  password: 123456
+}).then(res => {
+  console.log("res", res.data)
+})
+axios.post("http://123.207.32.32:1888/02_param/postjson", {
+  data: {
+    name: "coderwhy",
+    password: 123456
+  }
+}).then(res => {
+  console.log("res", res.data)
+})
+```
+
+# axios 常见的配置选项
+
+- 请求地址（**常用**）
+	- url: '/user',
+- 请求类型（**常用**）
+	- method: 'get',
+- 请根路径（**常用**）
+	- baseURL: 'http://www.mt.com/api',
+- 自定义的请求头（**常用**）
+	- headers:{'x-Requested-With':'XMLHttpRequest'},
+- URL查询对象（**常用**）（get 请求拼接 query 字符串）
+	- params:{ id: 12 },
+- request body（**常用**）（post 请求请求体）
+	- data: { key: 'aa'},
+- 超时设置（**常用**）
+	- timeout: 1000,
+- 请求前的数据处理
+	- transformRequest:[function(data){}],
+- 请求后的数据处理
+	- transformResponse: [function(data){}],
+- 查询对象序列化函数
+	- paramsSerializer: function(params){ }
+
+```js
+import axios from 'axios'
+
+const baseURL = "http://123.207.32.32:8000"
+// 给 axios 实例配置公共的基础配置
+axios.defaults.baseURL = baseURL
+axios.defaults.timeout = 10000
+axios.defaults.headers = {}
+// 1.1.get: /home/multidata
+axios.get("/home/multidata").then(res => {
+  console.log("res:", res.data)
+})
+// 2.axios发送多个请求
+axios.all([ // 原理 Promise.all
+  axios.get("/home/multidata"),
+  axios.get("http://123.207.32.32:9001/lyric?id=500665346")
+]).then(res => {
+  console.log("res:", res)
+})
+```
+
+-----
+
+# axios 创建实例
+
+为什么要创建 axios 的实例呢?
+
+- 当我们从 axios 模块中导入对象时, 使用的实例是默认的实例；
+- 当给该实例设置一些默认配置时, 这些配置就被固定下来了.
+- 但是后续开发中, 某些配置可能会不太一样；
+- 比如某些请求需要使用特定的 baseURL 或者 timeout 等.
+- 这个时候, 我们就可以创建新的实例, 并且传入属于该实例的配置信息.
+
+基本使用。
+
+```js
+import axios from 'axios'
+
+// axios 默认库提供给我们的实例对象
+axios.get("http://123.207.32.32:9001/lyric?id=500665346")
+// 创建其他的实例发送网络请求
+const instance1 = axios.create({
+  baseURL: "http://123.207.32.32:9001",
+  timeout: 6000,
+  headers: {}
+})
+instance1.get("/lyric", {
+  params: {
+    id: 500665346
+  }
+}).then(res => {
+  console.log("res:", res.data)
+})
+const instance2 = axios.create({
+  baseURL: "http://123.207.32.32:8000",
+  timeout: 10000,
+  headers: {}
+})
+```
+
+-----
+
+# axios 的请求和响应拦截
+
+axios 也可以设置拦截器：拦截每次请求和响应
+
+- `axios.interceptors.request.use(请求成功拦截, 请求失败拦截)`
+- `axios.interceptors.response.use(响应成功拦截, 响应失败拦截)`
+
+基本使用。
+
+```js
+import axios from 'axios'
+
+// 对实例配置拦截器，请求拦截
+axios.interceptors.request.use((config) => { // 传入请求的配置信息 config
+  console.log("请求成功的拦截")
+  // 1.开始 loading 的动画
+  // 2.对原来的配置进行一些修改
+  // 3.添加header，如认证登录: token/cookie
+  // 4.请求参数进行某些转化
+  return config
+}, (err) => {
+  console.log("请求失败的拦截")
+  return err
+})
+// 响应拦截
+axios.interceptors.response.use((res) => {
+  console.log("响应成功的拦截")
+  // 1.结束 loading 的动画
+  // 2.对数据进行转化, 再返回数据
+  return res.data
+}, (err) => {
+  console.log("响应失败的拦截:", err)
+  return err
+})
+axios.get("http://123.207.32.32:9001/lyric?id=500665346").then(res => {
+  console.log("res:", res)
+}).catch(err => {
+  console.log("err:", err)
+})
+```
+
+-----
+
+# 基于 axios 再封装
+
+为什么要基于 axios 再进行封装？
+
+- 降低对 axios 依赖的耦合度，当 axios 不再维护时，方便切换别的库。
+
+基本使用：
+
+```js
+import axios from 'axios'
+
+class ZTRequest {
+  constructor(baseURL, timeout=10000) {
+    this.instance = axios.create({
+      baseURL,
+      timeout
+    })
+  }
+  request(config) {
+    return new Promise((resolve, reject) => {
+      this.instance.request(config).then(res => {
+        resolve(res.data)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
+  get(config) {
+    return this.request({ ...config, method: "get" })
+  }
+  post(config) {
+    return this.request({ ...config, method: "post" })
+  }
+}
+export default new ZTRequest("http://123.207.32.32:9001")
+```
+
+
+
