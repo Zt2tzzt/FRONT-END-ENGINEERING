@@ -231,7 +231,7 @@ const router = createRouter({
 export default router
 ```
 
-src/main.js
+src / main.js
 
 ```javascript
 import { createApp } from 'vue'
@@ -243,7 +243,7 @@ app.use(router) // router 对象中，有 install 函数，其中执行了 app.c
 app.mount('#app')
 ```
 
-src/App.vue
+src / App.vue
 
 ```vue
 <template>
@@ -285,7 +285,7 @@ const routes = [
 
 router-link 有哪些属性？
 
-- `to`：可传字符串如`/home`、对象如 `{ path: '/home', query: { name: 'zzt', age: 18 } }`
+- `to`：可传字符串，如`/home`、对象，如 `{ path: '/home', query: { name: 'zzt', age: 18 } }`
 - `replace`：会调用 `router.replace()`，而不是 `router.push()`
 - `active-class`：路由激活后应用于 \<a\> 的 class，默认是 `router-link-active`
 - `exact-active-class`：与嵌套路由有关，路由精准激活时，应用于 \<a\> 的 class,，默认是 `router-link-exact-active`
@@ -382,7 +382,7 @@ route.meta
 
 ### 基本使用：
 
-src/router/index.js
+src / router / index.js
 
 ```javascript
 const routes = [
@@ -408,26 +408,24 @@ User.vue
 
 ```vue
 <template>
-  <!-- 在 template 中获取 -->
-  <h2>我是用户：{{ $route.params.id }}</h2>
+  <h2>我是用户：{{ $route.params.id }}</h2> <!-- 在 template 中获取 -->
 </template>
 <script>
 import { useRoute } from 'vue-router'
+  
 export default {
-	created() {
-    // VOA 的方式
+  // VOA 的方式
+	created() { 
 		console.log('--created--', this.$route.params.id);
 	},
-	setup() {
-    // VCA 的方式
+  // VCA 的方式
+	setup() { 
 		const route = useRoute()
 		console.log('--setup--', route.params.id);
 	}
 }
 </script>
 ```
-
-------
 
 ### 动态路由匹配多个参数：
 
@@ -464,13 +462,11 @@ User.vue
 </script>
 ```
 
------
-
 ### 动态路由 NotFount 的匹配
 
 使用动态路由对 NotFound 页面做处理，匹配规则的2种写法。
 
-src/router/index.js
+src / router / index.js
 
 ```javascript
 const routes = [
@@ -492,8 +488,6 @@ NotFound.vue
 
 > 他们的区别在于解析的时候，方式一不解析"/"，方式二解析“/”
 
------
-
 ## 路由的嵌套（子路由）
 
 ### 使用场景：
@@ -502,7 +496,7 @@ NotFound.vue
 
 ### 基本使用：
 
-src/router/index.js
+src / router / index.js
 
 ```javascript
 const routes = [
@@ -540,13 +534,11 @@ Home.vue
 </template>
 ```
 
------
-
 ## 路由的编程式导航（使用代码做页面跳转）。
 
 ### 使用场景：
 
-- 通过代码来完成跳转。
+通过代码来完成跳转。
 
 ### 基本使用，
 
@@ -564,13 +556,13 @@ App.vue
 <script>
 import { useRouter } from 'vue-router';
 export default {
-  // VOA实现
+  // VOA 实现
   methods: {
     jumpToAbout() {
       this.$router.push('/about')
     }
   },
-  // VCA实现。
+  // VCA 实现。
   setup() {
     const router = useRouter()
     const jumpToAbout = () => {
@@ -582,9 +574,7 @@ export default {
 </script>
 ```
 
-------
-
-### 另外一种实现方法：
+### 对象风格导航：
 
 传入对象，使用 query 传递参数
 

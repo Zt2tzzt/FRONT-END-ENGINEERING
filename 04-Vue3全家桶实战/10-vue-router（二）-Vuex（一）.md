@@ -12,8 +12,7 @@
 后端管理系统：
 
 - PC 端网站，
-  - 如客服端，产品经理端等等。
-  - 往往有更高的权限
+  - 如客服端，产品经理端等等。往往有更高的权限。
 
 ---
 
@@ -108,18 +107,20 @@ router-view 使用 `v-slot` 来获取作用域插槽内部传递的对象，对�
 
 ## 使用场景：
 
-- 根据用户不同的权限，注册不同的路由。
+根据用户不同的权限，注册不同的路由。
 
-系统实现角色权限管理的 3 种方案。
+### 系统实现角色权限管理的 3 种方案。
 
-- 后台权限设计的思想之一：RBAC(role based access control) 基于访问权限控制的角色管理。
-  - 后端维护用户表，权限表和关系表。
-- 理解 3 种在前端控制权限的方法，
-  - 方法一：注册所有路由，弊端：用户可通过手动改 url 实现禁止的权限。
-  - 方法二：在前端用数组维护好各个角色对应的路由，获取角色后**动态添加路由**。弊端：后端修改角色权限，需要前端修改代码再部署。
-  - 方法三：在前端获取用户权限，如访问的菜单，根据用户权限**动态添加路由**。，这么做要求后端要返回需要动态添加的路由对应的组件，有 2 种方式：
-    1. 后端返回数据中有 component 字段，里面是组件名称，如 Role.vue。
-    2. 后端只返回 path，前端根据已有的配置，找到对应的 component。
+后台权限设计的思想之一：RBAC (role based access control) 基于访问权限控制的角色管理。
+
+- 后端维护用户表，权限表和关系表。
+
+理解 3 种在前端控制权限的方法，
+- 方法一：注册所有路由，弊端：用户可通过手动改 url 实现禁止的权限。
+- 方法二：在前端用数组维护好各个角色对应的路由，获取角色后**动态添加路由**。弊端：后端修改角色权限，需要前端修改代码再部署。
+- 方法三：在前端获取用户权限，如访问的菜单，根据用户权限**动态添加路由**。，这么做要求后端要返回需要动态添加的路由对应的组件，有 2 种方式：
+  1. 后端返回数据中有 component 字段，里面是组件名称，如 Role.vue。
+  2. 后端只返回 path，前端根据已有的配置，找到对应的 component。
 
 ---
 
@@ -197,13 +198,13 @@ export default router
 
 ## beforeEach 介绍
 
-全局前置守卫 `beforeEach` 的基本使用，回调函数传入的 2 个参数：
+### 回调函数传入的参数：
 
 - `to`：即将进入的路由 Route 对象。
 - `from`：即将离开的路由 Route 对象。
 - `next`：Vue2 中通过 next 函数来决定如何跳转。Vue3 中使用返回值来控制，不推荐使用 next 函数。因为开发中容易调用多次。
 
-回调函数的返回值：
+### 回调函数的返回值：
 
 - `false`；取消当前导航。
 - `undefined`：进行默认导航。
@@ -375,9 +376,7 @@ function logoutClick() {
 
 # Vuex
 
-Vue 的全家桶包括：Vue 核心语法，vue-router，Vuex / Pinia。
-
----
+> Vue 的全家桶包括：Vue 核心语法，vue-router，Vuex / Pinia。
 
 ## 认识状态管理
 
@@ -439,7 +438,7 @@ Vuex 的状态管理模式：
    npm install vuex
    ```
 
-2. 使用 vuex 中的 `createStore` 创建 store，本质上是一个容器，包含应用中大部分 state
+2. 使用 vuex 中的 `createStore` 创建 store，本质上是一个容器，包含应用中全部需要实现状态管理的 state
 
    - Vuex 的状态存储是响应式的
      - 当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会被更新；
@@ -486,7 +485,7 @@ import App from './App.vue'
 import store from './store'
 
 const app = createApp(App)
-app.app.use(store) // 加入了全局属性 $store
+app.use(store) // 加入了全局属性 $store
 app.mount('#app')
 ```
 
@@ -502,9 +501,6 @@ App.vue
 </template>
 <script>
 export default {
-	data() {
-		return {}
-	},
 	methods: {
 		increment() {
 			this.$store.commit('increment')
@@ -643,6 +639,26 @@ export default {
 </script>
 ```
 
+#### 直接对 store.state 进行解构（推荐）
+
+App.vue
+
+```vue
+<template>
+	<div class="app">
+		<h2>name: {{ name }}</h2>
+		<h2>age: {{ age }}</h2>
+	</div>
+</template>
+<script setup>
+import { toRefs } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const { name, age } = toRefs(store.state)
+</script>
+```
+
 #### 通过映射函数 mapState
 
 ##### 基本使用
@@ -656,6 +672,7 @@ App.vue
 <script>
 import { computed } from 'vue'
 import { useStore, mapState } from 'vuex'
+  
 export default {
 	setup() {
 		// name, age 为存放一个个名称为属性名的 geeter 函数。函数中未绑定 this，也就是 $store 对象，函数没有被 computed 包裹。
@@ -679,6 +696,7 @@ src/hooks/useState.js
 ```javascript
 import { computed } from 'vue'
 import { useStore, mapState } from 'vuex'
+
 /**
  * @param {Array} mapper state名称字符串数组
  * @return {Array} state名称对应的 ref Object 对象
@@ -706,32 +724,13 @@ App.vue
 </template>
 <script>
 import useState from '../hooks/useState'
+  
 export default {
 	setup() {
 		const storeState = useState(['name', 'age'])
 		return { ...storeState }
 	}
 }
-</script>
-```
-
-##### 直接对 store.state 进行解构（推荐）
-
-App.vue
-
-```vue
-<template>
-	<div class="app">
-		<h2>name: {{ name }}</h2>
-		<h2>age: {{ age }}</h2>
-	</div>
-</template>
-<script setup>
-import { toRefs } from 'vue'
-import { useStore } from 'vuex'
-
-const store = useStore()
-const { name, age } = toRefs(store.state)
 </script>
 ```
 
@@ -878,6 +877,23 @@ export default {
 </script>
 ```
 
+#### 直接对 store.getters 进行解构（推荐）
+
+App.vue
+
+```vue
+<template>
+	<div>{{ totalPrice }}</div>
+</template>
+<script setup>
+import { toRefs } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const { totalPrice } = toRefs(store.getters)
+</script>
+```
+
 #### 通过映射函数 mapGetters 获取
 
 ##### 基本使用
@@ -891,6 +907,7 @@ App.vue
 <script>
 import { computed } from 'vue'
 import { mapGetters, useStore } from 'vuex'
+  
 export default {
 	setup() {
 		const store = useStore()
@@ -915,6 +932,7 @@ App.vue
 <script>
 import { computed } from 'vue'
 import { mapGetters, useStore } from 'vuex'
+  
 export default {
 	setup() {
 		// VCA的基本使用
@@ -943,6 +961,7 @@ src/store/useMapper.js
 ```javascript
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+
 /**
  * @param {Array} mapper state名称字符串数组
  * @param {Fuction} mapFn 要使用的map函数。
@@ -965,26 +984,10 @@ src/store/useGetters.js
 ```javascript
 import useMapper from './useMapper'
 import { mapGetters } from 'vuex'
+
 export default function (mapper) {
 	return useMapper(mapper, mapGetters)
 }
-```
-
-##### 直接对 store.getters 进行解构（推荐）
-
-App.vue
-
-```vue
-<template>
-	<div>{{ totalPrice }}</div>
-</template>
-<script setup>
-import { toRefs } from 'vue'
-import { useStore } from 'vuex'
-
-const store = useStore()
-const { totalPrice } = toRefs(store.getters)
-</script>
 ```
 
 ---
@@ -1001,7 +1004,7 @@ const { totalPrice } = toRefs(store.getters)
 
 mutations 中方法传参（第二个参数）。一般用对象。
 
-src/store/index.js
+src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
@@ -1193,6 +1196,7 @@ template 中直接提交 commit mutations，VCA 结合 methods，
 </template>
 <script>
 import { useStore } from 'vuex'
+  
 export default {
 	setup() {
 		const store = useStore()
@@ -1218,6 +1222,7 @@ App.vue
 </template>
 <script>
 import { useStore, mapMutations } from 'vuex'
+  
 export default {
 	setup() {
 		const store = useStore()

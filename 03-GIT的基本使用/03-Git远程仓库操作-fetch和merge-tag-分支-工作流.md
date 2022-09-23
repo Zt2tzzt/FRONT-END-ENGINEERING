@@ -2,11 +2,13 @@
 
 远程仓库的交互，
 
-- 从远程仓库 clone 代码：将存储库克隆到新创建的目录中；
+## 克隆远程仓库代码
 
-  ```shell
-  git clone [url]
-  ```
+从远程仓库 clone 代码：将存储库克隆到新创建的目录中；
+
+```shell
+git clone [url]
+```
 
 ## 推送代码到远程仓库
 
@@ -14,40 +16,40 @@
 
 - 默认情况下是将当前分支（如 master）push 到 origin 远程仓库的；
 
-  ```shell
-  git push
-  git push origin master
-  ```
+```shell
+git push
+git push origin master
+```
 
 ## 拉取远程仓库代码
 
-- 从远程仓库 fetch 代码：从远程仓库获取最新的代码
+从远程仓库 fetch 代码：从远程仓库获取最新的代码
 
-- 默认情况下是从 origin 中获取代码；
+默认情况下是从 origin 中获取代码；
 
-  ```shell
-  git fetch
-  git fetch origin
-  ```
+```shell
+git fetch
+git fetch origin
+```
 
-  - 获取到代码后默认并没有合并到本地仓库，我们需要通过 merge 来合并； -
+获取到代码后默认并没有合并到本地仓库，我们需要通过 merge 来合并； -
 
-    ```shell
-    git merge
-    ```
+```shell
+git merge
+```
 
-  - 上面的两次操作有点繁琐，我们可以通过一个命令来操作，从远程仓库 pull 代码：
+上面的两次操作有点繁琐，我们可以通过一个命令来操作，从远程仓库 pull 代码：
 
-    ```shell
-    git pull # 相当于 git fetch + git merge(rebase)
-    ```
-    
-  - 如果想让远程分支覆盖本地工作区中的内容，使用 `git reset --hard <remote>/<branch>`
-  
-    ```shell
-    get reset --hard origin/master
-    git pull
-    ```
+```shell
+git pull # 相当于 git fetch + git merge(rebase)
+```
+
+如果想让远程分支覆盖本地工作区中的内容，使用 `git reset --hard <remote>/<branch>`
+
+```shell
+get reset --hard origin/master
+git pull
+```
 
 ## 推送代码到远程仓库遇到的问题
 
@@ -72,7 +74,7 @@
 
     ```shell
     # 此时本地当前分支为 master
-    git fetch # （git pull），因为本地还没有 main 分支，先要将远程 main 分支获取到本地形成 origin/main 分支。
+    git fetch # （git pull），因为本地还没有 main 分支，先要将远程 main 分支获取到本地形成 origin / main 分支。
     git branch --set-upstream-to=origin/main # 将当前分支，与远程的 origin main 分支进行关联跟踪。
     git config push.default upstream # 只在当前仓库配置。
     git push
@@ -155,62 +157,71 @@
 
 # Git 标签 tag
 
-Git 的标签 tag 相关操作。
+## 认识 tag
 
-- 对于重大的版本我们常常会打上一个标签，以表示它的重要性：
+对于大的版本我们常常会打上一个标签，以表示它的重要性：
 
-  - Git 可以给仓库历史中的某一个提交打上标签（可理解为在提交对象上的一个指针）；
-  - 比较有代表性的是人们会使用这个功能来标记发布节点（ v1.0 .0、 v2.0.0 等等）；
+- Git 可以给仓库历史中的某一个提交打上标签（可理解为在提交对象上的一个指针）；
+- 比较有代表性的是人们会使用这个功能来标记发布节点（ v1.0 .0、 v2.0.0 等等）；
 
-- 查看当前仓库已有标签
+## 查看当前仓库已有标签
 
-  ```shell
-  git tag
-  ```
+```shell
+git tag
+```
 
-- 创建标签：
+## 创建 tag：
 
-  - Git 支持两种标签：轻量标签（lightweight）与附注标签（annotated）；
-  - 附注标签：通过 -a 选项，并且通过 -m 添加额外信息；
+Git 支持两种标签：轻量标签（lightweight）与附注标签（annotated）；
 
-  ```shell
-  git tag v1.0.0
-  git tag -a v1.1.0 -m "[标签的描述]"
-  ```
+附注标签：通过 -a 选项，并且通过 -m 添加额外信息；
 
-- 默认情况下，git push 命令并不会传送标签到远程仓库服务器上。
+```shell
+git tag v1.0.0
+git tag -a v1.1.0 -m "[标签的描述]"
+```
 
-  - 在创建完标签后你必须显式地推送标签到共享服务器上，当其他人从仓库中克隆或拉取，他们也能得到你的那些标签；
+## 推送 tag
 
-  ```shell
-  git push origin v1.0.0
-  git push origin --tags # 推送所有标签到远程
-  ```
+默认情况下，git push 命令并不会传送标签到远程仓库服务器上。
 
-- 删除本地 tag： 要删除掉你本地仓库上的标签，可以使用命令
+在创建完标签后你必须显式地推送标签到共享服务器上，当其他人从仓库中克隆或拉取，他们也能得到你的那些标签；
 
-  ```shell
-  git tag -d v1.0.0
-  ```
+```shell
+git push origin v1.0.0
+git push origin --tags # 推送所有标签到远程
+```
 
-- 删除远程 tag：
+## 删除 tag：
 
-  - 要删除远程的 tag 我们可以通过：`git push <remote> -–delete <tagname>`
+删除本地 tag：
 
-  ```shell
-  git push origin --delete v1.1.0
-  ```
-  
-- 检出 tag：
+```shell
+git tag -d v1.0.0
+```
 
-  - 如果你想查看某个标签所指向的文件版本，可以使用 git checkout 命令；
+删除远程 tag：
 
-  - 通常我们在检出 tag 的时候还会创建一个对应的分支，因为不能在原 tag 上修改（分支后续了解）；
+- 要删除远程的 tag 我们可以通过：`git push <remote> -–delete <tagname>`
 
-  ```shell
-  git branch newbranch v1.0.0
-  git checkout newbranch
-  ```
+```shell
+git push origin --delete v1.1.0
+```
+
+## 检出 tag：
+
+如果你想查看某个标签所指向的文件版本，可以使用 git checkout 命令；
+
+```shell
+git checkout v1.0.0
+```
+
+通常我们在检出 tag 的时候还会创建一个对应的分支，因为不能在原 tag 上修改（分支后续了解）；
+
+```shell
+git branch newbranch v1.0.0
+git checkout newbranch
+```
 
 ---
 
@@ -255,12 +266,13 @@ Git 的标签 tag 相关操作。
 
 Git 的本地默认分支 maser 分支理解。
 
-- Git 的分支，其实本质上仅仅是指向提交对象的可变指针。
-  - Git 的默认分支名字是 master，在多次提交操作之后，你其实已经有一个指向最后那个提交对象的 master 分支；
-  - master 分支会在每次提交时自动移动；
-- Git 的 master 分支并不是一个特殊分支。
-  - 它就跟其它分支完全没有区别；
-  - 之所以几乎每一个仓库都有 master 分支，是因为 git init 命令默认创建它，并且大多数人都懒得去改动它；
+Git 的分支，其实本质上仅仅是指向提交对象的可变指针。
+- Git 的默认分支名字是 master，在多次提交操作之后，你其实已经有一个指向最后那个提交对象的 master 分支；
+- master 分支会在每次提交时自动移动；
+
+Git 的 master 分支并不是一个特殊分支。
+- 它与其它分支完全没有区别；
+- 之所以几乎每一个仓库都有 master 分支，是因为 git init 命令默认创建它，并且大多数人都懒得去改动它；
 
 <img src="NodeAssets/Git的master分支和tag指针.jpg" alt="Git的master分支和tag指针" style="zoom:80%;" />
 
@@ -270,34 +282,33 @@ Git 的本地默认分支 maser 分支理解。
 
 Git 本地是怎么创建新分支的；
 
-- 很简单，它只是为你创建了一个可以移动的新的指针，
+很简单，它只是为你创建了一个可以移动的新的指针，
 
-- 比如，创建一个 testing 分支，你需要使用 git branch 命令：
+比如，创建一个 testing 分支，你需要使用 git branch 命令：
 
-  ```shell
-  git branch testing
-  ```
+```shell
+git branch testing
+```
 
-  <img src="NodeAssets/创建一个testing分支.jpg" alt="创建一个testing分支" style="zoom:40%;" />
+<img src="NodeAssets/创建一个testing分支.jpg" alt="创建一个testing分支" style="zoom:40%;" />
 
 ## 切换分支
 
-- 那么，Git 又是怎么知道当前在哪一个分支上呢？
-- 也很简单，它也是通过一个名为 HEAD 的特殊指针来判断；
+那么，Git 又是怎么知道当前在哪一个分支上呢？
 
-  ```shell
-  git checkout testing
-  ```
+也很简单，它也是通过一个名为 HEAD 的特殊指针来判断；
 
-  <img src="NodeAssets/mater分支切换到testing分支.jpg" alt="mater分支切换到testing分支" style="zoom:80%;" />
+```shell
+git checkout testing
+```
+
+<img src="NodeAssets/mater分支切换到testing分支.jpg" alt="mater分支切换到testing分支" style="zoom:80%;" />
 
 ## 进行提交后分支的变化
 
-- 如果在 testing 分支上做了提交，也可以切换回 master 分支继续开发并提交
+如果在 testing 分支上做了提交，也可以切换回 master 分支继续开发并提交
 
 <img src="NodeAssets/Git不同分支提交.jpg" alt="Git不同分支提交" style="zoom:150%;" />
-
----
 
 ## 创建本地分支同时切换。
 
@@ -305,9 +316,7 @@ Git 本地是怎么创建新分支的；
 git checkout -b dev # 创建一个 dev 分支，并切换到 dev 分支
 ```
 
----
-
-## Git 本地分支的使用场景以及流程；
+## 本地分支的使用场景以及流程；
 
 1. 项目在 master 分支上开发，某一阶段开发完成。发布项目，打上 tag v1.0.0，继续后续开发。
 
@@ -393,101 +402,113 @@ git branch –D hotfix # 强制删除某一个分支
 
 # Git 的远程分支
 
-## 什么是 Git 的远程分支。
+## 认识远程分支。
 
-- 远程分支是也是一种分支结构：
-- 以 `<remote>/<branch>` 的形式命名；
-- 如果我们刚刚 clone 下来代码，分支的结构如下：
+远程分支是也是一种分支结构：
 
-  <img src="NodeAssets/远程分支clone.jpg" alt="远程分支clone" style="zoom:50%;" />
+以 `<remote>/<branch>` 的形式命名；
 
-- 如果其他人修改了代码并做了提交和推送，那么远程分支和本地分支结构如下：
+如果我们刚刚 clone 下来代码，分支的结构如下：
 
-  <img src="NodeAssets/远程分支被修改.jpg" alt="远程分支被修改" style="zoom:52%;" />
+<img src="NodeAssets/远程分支clone.jpg" alt="远程分支clone" style="zoom:50%;" />
 
-- 你需要通过 fetch 来获取最新的远程分支提交信息；
+如果其他人修改了代码并做了提交和推送，那么远程分支和本地分支结构如下：
 
-  <img src="NodeAssets/远程分支fetch.jpg" alt="远程分支fetch" style="zoom:50%;" />
+<img src="NodeAssets/远程分支被修改.jpg" alt="远程分支被修改" style="zoom:52%;" />
 
----
+你需要通过 fetch 来获取最新的远程分支提交信息；
 
-## Git 远程分支的管理。
+<img src="NodeAssets/远程分支fetch.jpg" alt="远程分支fetch" style="zoom:50%;" />
 
-1. 推送分支到远程;
-   - 当你想要公开分享一个分支时，需要将其推送到有写入权限的远程仓库上；
-   - `git push <remote> <branch>`
-  
-2. 跟踪远程分支
-   - 当克隆一个仓库时，它通常会自动地创建一个跟踪 origin/master 的 master 分支（只会 clone 并跟踪主分支）；
-   - 如果你愿意的话可以设置其他的跟踪分支，可以通过运行 `git checkout --track <remote>/<branch>`
-   - 如果你尝试检出的分支不存在且刚好只有一个名字与之匹配的远程分支，那么 Git 就会为你创建一个跟踪分支；
-   
-   ```shell
-   git checkout --track origin/dev
-   git checkout dev # 简写，做了4步操作。
-   # 1.创建一个本地的 dev 分支
-   # 2.切换到 dev 分支
-   # 3.检查远程服务器是否有 dev 这个分支
-   # 4.让本地的 dev 分支自动跟踪 origin/dev
-   ```
+## 远程分支的管理。
 
-3. 删除远程分支
+### 推送分支到远程;
 
-   - 如果某一个远程分支不再使用，我们想要删除掉，可以运行带有 --delete 选项的 git push 命令来删除一个远程分支。
+- 当你想要公开分享一个分支时，需要将其推送到有写入权限的远程仓库上；
+- `git push <remote> <branch>`
 
-   ```shell
-   git push origin --delete dev
-   ```
+### 跟踪远程分支
+
+- 当克隆一个仓库时，它通常会自动地创建一个跟踪 origin/master 的 master 分支（只会 clone 并跟踪主分支）；
+- 如果你愿意的话可以设置其他的跟踪分支，可以通过运行 `git checkout --track <remote>/<branch>`
+- 如果你尝试检出的分支不存在且刚好只有一个名字与之匹配的远程分支，那么 Git 就会为你创建一个跟踪分支；
+
+```shell
+git checkout --track origin/dev
+git checkout dev # 简写，做了4步操作。
+# 1.创建一个本地的 dev 分支
+# 2.切换到 dev 分支
+# 3.检查远程服务器是否有 dev 这个分支
+# 4.让本地的 dev 分支自动跟踪 origin/dev
+```
+
+### 删除远程分支
+
+如果某一个远程分支不再使用，我们想要删除掉，可以运行带有 --delete 选项的 git push 命令来删除一个远程分支。
+
+```shell
+git push origin --delete dev
+```
 
 ---
 
 # Git rebase
 
-## 什么是 Git 的 rebase？
+## 认识 Git rebase？
 
-- 在 Git 中整合来自不同分支的修改主要有两种方法：merge 以及 rebase。 
+在 Git 中整合来自不同分支的修改主要有两种方法：merge 以及 rebase。 
 
-  <img src="NodeAssets/merge和rebase的用法.jpg" alt="merge和rebase的用法" style="zoom:150%;" />
+<img src="NodeAssets/merge和rebase的用法.jpg" alt="merge和rebase的用法" style="zoom:150%;" />
 
-  ```shell
-  git checkout experiment # 切换到 experiment 分支上
-  git rebase master
-  ```
+```shell
+git checkout experiment # 切换到 experiment 分支上
+git rebase master
+```
 
-- 什么是 rebase 呢？ 
-	
-	- 在上面的图例中，你可以提取在 C4 中引入的补丁和修改，然后在 C3 的基础上应用一次； 
-	- 在 Git 中，这种操作就叫做变基（rebase）； 
-	- 你可以使用 rebase 命令将提交到某一分支上的**所有修改**都移至另一分支上，就好像“重新播放”一样； 
-	- rebase 这个单词如何理解呢？ 
-		- 我们可以将其理解成改变当前分支的 base；
-		- 比如在分支 experiment 上执行 rebase master，那么可以改变 experiment 的 base 为 master
+什么是 rebase 呢？ 
 
-- rebase 是如何工作的呢？ 
-	- 它的原理是首先找到这两个分支（即当前分支 experiment、变基操作的目标基底分支 master）的最近共同祖先 C2； 
-	- 然后对比当前分支相对于该祖先的历次提交，提取相应的修改并存为临时文件； 
-	- 然后将当前分支指向目标基底 C3； 
-	- 最后以此将之前另存为临时文件的修改依序应用；
-	
-- 最后，再次执行 master上的合并操作，将 master 分支指针指向 experiment
+- 在上面的图例中，你可以提取在 C4 中引入的补丁和修改，然后在 C3 的基础上应用一次； 
+- 在 Git 中，这种操作就叫做变基（rebase）； 
 
-  ```shell
-  git checkout master
-  git merge experiment
-  ```
+## Git rebase 原理
 
-  <img src="NodeAssets/rebase后主分支合并.jpg" alt="rebase后主分支合并" style="zoom:50%;" />
+你可以使用 rebase 命令将提交到某一分支上的**所有修改**都移至另一分支上，就好像“重新播放”一样； 
+
+rebase 这个单词如何理解呢？ 
+- 我们可以将其理解成改变当前分支的 base；
+- 比如在分支 experiment 上执行 rebase master，那么可以改变 experiment 的 base 为 master
+
+rebase 是如何工作的呢？ 
+- 它的原理是首先找到这两个分支（即当前分支 experiment、变基操作的目标基底分支 master）的最近共同祖先 C2； 
+- 然后对比当前分支相对于该祖先的历次提交，提取相应的修改并存为临时文件； 
+- 然后将当前分支指向目标基底 C3； 
+- 最后以此将之前另存为临时文件的修改依序应用；
+
+别忘了，最后一步，再次执行 master上的合并操作，将 master 分支指针指向 experiment
+
+```shell
+git checkout master
+git merge experiment
+```
+
+<img src="NodeAssets/rebase后主分支合并.jpg" alt="rebase后主分支合并" style="zoom:50%;" />
+
 ---
 
 ## rebase 和 merge 在开发中的选择。
-- 事实上，rebase 和 merge 是对 Git 历史的不同处理方法： 
-	- merge 用于记录 git 的所有历史，那么分支的历史错综复杂，也全部记录下来； 
-	- rebase 用于简化历史记录，将两个分支的历史简化，整个历史更加简洁；
-- 了解了 rebase 的底层原理，就可以根据自己的特定场景选择 merge 或者 rebase。注意：rebase 有一条黄金法则：**永远不要在主分支上使用 rebase**（不要将主分支变基到其它分支，而是将其它分支变基到主分支）：
-	- 如果在 main 上面使用 rebase，会造成大量的提交历史在 main 分支中不同；
-	- 而多人开发时，其他人依然在原来的 main 中，对于提交历史来说会有很大的变化；
-	
-	<img src="NodeAssets/错误的 rebase 方式.jpg" alt="错误的 rebase 方式" style="zoom:50%;" />
+事实上，rebase 和 merge 是对 Git 历史的不同处理方法： 
+- merge 用于记录 git 的所有历史，那么分支的历史错综复杂，也全部记录下来； 
+- rebase 用于简化历史记录，将两个分支的历史简化，整个历史更加简洁；
+
+了解了 rebase 的底层原理，就可以根据自己的特定场景选择 merge 或者 rebase。
+
+注意：rebase 有一条黄金法则：**永远不要在主分支上使用 rebase**（不要将主分支变基到其它分支，而是将其它分支变基到主分支）：
+
+- 如果在 main 上面使用 rebase，会造成大量的提交历史在 main 分支中不同；
+- 而多人开发时，其他人依然在原来的 main 中，对于提交历史来说会有很大的变化；
+
+<img src="NodeAssets/错误的 rebase 方式.jpg" alt="错误的 rebase 方式" style="zoom:50%;" />
+
 ---
 
 Git 命令速查表图解。

@@ -15,8 +15,7 @@
 ## context 参数。
 
 - `context` 是一个和 store 实例有相同方法和属性的对象。
-- 它与 store 实例相同的属性/方法：`state`, `getters`, `commit`, `dispatch`.
-- 它特有的属性：`rootState`, `rootGetters`.
+- 它与 store 实例相同的属性/方法：`state`, `getters`, `commit`, `dispatch`；它特有的属性：`rootState`, `rootGetters`.
 
 
 ## 基本使用。
@@ -55,7 +54,7 @@ Home.vue
 ```vue
 <template>
 	<div >
-		计数器：{{$store.state.counter}}
+		计数器：{{ $store.state.counter }}
 		<button @click="increment">+100</button>
 	</div>
 </template>
@@ -194,14 +193,15 @@ export default {
 </script>
 ```
 
-## actions 返回 Promise
+## 返回 Promise
 
 actions 通常是异步的，如何知道什么时候异步操作完成，返回一个 Promise。
 
-src/store/index.js
+src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
+
 const store = createStore({
 	state() {
 		return {
@@ -238,6 +238,7 @@ Home.vue
 </template>
 <script>
 import { useStore } from "vuex"
+  
 export default {
 	setup() {
 		const store = useStore()
@@ -271,7 +272,7 @@ export default {
 
 ## 基本使用。
 
-src/store/modules/home.js
+src / store / modules / home.js
 
 ```javascript
 const home = {
@@ -289,6 +290,7 @@ src/store/index.js
 ```javascript
 import { createStore } from 'vuex'
 import home from './modules/home'
+
 const store = createStore({
 	modules: {
 		home
@@ -322,7 +324,7 @@ Home.vue
 </template>
 ```
 
-默认情况下，modules中的 `actions` 和 `mutations` 注册在全局名命空间中。
+默认情况下，modules 中的 `getters`, `actions` 和 `mutations` 注册在全局名命空间中。
 
 - 意味着提交一个 mutation，那么所有模块中的同名 mutation 都会触发。
 
@@ -349,7 +351,7 @@ const home = {
 export default home
 ```
 
-src/store/index.js
+src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
@@ -382,7 +384,7 @@ export default {
 	setup() {
 		const store = useStore()
 		const homeIncrement = () => {
-      // 在此处直接提交，counter，homeCounter都会+1
+      // 在此处直接提交，counter，homeCounter 都会+1
 			store.commit('increment')
 		}
 		return { homeIncrement }
@@ -433,9 +435,7 @@ export default {
 
 ------
 
-增加名命空间后，modules 中的 getter 方法有4个参数，
-
-- state, getters, rootState, rootGetters.
+**增加名命空间后**，modules 中的 getter 方法有4个参数：state, getters, rootState, rootGetters.
 
 src / store / modules / home.js
 
@@ -455,11 +455,7 @@ const home = {
 export default home
 ```
 
-------
-
-增加名命空间后，modules 中的 action 方法 context 参数对象有6个属性。
-
-- commit, dispatch, state, rootState, getters, rootGetters
+**增加名命空间后**，modules 中的 action 方法 context 参数对象有6个属性。commit, dispatch, state, rootState, getters, rootGetters
 
 src / store / moudels / home.js
 
@@ -495,10 +491,8 @@ src / store / modules / home.js
 ```javascript
 const home = {
   actions: {
-    // {} 解构语法
-    homeIncrementAction({commit}) {
-      // 第二个参数是payload，第三个参数是对象，设置root:true
-      commit('increment', null, { root: true } )
+    homeIncrementAction({ commit }) { // {} 解构语法
+      commit('increment', null, { root: true } ) // 第二个参数是 payload，第三个参数是对象，设置 root:true
     }
   }
 }
@@ -518,6 +512,7 @@ Home.vue
 ```vue
 <script>
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex"
+  
 export default {
 	computed: {
 		...mapState('home', ['homeCounter']),
@@ -610,13 +605,14 @@ nextTick 的基本使用。
 ```Vue
 <script>
   import { ref, nextTick } from "vue";
+  
   export default {
     setup() {
       const message = ref("")
       const titleRef = ref(null)
       const addMessageContent = () => {
         message.value += "哈哈哈哈哈哈哈哈哈哈"
-        // 更新DOM
+        // 更新 DOM
         nextTick(() => {
           console.log(titleRef.value.offsetHeight)
         })
@@ -640,7 +636,7 @@ nextTick 的基本使用。
 
 -----
 
-# 认识 pinia，
+# 认识 pinia
 
 - Pinia（发音为/piːnjʌ/，如英语中的“peenya”）是最接近 piña（西班牙语中的菠萝）的词；
 - Pinia 开始于大概2019年，最初是作为一个实验为 Vue 重新设计状态管理，让它用起来像组合式API（Composition API）。
@@ -778,7 +774,8 @@ const useHome = defineStore("home", { // 返回一个函数
   state: () => ({
 		name: "zzt",
     age: 18,
-    level: 100
+    level: 100,
+    friends: []
   }),
 })
 export default useHome
@@ -799,19 +796,10 @@ Home.vue
   const homeStore = useHome()
   const { name, age, level } = storeToRefs(homeStore)
   function changeState1() {
-    // 1.一个个修改状态
     homeStore.name = "kobe"
     homeStore.age = 20
     homeStore.level = 200
-
   }
-	function changeStatese2() {
-		// 2.一次性修改多个状态
-    homeStore.$patch({
-      name: "james",
-      age: 35
-    })
-	}
 </script>
 <template>
   <div class="home">
@@ -819,8 +807,47 @@ Home.vue
     <h2>name: {{ name }}</h2>
     <h2>age: {{ age }}</h2>
     <h2>level: {{ level }}</h2>
-    <button @click="changeState1">修改 state</button>
-    <button @click="changeState2">修改 state</button>
+    <button @click="changeState">修改 state</button>
+  </div>
+</template>
+<style scoped>
+</style>
+```
+
+## 修改 state
+
+可以通过调用 store 上的 `$patch()` 方法将修改多个状态。
+
+同时，`$patch` 也接受一个函数，用于修改 store 中的集合类型数据
+
+```vue
+<script setup>
+  import useHome from '@/stores/home'
+  import { storeToRefs } from 'pinia';
+
+  const homeStore = useHome()
+  const { name, age, level } = storeToRefs(homeStore)
+	function changeStatese() {
+    homeStore.$patch({
+      name: "james",
+      level: homeStore.level + 1
+    })
+	}
+  function addFriend() {
+    homeStore.$patch(state => {
+      state.friends.push({ name: 'CR7', age: '37' })
+      state.level = 101
+    })
+  }
+</script>
+<template>
+  <div class="home">
+    <h2>Home View</h2>
+    <h2>name: {{ name }}</h2>
+    <h2>age: {{ age }}</h2>
+    <h2>level: {{ level }}</h2>
+    <button @click="changeState">修改 state</button>
+    <button @click="addFriend">添加 friend</button>
   </div>
 </template>
 <style scoped>
@@ -859,47 +886,9 @@ Home.vue
 </style>
 ```
 
-## 替换 state
-
-通过将其 `$state` 属性设置为新对象来替换 Store 的整个状态：
-
-Home.vue
-
-```vue
-<script setup>
-  import useHome from '@/stores/home'
-  import { storeToRefs } from 'pinia';
-
-  const homeStore = useHome()
-  const { name, age, level } = storeToRefs(homeStore)
-  function replaceState() {
-    // 替换 state 为新的对象
-    homeStore.$state = {
-      name: "curry",
-      level: 200
-    }
-  }
-</script>
-
-<template>
-  <div class="home">
-    <h2>Home View</h2>
-    <h2>name: {{ name }}</h2>
-    <h2>age: {{ age }}</h2>
-    <h2>level: {{ level }}</h2>
-    <button @click="replaceState">替换 state</button>
-  </div>
-</template>
-
-<style scoped>
-</style>
-```
-
------
-
 # Pinia 核心二 Getters
 
-## 认识 Geeters
+## 认识 Getters
 
 - Getters 相当于 Store 的计算属性：
 - 它们可以用 defineStore() 中的 `getters` 属性定义；
@@ -988,7 +977,7 @@ const useHome = defineStore("home", {
     recommends: []
   }),
   actions: {
-    async fetchHomeMultidata() { // 异步（async）函数会将返回值包裹在 promise 中返回。
+    async fetchHomeMultidata() { // 异步（async）函数默认会将返回值包裹在 promise 中返回。
       const res = await fetch("http://123.207.32.32:8000/home/multidata")
       const data = await res.json()
       this.banners = data.data.banner.list
@@ -1009,8 +998,8 @@ Home.vue
   import useHome from '@/stores/home';
 
   const homeStore = useHome()
-  // 执行 actions
-  homeStore.fetchHomeMultidata().then(res => {
+  const promise = homeStore.fetchHomeMultidata() // 执行 actions
+  promise.then(res => {
     console.log("fetchHomeMultidata 的 action 已经完成了:", res)
   })
 </script>
@@ -1142,11 +1131,11 @@ const baseURL = "http://123.207.32.32:8000"
 axios.defaults.baseURL = baseURL
 axios.defaults.timeout = 10000
 axios.defaults.headers = {}
-// 1.1.get: /home/multidata
+// 1.发送 get 请求: /home/multidata
 axios.get("/home/multidata").then(res => {
   console.log("res:", res.data)
 })
-// 2.axios发送多个请求
+// 2.axios 发送多个请求
 axios.all([ // 原理 Promise.all
   axios.get("/home/multidata"),
   axios.get("http://123.207.32.32:9001/lyric?id=500665346")
