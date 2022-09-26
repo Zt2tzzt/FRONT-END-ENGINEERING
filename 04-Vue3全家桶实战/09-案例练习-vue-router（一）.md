@@ -183,28 +183,28 @@ HTML5 中 history 的6种方法改变 URL 而不刷新
 
 ## 认识 vue-router
 
-- Vue Router 是 Vue.js 的官方路由： 
-	
-	- 它与 Vue.js 核心深度集成，让用 Vue.js 构建单页应用（SPA）变得非常容易； 
-	
-- vue-router 是基于路由和组件的 
-	- 路由用于设定访问路径, 将路径和组件映射起来； 
-	- 在 vue-router 的单页面应用中, 页面的路径的改变就是组件的切换；
-	
-- 安装 Vue Router：
+Vue Router 是 Vue.js 的官方路由： 
 
-  ```shell
-  npm install vue-router
-  ```
+- 它与 Vue.js 核心深度集成，让用 Vue.js 构建单页应用（SPA）变得非常容易； 
 
-  > 安装依赖不需要重启项目，修改配置文件后才需要重启项目。
+vue-router 是基于路由和组件的 
+- 路由用于设定访问路径, 将路径和组件映射起来； 
+- 在 vue-router 的单页面应用中, 页面的路径的改变就是组件的切换；
+
+安装 Vue Router：
+
+```shell
+npm install vue-router
+```
+
+> 安装依赖不需要重启项目，修改配置文件后才需要重启项目。
 
 -----
 
 ## 使用步骤，
 
 1. 创建路由需要映射的组件（打算显示的页面）； 
-2. 通过 createRouter 创建路由对象，并且传入 routes 和 history 模式； 
+2. 通过 `createRouter` 函数创建路由对象，并且传入 routes 和 history 模式； 
 	1. 配置路由映射: 组件和路径映射关系的 routes 数组； 
 	2. 创建基于 hash 或者 history 的模式；
 3. 使用 app 注册路由对象（use方法）；
@@ -254,17 +254,15 @@ src / App.vue
 </template>
 ```
 
------
-
 ## 路由的默认路径（重定向）。
 
 使用场景：
 
 - 进入网站时，默认没有匹配路由，则显示 Home 组件
 
-src / router / index.js
-
 基本使用：
+
+src / router / index.js
 
 ```javascript
 const routes = [
@@ -295,9 +293,7 @@ router-link 有哪些属性？
 <router-link to="/home" replace active-class=“active” custome>首页</router-link>
 ```
 
------
-
-## 路由懒加载。
+## 路由懒加载
 
 使用场景：
 
@@ -340,14 +336,13 @@ dist
 		
 ```
 
------
-
 ## 路由的 name 和 meta 属性。
 
-- name：路由记录独一无二的名称，可通过名字来做跳转-（很少用），一般用于：
-  - **动态添加路由**中的二级子路由（后续学习）。
-  - 删除添加的路由。
-- meta：自定义数据，某些地方会拿到 route 对象，可访问 meta，可用于导航守卫。
+name：路由记录独一无二的名称，可通过名字来做跳转-（很少用），一般用于：
+- **动态添加路由**中的二级子路由（后续学习）。
+- 删除添加的路由。
+
+meta：自定义数据，某些地方会拿到 route 对象，可访问 meta，可用于导航守卫。
 
 ```javascript
 const routes = [
@@ -369,9 +364,7 @@ const route = useRoute()
 route.meta
 ```
 
------
-
-## 动态路由（匹配路径参数）；
+## 动态路由（匹配路径参数）
 
 ### 使用场景：
 
@@ -616,7 +609,9 @@ route.query.age
 
 ------
 
-### 其它4个方法：
+### 编程导航的5个方法：
+
+- push：可传路径或对象作为参数。
 
 - replace：`router.replace('/about')`，相当于声明式的`<router-link to="/about" replace />`
 - go：`router.go(1)`，回退或者前进。

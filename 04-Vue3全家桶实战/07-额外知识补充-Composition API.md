@@ -69,7 +69,9 @@ Provide / Inject 基本使用，provide 的函数写法，处理响应式数据�
 
 >不能在对象写法的 provide 中使用 this，因为 vue 的 sfc 文件中，\<script\> 标签中的代码会按照 Node 模块化打包，所以其中全局 this 指向 undefined。
 >
->computed API 中传入的是 get 函数，并且要用箭头函数。computed 返回的是一个 ref 对象，需要使用 value 拿到值（解包）。
+>computed API 中传入的是 get 函数，并且要用箭头函数。
+>
+>computed 返回的是一个 ref 对象，需要使用 value 拿到值（解包）。
 
 
 孙子组件：HomeBanner.vue
@@ -336,7 +338,7 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
 1. 通过 v-if 来判断，显示不同组件。
 2. 动态组件（内置组件 Component）的方式
 
-内置动态组件 Component 的使用。组件通信。
+内置动态组件 Component 的使用。组件通信与普通父子组件无差别。
 
 - 通过一个特殊的 attribute `is` 来实现。
 - is 最好使用 v-bind 动态绑定，它的值可以是2种。
@@ -701,7 +703,7 @@ export default {
 2. 如果我们现在封装了一个组件，其他地方在使用这个组件时，是否也可以使用 v-model 来同时完成这两个功能呢？ 
 3. 也是可以的，vue 也支持在组件上使用 v-model；
 
-组件 v-model 的基本使用：
+## 基本使用：
 
 父组件 App.vue
 
@@ -741,9 +743,7 @@ export default {
 </script>
 ```
 
-------
-
-组件 v-model 使用，使用 computed 处理。
+## 使用 computed 处理
 
 父组件 App.vue
 
@@ -786,7 +786,7 @@ export default {
 </script>
 ```
 
-组件 v-model 绑定多个值的使用：
+## 绑定多个值的使用：
 
 App.vue
 
@@ -844,13 +844,9 @@ export default {
 </script>
 ```
 
------
-
 # Mixin
 
-认识 Mixin，如何使用？
-
-Mixin 的使用场景1点：
+## 使用场景：
 
 - vue 项目的开发过程中，组件和组件之间有时会存在相同的代码逻辑，我们希望将相同的代码逻辑进行抽取，可以使用 Mixin
 - Vue2 中使用 Mixin 进行相同逻辑的抽取，Vue3 用的很少，一般在 Composition API 中使用 Hooks 函数对相同逻辑进行抽取。
@@ -861,7 +857,7 @@ Mixin 的3点描述：
 2. 一个 Mixin 对象可以包含任何组件选项 Options。
 3. 当组件使用 Mixin 对象时，所有 Mixin 对象的选项将被混合进入该组件本身的选项中。
 
-Mixin 的基本使用：
+## 基本使用：
 
 demoMixin.js
 
@@ -903,13 +899,15 @@ export default {
 
 ------
 
-Mixin 冲突合并的规则，分3种情况：
+## 冲突合并的规则，
+
+分3种情况：
 
 1. 如果是 data 函数返回的对象，保留组件自身的。
 2. 如果是生命周期钩子函数，会合并到数组中，都会被调用。
 3. 如果是值为对象的选项（如 computed，methods），key 冲突，保留自身组件对象的键值对。
 
-------
+## 全局混入
 
 全局混入的使用场景：
 
@@ -930,8 +928,6 @@ app.mixin({
 })
 app.mount('#app')
 ```
-
-------
 
 # extends
 
@@ -983,8 +979,6 @@ export default {
 </style>
 ```
 
------
-
 # Composition API
 
 Options API 的缺点，
@@ -1003,12 +997,12 @@ Options API 的缺点，
 
 -----
 
-认识 setup 函数。
+## 认识 setup 函数。
 
 setup 函数主要有2个参数：
 
 1. props：Object 类型，父组件中传递过来的属性。它是**响应式的**，**不能使用解构语法**，除非使用 `toRefs`
-   - props 还是需要在选项 Options 中定义，在 setup 函数中通过 props 参数获取，而不是 `this`（components 属性也通过选项 Options 定义)
+   - props 还是需要在选项 Options 中定义（components 属性也通过选项 Options 定义)，在 setup 函数中通过 props 参数获取，而不是 `this`
    - 在 template 中依然是可以正常去使用 props 中的属性，比如 message
 2. context，Object 类型，称之为 SetupContext，它里面包含3个属性（可使用解构获取）：
    - attrs：所有非 prop 的 attribute。
@@ -1031,7 +1025,7 @@ App.vue
 ```vue
 <template>
   <div class="app">
-    <h2>当前计数: {{ counter }}</h2><!-- template 中 ref 对象自动解包 -->
+    <h2>当前计数: {{ counter }}</h2> <!-- template 中 ref 对象自动解包 -->
     <button @click="increment">+1</button>
     <button @click="decrement">-1</button>
   </div>

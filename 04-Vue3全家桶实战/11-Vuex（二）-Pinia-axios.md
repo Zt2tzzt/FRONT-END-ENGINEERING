@@ -252,13 +252,11 @@ export default {
 </script>
 ```
 
------
-
 # Vuex 核心五 modules，
 
 什么是 modules？
 
-- modules 是用于分割 store 的模块，每个模块拥有自己的 state，mutation，action，getter，modules（嵌套子模块）
+- modules 是用于分割 store 的模块，每个模块拥有自己的 state，mutations，actions，getters，modules（嵌套子模块）
 
 ## 使用场景，
 
@@ -958,8 +956,7 @@ export default useCounter
 
 ## 认识 Actions
 
-- Actions 相当于组件中的 methods。
-	- 可以使用 defineStore() 中的 actions 属性定义，并且它们非常适合定义业务逻辑；
+- Actions 相当于组件中的 methods。可以使用 defineStore() 中的 actions 属性定义，并且它们非常适合定义业务逻辑；
 - 和 getters 一样，在 action 中可以通过 this 访问整个 store 实例的所有操作；
 - Actions 中是支持异步操作的，通过返回一个 Promise 告知使用者异步操作执行状态。
 
