@@ -501,7 +501,7 @@ v-bind 的作用，语法糖，预期值类型，修饰符
 </body>
 ```
 
-v-bind 绑定 class，数组写法
+### 绑定 class，数组写法
 
 ```html
 <body>
@@ -527,7 +527,7 @@ v-bind 绑定 class，数组写法
 </body>
 ```
 
-v-bind 绑定 style，对象语法
+### 绑定 style，对象语法
 
 ```html
 <body>
@@ -571,7 +571,7 @@ v-bind 绑定 style，对象语法
 </body>
 ```
 
-v-bind 绑定 style，数组写法
+### 绑定 style，数组写法
 
 ```html
 <body>
@@ -598,9 +598,7 @@ v-bind 绑定 style，数组写法
 </body>
 ```
 
------
-
-v-bind 动态绑定 attribute 名称
+### 动态绑定 attribute 名称
 
 ```html
 <body>
@@ -626,9 +624,9 @@ v-bind 动态绑定 attribute 名称
 
 -----
 
-v-bind 以对象形式直接给元素绑定 attributes 的使用
+### 以对象形式直接给元素绑定 attributes
 
-- 经常用来给组件传递 props。
+经常用来给组件传递 props。
 
 ```html
 <body>

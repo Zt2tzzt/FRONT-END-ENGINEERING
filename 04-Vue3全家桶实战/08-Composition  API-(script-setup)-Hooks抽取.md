@@ -43,8 +43,6 @@ reactive API 的基本使用：
 </style>
 ```
 
------
-
 # ref API
 
 使用场景：
@@ -60,8 +58,6 @@ reactive API 的基本使用：
 
 1. 在 \<template\> 模板中引入 ref 的值时，vue 会自动帮助我们进行浅层解包操作，并不需要通过 `ref.value` 的方式使用。
 2. 在 setup 函数内部，它依然是一个 ref 引用，所以需要通过 `ref.value` 的方式来使用。
-
-------
 
 如何理解 ref API 的浅层解包。
 
@@ -105,15 +101,15 @@ ref API 的基本使用：
 </style>
 ```
 
------
-
 # reactive, ref 如何选择
 
-- 满足以下两个条件，推荐用 reactive：
-	- 本地产生的数据，比如本地定义的用户名，密码。
-	- 多个数据之间是有联系的，聚合的数据。
-- 其它场景都推荐都使用 ref，能够更好的做到解耦，这样方便代码的抽取。
-	- 如网络请求中获取的数据，
+满足以下两个条件，推荐用 reactive：
+- 本地产生的数据，比如本地定义的用户名，密码。
+- 多个数据之间是有联系的，聚合的数据。
+
+其它场景都推荐都使用 ref，能够更好的做到解耦，这样方便代码的抽取。
+
+- 如网络请求中获取的数据，
 
 > ref 和 reactive 默认都能实现对象的深层响应式。
 
@@ -209,8 +205,6 @@ readonly API 结合普通对象和响应式对象的使用：
 </style>
 ```
 
------
-
 # reactive 相关 API
 
 - `isProxy` - 检查对象是否由 `reactive` 或 `readonly` 创建的 Proxy。
@@ -231,8 +225,6 @@ export default {
   }
 }
 ```
-
------
 
 # toRefs, toRef API。
 
@@ -261,8 +253,6 @@ export default {
 ```
 
 > 这种做法相当于将解构出来的值与 reactive 返回的对象中的属性建立联系，任何一个修改都会引起另外一个变化。
-
------
 
 # ref 相关 API
 
@@ -294,18 +284,16 @@ export default {
 </template>
 ```
 
-------
-
-customRef 的使用场景，ref-debounce 案例（双向绑定属性进行节流操作）
+customRef 的使用场景，ref-debounce 案例（双向绑定属性进行防抖操作）
 
 App.vue
 
 ```vue
 <script>
-import debounceRef from "./hook/useDebounceRef";
+import useDebounceRef from "./hook/useDebounceRef";
 export default {
   setup() {
-    const message = debounceRef("Hello World");
+    const message = useDebounceRef("Hello World");
     return { message };
   },
 };
@@ -345,22 +333,22 @@ export default function (value, delay = 300) {
 
 # setup 中不可以使用 this
 
+为什么不能使用 this
+
 1. setup 被调用之前，data, computed, methods 等选项都没有被解析。
 2. setup 函数**调用时未绑定 this**，所以它的 this 没有指向组件实例 Instance，而是 undefined。
 
-setup 函数的执行过程
+setup 函数的执行过程在阅读源码的过程中，代码是按照如下顺序执行的： 
 
-- 在阅读源码的过程中，代码是按照如下顺序执行的： 
-	- 调用 createComponentInstance 创建组件实例； 
-	- 调用 setupComponent 初始化 component 内部的操作；
-	- 调用 setupStatefulComponent 初始化有状态的组件；
-	- 在 setupStatefulComponent 取出了 setup 函数； 
-	- 通过 callWithErrorHandling 的函数执行 setup；
-	
-	<img src="NodeAssets/setup函数执行.jpg" alt="setup函数执行" style="zoom:80%;" />
-- 从上面的代码我们可以看出， 组件的 instance 肯定是在执行 setup 函数之前就创建出来的，并且 setup 函数在执行时没有绑定 this。
+1. 调用 createComponentInstance 创建组件实例； 
+2. 调用 setupComponent 初始化 component 内部的操作；
+5. 调用 setupStatefulComponent 初始化有状态的组件；
+3. 在 setupStatefulComponent 取出了 setup 函数； 
+4. 通过 callWithErrorHandling 的函数执行 setup；
 
------
+  <img src="NodeAssets/setup函数执行.jpg" alt="setup函数执行" style="zoom:80%;" />
+
+从上面的代码我们可以看出， 组件的 instance 肯定是在执行 setup 函数之前就创建出来的，并且 setup 函数在执行时没有绑定 this。
 
 # computed API
 
@@ -425,8 +413,6 @@ setup 中侦听器提供了2种 API ：
 
 - watchEffect - 用于自动收集响应式数据依赖。
 - watch - 手动指定侦听的数据源。
-
-------
 
 # watchEffect API
 
@@ -502,16 +488,14 @@ watchEffect((onInvalidate) => {
 });
 ```
 
------
-
 # watch API
 
-使用场景：
+## 使用场景
 
 1. 需要侦听特定的数据源，并在回调函数中执行副作用。
 2. 默认情况下是惰性的，只有当侦听的数据源发生变化时才会执行回调。
 
-watch 与 watchEffect 的区别：
+## watch 与 watchEffect 的区别：
 
 - watch 会指定侦听的数据源。
 - watch 会惰性执行副作用（第一次不会直接执行）
@@ -523,8 +507,6 @@ watch 侦听单个数据源，可传2种类型：
 
 - 一个 getter 函数，该函数返回值必须要引用响应式对象（如 reactive 或 ref 对象）。
 - 一个响应式对象，reactive 或者 ref 对象（常用）
-
-------
 
 watch 侦听单个数据源，newVal 和 oldVal 拿到普通值和响应式对象的4种情况。侦听 Reactive 对象后获取普通对象。
 
@@ -611,7 +593,7 @@ const info = reactive({
   }
 });
 watch(() => ({...info}), (newVal, oldVal) => {
-  // info 默认不能做深度监听。需要配置
+  // info 的浅层拷贝不能做深度监听。需要配置
 }, {
   deep: true, // 深度监听
   immediate: true // 立即执行
@@ -620,8 +602,6 @@ const changeData = () => {
   info.friend.name = "james";
 }
 ```
-
------
 
 # setup 中获取 DOM / 组件对象
 
@@ -635,7 +615,7 @@ const changeData = () => {
      export default {
        setup() {
          const titleRef = ref(null);
-         return { title }
+         return { titleREf }
        }
      }
    </script>
@@ -685,8 +665,7 @@ const changeData = () => {
    watchEffect(() => {
      console.log(titleRef.value);
    }, {
-     // 设置副作用函数的执行时机。
-     flush: 'post' // 默认值 pre，还可接收 sync，低效，谨慎使用。
+     flush: 'post' // 设置副作用函数的执行时机，默认值 pre，还可接收 sync，低效，谨慎使用。
    })
    ```
    
@@ -727,8 +706,6 @@ export default {
 ```
 
 > 同一个生命周期钩子函数可以多次使用而不会被覆盖，有什么好处？有利于代码的抽取复用。
-
------
 
 # Provide, Inject API
 
@@ -780,9 +757,10 @@ export default {
 </template>
 ```
 
-> Inject 注入的 ref 对象，option 写法在 template 中不会自动解包，setup 写法在 template 中会自动解包。
-
------
+> 对于 Inject 注入的 ref 对象，
+>
+> - option 写法在 template 中不会自动解包，
+> - setup 写法在 template 中会自动解包。
 
 # Hooks 抽取思想，案例理解。
 
@@ -867,7 +845,7 @@ export default function () {
     position.x = window.scrollX
     position.y = window.scrollY
   })
-  return position
+  return { position }
 }
 ```
 
@@ -962,7 +940,7 @@ export default function (key, value) {
 
 `<script setup>` 里面的代码会被编译成组件 setup() 函数的内容： 
 
->  这意味着与普通的 \<script\> 只在组件被首次引入的时候执行一次不同；\<script setup\> 中的代码会在每次组件实例被创建的时候执行。
+>  这意味着，与普通的 \<script\> 只在组件被首次引入的时候执行一次不同；\<script setup\> 中的代码会在每次组件实例被创建的时候执行。
 
 基本用法
 
