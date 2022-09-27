@@ -16,35 +16,39 @@ Vue 在前端处于什么地位？
 
 -----
 
-vue3 与 vue2 的区别
+# Vue3 与 vue2 的区别
 
-- 源码方面：
-	- Vue3 通过 monorepo 的形式来管理源代码。
-	- Vue3 源码使用 TypeScript 进行重写。（Vue2 中使用 Flow 来进行类型检测）
-- 性能方面：
-	- 使用 Proxy 进行数据劫持。
-		1. Vue2 中使用 `Object.defineProperly` 中的 getter 和 setter 方法进行数据劫持，
-		2. 这种方法无法劫持对象添加或删除属性，
-		3. 所以不得不提供一些像 $set 或 $delete 这样特殊的 API
-	- 删除了一些不必要的 API。
-		- 移除了实例上的 $on，$off 和 $once；
-		- 删除了一些特性，如 filter，内联模板等。
-	- 编译方面的优化。
-		- 生成 Block Tree；
-		- Slot 编译优化；
-		- diff 算法优化。
-- API方面
-	- 由 Options API 到 Composition API
-		- Vue2 通过 Options API 来描述组件对象，
-		- 其中包括 data, props, methods, computed, 生命周期等等这些选项。
-		- 造成编写代码时，一个逻辑可能是在不同的地方，代码内聚性非常差。
-		- Composition API 可以将相关联的代码放到同一处进行处理，而不需要在多个 Options 之间寻找
-	- Hook 函数增加代码的复用性：
-		- vue2 通常使用 mixin 在多个组件之间共享逻辑。
-		- 而 mixin 也是由一大堆 Options 组成，并且多个 mixin 会存在名命冲突的问题。
-		- Vue3 中可以通过 Hook 函数，将一部分独立的逻辑抽取出去，并且还可以做到到响应式。
+源码方面：
+- Vue3 通过 monorepo 的形式来管理源代码。
+- Vue3 源码使用 TypeScript 进行重写。（Vue2 中使用 Flow 来进行类型检测）
 
-------
+性能方面：
+- Vue3 使用 Proxy 进行数据劫持。
+	1. Vue2 中使用 `Object.defineProperly` 中的 getter 和 setter 方法进行数据劫持，
+	2. 这种方法无法劫持对象添加或删除属性，
+	3. 所以不得不提供一些像 $set 或 $delete 这样特殊的 API
+- Vue3 删除了一些不必要的 API。
+	- 移除了实例上的 $on，$off 和 $once；
+	- 删除了一些特性，如 filter，内联模板等。
+- Vue3 做了编译方面的优化。
+	- 生成 Block Tree；
+	- Slot 编译优化；
+	- diff 算法优化。
+
+API方面
+- Vue3 由 Options API 转到 Composition API，同时兼容 Options API。
+	- Vue2 通过 Options API 来描述组件对象，
+	- 其中包括 data, props, methods, computed, watch, 生命周期等等这些选项。
+	- 造成编写代码时，一个逻辑可能是在不同的地方，代码内聚性非常差。
+	- Composition API 可以将相关联的代码放到同一处进行处理，而不需要在多个 Options 之间寻找
+- Hook 函数增加代码的复用性：
+	- vue2 通常使用 mixin 在多个组件之间共享逻辑。
+	- 而 mixin 也是由一大堆 Options 组成，并且多个 mixin 会存在名命冲突的问题。
+	- Vue3 中可以通过 Hook 函数，将一部分独立的逻辑抽取出去，并且还可以做到响应式。
+
+# 如何使用 Vue
+
+## 在项目中引入 Vue
 
 如何在项目中引入 Vue？4种方式
 
@@ -52,8 +56,6 @@ vue3 与 vue2 的区别
 - 下载 Vue 的 JavaScript 文件，并且自己手动引入。
 - 通过 npm 安装并使用它。
 - 直接通过 Vue CLI 创建项目并使用它。
-
------
 
 使用 CDN 的方式体验 Vue 的基本使用。
 
@@ -75,7 +77,7 @@ vue3 与 vue2 的区别
 </body>
 ```
 
------
+## 基本使用
 
 Vue 的初体验，3个案例的实现。
 
@@ -84,7 +86,7 @@ Vue 的初体验，3个案例的实现。
 ```html
 <body>
   <div id="app"></div>
-  <script src="./lib/vue.js"></script><!-- 使用下载到本地的 vue -->
+  <script src="./lib/vue.js"></script> <!-- 使用下载到本地的 vue -->
   <script>
     const app = Vue.createApp({
       template: `<h2>{{message}}</h2>`,
@@ -156,13 +158,13 @@ Vue 的初体验，3个案例的实现。
 </body>
 ```
 
------
+## 使用 template
 
 对计数器案例做重构，使用 template
 
 > 如果 createApp 中传入的对象，
 >
-> - 有 template 属性，那么 template 中的内容会替换掉 `<div id="app></div>` 中的内容
+> - 有 template 属性，那么 template 中的内容会替换掉 `<div id="app”></div>` 中的内容
 > - 没有 template 属性，那么 Vue 底层会将 `<div id="app"></div>` 中的内容当作 template 进行渲染。
 
 ```html
@@ -234,7 +236,7 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
   </script>
   ```
 
------
+## 与眼生代码对比
 
 使用原生方式实现计数器，对比命令式和声明式编程的区别。
 
@@ -270,6 +272,8 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
 
 -----
 
+# MVVM 开发模式
+
 什么是 MVVM 的开发模式，它与 MVC 的模式有什么不同？
 
 - MVC 是 Model–View–Controller 的简称，是在前期比较流行的架构模式，比如 iOS、前端；
@@ -277,17 +281,13 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
 
 <img src="NodeAssets/MVVM模型.jpg" alt="MVVM模型" style="zoom:50%;" />
 
------
-
 # Vue 的 Options API 的基本使用
 
 ## data
 
+在 Vue2.x 的时候，也可以传入一个对象（虽然官方推荐是一个函数）；
 
-data 属性 Vue2 和 Vue3 的区别
-
-- 在 Vue2.x 的时候，也可以传入一个对象（虽然官方推荐是一个函数）；
-- 在 Vue3.x 的时候，必须传入一个函数，否则就会直接在浏览器中报错；
+在 Vue3.x 的时候，必须传入一个函数，否则就会直接在浏览器中报错；
 
 ```js
 data: function() {
@@ -297,15 +297,11 @@ data: function() {
 },
 ```
 
------
-
 理解 data 的响应式原理。
 
 - data 中返回的对象会被 Vue 的响应式系统劫持，之后对该对象的修改或者访问都会在劫持中被处理：
-- 在 template 或者 app 中通过 {{counter}} 访问 counter，可以从对象中获取到数据；
-- 修改 counter 的值时，app 中的 {{counter}} 也会发生改变；
-
------
+- 在 template 或者 app 中通过 `{{ counter }}` 访问 `counter`，可以从对象中获取到数据；
+- 修改 counter 的值时，app 中的 `{{ counter }}` 也会发生改变；
 
 ## methods
 
@@ -319,16 +315,14 @@ methods 属性有什么用？
 
 methods 中 this 的指向。
 
-- 一个 proxy 代理后的组件实例对象，里面可以操作 data 中的数据。
+- 一个 proxy 代理后的组件实例 instance 对象，里面可以操作 data 中的数据。
 
------
+## 其它 options
 
 Options API 中还有哪些其它属性？
 
 - 比如 computed、watch、props、emits、setup 等等； 
 - 也包括很多的生命周期函数；
-
------
 
 # Vue 的模板语法
 
@@ -341,9 +335,7 @@ Options API 中还有哪些其它属性？
 -  Vue 也支持 jsx 的开发模式： 
 	- 但是大多数情况下，使用基于 HTML 的模板语法； 
 	- 在模板中，允许开发者以声明式的方式将 DOM 和底层组件实例的数据绑定在一起；
-	- 在底层的实现中，Vue 将模板编译成虚拟 DOM 渲染函数。
-
------
+	- 在底层的实现中，Vue 将模板编译成虚拟 DOM 渲染函数（createVNode）。
 
 ## Mustache 语法
 
@@ -365,8 +357,6 @@ Mustache 语法（双大括号语法/插值语法）的使用。
 ```html
 <div>{{ const foo = 'haha' }}</div> <!-- 错误写法 -->
 ```
-
------
 
 # 指令
 
@@ -393,8 +383,6 @@ v-html 将文本内容解析成 html 代码。
 <h2 v-html="content"></h2>
 ```
 
------
-
 v-pre 用于跳过元素及其子元素的编译过程，显示原始的 Mustache 标签。
 
 ```html
@@ -407,7 +395,7 @@ v-pre 用于跳过元素及其子元素的编译过程，显示原始的 Mustach
 
 v-cloak 这个指令保存在元素上，直到关联组件实例编译完成。
 
-- 和 CSS 规则如 `[v-cloak] { display: none }` 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到组件实例准备完毕。
+- 和 CSS 属性选择器 `[v-cloak] { display: none }` 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到组件实例准备完毕。
 
 ```html
 <style>
@@ -429,8 +417,6 @@ v-memo 缓存一个模板的子树，在元素和组件上都可以使用，传�
 </div>
 ```
 
------
-
 ## v-bind 指令
 
 v-bind 的作用，语法糖，预期值类型，修饰符
@@ -443,9 +429,7 @@ v-bind 的作用，语法糖，预期值类型，修饰符
 
 - 修饰符：`.camel` 将连字符转为驼峰写法。
 
------
-
-v-bind 的基本使用；
+### 基本使用
 
 ```html
 <body>
@@ -469,7 +453,7 @@ v-bind 的基本使用；
 </body>
 ```
 
-v-bind 绑定 class，对象语法
+### 绑定 class，对象语法
 
 ```html
 <body>
