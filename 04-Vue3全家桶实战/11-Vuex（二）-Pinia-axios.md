@@ -314,10 +314,10 @@ Home.vue
 ```vue
 <template>
 	<div>
-    <!-- 这种方式取不到home模块中的getter -->
-    <!-- HomeGetter: {{$store.state.home.homeGetter}} -->
+    <!-- 这种方式取不到 home 模块中的 getter -->
+    <!-- HomeGetter: {{ $store.state.home.homeGetter }} -->
     <!-- 这种方式才能取到，但是可能会有名命冲突 -->
-    HomeGetter: {{$store.getters.homeGetter}}
+    HomeGetter: {{ $store.getters.homeGetter }}
   </div>
 </template>
 ```
@@ -439,6 +439,7 @@ src / store / modules / home.js
 
 ```javascript
 const home = {
+	namespaced: true,
 	state() {
 		return {
 			homeCounter: 100
@@ -459,6 +460,7 @@ src / store / moudels / home.js
 
 ```javascript
 const home = {
+	namespaced: true,
 	state() {
 		return {
 			homeCounter: 100
@@ -488,6 +490,7 @@ src / store / modules / home.js
 
 ```javascript
 const home = {
+	namespaced: true,
   actions: {
     homeIncrementAction({ commit }) { // {} 解构语法
       commit('increment', null, { root: true } ) // 第二个参数是 payload，第三个参数是对象，设置 root:true
@@ -641,7 +644,7 @@ nextTick 的基本使用。
 - 从那时到现在，最初的设计原则依然是相同的，并且目前同时兼容 Vue2、Vue3，也并不要求你使用 Composition API；
 - Pinia 本质上依然是一个状态管理的库，用于跨组件、页面进行状态共享（这点和 Vuex、Redux 一样）；
 
-# Pinia 与 Vuex 的什么区别（面试）
+# Pinia 与 Vuex 的区别（面试）
 
 和 Vuex 相比，Pinia 有很多的优势：
 
@@ -700,7 +703,7 @@ app.mount('#app')
 ## 定义一个 Store
 
 - 我们需要知道 store 是使用 `defineStore()` 定义的；
-- 并且它需要一个唯一名称 name，作为第一个参数传递；这个 name，也称为 id，是必要的，Pinia 使用它来将 store 连接到 devtools。
+- 并且它需要一个唯一名称 `name`，作为第一个参数传递；这个 name，也称为 id，是必要的，Pinia 使用它来将 store 连接到 devtools。
 - 返回的函数统一使用 `useXxx ` 作为命名方案，这是约定的规范；
 
 src / store / home.js
@@ -942,7 +945,6 @@ export default useCounter
     <h2>doubleCount: {{ counterStore.doubleCount }}</h2>
     <h2>doubleCountAddOne: {{ counterStore.doubleCountAddOne }}</h2>
     <h2>friend-111: {{ counterStore.getFriendById(111) }}</h2>
-    <h2>friend-112: {{ counterStore.getFriendById(112) }}</h2>
     <h2>showMessage: {{ counterStore.showMessage }}</h2>
   </div>
 </template>
@@ -974,12 +976,12 @@ const useHome = defineStore("home", {
     recommends: []
   }),
   actions: {
-    async fetchHomeMultidata() { // 异步（async）函数默认会将返回值包裹在 promise 中返回。
+    async fetchHomeMultidata() {
       const res = await fetch("http://123.207.32.32:8000/home/multidata")
       const data = await res.json()
       this.banners = data.data.banner.list
       this.recommends = data.data.recommend.list
-			return data
+			return data // 异步（async）函数默认会将返回值包裹在 promise 中返回。
     }
   }
 })
@@ -995,8 +997,8 @@ Home.vue
   import useHome from '@/stores/home';
 
   const homeStore = useHome()
-  const promise = homeStore.fetchHomeMultidata() // 执行 actions
-  promise.then(res => {
+  // 执行 actions
+  homeStore.fetchHomeMultidata().then(res => {
     console.log("fetchHomeMultidata 的 action 已经完成了:", res)
   })
 </script>
@@ -1199,7 +1201,7 @@ axios.interceptors.request.use((config) => { // 传入请求的配置信息 conf
   console.log("请求成功的拦截")
   // 1.开始 loading 的动画
   // 2.对原来的配置进行一些修改
-  // 3.添加header，如认证登录: token/cookie
+  // 3.添加 header，如认证登录: token / cookie
   // 4.请求参数进行某些转化
   return config
 }, (err) => {
