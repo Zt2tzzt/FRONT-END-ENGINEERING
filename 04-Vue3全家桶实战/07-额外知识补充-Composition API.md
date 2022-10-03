@@ -660,7 +660,7 @@ const AsyncHome = defineAsyncComponent({
 
 -----
 
-# Suspense 内置组件
+# Suspense 内置组件（实验性特性）
 
 Suspense 是一个内置的全局组件，该组件有2个插槽并介绍：
 

@@ -3,13 +3,11 @@
 什么是 VNode
 
 - VNode 全称是 Virtual Node，也就是虚拟节点。
-- 无论组件还是元素，在 Vue 中表现出来的都是 VNode（目前我们还没有比较完整的学习组件的概念，所以目前我们先理解 HTML 元素创建出来的 VNode）。
+- 无论组件还是元素，在 Vue 中表现出来的都是 VNode。
 - VNode 本质是一个 JavaScript 对象。
 - 渲染过程：template -> VNode -> 真实DOM
 
 <img src="NodeAssets/HTML元素渲染出VNode.jpg" alt="HTML元素渲染出VNode" style="zoom:80%;" />
-
------
 
 # 认识虚拟 DOM
 
@@ -54,7 +52,8 @@
   </script>
 </body>
 ```
-- 有无 key 分别使用的方法（源码位置：packages -> runtime-core -> src -> renderer.ts）
+有无 key 分别使用的方法（源码位置：packages -> runtime-core -> src -> renderer.ts）
+
 - 没 key，使用 `patchUnKeyedChildren` 方法。3步
 	1. 取到旧 VNodes 和新 VNodes，比较两者长度，取小的那个遍历。
 	2. 遍历时，依次将旧 VNode 与新 VNode 做 patch 操作，有不同的元素则更新，
@@ -82,8 +81,6 @@
 	
 	   <img src="NodeAssets/diff算法有key的过程5.jpg" alt="diff算法有key的过程5" style="zoom:80%;" />
 
------
-
 # 计算属性 computed
 
 复杂 data 的处理场景。
@@ -97,8 +94,6 @@
 	- 可以，其中一种方式就是将逻辑抽取到一个 method 中，放到 methods 的 options 中； 
 	- 但是，这种做法有一个直观的弊端，就是所有的 data 使用过程都会变成一个方法的调用；
 	- 另外一种方式就是使用计算属性 computed；
-
------
 
 什么是计算属性 computed？
 
@@ -157,15 +152,13 @@
 ```html
 <!-- 
 如果模板中，多次引用一个计算逻辑的结果，
- 计算属性对应的函数只会运行一次，
- methods 对应的函数会运行3次 
+- 计算属性对应的函数只会运行一次，
+- methods 对应的函数会运行3次 
 -->
 <h2>{{ fullname }}</h2>
 <h2>{{ fullname }}</h2>
 <h2>{{ fullname }}</h2>
 ```
-
------
 
 ## 计算属性的完整写法，setter 和 getter。
 
@@ -211,23 +204,18 @@
 </body>
 ```
 
------
-
-源码对计算属性 computed 的处理，理解。
-
-- 会判断选项内容是否为一个函数，是则绑定一个 publicThis，不是则会取选项的 get 属性判断是否为方法。
-
------
+> 源码对计算属性 computed 的处理，理解。
+>
+> - 会判断选项内容是否为一个函数，是则绑定一个 publicThis，不是则会取选项的 get 属性判断是否为方法。
 
 # 侦听器 watch
 
 什么是侦听器 watch？
 
-- 开发中我们在 data（或 props） 返回的对象中定义了数据，这个数据通过插值语法等方式绑定到 template 中； 
-- 当数据变化时，template 会自动进行更新来显示最新的数据；
+- 开发中我们在 data（或 props） 返回的对象中定义了数据，这个数据通过插值语法等方式绑定到 template 中； 当数据变化时，template 会自动进行更新来显示最新的数据；
 - 但是在某些情况下，我们希望在代码逻辑中监听某个数据的变化，这个时候就需要用侦听器 watch 来完成了；
 
-侦听器 watch 的基本使用
+## 基本使用
 
 ```html
 <body>
@@ -265,10 +253,7 @@
 </body>
 ```
 
-
------
-
-在 Vue 中 proxy 对象转原始对象的方法2种。
+## proxy 对象转原始对象的方法2种
 
 ```js
 const app = {
@@ -281,9 +266,7 @@ const app = {
 }
 ```
 
------
-
-侦听器 watch 配置选项。
+## 配置选项
 
 - template 中的监听是深度监听的。
 - watch 中的监听默认不是深度监听。
@@ -392,8 +375,6 @@ const app = {
 </body>
 ```
 
------
-
 # 综合案例
 
 书籍购物车综合案例理解。
@@ -495,7 +476,7 @@ const books = [
       },
       computed: {
         totalPrice() {
-          return this.books.reduce((accumulation, currentItem) => accumulation + currentItem.price * currentItem.count, 0)
+          return this.books.reduce((accumulator, currentItem) => accumulator + currentItem.price * currentItem.count, 0)
         }
       },
       methods: {
