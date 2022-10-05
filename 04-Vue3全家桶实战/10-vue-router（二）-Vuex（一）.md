@@ -3,11 +3,16 @@
 客户端：
 
 - PC 端网站，
+  
   - 如商家端，用户端等等。
+  
 - 移动端 IOS / Android
-- H5 产品端，如小程序端。
-  - H5 通常指产品端，而非 HTML5 这项技术。
-  - 通过移动端中某一个浏览器，无论是微信的 WebView 还是别的浏览器打开的页面。
+
+- H5 产品端，如小程序端。通常为用户端。
+  
+  > H5 通常指产品端，而非 HTML5 这项技术。
+  >
+  > 通过移动端中某一个浏览器，无论是微信的 WebView 还是别的浏览器打开的页面。
 
 后端管理系统：
 
@@ -21,6 +26,8 @@
 ## router-link 结合插槽使用
 
 vue-router 4 删除了 router-linke 上 `tag` 属性，使用插槽的方式来渲染内容。
+
+在 router-link 组件上使用 `custom` 表示自定义元素，否则内容外层会包裹 `<a>`
 
 基本使用：放入普通元素和组件。
 
@@ -39,13 +46,12 @@ vue-router 4 删除了 router-linke 上 `tag` 属性，使用插槽的方式来�
 
 增强写法，结合作用域插槽 `v-slot` 如何使用。
 
-1. 在 router-link 组件上使用 `custom` 表示自定义元素，否则内容外层会包裹 `<a>`
-2. 使用 `v-slot` （独占默认插槽语法），来获取作用域插槽内部传递的对象 slotProps，对象中有以下属性：
-   - href：解析后的 url，如 "/home".
-   - route：解析后的规范化 route 对象，里面有 params，query，meta 等属性。
-   - navigate：触发导航的函数。
-   - isActive：是否匹配状态。
-   - isExactActive：与嵌套组件有关，是否精确匹配状态。
+使用 `v-slot` （独占默认插槽语法），来获取作用域插槽内部传递的对象 slotProps，对象中有以下属性：
+- `href`：解析后的 url，如 "/home".
+- `route`：解析后的规范化 route 对象，里面有 params，query，meta 等属性。
+- `navigate`：触发导航的函数。
+- `isActive`：是否匹配状态。
+- `isExactActive`：与嵌套组件有关，是否精确匹配状态。
 
 App.vue
 
@@ -75,8 +81,8 @@ App.vue
 <template>
 	<router-link to="/home">主页</router-link>
 	<router-link to="/about">关于</router-link>
-	<!-- slotProps解构：{ Component } -->
-	<router-view v-slot="{ Component }">
+	<!-- slotProps 解构：{ Component } -->
+	<router-view v-slot="{ Component, route }">
 		<transition name="zzt" mode="out-in" appear>
 			<keep-alive>
 				<component :is="Component"></component>
@@ -98,8 +104,10 @@ App.vue
 
 router-view 使用 `v-slot` 来获取作用域插槽内部传递的对象，对象中有以下属性：
 
-- Component：要渲染的组件的名称（不能通过 router-view 拿到组件实例对象，它只能起到占位的作用。）。
+- Component：要渲染的组件的名称。
 - route：解析出的标准化路由对象。里面有 params，query，meta 等属性。
+
+> 不能通过 router-view 拿到组件实例对象，它只能起到占位的作用。
 
 # vue-router 动态添加路由
 
@@ -109,7 +117,7 @@ router-view 使用 `v-slot` 来获取作用域插槽内部传递的对象，对�
 
 ### 系统实现角色权限管理的 3 种方案。
 
-后台权限设计的思想之一：RBAC (role based access control) 基于访问权限控制的角色管理。
+后台权限设计的思想之一：RBAC ( role based access control ) 基于访问权限控制的角色管理。
 
 - 后端维护用户表，权限表和关系表。
 
@@ -130,12 +138,12 @@ src / router / index.js
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
 import About from '../pages/About.vue'
-const routes = [
-	{ path: '/home', component: Home },
-	{ path: '/about', component: About }
-]
+
 const router = createRouter({
-	routes,
+	routes: [
+    { path: '/home', component: Home },
+    { path: '/about', component: About }
+  ],
 	history: createWebHistory()
 })
 // 动态添加一级路由
@@ -194,17 +202,16 @@ export default router
 
 ### 回调函数传入的参数：
 
-- `to`：即将进入的路由 Route 对象。
-- `from`：即将离开的路由 Route 对象。
+- `to`：即将进入的路由 route 对象。
+- `from`：即将离开的路由 route 对象。
 - `next`：Vue2 中通过 next 函数来决定如何跳转。Vue3 中使用返回值来控制，不推荐使用 next 函数。因为开发中容易调用多次。
 
 ### 回调函数的返回值：
 
 - `false`；取消当前导航。
 - `undefined`：进行默认导航。
-- 一个要跳转到的路由，
-  - 一个 string 类型的路径，如 `'/login'`。
-  - 一个对象，其中包含 path, query, params，如 `{ path: '/login', param: { id: 123 } }`，
+- 一个 string 类型的路径，如 `'/login'`。
+- 一个对象，其中包含 path, query, params，如 `{ path: '/login/123', query: { name: 123 } }`，
 
 ## 基本使用。
 
@@ -366,8 +373,6 @@ function logoutClick() {
    })
    ```
 
----
-
 # Vuex
 
 > Vue 的全家桶包括：Vue 核心语法，vue-router，Vuex / Pinia。
@@ -408,13 +413,11 @@ function logoutClick() {
 
 <img src="NodeAssets/状态管理中的state-view-actions.jpg" style="zoom:80%;" />
 
----
-
 ## Vuex 的状态管理。
 
 Vuex 的状态管理模式：
 
-1. 将组件内部状态抽离出来，以一个全局单例的方式来管理。
+1. 将组件内部状态抽离出来，以一个**全局单例**的方式来管理。
 2. 通过定义和隔离状态管理的各个概念，并通过强制性的规则，来维护 view 和 state 的独立性
 3. 借鉴了 Flux、Redux、Elm（纯函数语言，redux 有借鉴它的思想）
 
@@ -432,12 +435,12 @@ Vuex 的状态管理模式：
    npm install vuex
    ```
 
-2. 使用 vuex 中的 `createStore` 创建 store，本质上是一个容器，包含应用中全部需要实现状态管理的 state
+2. 使用 vuex 中的 `createStore` 创建 store 对象，本质上是一个容器，包含应用中全部需要实现状态管理的 state
 
    - Vuex 的状态存储是响应式的
      - 当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会被更新；
    - 不能直接改变 store 中的状态
-     - 改变 store 中的状态的唯一途径就显示提交 (commit) mutation；
+     - 改变 store 中的状态的**唯一途径**就显示提交 (commit) mutation；
      - 这样使得我们可以方便的跟踪每一个状态的变化，从而让我们能够通过一些工具，如 devtool ，帮助我们更好的管理应用的状态；
 
 3. 配置 store 的状态管理。
@@ -454,6 +457,7 @@ src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
+
 const store = createStore({
 	state: () => ({
 		rootCounter: 100
@@ -512,7 +516,7 @@ export default {
 Vuex 的单一状态数理解：
 
 1. 用一个对象（store），包含应用程序全部层级的状态（全局单例模式）。
-2. 也就是 SSOT(Single Source of Truth)，也可翻译成单一数据源。
+2. 也就是 SSOT( Single Source of Truth )，也可翻译成单一数据源。
 3. 意味着每个应用程序只包含一个 store 实例。
 4. 单状态树与模块（module）并不冲突。
 
@@ -564,10 +568,11 @@ export default {
 
 template 中取 state，VOA 使用 `mapState` 辅助函数进行映射。2 种写法。分别的使用场景。
 
-src/store/index.js
+src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
+
 const store = createStore({
 	state() {
 		return { name: 'zzt', age: 18 }
@@ -586,6 +591,7 @@ App.vue
 <script>
 // mapState 返回的是对象，对象中是一个个函数，函数中本质上也是通过 this.$store.state.xxx 来读取数据。
 import { mapState } from 'vuex'
+  
 export default {
 	computed: {
 		// 第一种写法，传入数组。
@@ -1007,11 +1013,11 @@ const store = createStore({
 		}
 	},
 	mutations: {
-		increment(state, n) { // 传一个 Number 类型
-			state.rootCounter = state.rootCounter + n
+		increment(state, num) { // 传一个 Number 类型
+			state.rootCounter = state.rootCounter + num
 		},
 		decrement(state, payload) { // 传一个 Object 类型
-			state.rootCounter = state.rootCounter - payload.n
+			state.rootCounter = state.rootCounter - payload.num
 		}
 	}
 })
@@ -1032,7 +1038,7 @@ App.vue
 export default {
   methods: {
     decrement() {
-      this.$store.commit("decrement", { n: 10 });
+      this.$store.commit("decrement", { num: 10 });
     },
   },
 }
@@ -1084,7 +1090,7 @@ const store = createStore({
 	mutations: {
 		// ES6 对象字面量增强 计算属性名
 		[DECREMENT](state, payload) {
-			state.rootCounter = state.rootCounter - payload.n
+			state.rootCounter = state.rootCounter - payload.num
 		}
 	}
 })
@@ -1182,7 +1188,7 @@ template 中直接提交 commit mutations，VCA 结合 methods，
 <template>
 	<div>
 		<h2>当前计数：{{ $store.state.rootCounter }}</h2>
-		<button @click="$store.commit('decrement', { n: 10 })">-10</button>
+		<button @click="$store.commit('decrement', { num: 10 })">-10</button>
 		<button @click="handleDecrement">-10</button>
 	</div>
 </template>
@@ -1193,7 +1199,7 @@ export default {
 	setup() {
 		const store = useStore()
 		function handleDecrement() {
-			store.commit('decrement', { n: 10 })
+			store.commit('decrement', { num: 10 })
 		}
 		return { handleDecrement }
 	}
@@ -1209,7 +1215,7 @@ App.vue
 <template>
 	<div>
 		<h2>当前计数：{{ $store.state.rootCounter }}</h2>
-		<button @click="decrement({ n: 10 })">-1</button>
+		<button @click="decrement({ num: 10 })">-1</button>
 	</div>
 </template>
 <script>

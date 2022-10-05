@@ -44,9 +44,18 @@
 
 ## 绑定 input, textarea, select
 
-v-model 在 input（checkbox（单选，多选），radio），textarea，select 中的使用。
+v-model 在元素上的使用场景：
 
-> input 的类型为 checkout，radio 且有 v-model 指令时，name 属性（用于做提交）可以省略。
+- input（checkbox（单选，多选），radio）元素；
+
+- textarea 元素；
+
+- select 元素。
+
+> input 的类型为 checkout，radio 且有 v-model 指令时，
+>
+> - name 属性（用于做提交时获取 query 字符串的 key）可以省略。
+> - 将由 v-model 指令的值代替 name
 
 ```html
 <body>
@@ -145,18 +154,20 @@ v-model 在 input（checkbox（单选，多选），radio），textarea，select
 		<!-- 1.select 的值绑定 -->
     <label for="fruits">
       <select id="fruits" name="fruits" multiple size="3" v-model="fruits">
-        <option v-for="item in allFruits" :key="item.value" :value="item.value">
-          {{item.text}}
-        </option>
+        <template v-for="item in allFruits" :key="item.value">
+        	<option :value="item.value">{{item.text}}</option>
+        </template>
       </select>
     </label>
 		<h2>多选: {{fruits}}</h2>
 		<!-- 2.checkbox 的值绑定 -->
 		<div class="hobbies">
 			<h2>请选择你的爱好:</h2>
-			<label v-for="item in allHobbies" :key="item.value" :for="item.value">
-				<input :id="item.value" type="checkbox" :value="item.value" v-model="hobbies" /> {{item.text}}
-			</label>
+      <template v-for="item in allHobbies" :key="item.value">
+        <label :for="item.value">
+          <input :id="item.value" type="checkbox" :value="item.value" v-model="hobbies" /> {{item.text}}
+        </label>
+      </template>
 			<h2>爱好: {{hobbies}}</h2>
 		</div>
 	</div>
@@ -232,7 +243,7 @@ v-model 有哪些常见的修饰符？有什么用？
 		<input type="text" v-model.lazy="message" />
 		<h2>message: {{message}}</h2>
 		<!-- 2.number: 自动将内容转换成数字 -->
-		<input type="text" v-model.number="counter" />
+		<input type="text" v-model.number="counter1" />
 		<h2>counter:{{counter1}}-{{typeof counter1}}</h2>
 		<input type="number" v-model="counter2" />
 		<h2>counter2:{{counter2}}-{{typeof counter2}}</h2>
@@ -319,9 +330,9 @@ Vue 的组件化开发 3 点理解。
 	</template>
 	<template id="product">
 		<div class="product">
-			<h2>{{title}}</h2>
+			<h2>{{ title }}</h2>
 			<p>商品描述, 限时折扣, 赶紧抢购</p>
-			<p>价格: {{price}}</p>
+			<p>价格: {{ price }}</p>
 			<button @click="favarItem">收藏</button>
 		</div>
 	</template>
@@ -345,7 +356,7 @@ Vue 的组件化开发 3 点理解。
 			},
 			methods: {
 				favarItem() {
-					console.log('收藏了当前的item')
+					console.log('收藏了当前的 item')
 				}
 			}
 		})
@@ -359,20 +370,19 @@ Vue 的组件化开发 3 点理解。
 
 ---
 
-组件名命的 2 种方式
-
-- 使用 kebab-case 短横线分割符，在模板中引入时也要使用这种方式，如 `<my-component></my-component>`
-- 使用 PascalCase（大）驼峰标识符，在模板中引入时最好使用短横线分割方式 `<my-component></my-component>`。在 vue-loader 解析后可使用驼峰 `<MyComponent></MyComponent>`
-
----
-
 为什么在开发中很少或不使用全局组件？
 
-- 全局组件往往是在应用程序一开始就会全局注册完成，那么就意味着如果某些组件我们并没有用到，也会一起被注册：
+- 全局组件往往是在应用程序一开始就会全局注册完成，那么就意味着如果某些组件我们并没有用到，也会一起被注册，增加主包的大小；
 - 比如我们注册了三个全局组件：ComponentA、ComponentB、ComponentC；
 - 在开发中我们只使用了 ComponentA、ComponentB，如果 ComponentC 没有用到但是我们依然在全局进行了注册，那么就意味着类似于 webpack 这种打包工具在打包我们的项目时，我们依然会对其进行打包；
 - 这样最终打包出的 JavaScript 包就会有关于 ComponentC 的内容，用户在下载对应的 JavaScript 时也会增加包的大小；
 - 所以在开发中我们通常使用组件的时候采用的都是局部注册。
+
+## 组件名命的 2 种方式
+
+- 使用 kebab-case 短横线分割符，在模板中引入时也要使用这种方式，如 `<my-component></my-component>`
+- 使用 PascalCase（大）驼峰标识符，在模板中引入时最好使用短横线分割方式 `<my-component></my-component>`。在 vue-loader 解析后可使用驼峰 `<MyComponent></MyComponent>`
+
 
 ## 局部组件
 
@@ -444,7 +454,7 @@ Vue 的组件化开发 3 点理解。
 
 ---
 
-# Vue CLI 脚手架
+# Vue 的组件化开发模式
 
 理解实际工作中，Vue 的开发模式
 
@@ -458,6 +468,8 @@ Vue 的组件化开发 3 点理解。
 - 所以在真实开发中，我们可以通过一个后缀名为 .vue 的 single-file components (单文件组件) 来解决，并且可以使用 webpack 或者 vite 或者 rollup 等构建工具来对其进行处理。
 
 ---
+
+# SFC 文件
 
 什么是 SFC？特点 4 个？
 
@@ -473,6 +485,8 @@ Vue 的组件化开发 3 点理解。
 
 ---
 
+# Vue CLI 脚手架
+
 什么是 Vue CLI 脚手架
 
 - 前面介绍了如何通过 webpack 配置 Vue 的开发环境，但是在真实开发中我们不可能每一个项目从头来完成所有的 webpack 配置，这样显示开发的效率会大大的降低；
@@ -487,7 +501,7 @@ Vue CL I 的 3 点理解：
 
 ---
 
-Vue CLI 的安装和使用。
+## 安装和使用。
 
 ```shell
 npm install @vue/cli -g # 安装
@@ -501,8 +515,8 @@ vue create [项目的名称] # 使用它创建项目
 ```shell
 Vue CLI v4.5.15
 ? Please pick a preset: (Use arrow keys)  # 选择预设
-	Default ([Vue 2] babel, eslint) # 选择vue2的版本，默认选择 babel 和 eslint
-	Default (Vue 3) ([Vue 3] babel, eslint) # 选择vue3版本，默认选择 babel 和 eslint
+	Default ([Vue 2] babel, eslint) # 选择 vue2 的版本，默认选择 babel 和 eslint
+	Default (Vue 3) ([Vue 3] babel, eslint) # 选择 vue3 版本，默认选择 babel 和 eslint
 > Manually select features # 手动选择希望获取到的特性
 ```
 

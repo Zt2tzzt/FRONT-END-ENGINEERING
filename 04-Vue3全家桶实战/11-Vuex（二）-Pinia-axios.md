@@ -262,10 +262,10 @@ export default {
 
 - Vuex 中使用单一状态树，所有状态集中在一个对象显得比较臃肿，使用 modules 对不同模块的状态进行管理。
 - 使用 modules 后，四个核心怎么获取
-	* state.[moduleName].xxx
-	* getters.xxx
-	* commit
-	* dispatch
+	* `store.state.moduleName.stateName`
+	* `store.getters['moduleName/getterName']`
+	* `store.commit('moduleName/mutationName')`
+	* `store.dispatch('moduleName/actionName')`
 
 
 ## 基本使用。
@@ -378,6 +378,7 @@ Home.vue
 ```vue
 <script>
 import { useStore } from "vuex"
+  
 export default {
 	setup() {
 		const store = useStore()
@@ -418,6 +419,8 @@ Home.vue
   </div>
 </template>
 <script>
+import { useStore } from 'vuex'
+  
 export default {
 	setup() {
 		const store = useStore()
