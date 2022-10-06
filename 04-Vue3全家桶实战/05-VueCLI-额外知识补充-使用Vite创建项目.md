@@ -1,6 +1,11 @@
 # VueCLI 的运行原理
 
-执行命令 npm run serve -> 执行命令 vue-cli-service serve -> node_modules/.bin/vue-cli-service -> @vue/cli-service -> 经过一系列操作加载 webpack 配置 -> 启动 devServer 服务器。
+1. 执行命令 npm run serve -> 
+2. 执行命令 vue-cli-service serve -> 
+3. 找到并执行 node_modules/.bin/vue-cli-service -> 
+4. 找到并执行 @vue/cli-service ->
+5. 经过一系列操作加载 webpack 配置 ->
+6. 启动 devServer 服务器。
 
 <img src="NodeAssets/Vue CLI运行原理.jpg" alt="Vue CLI 运行原理" style="zoom:80%;" />
 
@@ -9,6 +14,8 @@
 # 额外知识补充
 
 在 vue.config.js 中配置 resolve 别名。
+
+- “@”是 Vue 默认已经配置好的路径别名: 对应的是 src/ 路径
 
 ```js
 const { defineConfig } = require('@vue/cli-service')
@@ -24,7 +31,7 @@ module.exports = defineConfig({
 })
 ```
 
-修改配置文件后，项目要重新运行。
+> 修改配置文件后，项目要重新运行。
 
 -----
 
@@ -72,15 +79,29 @@ vue 的 sfc 文件 css 作用域的理解
 
 - 文件打包后通过给组件加上一个特殊的属性如 “data-v-f23aade0”，来防止样式穿透。
 
-  - 然而，组件要是没有根元素，或使用的是元素选择器添加样式，可能还是会出现穿透效果。
+  > 然而，组件要是没有根元素，或使用的是元素选择器添加样式，可能还是会出现穿透效果。所以在开发中，一般推荐给组件**加上根元素**，**通过 class 来给样式**。
 
-- 所以在开发中，一般推荐给组件**加上根元素**，**通过 class 来给样式**。
 
------
+# Vite 创建项目（一）
 
-# Vite 创建项目（一）（推荐）
+如何使用 vite 脚手架来创建项目：
 
-初始化 Vue 项目的第二种方式（一步到位的写法，官方推荐）：
+- 直接使用 vite 脚手架创建项目，可创建 vue，react 等等项目：
+
+  ```shell
+  npm init @vitejs/app
+  ```
+
+- 先安装 vite 脚手架，再创建项目：
+
+  ```shell
+  npm install @vitejs/create-app -g
+  create-app
+  ```
+
+# Vite 创建项目（二）（推荐）
+
+使用 Vite 初始化 Vue 项目的第二种方式（一步到位的写法，官方推荐）：
 
 ```shell
 npm init vue@latest
@@ -170,15 +191,11 @@ vite 对 postcss 的支持步骤：
    }
    ```
 
-------
-
 ## TypeScript 支持
 
 Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成编译：
 
-- 直接导入 ts 即可。
-
-------
+直接导入 ts 即可。
 
 # vite 原理
 
@@ -186,9 +203,7 @@ Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成
 
 1. 浏览器发送请求给 vite 中的 Connect 服务器。
 2. Connect 服务器对请求进行转发。
-3. 给浏览器返回编译后的代码，浏览器可直接解析（比如，浏览器中获取的仍是.ts 结尾的代码，但里面的代码是 js 的语法）。
-
-------
+3. 给浏览器返回编译后的代码，浏览器可直接解析（比如，浏览器中获取的仍是.ts 结尾的代码文件，但里面的代码是 js 的语法）。
 
 # vite 的使用（二）
 
@@ -218,12 +233,11 @@ vite 对 vue3 的 SFC 打包的步骤：
 
    ```javascript
    import vue from '@vitejs/plugin-vue';
+   
    module.exports = {
      plugins: [ vue() ]
    }
    ```
-
-------
 
 ## 打包、预览
 
@@ -249,7 +263,11 @@ npx vite preview
 }
 ```
 
-------
+> 为什么 vite 打包的项目中，package.json 有 `preview` 的脚本？
+>
+> 因为 Vite 中打包用的是 rollup 工具，而开启本地服务（npm run dev）时并不是用的该打包工具。
+>
+> 为验证打包后部署到服务器上的项目，和本地开启服务的项目环境一致，可以使用 `preview` 命令进行预览。
 
 # 认识 ESBuild
 
@@ -258,8 +276,8 @@ ESBuild 特点：（有 babel 的功能，同时也兼顾一些 webpack 的功�
 - 超快构建速度，且不需要缓存。
 - 支持 ES 和 CommonJS 模块化（webpack）
 - 支持 ES6 的 Tree Shaking（webpack）
-- 支持 Go JavaScript 的 API（babel 不支持 Go）
-- 支持 TypeScript，JSX 等语法编译（babel）
+- 支持 Go、JavaScript 的 API（babel 不支持 Go）
+- 支持 TypeScript、JSX 等语法编译（babel）
 - 支持 SourceMap。（webpack）
 - 支持代码压缩；（webpack）
 - 支持扩展其它插件；(webpack)
@@ -270,21 +288,3 @@ ESBuild 为什么这么快：
 - 可充分利用 CPU 的多核，尽可能让它们饱和运行；
 - ESBuild 从0编写，不使用第三方库，考虑了各种性能问题。
 
-------
-
-# Vite 创建项目（二）
-
-如何使用 vite 脚手架来创建项目，2种方式：
-
-- 直接使用 vite 脚手架创建项目，可创建 vue，react 等等项目：
-
-  ```shell
-  npm init @vitejs/app
-  ```
-
-- 先安装 vite 脚手架，再创建项目：
-
-  ```shell
-  npm install @vitejs/create-app -g
-  create-app
-  ```

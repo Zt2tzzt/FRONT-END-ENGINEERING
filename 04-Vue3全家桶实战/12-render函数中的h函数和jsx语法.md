@@ -52,6 +52,7 @@ h 函数接收哪3个参数，
 <script>
 // vue3 中需要导入 h，方便代码抽取，vue2 中是 render(h)，即在 render 函数中传入 h 函数。
 import { h } from 'vue'
+  
 export default {
   render() {
     return h('h2', { class: 'title' }, 'Hello Render')
@@ -121,7 +122,7 @@ export default {
     const counter = ref(0)
     return function render() {
       return h('div', { class: 'app' }, [
-        // 在render函数中，不能写this，需要用 xxx.value 将ref对象解包。
+        // 在render函数中，不能写 this，需要用 xxx.value 将 ref 对象解包。
         h('h2', null, `当前计数: ${counter.value}`),
         h('button', { onClick: () => counter.value++ }, '+1'),
         h('button', { onClick: () => counter.value-- }, '-1'),
@@ -203,7 +204,7 @@ import HelloFrog from './HelloFrog.vue'
 
 export default {
   render() {
-    // 传入插槽，h() 第三个参数用对象 {}
+    // 使用插槽，h() 第三个参数用对象 {}
     return h(HelloFrog, null,
       /*
       	- default 是要使用的插槽的名称。是一个函数，

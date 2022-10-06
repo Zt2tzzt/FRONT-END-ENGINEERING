@@ -15,7 +15,7 @@
 ## context 参数。
 
 - `context` 是一个和 store 实例有相同方法和属性的对象。
-- 它与 store 实例相同的属性/方法：`state`, `getters`, `commit`, `dispatch`；它特有的属性：`rootState`, `rootGetters`.
+- 它与 store 实例相同的属性/方法：`state`, `getters`, `commit`, `dispatch`；它特有的属性（有 namespace 的情况下）：`rootState`, `rootGetters`.
 
 
 ## 基本使用。
@@ -73,7 +73,7 @@ export default {
   setup(): {
     const store = useStore()
     function increment() {
-      store.dispatch("incrementAction")
+      store.dispatch("incrementAction", 10)
     }
   	return { increment }
   }
@@ -133,6 +133,7 @@ src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
+
 const store = createStore({
 	state() {
 		return {
@@ -195,7 +196,7 @@ export default {
 
 ## 返回 Promise
 
-actions 通常是异步的，如何知道什么时候异步操作完成，返回一个 Promise。
+actions 通常是异步的，如何知道什么时候异步操作完成？返回一个 Promise。
 
 src / store / index.js
 
@@ -243,8 +244,7 @@ export default {
 	setup() {
 		const store = useStore()
 		const incrementAction = () => {
-			const promise = store.dispatch('incrementAction')
-			promise.then(res => console.log(res))
+			const promise = store.dispatch('incrementAction').then(res => console.log(res))
 		}
 		return { incrementAction }
 	}
@@ -260,12 +260,13 @@ export default {
 
 ## 使用场景，
 
-- Vuex 中使用单一状态树，所有状态集中在一个对象显得比较臃肿，使用 modules 对不同模块的状态进行管理。
-- 使用 modules 后，四个核心怎么获取
-	* `store.state.moduleName.stateName`
-	* `store.getters['moduleName/getterName']`
-	* `store.commit('moduleName/mutationName')`
-	* `store.dispatch('moduleName/actionName')`
+Vuex 中使用单一状态树，所有状态集中在一个对象显得比较臃肿，使用 modules 对不同模块的状态进行管理。
+
+使用 modules 后，四个核心怎么获取
+* `store.state.moduleName.stateName`
+* `store.getters['moduleName/getterName']`
+* `store.commit('moduleName/mutationName')`
+* `store.dispatch('moduleName/actionName')`
 
 
 ## 基本使用。
@@ -283,7 +284,7 @@ const home = {
 export default home
 ```
 
-src/store/index.js
+src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
@@ -304,8 +305,6 @@ Home.vue
 	<div>HomeCouter: {{$store.state.home.homeCounter}}</div>
 </template>
 ```
-
------
 
 默认情况下，modules 中的 `getters`，如何获取？
 
@@ -412,7 +411,7 @@ Home.vue
 ```vue
 <template>
 	<div>
-    <!-- 获取home模块中的homeGetter -->
+    <!-- 获取 home 模块中的 homeGetter -->
     HomeCouter: {{ $store.state.home.homeCounter }}
     HomeGetter: {{ $store.getters['home/homeGetter'] }}
 		<button @click="homeIncrement">home+1</button>
@@ -436,7 +435,7 @@ export default {
 
 ------
 
-**增加名命空间后**，modules 中的 getter 方法有4个参数：state, getters, rootState, rootGetters.
+**增加名命空间后**，modules 中的 getter 方法有4个参数：`state`, `getters`, `rootState`, `rootGetters`.
 
 src / store / modules / home.js
 
@@ -457,7 +456,7 @@ const home = {
 export default home
 ```
 
-**增加名命空间后**，modules 中的 action 方法 context 参数对象有6个属性。commit, dispatch, state, rootState, getters, rootGetters
+**增加名命空间后**，modules 中的 action 方法 context 参数对象有6个属性。`commit`, `dispatch`, `state`, `rootState`, `getters`, `rootGetters`
 
 src / store / moudels / home.js
 
@@ -476,7 +475,7 @@ const home = {
 	},
   actions: {
     // {} 解构语法
-    homeIncrementAction({commit, dispatch, state, rootState, getters, rootGetters}) {
+    homeIncrementAction({ commit, dispatch, state, rootState, getters, rootGetters }) {
       commit('increment')
     }
   }
@@ -692,8 +691,6 @@ app.use(pinia) // 使用 pinia
 app.mount('#app')
 ```
 
------
-
 ## 认识 Pinia 中的 Store 实例
 
 - Pinia 中一个 store 是一个实体，它持有能够绑定到组件树的状态和业务逻辑，也就是保存了全局的状态；
@@ -707,14 +704,15 @@ app.mount('#app')
 
 - 我们需要知道 store 是使用 `defineStore()` 定义的；
 - 并且它需要一个唯一名称 `name`，作为第一个参数传递；这个 name，也称为 id，是必要的，Pinia 使用它来将 store 连接到 devtools。
-- 返回的函数统一使用 `useXxx ` 作为命名方案，这是约定的规范；
+- 返回的函数，统一使用 `useXxx ` 作为命名方案，这是约定的规范；
 
 src / store / home.js
 
 ```js
 import { defineStore } from 'pinia'
 
-const useHome = defineStore("home", { // 返回一个函数
+// 返回一个函数
+const useHome = defineStore("home", {
   state: () => ({
 		name: "zzt",
     age: 18,
@@ -774,7 +772,7 @@ src / stores / home.js
 ```js
 import { defineStore } from 'pinia'
 
-const useHome = defineStore("home", { // 返回一个函数
+const useHome = defineStore("home", {
   state: () => ({
 		name: "zzt",
     age: 18,
@@ -818,7 +816,7 @@ Home.vue
 </style>
 ```
 
-## 修改 state
+## 同时修改多个 state
 
 可以通过调用 store 上的 `$patch()` 方法将修改多个状态。
 
@@ -831,6 +829,7 @@ Home.vue
 
   const homeStore = useHome()
   const { name, age, level } = storeToRefs(homeStore)
+  
 	function changeStatese() {
     homeStore.$patch({
       name: "james",
@@ -871,6 +870,7 @@ Home.vue
 
   const homeStore = useHome()
   const { name, age, level } = storeToRefs(homeStore)
+  
   function resetState() {
     homeStore.$reset()
   }
@@ -955,8 +955,6 @@ export default useCounter
 </style>
 ```
 
------
-
 # Pinia 核心三 Actions
 
 ## 认识 Actions
@@ -1020,8 +1018,6 @@ Home.vue
 </style>
 ```
 
------
-
 # 认识 axios 库
 
 axios 名称的由来，个人理解：
@@ -1042,10 +1038,7 @@ axios 能够帮助我们：
 
 - 在浏览器中发送 ajax 请求；在 node.js 中发送 http 请求
 - 支持 Promise API；
-- 拦截请求和响应；
-- 转换请求和响应数据；
-
------
+- 拦截请求和响应；转换请求和响应数据；
 
 # axios 安装
 
@@ -1115,7 +1108,7 @@ axios.post("http://123.207.32.32:1888/02_param/postjson", {
 - URL查询对象（**常用**）（get 请求拼接 query 字符串）
 	- params:{ id: 12 },
 - request body（**常用**）（post 请求请求体）
-	- data: { key: 'aa'},
+	- data: { key: 'aa' },
 - 超时设置（**常用**）
 	- timeout: 1000,
 - 请求前的数据处理
@@ -1145,8 +1138,6 @@ axios.all([ // 原理 Promise.all
   console.log("res:", res)
 })
 ```
-
------
 
 # axios 创建实例
 
@@ -1184,8 +1175,6 @@ const instance2 = axios.create({
   headers: {}
 })
 ```
-
------
 
 # axios 的请求和响应拦截
 
@@ -1227,8 +1216,6 @@ axios.get("http://123.207.32.32:9001/lyric?id=500665346").then(res => {
   console.log("err:", err)
 })
 ```
-
------
 
 # 基于 axios 再封装
 
