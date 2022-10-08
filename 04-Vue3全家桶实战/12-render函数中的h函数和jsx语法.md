@@ -9,11 +9,11 @@ Vue 推荐在绝大数情况下使用模板（template）来创建你的 HTML �
 
 ## template 模板到 VNode 的过程：
 
-template -> compiler 编译 -> render 函数（返回 createVNode 函数） -> VNode ( -> 渲染器，patch / 挂载 -> 真实 DOM -> 显示在页面上)
+template -> compiler 编译 -> render 函数（返回 createVNode 函数） -> VNode ( -> 渲染器 patch / 挂载 -> 真实 DOM -> 显示在页面上)
 
 ## render 函数 option 的介绍：
 
-1. render 函数 option 不支持在`<script setup>`中编写，如果要在顶层语法中使用，必须要在 `<template>` 中将 render 函数当作组件使用。
+1. option 选项 render 函数，不支持在`<script setup>`中编写，如果要在顶层语法中使用，必须要在 `<template>` 中将 render 函数当作组件使用。
 2. render 函数是组件中的一个选项 option，它要求返回一个 VNode 对象，一般使用 h 函数生成这个 VNode 对象。
 
 ## h 函数的介绍2点：
@@ -123,7 +123,7 @@ export default {
     return function render() {
       return h('div', { class: 'app' }, [
         // 在render函数中，不能写 this，需要用 xxx.value 将 ref 对象解包。
-        h('h2', null, `当前计数: ${counter.value}`),
+        h('h2', null, `当前计数: ${ counter.value }`),
         h('button', { onClick: () => counter.value++ }, '+1'),
         h('button', { onClick: () => counter.value-- }, '-1'),
     	])
@@ -185,6 +185,7 @@ HelloFrog.vue
 ```vue
 <script>
 import { h } from 'vue'
+  
 export default {
   render() {
     return h('h2', null, 'Hello Frog')
