@@ -159,7 +159,7 @@ index.wxml
 <!-- 3.动态展示列表数据 -->
 <view class="movies">
 	<!-- 可省略 wx:for-item="item"、wx:for-index="index" -->
-	<block wx:for="{{movies}}" wx:key="*this">
+	<block wx:for="{{ movies }}" wx:key="*this">
 		<view> {{ item }}-{{ index }} </view>
 	</block>
 </view>
@@ -187,18 +187,16 @@ Page({
 	},
 	// 监听的事件方法
 	increment() {
-		console.log('+1')
-		// 修改data中的数据, 但是你的修改并不会引起页面的刷新(自动检测你的新数据重新渲染页面, 在小程序中不会, 在 react 中也不会)
+		// 修改 data 中的数据, 但是你的修改并不会引起页面的刷新(自动检测你的新数据重新渲染页面, 在小程序中不会, 在 react 中也不会)
 		// this.data.counter += 1
 		// console.log(this.data.counter);
 
-		// 修改data, 并且希望页面重新渲染, 这里必须使用this.setData()
+		// 修改 data, 并且希望页面重新渲染, 这里必须使用 this.setData()
 		this.setData({
 			counter: this.data.counter + 1
 		})
 	},
 	decrement() {
-		console.log('-1')
 		this.setData({
 			counter: this.data.counter - 1
 		})
@@ -206,12 +204,12 @@ Page({
 })
 ```
 
-> 页面事件绑定的方法，直接协在 Page 传入的对象中，组件中要卸载 methods option 中。
+> 页面事件绑定的方法，直接写在 Page 传入的对象中，组件中要写在 methods option 中。
 
 # 小程序的启动过程
 
-1. 加载 app.json ->
-2. 运行 app.js，创建 app 实例 ->
+1. 加载 app.json
+2. 运行 app.js，创建 app 实例
 4. 加载 app.json 中指定的第一个页面（使用双线程模型）创建页面实例，通过 `Page()` 函数。
 4. ...
 
@@ -264,7 +262,7 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 小程序的很多开发需求被规定在了配置文件中。为什么这样做呢?
 
 - 这样做可以更有利于我们的开发效率；
-- 并且可以保证开发出来的小程序的某些风格是比较一致的；比如导航栏 – 底/顶部 TabBar，以及页面路由等等。
+- 并且可以保证开发出来的小程序的某些风格是比较一致的；比如导航栏、底/顶部 TabBar，以及页面路由等等。
 
 常见的配置文件有哪些呢?
 
@@ -290,7 +288,7 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 	- 用于指定小程序由哪些页面组成，每一项都对应一个页面的路径（含文件名）信息。 
 	- 小程序中所有的页面都是必须在 pages 中进行注册的。
 - window: 全局的默认窗口展示 
-- tabBar: 顶部 tab 栏的展示
+- tabBar: 底部 tab 栏的展示
 
 ## 配置一个 tabbar
 
@@ -347,7 +345,7 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 
 # 页面配置文件 page.json
 
-每一个小程序页面也可以使用 .json 文件来对本页面的窗口表现进行配置。[官方文档](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/page.html)
+每一个小程序页面也可以使用 `.json` 文件来对本页面的窗口表现进行配置。[官方文档](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/page.html)
 
 页面中配置项在当前页面会覆盖 `app.json` 的 `window` 中相同的配置项。
 
@@ -378,7 +376,7 @@ Page({
   onPullDownRefresh() {
     console.log("用户进行下拉刷新~");
 
-    // 模拟网络请求: 定时器
+    // 模拟网络请求:
     setTimeout(() => {
       this.setData({ listCount: 30 })
 

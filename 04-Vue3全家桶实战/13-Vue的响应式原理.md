@@ -125,7 +125,7 @@ watchFn(function foo() {
   console.log("foo function")
 })
 
-// 修改obj的属性
+// 修改 obj 的属性
 console.log("name发生变化-----------------------")
 obj.name = "kobe"
 dep.notify()
