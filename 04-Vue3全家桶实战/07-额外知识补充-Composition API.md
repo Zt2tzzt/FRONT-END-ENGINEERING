@@ -5,8 +5,6 @@
 - Provide / Inject
 - Mitt 全局事件总线
 
------
-
 ## Provide & Inject
 
 provide 和 inject 使用的场景：
@@ -40,9 +38,11 @@ Provide / Inject 基本使用，provide 的函数写法，处理响应式数据�
     <button @click="message = 'hello world'">修改message</button>
   </div>
 </template>
+
 <script>
   import { computed } from 'vue'
   import Home from './Home.vue'
+  
   export default {
     components: {
       Home
@@ -82,14 +82,13 @@ Provide / Inject 基本使用，provide 的函数写法，处理响应式数据�
     <h2>HomeBanner: {{ name }} - {{ age }} - {{ message.value }}</h2>
   </div>
 </template>
+
 <script>
   export default {
     inject: ["name", "age", "message"]
   }
 </script>
 ```
-
------
 
 ## 事件总线
 
@@ -109,12 +108,13 @@ hy-event-store 基本使用
 
 2. 实现事件总线中事件的监听和移除
 
-   工具 utils/event-bus.js
+   utils / event-bus.js
 
    ```js
 	import { HYEventBus } from 'hy-event-store'
-   const eventBus = new HYEventBus()
-	export default eventBus
+   
+	const eventBus = new HYEventBus()
+   export default eventBus
    ```
    
    上级组件 Category.vue
@@ -125,8 +125,10 @@ hy-event-store 基本使用
    		<h2>Category</h2>
      </div>
    </template>
+   
    <script>
      import eventBus from './utils/event-bus'
+     
      export default {
        methods: {
          zztEventHandler(name, age, height) {
@@ -151,8 +153,10 @@ hy-event-store 基本使用
        <button @click="bannerBtnClick">banner按钮</button>
      </div>
    </template>
+   
    <script>
      import eventBus from './utils/event-bus'
+     
      export default {
        methods: {
          bannerBtnClick() {
@@ -163,8 +167,6 @@ hy-event-store 基本使用
    </script>
    ```
    
------
-
 # 生命周期
 
 认识生命周期。
@@ -231,19 +233,16 @@ hy-event-store 基本使用
 </script>
 ```
 
-
------
-
 # 在 Vue 中获取 DOM 对象
 
 在 Vue 开发中不推荐进行 DOM 操作； 
 
-1. 如果一定要获取 DOM。这个时候，我们可以给元素或者组件绑定一个 ref 的 attribute 属性；
+1. 如果一定要获取 DOM。这个时候，我们可以给元素或者组件绑定一个 `ref` 的 attribute 属性；
 2. 再通过 `this.$refs` 来获取元素 DOM 对象。
 
 $refs 的使用步骤：
 
-1. 给元素或组件绑定一个 ref 的 attribute。
+1. 给元素或组件绑定一个 `ref` 的 attribute。
 2. 在组件实例中使用 $refs，它是一个对象，持有注册过 ref attribute 的所有 DOM 元素和子组件实例。
 3. 元素会返回它本身，组件会返回一个 Proxy 且可以访问其中 data 定义的变量，调用 methods 中的方法。
 
@@ -258,8 +257,10 @@ $refs 的使用步骤：
     <banner ref="banner"/>
   </div>
 </template>
+
 <script>
   import Banner from "./Banner.vue"
+  
   export default {
     components: {
       Banner
@@ -275,9 +276,11 @@ $refs 的使用步骤：
         // 1.在 Vue 中，不要主动的去获取 DOM，并且修改 DOM 内容
         // const titleEl = document.querySelector('.title')
 				// title.textContent = '你好啊，李银河'
+        
         // 2.获取 h2/button DOM 对象
         console.log(this.$refs.title)
         console.log(this.$refs.btn)
+        
         // 3.获取 banner 组件: 组件实例
         console.log(this.$refs.banner)
         // 3.1.在父组件中可以主动的调用子组件的对象方法
@@ -287,6 +290,7 @@ $refs 的使用步骤：
         // 3.3.如果 banner template 是多个根, 拿到的是第一个 node 节点，一般是 text 文本节点，需要通过元素导航去拿到多个根节点中的某一个。
         console.log(this.$refs.banner.$el.nextElementSibling)
         // 注意: 开发中不推荐一个组件的 template 中有多个根元素
+        
         // 4.组件实例还有两个属性(了解):
         console.log(this.$parent) // 获取父组件
         console.log(this.$root) // 获取根组件 
@@ -309,6 +313,7 @@ $refs 的使用步骤：
     <h2>Banner</h2>
   </div>
 </template>
+
 <script>
   export default {
     methods: {
@@ -348,6 +353,36 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
 父组件 App.vue
 
 ```vue
+<script>
+  import Home from './views/Home.vue'
+  import About from './views/About.vue'
+  import Category from './views/Category.vue'
+  
+  export default {
+    components: {
+      Home,
+      About,
+      Category
+    },
+    data() {
+      return {
+        tabs: ["home", "about", "category"],
+        currentIndex: 0
+        currentTab: "home"
+      }
+    },
+    methods: {
+      itemClick(tab, index) {
+        this.currentTab = tab
+        this.currentIndex = index
+      },
+      homeClick(payload) {
+        console.log("homeClick:", payload)
+      }
+    }
+  }
+</script>
+
 <template>
   <div class="app">
     <div class="tabs">
@@ -380,34 +415,6 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
     </div>
   </div>
 </template>
-<script>
-  import Home from './views/Home.vue'
-  import About from './views/About.vue'
-  import Category from './views/Category.vue'
-  export default {
-    components: {
-      Home,
-      About,
-      Category
-    },
-    data() {
-      return {
-        tabs: ["home", "about", "category"],
-        currentIndex: 0
-        currentTab: "home"
-      }
-    },
-    methods: {
-      itemClick(tab, index) {
-        this.currentTab = tab
-        this.currentIndex = index
-      },
-      homeClick(payload) {
-        console.log("homeClick:", payload)
-      }
-    }
-  }
-</script>
 <style scoped>
   .active {
     color: red;
@@ -420,12 +427,6 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
 子组件 Home.vue
 
 ```vue
-<template>
-  <div>
-    <h2>Home组件: {{ name }} - {{ age }}</h2>
-    <button @click="homeBtnClick">homeBtn</button>
-  </div>
-</template>
 <script>
   export default {
     props: {
@@ -446,13 +447,19 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
     }
   }
 </script>
+
+<template>
+  <div>
+    <h2>Home组件: {{ name }} - {{ age }}</h2>
+    <button @click="homeBtnClick">homeBtn</button>
+  </div>
+</template>
+
 <style scoped>
 </style>
 ```
 
 > 使用 component 时，父子组件通信的方式与之前的不变
-
------
 
 # 内置 keep-alive 组件
 
@@ -464,28 +471,11 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
 父组件 App.vue
 
 ```vue
-<template>
-  <div class="app">
-    <div class="tabs">
-      <template v-for="(item, index) in tabs" :key="item">
-        <button :class="{ active: currentTab === item }" 
-                @click="itemClick(item)">
-          {{ item }}
-        </button>
-      </template>
-    </div>
-    <div class="view">
-      <!-- include: 组件的名称来自于组件定义时 name 选项，逗号后不能加空格 -->
-      <keep-alive include="home,about">
-        <component :is="currentTab"></component>
-      </keep-alive>
-    </div>
-  </div>
-</template>
 <script>
   import Home from './views/Home.vue'
   import About from './views/About.vue'
   import Category from './views/Category.vue'
+  
   export default {
     components: {
       Home,
@@ -505,6 +495,26 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
     }
   }
 </script>
+
+<template>
+  <div class="app">
+    <div class="tabs">
+      <template v-for="(item, index) in tabs" :key="item">
+        <button :class="{ active: currentTab === item }" 
+                @click="itemClick(item)">
+          {{ item }}
+        </button>
+      </template>
+    </div>
+    <div class="view">
+      <!-- include: 组件的名称来自于组件定义时 name 选项，逗号后不能加空格 -->
+      <keep-alive include="home,about">
+        <component :is="currentTab"></component>
+      </keep-alive>
+    </div>
+  </div>
+</template>
+
 <style scoped>
   .active {
     color: red;
@@ -515,13 +525,6 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
 子组件 Home.vue
 
 ```vue
-<template>
-  <div>
-    <h2>Home组件</h2>
-    <h2>当前计数: {{ counter }}</h2>
-    <button @click="counter++">+1</button>
-  </div>
-</template>
 <script>
   export default {
     name: "home",
@@ -546,6 +549,14 @@ $parent 和 $root 的使用。Vue3 中已移除 $children。
   }
 </script>
 
+<template>
+  <div>
+    <h2>Home组件</h2>
+    <h2>当前计数: {{ counter }}</h2>
+    <button @click="counter++">+1</button>
+  </div>
+</template>
+
 <style scoped>
 </style>
 ```
@@ -562,8 +573,6 @@ keep-alive 的属性
 
 - 但是有时候我们确实希望监听到何时重新进入到了组件，何时离开了组件；
 - 这个时候我们可以使用 `activated` 和 `deactivated` 这两个生命周期钩子函数来监听；
-
------
 
 # webpack 代码分包
 
@@ -601,8 +610,6 @@ webpack 代码分包的简单实现：在 JS 代码中使用 ESModule 的异步�
 import('./utils/math').then(res => console.log(res.sum(20, 30)))
 ```
 
------
-
 # Vue 中实现异步组件
 
 vue 中异步组件的使用场景：项目过大，对于某些组件我们希望通过异步的方式来进行加载，目的是可以对其进行分包处理。
@@ -617,6 +624,7 @@ vue 提供了一个函数：`defineAsyncComponent` 来实现异步组件加载�
 ```vue
 <script>
 import { defineAsyncComponent } from 'vue'
+  
 const AsyncHome = defineAsyncComponent(() => import('./AsyncHome.vue'))
 export default {
   components: { AsyncHome }
@@ -630,6 +638,7 @@ export default {
 <script>
 import Loading from './Loading.vue'
 import { defineAsyncComponent } from 'vue'
+  
 const AsyncHome = defineAsyncComponent({
   loader: () => import('./AsyncHome.vue'), // 工厂函数
   loadingComponent: Loading, // 正在加载时要展示的组件。
@@ -658,8 +667,6 @@ const AsyncHome = defineAsyncComponent({
 
 打包后的 dist 目录理解同上。
 
------
-
 # Suspense 内置组件（实验性特性）
 
 Suspense 是一个内置的全局组件，该组件有2个插槽并介绍：
@@ -684,14 +691,13 @@ Suspense 与异步组件的结合使用：
 <script>
 import Loading from "./Loading.vue";
 import { defineAsyncComponent } from 'vue'
+  
 const AsyncCategory = defineAsyncComponent(() => import("./AsyncCategory.vue"));
 export default {
   components: { AsyncCategory, Loading }
 }
 </script>
 ```
-
------
 
 # 组件 v-model
 
@@ -713,8 +719,10 @@ export default {
   <!-- 等价于↓ -->
   <MyCpn :modelValue="message" @update:modelValue="newVal => message = newVal"></MyCpn>
 </template>
+
 <script>
 	import Mycpn from './MyCpn.vue'
+  
   export default {
     components: { MyCpn },
     data() {
@@ -730,6 +738,7 @@ export default {
 <template>
 	<imput :value="modelValue" @input="inputChange" />
 </template>
+
 <script>
 export default {
   props: ['modelValue'],
@@ -751,8 +760,10 @@ export default {
 <template>
   <MyCpn v-model="message"></MyCpn>
 </template>
+
 <script>
 	import Mycpn from './MyCpn.vue'
+  
   export default {
     components: { MyCpn },
     data() {
@@ -768,6 +779,7 @@ export default {
 <template>
 	<imput v-model="cpnModelValue" />
 </template>
+
 <script>
 export default {
   props: ['modelValue'],
@@ -797,8 +809,10 @@ App.vue
 				2.使用 v-on 监听了 update:title 的事件。@update:title=“newValue => title = newValue” 	-->
   <MyCpn v-model="message" v-model:title="title"></MyCpn>
 </template>
+
 <script>
 	import Mycpn from './MyCpn.vue'
+  
   export default {
     components: { MyCpn },
     data() {
@@ -818,6 +832,7 @@ MyCpn.vue
 	<imput v-model="cpnModelValue" />
 	<input v-mode="cpnTitle" />
 </template>
+
 <script>
 export default {
   props: ['modelValue', 'title'],
@@ -887,8 +902,10 @@ App.vue
   <h2>{{ message }}</h2>
   <button @click="foo">按钮</button>
 </template>
+
 <script>
 import { demoMixin } from "./mixins/demoMixin";
+  
 export default {
   mixins: [ demoMixin ],
 };
@@ -897,14 +914,12 @@ export default {
 </style>
 ```
 
-------
-
 ## 冲突合并的规则，
 
 分3种情况：
 
-1. 如果是 data 函数返回的对象，保留组件自身的。
-2. 如果是生命周期钩子函数，会合并到数组中，都会被调用。
+1. 如果是 data 函数返回的对象属性产生冲突，保留组件自身的。
+2. 如果是生命周期钩子函数产生冲突，会合并到数组中，都会被调用。
 3. 如果是值为对象的选项（如 computed，methods），key 冲突，保留自身组件对象的键值对。
 
 ## 全局混入
@@ -920,6 +935,7 @@ main.js
 ```javascript
 import { createApp } from 'vue'
 import App from './App.vue'
+
 const app = createApp(App)
 app.mixin({
   created() {
@@ -940,8 +956,6 @@ extends 的基本使用
 BasePage.vue
 
 ```vue
-<template>
-</template>
 <script>
 export default {
   data() {
@@ -956,8 +970,6 @@ export default {
   },
 };
 </script>
-<style scoped>
-</style>
 ```
 
 Home.vue
@@ -966,8 +978,10 @@ Home.vue
 <template>
   <button @click="bar">Hoem 按钮</button>
 </template>
+
 <script>
 import BasePage from "./BasePage.vue";
+  
 export default {
   extends: BasePage,
   data() {
@@ -995,19 +1009,17 @@ Options API 的缺点，
   - 只不过这个选项强大到我们可以用它来替代之前所编写的大部分其他选项；
   - 比如 methods、computed、watch、data、生命周期等等；
 
------
-
 ## 认识 setup 函数。
 
 setup 函数主要有2个参数：
 
-1. props：Object 类型，父组件中传递过来的属性。它是**响应式的**，**不能使用解构语法**，除非使用 `toRefs`
-   - props 还是需要在选项 Options 中定义（components 属性也通过选项 Options 定义)，在 setup 函数中通过 props 参数获取，而不是 `this`
+1. `props`：Object 类型，父组件中传递过来的属性。它是**响应式的**，**不能使用解构语法**，除非使用 `toRefs`
+   - props、emits 还是需要在选项 Options 中定义（components 属性也通过选项 Options 定义)，在 setup 函数中通过 props 参数获取，而不是 `this`
    - 在 template 中依然是可以正常去使用 props 中的属性，比如 message
-2. context，Object 类型，称之为 SetupContext，它里面包含3个属性（可使用解构获取）：
-   - attrs：所有非 prop 的 attribute。
-   - slots：父组件传递过来的插槽，可用于 render 函数。
-   - emit：发射事件时使用，而不是 this.$emit
+2. `context`，Object 类型，称之为 SetupContext，它里面包含3个属性（可使用解构获取）：
+   - `attrs`：所有非 prop 的 attribute。
+   - `slots`：父组件传递过来的插槽，可用于 render 函数。
+   - `emit`：发射事件时使用，而不是 this.$emit
 
 > setup 函数中不允许使用 `this`
 >
@@ -1030,8 +1042,10 @@ App.vue
     <button @click="decrement">-1</button>
   </div>
 </template>
+
 <script>
 import useCounter from './hooks/useCounter'
+  
 export default {
   setup() {
     return {
@@ -1048,6 +1062,7 @@ useCounter.vue
 
 ```js
 import { ref } from 'vue'
+
 export default function useCounter() {
   // 定义 counter 默认不是响应式数据，需要使用 ref 将它变为响应式数据，方便在 tenplate 中使用。
   let counter = ref(100)

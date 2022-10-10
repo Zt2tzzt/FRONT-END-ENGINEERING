@@ -34,9 +34,9 @@ App({
 
 在生命周期中执行对应的业务逻辑，如进行登录操作或者请求网络数据等初始化工作。
 
-1. 登录操作
-2. 将数据保存 Storage 中
-3. 下次重启可以从 Storage 读取数据
+1. 从 Storage 读取数据，如没有数据或数据已失效，进行下一步操作。
+2. 登录操作
+3. 将数据保存 Storage 中
 4. 保存到 globalData 中
 
 app.js
@@ -130,12 +130,12 @@ Page({
     })
   },
 
-  // 绑定 wxml 中产生事件后的回调函数
+  // 处理自定义事件：绑定 wxml 中产生事件后的回调函数
   onBtnClick(event) {
     console.log("btn click:", event.target.dataset.color);
   },
 
-  // 绑定下拉刷新/达到底部/页面滚动
+  // 处理原生事件：绑定下拉刷新/达到底部/页面滚动
   onPullDownRefresh() {
     console.log("onPullDownRefresh");
   },
@@ -218,7 +218,7 @@ text 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/co
 
 - `user-select` 属性决定文本内容是否可以让用户选中。
 - `space` 有三个取值(了解)。
-- `decode` 是否解码(了解)，默认不解码。
+- `decode` 是否解码(了解)，默认不解码，即展示原字符。
 	- decode 可以解析的有 `&nbsp;` `&lt;` `&gt;` `&amp;` `&apos;` `&ensp;` `&emsp;`
 
 index.wxml
@@ -235,7 +235,7 @@ button 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/
 
 Button 组件用于创建按钮，默认**块级元素**
 
-- `size=“mini"` 时，本质是通过 css 将样式改成：`width: auto; display: inline-block`；其它属性同理，本质也是改变样式。
+- 设置 `size=“mini"` 时，本质是通过 css 将样式改成：`width: auto; display: inline-block`；其它属性同理，本质也是改变样式。
 - `open-type` 属性的使用。用于开启微信开放能力，比如，获取用户信息和手机号（个人开发者无权限）.
 
 > `wx.getUserInfo` API 用于获取用户信息，直接使用已经失效，获取到的 **username** 是”微信用户“，获取到的**头像**是默认头像。
@@ -273,7 +273,13 @@ index.wxml
   获取用户信息
 </button>
 <!-- 现在获取用户信息做法 -->
-<button size="mini" type="primary" bindtap="getUserInfo">用户信息2</button>
+<button
+  size="mini"
+  type="primary"
+  bindtap="getUserInfo"
+>
+  用户信息2
+</button>
 <!-- 现在获取用户的手机号 -->
 <button
   size="mini"
@@ -462,7 +468,7 @@ Page({
 
 # input 组件
 
-小程序在 input 组件上引入了双向绑定的功能（早期不支持，现已支持），使用 `model:value="{{ msg }}`双向绑定 data 中的数据。
+小程序在 input 组件上引入了双向绑定的功能（早期不支持，现已支持），使用 `model:value="{{ msg }}"` 双向绑定 data 中的数据。
 
 index.html
 
