@@ -63,7 +63,9 @@ export default {
 
 ## VOA 实现计数器案例：
 
-第一种写法：使用 render option 结合 data option
+### 写法一：
+
+使用 render option 结合 data option
 
 ```vue
 <script>
@@ -87,7 +89,9 @@ export default {
 </script>
 ```
 
-第二种写法：使用 render option 结合 setup option
+### 写法二：
+
+使用 render option 结合 setup option
 
 ```vue
 <script>
@@ -111,7 +115,9 @@ export default {
 
 ## VCA 实现计数器案例：
 
-第一种写法，render 函数作为 setup 返回值，放在 setup 中：
+### 写法一，
+
+render 函数作为 setup 返回值，放在 setup 中：
 
 ```vue
 <script>
@@ -122,7 +128,7 @@ export default {
     const counter = ref(0)
     return function render() {
       return h('div', { class: 'app' }, [
-        // 在render函数中，不能写 this，需要用 xxx.value 将 ref 对象解包。
+        // 在 render 函数中，不能写 this，需要用 xxx.value 将 ref 对象解包。
         h('h2', null, `当前计数: ${ counter.value }`),
         h('button', { onClick: () => counter.value++ }, '+1'),
         h('button', { onClick: () => counter.value-- }, '-1'),
@@ -133,7 +139,9 @@ export default {
 </script>
 ```
 
-第二种写法，在顶层语法中使用 render 函数：
+### 写法二：
+
+在顶层语法中使用 render 函数：
 
 - 必须将 render 函数作为组件，在 template 中使用
 
@@ -174,6 +182,7 @@ import HelloFrog from './HelloFrog.vue'
 
 export default {
   render() {
+    // 直接使用组件对象
     return h(HelloFrog, null, null)
   }
 }
@@ -210,7 +219,7 @@ export default {
       /*
       	- default 是要使用的插槽的名称。是一个函数，
         - 可接收参数 props，里面是子组件的作用域插槽传递给父组件的参数。
-        - 返回一个要 h() 生成的要传入插槽的 VNode。
+        - 返回一个用 h() 生成的要传入插槽的 VNode。
       */
      	{
       	default: props => h('span', null, `app 传入到 HelloFrog 中的内容：${props.name}`),
@@ -227,6 +236,7 @@ HelloFrog.vue
 ```vue
 <script>
 import { h } from 'vue'
+  
 export default {
   render() {
     return h('div', null, [
@@ -328,6 +338,8 @@ export default {
   }
 }
 ```
+
+## 实现案例，引用组件，实现插槽：
 
 使用 jsx 实现计数器案例，并引用组件，实现插槽：
 

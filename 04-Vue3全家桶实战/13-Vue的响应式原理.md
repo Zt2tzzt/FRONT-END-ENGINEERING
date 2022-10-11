@@ -47,8 +47,8 @@ obj.age = 20
 我们如何区分一个函数需要响应式，还是不需要响应式呢？
 
 1. 这个时候我们封装一个新的函数 `watchFn`； 
-2. 凡是传入到 `watchFn` 的函数，就是需要响应式的，将它放入到一个数组结构中进行收集；
-3. 其他默认定义的函数都是不需要响应式的；
+2. 凡是传入到 `watchFn` 的函数，就是需要响应式的，将它们放入到一个数组结构中进行收集；
+3. 其他默认定义的函数都是不需要响应式的。
 
 ```js
 const obj = {
@@ -133,7 +133,7 @@ dep.notify()
 
 # 监听属性的变化，执行响应式代码。
 
-那么我们接下来就可以通过之前学习的方式来监听对象的变量： 
+那么我们接下来就可以通过之前学习的方式来监听对象属性的变化： 
 - 方式一：通过 `Object.defineProperty` 的方式（vue2 采用的方式）； 
 - 方式二：通过 `new Proxy` 的方式（vue3 采用的方式）；
 
@@ -369,7 +369,6 @@ function getDepend(obj, key) {
 function reactive(obj) {
   const objProxy = new Proxy(obj, {
     set: function(target, key, newValue, receiver) {
-      // target[key] = newValue
       Reflect.set(target, key, newValue, receiver)
       const dep = getDepend(target, key)
       dep.notify()
