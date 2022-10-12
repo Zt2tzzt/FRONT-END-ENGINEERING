@@ -86,7 +86,7 @@ components \ my-slot \ my-slot.wxml
 <view class="my-slot">
   <view class="header">Header</view>
   <view class="content">
-    <!-- 小程序中插槽是不支持默认值的 -->
+    <!-- 预留一个插槽，小程序中插槽是不支持默认值的 -->
     <slot></slot>
   </view>
   <!-- 使用 .default 元素结合伪类 :empty 实现默认插槽的效果 -->
@@ -160,7 +160,7 @@ index.html
 
 ```html
 <mul-slot>
-  <!-- Vue 的早期写法 -->
+  <!-- 这也是 Vue 的早期写法 -->
   <button slot="left" size="mini">left</button>
   <view slot="center">哈哈哈</view>
   <button slot="right" size="mini">right</button>
@@ -205,7 +205,7 @@ Component({
 })
 ```
 
-components\c-behavior\c-behavior.wxml
+components \ c-behavior \ c-behavior.wxml
 
 ```html
 <view>
@@ -279,7 +279,7 @@ Component 的 observers option [官方文档](https://developers.weixin.qq.com/m
 
 ## 网络请求 API。
 
-微信提供了专属的 API 接口,用于网络请求: [wx.request(Object object)](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)
+微信提供了专属的 API 接口,用于网络请求: [wx.request](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)
 
 比较关键的几个属性解析:
 
@@ -405,19 +405,19 @@ ztRequest
 
 服务器域名请在 「小程序后台 - 开发 - 开发设置 - 服务器域名」 中进行配置，配置时需要注意：
 
-- 域名只支持 https (wx.request、wx.uploadFile、wx.downloadFile) 和 wss (wx.connectSocket) 协议；
+- 域名只支持 `https` (`wx.request`、`wx.uploadFile`、`wx.downloadFile`) 和 `wss` (`wx.connectSocket`) 协议；
 - 域名不能使用 IP 地址（小程序的局域网 IP 除外）或 localhost；
 - 可以配置端口，如 https://myserver.com:8080，但是配置后只能向 https://myserver.com:8080 发起请求。如果向 https://myserver.com、https://myserver.com:9091 等 URL 请求则会失败。
 - 如果不配置端口。如 https://myserver.com，那么请求的 URL 中也不能包含端口，甚至是默认的 443 端口也不可以。如果 向 https://myserver.com:443 请求则会失败。
 - 域名必须经过 ICP 备案；
-- 出于安全考虑，api.weixin.qq.com 不能被配置为服务器域名，相关 API 也不能在小程序内调用。 开发者应将 AppSecret 保存到后台服务器中，通过服务器使用 getAccessToken 接口获取 access_token，并调用相关 API；
+- 出于安全考虑，[api.weixin.qq.com]() 不能被配置为服务器域名，相关 API 也不能在小程序内调用。 开发者应将 AppSecret 保存到后台服务器中，通过服务器使用 getAccessToken 接口获取 access_token，并调用相关 API；
 - 不支持配置父域名，使用子域名。
 
 ## 实现弹窗效果
 
 小程序中展示弹窗有四种方式:
 
-[showToast](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showToast.html) 显示消息提示框。
+[wx.showToast](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showToast.html) 显示消息提示框。
 
 ```js
 wx.showToast({
@@ -436,7 +436,7 @@ wx.showToast({
 
 <img src="NodeAssets/showToast.jpg" alt="showToast" style="zoom:100%;" />
 
-[showModal](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html) 显示模态对话框
+[wx.showModal](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html) 显示模态对话框
 
 ```js
 wx.showModal({
@@ -456,7 +456,7 @@ wx.showModal({
 
 <img src="NodeAssets/showModal.jpg" alt="showModal" style="zoom:100%;" />
 
-[showLoading](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showLoading.html) 显示 loading 提示框。需主动调用 `wx.hideLoading` 才能关闭提示框。
+[wx.showLoading](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showLoading.html) 显示 loading 提示框。需主动调用 `wx.hideLoading` 才能关闭提示框。
 
 ```js
 wx.showLoading({
@@ -470,7 +470,7 @@ setTimeout(function () {
 
 <img src="NodeAssets/showLoading.jpg" alt="showLoading" style="zoom:100%;" />
 
-[showActionSheet](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showActionSheet.html) 显示操作菜单。
+[wx.showActionSheet](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showActionSheet.html) 显示操作菜单。
 
 ```js
 wx.showActionSheet({
@@ -491,7 +491,7 @@ wx.showActionSheet({
 分享是小程序扩散的一种重要方式，小程序中有两种分享方式：
 
 - 方式一：点击右上角的菜单按钮，之后点击转发。
-- 方式二：点击某一个按钮，直接转发。
+- 方式二：点击某一个按钮（`open-type="share"`），直接转发。
 
 当我们转发给好友一个小程序时，通常小程序中会显示一些信息：
 
@@ -551,7 +551,7 @@ wx.getLocation({
 
 ## Storage 存储
 
-在开发中，某些常见我们需要将一部分数据存储在本地：比如 token、用户信息等。
+在开发中，常见地，我们需要将一部分数据存储在本地：比如 token、用户信息等。
 
 - 小程序提供了专门的 Storage 用于进行本地存储。
 
@@ -679,7 +679,6 @@ Page1 index.js
 Page({
   onNavTap() {
     wx.navigateTo({
-      // 跳转的过程, 传递一些参数过去
       url: '/pages2/detail/detail',
       success: res => {
         // 通过 eventChannel 向被打开页面传送数据
@@ -725,7 +724,7 @@ Page({
     // 2.1. 获取到上一个页面的实例
     const pages = getCurrentPages()
     const prePage = pages[pages.length - 2]
-    // // 2.2.通过setData给上一个页面设置数据
+    // // 2.2.通过 setData 给上一个页面设置数据
     prePage.setData({ message: '呵呵呵' })
   },
   // 如果默认返回（默认导航上的返回按钮），也需要传递数据，那么将逻辑放在 `onUnload` 生命周期中会更合适。
@@ -816,68 +815,49 @@ Page({
    import { ztRequest } from './index'
 
    /**
-    * @description: 此函数用于调用微信 api，获取用户登录 code
+    * @description: 此函数用于，调用微信 api，获取用户登录 code
     * @Author: ZeT1an
     * @return {Promise} 返回封装的请求
     */
-   export const getCode = () => {
-     return new Promise((resolve, reject) => {
-       wx.login({
-         timeout: 1000,
-         success: res => {
-           const code = res.code
-           resolve(code)
-         },
-         fail: reject
-       })
+   export const getCode = () => new Promise((resolve, reject) => {
+     wx.login({
+       timeout: 1000,
+       success: res => {
+         const code = res.code
+         resolve(code)
+       },
+       fail: reject
      })
-   }
-
+   })
+   
    /**
-    * @description: 此函数用于调用微信 api，检查用户 session 是否过期
+ * @description: 此函数用于，调用微信 api，检查用户 session 是否过期
     * @Author: ZeT1an
-    * @return {Promise} 返回封装的请求
+    * @return {Promise} 返回封装的请求，wx.checkSession 支持 Promise 风格
     */
-   export const checkSession = () => {
-     return new Promise(resolve => {
-       wx.checkSession({
-         success: () => {
-           resolve(true)
-         },
-         fail: () => {
-           resolve(false)
-         }
-       })
-     })
-   }
-
+   export const checkSession = () => wx.checkSession()
+   
    /**
     * @description: 此函数用于发送请求，获取后端对 token 的校验结果
     * @Author: ZeT1an
     * @param {String} token 用户token
     * @return {*} 返回封装的请求
     */
-   export const checkToken = token => {
-     return new Promise(resolve => {
-       ztRequest.post({
-         url: '/path',
-         header: { token }
-       })
-     })
-   }
+   export const checkToken = token => ztRequest.post({
+     url: '/path',
+     header: { token }
+   })
    
    /**
-    * @description: 此函数用于发送请求，获取后端返回的 token
+ * @description: 此函数用于发送请求，获取后端返回的 token
     * @Author: ZeT1an
     * @param {String} code 用户code
     * @return {Promise} 返回封装的请求
     */
-    export const getToken = code => {
-      return ztRequest.post({
-        url: '/login',
-        header: { code }
-      })
-    }
+    export const getToken = code => ztRequest.post({
+      url: '/login',
+      header: { code }
+    })
    ```
    
 2. 一般在 app.js 中进行静默登录操作：
@@ -889,10 +869,10 @@ Page({
 
    App({
       async onLaunch() {
-        // 1.获取 token, 判断 token 是否有值
+        // 1.获取 Storage 中的 token
         const token = wx.getStorageSync('token') || ""
 
-        // 2.判断 session 是否过期
+        // 2.获取 session 是否过期的状态
         const isSessionExpire = await checkSession()
 
         // 3.如果 token 有值，且 session 没有过期，则验证 token 是否过期，否则直接进行登录操作。
@@ -900,21 +880,20 @@ Page({
           const checkResult = await checkToken(token)
           // 如果 token 过期，则进行登录操作
           if (checkResult.errorCode) {
-            this.lgoinAction()
+            this.login()
           }
         } else {
-          this.lgoinAction()
+          this.login()
         }
       }
 
       // 4.封装登录的方法
-      async lgoinAction() {
-        // 1.获取code
+      async login() {
+        // 1.获取 code
         const code = await getCode()
-        // 2.将code发送给服务器
+        // 2.将 code 发送给服务器，获取 token
         const res = await getToken(code)
-        const token = res.token
-        wx.setStorageSync('token', token)
+        wx.setStorageSync('token', res.token)
       }
    })
    ```

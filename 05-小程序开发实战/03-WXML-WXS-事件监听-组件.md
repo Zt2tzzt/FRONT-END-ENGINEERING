@@ -297,10 +297,8 @@ utils \ format.wxs
 ```js
 function formatCount(count) {
 	count *= 1
-	return count >= 100000000
-		? (count / 100000000).toFixed(1) + '亿'
-		: count >= 10000
-		? (count / 10000).toFixed(1) + '万'
+	return count >= 100000000	? (count / 100000000).toFixed(1) + '亿'
+		: count >= 10000 ? (count / 10000).toFixed(1) + '万'
 		: count
 }
 
@@ -522,7 +520,7 @@ index.wxml
 
 小程序的特性。
 
-- 当涉及事件冒泡时，mark 会将值进行合并传递。不需要关心用 target 还是 currentTarget。
+- 当涉及事件冒泡时，mark 会将值进行合并传递。不需要关心用 `target` 还是 `currentTarget`。
 
 index.js
 

@@ -15,11 +15,12 @@ reactive API 的基本使用：
 ```vue
 <script>
   import { reactive } from 'vue'
+  
   export default {
     setup() {
       // 定义响应式数据
       const account = reactive({
-        username: "coderwhy",
+        username: "zzt",
         password: "123456"
       })
       function changeAccount() {
@@ -51,8 +52,8 @@ reactive API 的基本使用：
 
 认识 ref API
 
-1. ref 意为 Reference，返回一个可变的响应式对象，该对象作为一个响应式的引用维护者它内部的值。
-2. 它内部的值是在 ref 的 `value` 属性中维护的。
+1. ref 意为 Reference，返回一个可变的响应式对象，该对象作为一个响应式的引用维护着它内部的值。
+2. 它内部的值是在 ref 对象的 `value` 属性中维护的。
 
 需要注意的是：
 
@@ -69,6 +70,7 @@ ref API 的基本使用：
 ```vue
 <script>
   import { reactive, ref } from 'vue'
+  
   export default {
     setup() {
       // ref 函数: 定义简单类型的数据(也可以定义复杂类型的数据)，为 counter 定义响应式数据
@@ -113,11 +115,7 @@ ref API 的基本使用：
 
 > ref 和 reactive 默认都能实现对象的深层响应式。
 
------
-
-在浏览器安装 Vue devtool 插件
-
------
+# 在浏览器安装 Vue devtool 插件
 
 # readonly API
 
@@ -141,6 +139,7 @@ readonly API 结合普通对象和响应式对象的使用：
 <script>
   import { reactive, readonly } from 'vue'
   import ShowInfo from './ShowInfo.vue'
+  
   export default {
     components: {
       ShowInfo
@@ -164,12 +163,11 @@ readonly API 结合普通对象和响应式对象的使用：
     }
   }
 </script>
+
 <template>
   <h2>App: {{ info }}</h2>
   <show-info :roInfo="roInfo" @changeRoInfoName="changeRoInfoName"></show-info>
 </template>
-<style scoped>
-</style>
 ```
 
 子组件 ShowInfo.vue
@@ -197,7 +195,7 @@ readonly API 结合普通对象和响应式对象的使用：
   <div>
     <!-- 使用 readonly 的数据 -->
     <h2>ShowInfo: {{ roInfo }}</h2>
-    <!-- <button @click="roInfo.name = 'james'">ShowInfo按钮</button> 直接修改父组件中传过来的 readonly 对象，代码就会无效(报警告) -->
+    <!-- <button @click="roInfo.name = 'james'">ShowInfo 按钮</button> 直接修改父组件中传过来的 readonly 对象，代码就会无效(报警告) -->
     <button @click="roInfoBtnClick">roInfo按钮</button> <!-- 正确的做法 -->
   </div>
 </template>
@@ -218,6 +216,7 @@ readonly API 结合普通对象和响应式对象的使用：
 
 ```javascript
 import { reactive, isReactive } from 'vue'
+
 export default {
   setup() {
     const state = reactive({username: 'John'， password: '123456'})
@@ -232,6 +231,7 @@ export default {
 
 ```javascript
 import { reactive, toRefs } from 'vue'
+
 export default {
   setup() {
     const state = reactive({ name: 'zzt', age: 18 })
@@ -244,6 +244,7 @@ export default {
 
 ```javascript
 import { reactive, toRef } from 'vue'
+
 export default {
   setup() {
     const state = reactive({ name: 'zzt', age: 18 })
@@ -259,7 +260,7 @@ export default {
 - `isRef` - 判断值是否是一个 ref 对象。
 - `unref` - 用于获取 ref 引用中的 value，这是 `val = isRef(val) ? val.value : val` 的语法糖函数。
 - `shallowRef` - 创建一个浅层的 ref 对象。
-- `triggerRef` - 手动触发和 shallowRef 相关联的副作用。
+- `triggerRef` - 手动触发和 `shallowRef` 相关联的副作用。
 - `customRef` - 创建一个自定义 ref，对其依赖项跟踪和重新触发。
 
 shallowRef 和 triggerRef 的结合使用案例实现。
@@ -267,6 +268,7 @@ shallowRef 和 triggerRef 的结合使用案例实现。
 ```vue
 <script>
 import { shallowRef, triggerRef } from "vue";
+  
 export default {
   setup() {
     const shallowInfo = shallowRef({ name: "zzt" });
@@ -278,6 +280,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <h2>{{ shallowInfo }}</h2>
   <button @click="changeInfo">修改Info</button>
@@ -291,6 +294,7 @@ App.vue
 ```vue
 <script>
 import useDebounceRef from "./hook/useDebounceRef";
+  
 export default {
   setup() {
     const message = useDebounceRef("Hello World");
@@ -298,6 +302,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <input type="text" v-model="message" />
   <h2>{{ message }}</h2>
@@ -308,6 +313,7 @@ useDebounceRef.js
 
 ```javascript
 import { customRef } from 'vue'
+
 // 自定义ref
 export default function (value, delay = 300) {
   let timer = null
@@ -328,8 +334,6 @@ export default function (value, delay = 300) {
   })
 }
 ```
-
------
 
 # setup 中不可以使用 this
 
@@ -361,6 +365,7 @@ setup 中实现计算属性 API 是 `computed`，基本使用：
    ```vue
    <script>
    import { ref, computed } from "vue";
+     
    export default {
      setup() {
        const firstName = ref("Jesse");
@@ -371,6 +376,7 @@ setup 中实现计算属性 API 是 `computed`，基本使用：
      },
    };
    </script>
+   
    <template>
     <h2>{{ fullName }}</h2>
    </template>
@@ -381,6 +387,7 @@ setup 中实现计算属性 API 是 `computed`，基本使用：
    ```Vue
    <script>
    import { ref, computed } from "vue";
+     
    export default {
      setup() {
        const firstName = ref("Jesse");
@@ -401,18 +408,17 @@ setup 中实现计算属性 API 是 `computed`，基本使用：
      },
    };
    </script>
+   
    <template>
     <h2>{{ fullName }}</h2>
     <button @click="changeName">设置fullname</button>
    </template>
    ```
 
------
-
 setup 中侦听器提供了2种 API ：
 
-- watchEffect - 用于自动收集响应式数据依赖。
-- watch - 手动指定侦听的数据源。
+- `watchEffect` - 用于自动收集响应式数据依赖。
+- `watch` - 手动指定侦听的数据源。
 
 # watchEffect API
 
@@ -426,6 +432,7 @@ setup 中侦听器提供了2种 API ：
 ```vue
 <script>
   import { ref, watchEffect } from 'vue';
+  
   export default {
     setup() {
       // watchEffect: 自动收集响应式的依赖
@@ -440,6 +447,7 @@ setup 中侦听器提供了2种 API ：
     }
   }
 </script>
+
 <template>
 	<h2>{{name}}-{{age}}</h2>
 	<button @click="changeName">修改name</button>
@@ -455,7 +463,7 @@ const stopWatch = watchEffect(() => {
 });
 const changeAge = () => {
   age.value++
-  if (age.value > 20) { // age大于20，停止侦听。
+  if (age.value > 20) { // age 大于20，停止侦听。
     stopWatch()
   }
 }
@@ -476,7 +484,7 @@ const changeAge = () => {
 ```javascript
 const name = ref("zzt");
 const age = ref(18);
-watchEffect((onInvalidate) => {
+watchEffect(onInvalidate => {
   const timer = setTimeout(() => {
     console.log("网络请求成功~");
   }, 2000)
@@ -513,7 +521,7 @@ watch 侦听单个数据源，newVal 和 oldVal 拿到普通值和响应式对�
 - 侦听一个 reactive 对象，newVal 和 oldVal 是响应式对象（Proxy）。
 
    ```javascript
-   const info = reactive({name: "zzt", age: 18});
+   const info = reactive({ name: "zzt", age: 18 });
    watch(info, (newVal, oldVal) => {
      // newVal 和 oldVal 拿到的是响应式对象（Proxy）
    })
@@ -522,7 +530,7 @@ watch 侦听单个数据源，newVal 和 oldVal 拿到普通值和响应式对�
 - 侦听一个 reactive 对象中的某一属性，newVal 和 oldVal 拿到的是值本身。
 
    ```javascript
-   const info = reactive({name: "zzt", age: 18});
+   const info = reactive({ name: "zzt", age: 18 });
    watch(() => info.name, (newVal, oldVal) => {
      // newVal 和 oldVal 拿到的是值本身
    })
@@ -554,7 +562,7 @@ watch 侦听单个数据源，newVal 和 oldVal 拿到普通值和响应式对�
 watch 侦听多个数据源，传入一个数组，对应的 newVal 和 oldVal 可做**数组解构**：
 
 ```javascript
-const info = reactive({name: "zzt", age: 18});
+const info = reactive({ name: "zzt", age: 18 });
 const players = reactive(['Lingard', 'Ronaldo', 'DeBruyne', 'Vardy'])
 const name = ref('zzt')
 watch([info, () => [...players], name], ([newInfo, newPlayer, newName], [oldInfo, oldPlayer, oldName]) => {
@@ -612,6 +620,7 @@ const changeData = () => {
    ```vue
    <script>
      import { ref } from 'vue';
+     
      export default {
        setup() {
          const titleRef = ref(null);
@@ -619,6 +628,7 @@ const changeData = () => {
        }
      }
    </script>
+   
    <template>
      <h2 ref="titleRef">哈哈哈</h2>
    </template>
@@ -627,11 +637,9 @@ const changeData = () => {
 2. 可在对应的生命周期函数（`onMounted`）中通过 `titleRef` 拿到元素本身。
 
    ```vue
-   <template>
-     <h2 ref="titleRef">我是标题</h2>
-   </template>
    <script>
      import { ref, onMounted } from 'vue'
+     
      export default {
        setup() {
          const titleRef = ref(null)
@@ -642,8 +650,10 @@ const changeData = () => {
        }
      }
    </script>
-   <style scoped>
-   </style>
+   
+   <template>
+     <h2 ref="titleRef">我是标题</h2>
+   </template>
    ```
    
 3. 也可以使用 `watcheffect` 通过 titleRef 来拿元素，会发现副作用执行了2次，第一次 titleRef 为 null，第二次为元素本身。这是因为：
@@ -671,8 +681,6 @@ const changeData = () => {
    
    > 调整 watchEffect 的执行时机，一般就用于取模版中元素或组件实例对象的场景。
 
------
-
 # setup 生命周期
 
 VCA 的生命周期钩子函数有哪些？
@@ -696,6 +704,7 @@ VCA 生命周期 API 的基本使用：
 
 ```javascript
 import { onMounted } from 'vue'
+
 export default {
   setup() {
     onMounted(() => {
@@ -717,6 +726,7 @@ export default {
 <script>
 import { ref, readonly, provide } from "@vue/runtime-core"
 import Home from "./Home.vue"
+  
 export default {
   components: { Home },
   setup () {
@@ -730,6 +740,7 @@ export default {
   }
 }
 </script>
+
 <template>
   <Home />
   <h2>App Counter: {{ counter }}</h2>
@@ -742,6 +753,7 @@ export default {
 ```vue
 <script>
 import { inject } from 'vue'
+  
 export default {
   setup() {
     // inject 可传2个参数，prop1：属性名，prop2：默认值。
@@ -773,6 +785,7 @@ export default {
 ```vue
 <script>
 import useTitle from './hooks/useTitle.js'
+  
 export default {
   setup() {
     const titleRef = useTitle('zzt')
@@ -788,9 +801,10 @@ export default {
 
 ```javascript
 import { ref, watch } from 'vue'
+
 export default function (title = '默认的title') {
   const titleRef = ref(title)
-  watch(titleRef, (newValue) => {
+  watch(titleRef, newValue => {
     document.title = newValue
   }, { 
     immediate: true
@@ -806,12 +820,14 @@ export default function (title = '默认的title') {
 ```vue
 <script>
 import useScrollPosition from './hooks/useScrollPosition.js'
+  
 export default {
   setup() {
     return { ...useScrollPosition() }
   }
 }
 </script>
+
 <template>
   <p class="content"></p>
   <div class="scroll">
@@ -819,6 +835,7 @@ export default {
     <div class="scroll-y">scrollY: {{ position.y }}</div>
   </div>
 </template>
+
 <style scoped>
 .content {
   width: 3000px;
@@ -836,6 +853,7 @@ export default {
 
 ```javascript
 import { reactive } from 'vue'
+
 export default function () {
   const position = reactive({
     x: 0,
@@ -856,18 +874,21 @@ export default function () {
 ```vue
 <script>
 import useMousePosition from './hooks/useMousePosition.js'
+  
 export default {
   setup() {
     return{ ...useMousePosition() }
   }  
 }
 </script>
+
 <template>
   <div class="mouse">
     <div class="mouse-x">mouseX:{{ mouseX }}</div>
     <div class="mouse-Y">mouseY:{{ mouseY }}</div>
   </div>
 </template>
+
 <style scoped>
 .mouse {
   position: fixed;
@@ -881,6 +902,7 @@ export default {
 
 ```javascript
 import { ref } from 'vue'
+
 export default function () {
   const mouseX = ref(0)
   const mouseY = ref(0)
@@ -899,6 +921,7 @@ export default function () {
 ```vue
 <script>
 import useLocalStorage from './hooks/useLocalStorage.js'
+  
 export default {
   setup() {
     const data = useLocalStorage('info')
@@ -913,6 +936,7 @@ export default {
 
 ```javascript
 import { ref, watch } from 'vue'
+
 export default function (key, value) {
   const data = ref(value)
   if (value) {
@@ -920,14 +944,12 @@ export default function (key, value) {
   } else {
     data.value = JSON.parse(window.localStorage.getItem(key))
   }
-  watch(data, (newValue) => {
+  watch(data, newValue => {
     window.localStorage.setItem(key, JSON.stringify(newValue))
   })
   return data
 }
 ```
-
------
 
 # script setup 语法糖。
 
@@ -946,8 +968,8 @@ export default function (key, value) {
 
 1. 不用写 `return`，任何在顶层定义的标识符可直接用于模板。
 2. 不用写 `components` 选项，直接 import 引入子组件即可使用。
-3. 定义 props 中的数据：使用 `defineProps` API。
-4. 定义 emits 中的事件，使用 `defineEmits` API.
+3. 定义 `props` 中的数据：使用 `defineProps` API。
+4. 定义 `emits` 中的事件，使用 `defineEmits` API.
 
 ## defineProps 和 defineEmits 的使用
 
@@ -968,6 +990,7 @@ console.log('---message---', props.message);
 const emit = defineEmits(['increment', 'decrement'])
 const clickbtn = () => emit('increment', 1000000)
 </script>
+
 <template>
   <h2>{{ message }}</h2>
   <button @click="clickbtn">发射事件</button>
@@ -1004,6 +1027,7 @@ onMounted(() => {
   homeRef.value.foo()
 })
 </script>
+
 <template>
 	<home ref="homeRef"></home>
 </template>
