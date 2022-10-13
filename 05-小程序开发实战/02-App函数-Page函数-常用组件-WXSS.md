@@ -121,7 +121,7 @@ Page({
     // 发送网络请求，请求轮播图数据。
     wx.request({
       url: "http://123.207.32.32:8000/home/multidata",
-      success: (res) => {
+      success: res => {
         const data = res.data.data
         const banners = data.banner.list
         const recommends = data.recommend.list
@@ -304,7 +304,7 @@ Page({
     })
   },
   getPhoneNumber(event) {
-    console.log(event.detail.colde);
+    console.log(event.detail.code);
   },
 })
 ```
@@ -337,8 +337,8 @@ index.wxss
 image 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/component/image.html)
 
 - image 组件用于显示图片；
-- 其中 src 可以是本地图片，也可以是网络图片
-- Mode 属性使用也非常关键，常用值 `widthFix` 表示使用缩放模式，宽度不变，高度自动变化，保持原图宽高比不变。
+- 其中 src 可以是本地图片，也可以是网络图片；
+- `mode` 属性使用也非常关键，常用值 `widthFix` 表示使用缩放模式，宽度不变，高度自动变化，保持原图宽高比不变。
 
 与 HTML 中的 img 元素不同，
 
@@ -473,7 +473,7 @@ Page({
 index.html
 
 ```html
-<input type="text" model:value="{{message}}"/>
+<input type="text" model:value="{{ message }}"/>
 ```
 
 index.js

@@ -37,8 +37,8 @@ index.wxml
 
 ## 条件判断
 
-- 当条件为 true 时, view 组件会渲染出来
-- 当条件为 false 时, view 组件不会渲染出来
+- 当条件为 true 时, view 组件会渲染出来。
+- 当条件为 false 时, view 组件不会渲染出来。
 
 index.js
 
@@ -86,11 +86,11 @@ index.wxml
 
 ```html
 <!-- 基本使用 -->
-<view hidden>我是hidden的view</view>
+<view hidden>我是 hidden 的 view</view>
 <!-- 切换案例 -->
 <button bindtap="onChangeTap">切换</button>
-<view hidden="{{isHidden}}">哈哈哈哈</view>
-<view wx:if="{{!isHidden}}">呵呵呵呵</view>
+<view hidden="{{ isHidden }}">哈哈哈哈</view>
+<view wx:if="{{ !isHidden }}">呵呵呵呵</view>
 ```
 
 ## 列表渲染，
@@ -116,9 +116,9 @@ index.wxml
 ```html
 <!-- 遍历 data 中的数组 -->
 <view class="books">
-	<view wx:for="{{books}}" wx:key="id">
+	<view wx:for="{{ books }}" wx:key="id">
 		<!-- item: 每项内容, index: 每项索引 -->
-		{{item.name}}-{{item.price}}
+		{{ item.name }}-{{ item.price }}
 	</view>
 </view>
 <!-- 遍历数字 -->
@@ -140,7 +140,7 @@ index.wxml
 
 ```html
 <view class="books">
-	<block wx:for="{{books}}" wx:key="id">
+	<block wx:for="{{ books }}" wx:key="id">
 		<view>{{ item.name }}-{{ item.price }}-{{ index }}</view>
 	</block>
 </view>
@@ -183,14 +183,14 @@ WXS（WeiXin Script）是小程序的一套脚本语言，结合 WXML，可以�
 为什么要设计 WXS 语言呢？
 
 - 在 WXML 中是不能直接调用 Page / Component 中定义的函数的.
-- 但是某些情况, 我们可以希望使用函数来处理 WXML 中的数据(类似于 Vue 中的过滤器)，这个时候就使用 WXS 了
+- 但是某些情况, 我们可能希望使用函数来处理 WXML 中的数据(类似于 Vue 中的过滤器)，这个时候就使用 WXS 了
 
 WXS 使用的限制和特点：
 
 - WXS 不依赖于运行时的基础库版本，可以在所有版本的小程序中运行；
 - WXS 的运行环境和其他 JavaScript 代码是隔离的，WXS 中不能调用其他 JavaScript 文件中定义的函数，也不能调用小程序提供的 API，
 - WXS 中只能写 es5 语法；
-- 由于运行环境的差异，在 iOS 设备上小程序内的 WXS 会比 JavaScript 代码快 2 ~ 20 倍。在 android 设备 上二者运行效率无差异；
+- 由于运行环境的差异，在 iOS 设备上小程序内的 WXS 会比 JavaScript 代码快 2 ~ 20 倍。在 android 设备上二者运行效率无差异；
 
 > - 因为小程序采用的是双线程模型，所以在 mustache 中不能引用函数（如果这么设计，底层需要进行频繁的传递，会造成较大的性能损耗）
 > - wxs 运行在 webview 线程中。不要在其中做耗时操作，会影响性能。
@@ -661,8 +661,6 @@ Page({
 ```html
 <view class="view3" catchtap="onView3Tap"></view>
 ```
-
----
 
 # 组件化开发
 
