@@ -209,7 +209,7 @@ components \ c-behavior \ c-behavior.wxml
 
 ```html
 <view>
-  <view class="counter">当前计数: {{counter}}</view>
+  <view class="counter">当前计数: {{ counter }}</view>
   <button bindtap="increment">+1</button>
   <button bindtap="decrement">-1</button>
 </view>
@@ -803,9 +803,9 @@ Page({
 
 1. 在 service 文件夹中，封装：
 
-   - 一个获取 code 的方法、
    - 一个判断 session 是否过期的方法、
    - 一个判断 token 是否过期的方法（与后端沟通）。
+   - 一个获取 code 的方法、
    - 一个从后端获取登录态 token 的方法（与后端沟通）。
 
    service \ login.js
@@ -813,6 +813,33 @@ Page({
    ```js
    // 导入发送网络请求的 request 实例
    import { ztRequest } from './index'
+
+   /**
+    * @description: 此函数用于，调用微信 api，检查用户 session 是否过期
+    * @Author: ZeT1an
+    * @return {Promise} 返回封装的请求，wx.checkSession 支持 Promise 风格
+    */
+   export const checkSession = () => new Promise(resolve => {
+     wx.checkSession({
+       success() {
+        resolve(true)
+       },
+       fail() {
+        resolve(false)
+       }
+     })
+   })
+   
+   /**
+    * @description: 此函数用于发送请求，获取后端对 token 的校验结果
+    * @Author: ZeT1an
+    * @param {String} token 用户token
+    * @return {*} 返回封装的请求
+    */
+   export const checkToken = token => ztRequest.post({
+     url: '/path',
+     header: { token }
+   })
 
    /**
     * @description: 此函数用于，调用微信 api，获取用户登录 code
@@ -831,25 +858,7 @@ Page({
    })
    
    /**
- * @description: 此函数用于，调用微信 api，检查用户 session 是否过期
-    * @Author: ZeT1an
-    * @return {Promise} 返回封装的请求，wx.checkSession 支持 Promise 风格
-    */
-   export const checkSession = () => wx.checkSession()
-   
-   /**
-    * @description: 此函数用于发送请求，获取后端对 token 的校验结果
-    * @Author: ZeT1an
-    * @param {String} token 用户token
-    * @return {*} 返回封装的请求
-    */
-   export const checkToken = token => ztRequest.post({
-     url: '/path',
-     header: { token }
-   })
-   
-   /**
- * @description: 此函数用于发送请求，获取后端返回的 token
+    * @description: 此函数用于发送请求，获取后端返回的 token
     * @Author: ZeT1an
     * @param {String} code 用户code
     * @return {Promise} 返回封装的请求

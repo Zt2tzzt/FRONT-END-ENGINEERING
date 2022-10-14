@@ -325,7 +325,7 @@ index.wxml
 <view class="count">播放量: {{format.formatCount(playCount)}}</view>
 ```
 
-### 案例二： 对歌曲时间进行格式化
+### 案例二：对歌曲时间进行格式化
 
 utils \ format.wxs
 
