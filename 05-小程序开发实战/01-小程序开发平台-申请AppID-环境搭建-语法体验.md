@@ -123,23 +123,23 @@ uni-app 和 taro 开发原生 App：
 
 # 小程序文档指南
 
-指南：小程序起步。
+[指南](https://developers.weixin.qq.com/miniprogram/dev/framework/)：小程序起步。
 
-框架：项目的配置文件；options API；项目文件的语法。
+[框架](https://developers.weixin.qq.com/miniprogram/dev/reference/)：项目的配置文件；options API；项目文件的语法。
 
-组件：WXML 中用到的组件（HTML 中称为元素，移动端原生称为控件，其中包括了 webview）。
+[组件](https://developers.weixin.qq.com/miniprogram/dev/component/)：WXML 中用到的组件（HTML 中称为元素，移动端原生称为控件，其中包括了 webview）。
 
-API：原生提供的类似于 wx.request 这样用于发送网络请求的 API。
+[API](https://developers.weixin.qq.com/miniprogram/dev/api/)：原生提供的类似于 wx.request 这样用于发送网络请求的 API。
 
-平台服务：微信提供的一些特色功能。
+[平台服务](https://developers.weixin.qq.com/miniprogram/dev/platform-capabilities/)：微信提供的一些特色功能。
 
-服务器：需要配合后端服务完成的一些操作，比如获取用户的手机号。
+[服务器](https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/)：需要配合后端服务完成的一些操作，比如获取用户的手机号。
 
-工具：微信开发工具。
+[工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/devtools.html)：微信开发工具。
 
-云开发：云开发相关 API
+[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)：云开发相关 API
 
-云托管：省去购买云服务器，托管后端服务代码。
+[云托管](https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/)：省去购买云服务器，托管后端服务代码。
 
 更新日志。
 

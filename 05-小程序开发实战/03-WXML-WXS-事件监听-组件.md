@@ -106,7 +106,11 @@ Page({
 			{ id: 111, name: '代码大全', price: 98 },
 			{ id: 112, name: '你不知道JS', price: 87 },
 			{ id: 113, name: 'JS高级设计', price: 76 }
-		]
+		],
+    info: {
+      name: 'zzt',
+      age: 18,
+    }
 	}
 })
 ```
@@ -119,6 +123,12 @@ index.wxml
 	<view wx:for="{{ books }}" wx:key="id">
 		<!-- item: 每项内容, index: 每项索引 -->
 		{{ item.name }}-{{ item.price }}
+	</view>
+</view>
+<!-- 遍历 data 中的对象 -->
+<view class="info">
+	<view wx:for="{{ info }}" wx:key="id" wx:for-item="value" wx:for-index="key">
+		{{ key }}-{{ value }}
 	</view>
 </view>
 <!-- 遍历数字 -->
@@ -150,7 +160,7 @@ index.wxml
 
 - 默认情况下，`item` / `index` 的名字是固定的
   - 某些情况下，我们可能想使用其他名称；
-  - 或者当出现多层遍历时，名字会重复。
+  - 或者当出现多层遍历时，名字会重复，需要指定其它名称加以区分。
 - 这个时候，我们可以指定 item 和 index 的名称：
 
 index.wxml
@@ -697,7 +707,7 @@ Page({
 - 课题二：外部样式对组件内样式的影响
   - 结论一：外部使用 class 的样式，只对外部 wxml 节点生效，对组件内是不生效的 ；
   - 结论二：外部使用了 id 选择器、属性选择器不会对组件内产生影响。
-  - 结论三：外部使用了标签选择器，会对组件内产生影响。
+  - 结论三：外部使用了元素选择器，会对组件内产生影响。
 - 课题三：如何让 class 可以相互影响
 
   - 在 Component 对象中，可以传入一个 `options` 属性，其中 `options` 属性中有一个 `styleIsolation`（隔离）属性。
@@ -753,7 +763,7 @@ Component({
 	methods: {
 		onTitleTap() {
 			// 自定义事件，发送给组件的使用者
-			this.triggerEvent('titleclick', 'aaa')
+			this.triggerEvent('titleTap', 'aaa')
 		}
 	}
 })
@@ -800,7 +810,7 @@ index.js
 ```js
 Page({
 	// 处理自定义事件
-	handleSectionTitleClick(event) {
+	handleSectionTitleTap(event) {
     // 传递过来的参数，放在 event 的 detail 中。
 		console.log('区域title发生了点击', event.detail)
 	}
@@ -819,7 +829,7 @@ index.wxml
 	info="abc"
 	title="我与地坛"
 	content="要是有些事情我没说, 别以为是我忘记了"
-	bind:titleclick="handleSectionTitleClick"
+	bind:titleTap="handleSectionTitleTap"
 />
 <section-info
 	info="cba"
