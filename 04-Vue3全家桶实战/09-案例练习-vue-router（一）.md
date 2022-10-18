@@ -99,6 +99,7 @@ URL 的 hash 理解，2点：
   <a href="#about">about</a>
   <div class="content">Default</div>
 </div>
+
 <script>
   const contentEl = document.querySelector('.content')
   window.addEventListener('hashchange', () => {
@@ -135,6 +136,7 @@ HTML5 中 history 的6种方法改变 URL 而不刷新
   <a href="/about">about</a>
   <div class="content">Default</div>
 </div>
+
 <script>
   const contentEl = document.querySelector('.content')
   const changeContent = () => {
@@ -185,7 +187,7 @@ npm install vue-router
 
 ## 使用步骤
 
-1. 创建路由需要映射的组件（打算显示的页面）； 
+1. 创建路由需要映射的组件（打算显示的页面）；
 2. 通过 `createRouter` 函数创建路由对象，并且传入 routes 和 history 模式； 
 	1. 配置路由映射: 组件和路径映射关系的 routes 数组； 
 	2. 创建基于 hash 或者 history 的模式；
@@ -206,7 +208,7 @@ const routes = [
 	{ path: '/about', component: About }
 ]
 const router = createRouter({
-	routes,  
+	routes,
 	// history: createWebHistory(), // 使用 history 模式
 	history: createWebHashHistory() // 使用 hash 模式
 })
@@ -236,7 +238,7 @@ src / App.vue
 </template>
 ```
 
-## 路由的默认路径（重定向）。
+## 路由的默认路径（重定向）
 
 使用场景：
 
@@ -377,7 +379,7 @@ App.vue
 
 1. 在 template 中通过 `$route.params.xxx` 获取值。
 2. 在 VOA 中通过 `this.$route.params.xxx` 获取值。
-3. 在 setup 中，使用 vue-router 库提供的一个 hook 函数 `useRoute`，返回一个 Route 对象 `route`，其中保存着当前路由相关属性，使用 `route.params.xxx` 取值。
+3. 在 setup 中，使用 vue-router 插件提供的一个 hook 函数 `useRoute`，返回一个 Route 对象 `route`，其中保存着当前路由相关属性，使用 `route.params.xxx` 取值。
 
 User.vue
 
@@ -385,6 +387,7 @@ User.vue
 <template>
   <h2>我是用户：{{ $route.params.id }}</h2> <!-- 在 template 中获取 -->
 </template>
+
 <script>
 import { useRoute } from 'vue-router'
   
@@ -458,7 +461,7 @@ NotFound.vue
 <!-- 访问一个未匹配的路径：user/hahaha/123 -->
 <!-- 方式一的结果：Not Found：user/hahaha/123 -->
 <!-- 方式二的结果：Not Found：["user","hahaha","123"] -->
-<h2>Not Found: {{$route.params.pathMatch}}</h2>
+<h2>Not Found: {{ $route.params.pathMatch }}</h2>
 ```
 
 > 他们的区别在于解析的时候，方式一不解析"/"，方式二解析“/”
@@ -522,14 +525,9 @@ Home.vue
 App.vue
 
 ```vue
-<template>
-  <!-- <router-link to="/home">首页</router-link> -->
-  <!-- <router-link to="/about">关于</router-link> -->
-  <button @click="jumpToAbout">关于</button>
-  <router-view></router-view>
-</template>
 <script>
 import { useRouter } from 'vue-router';
+  
 export default {
   // VOA 实现
   methods: {
@@ -547,6 +545,13 @@ export default {
   }
 }
 </script>
+
+<template>
+  <!-- <router-link to="/home">首页</router-link> -->
+  <!-- <router-link to="/about">关于</router-link> -->
+  <button @click="jumpToAbout">关于</button>
+  <router-view></router-view>
+</template>
 ```
 
 ### 对象风格导航：
@@ -558,6 +563,7 @@ App.vue
 ```vue
 <script>
 import { useRouter } from 'vue-router';
+  
 export default {
   setup() {
     // VCA 实现。
@@ -580,8 +586,9 @@ About.vue
 ```vue
 <template>
 <!-- 拿到参数 -->
-<h2>query: {{$route.query.name}} - {{$route.query.age}}</h2>
+<h2>query: {{ $route.query.name }} - {{ $route.query.age }}</h2>
 </template>
+
 <script setup>
 const route = useRoute()
 route.query.name

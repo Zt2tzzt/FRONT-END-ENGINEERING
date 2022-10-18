@@ -328,13 +328,13 @@ index.js
 import { ztRequest } from '../../service/index'
 
 // ...
-hyRequest({
+ztRequest({
   url: 'http://codercba.com:1888/api/city/all'
 }).then(res => {
   this.setData({ allCities: res.data })
 })
 
-hyRequest({
+ztRequest({
   url: 'http://codercba.com:1888/api/home/houselist',
   data: {
     page: 1
