@@ -178,7 +178,7 @@ index.js
 // 实例化: 页面实例
 Page({
 	data: {
-		// 1.案例一: 数据绑定 mustache语法
+		// 1.案例一: 数据绑定 mustache 语法
 		message: 'Hello World',
 		// 2.案例二: 列表数据
 		movies: ['少年派', '大话西游', '星际穿越', '独行月球'],
@@ -340,8 +340,6 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
   "sitemapLocation": "sitemap.json"
 }
 ```
-
-
 
 # 页面配置文件 page.json
 

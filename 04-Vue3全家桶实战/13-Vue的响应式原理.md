@@ -150,9 +150,7 @@ class Depend {
     }
   }
   notify() {
-    this.reactiveFns.forEach(fn => {
-      fn()
-    })
+    this.reactiveFns.forEach(fn => fn())
   }
 }
 

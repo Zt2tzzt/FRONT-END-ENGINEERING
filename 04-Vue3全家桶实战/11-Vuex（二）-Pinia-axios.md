@@ -26,6 +26,7 @@ src / store / index.js
 
 ```js
 import { createStore } from 'vuex'
+
 const store = createStore({
 	state() {
 		return {
@@ -58,6 +59,7 @@ Home.vue
 		<button @click="increment">+100</button>
 	</div>
 </template>
+
 <script>
 import { useStore } from 'vuex'
 
@@ -166,8 +168,10 @@ Home.vue
     <button @click="add">+1</button>
 	</div>
 </template>
+
 <script>
-import { mapActions } from "vuex"
+import { useStore, mapActions } from "vuex"
+
 export default {
   // VOA 中的写法
 	methods: {
@@ -178,6 +182,7 @@ export default {
 	},
   // VCA 中的写法（不推荐）
   setup() {
+    const store = useStore()
     const actions = mapActions(["incrementAction"])
     const newActions = {}
     Object.keys(actions).forEach(key => {
@@ -233,10 +238,11 @@ Home.vue
 ```vue
 <template>
 	<div>
-		计数器：{{$store.state.counter}}
+		计数器：{{ $store.state.counter }}
 		<button @click="incrementAction">+1</button>
 	</div>
 </template>
+
 <script>
 import { useStore } from "vuex"
   
@@ -302,7 +308,7 @@ Home.vue
 
 ```vue
 <template>
-	<div>HomeCouter: {{$store.state.home.homeCounter}}</div>
+	<div>HomeCouter: {{ $store.state.home.homeCounter }}</div>
 </template>
 ```
 
@@ -417,6 +423,7 @@ Home.vue
 		<button @click="homeIncrement">home+1</button>
   </div>
 </template>
+
 <script>
 import { useStore } from 'vuex'
   
@@ -432,8 +439,6 @@ export default {
 }
 </script>
 ```
-
-------
 
 **增加名命空间后**，modules 中的 getter 方法有4个参数：`state`, `getters`, `rootState`, `rootGetters`.
 
@@ -534,6 +539,7 @@ export default {
 ```vue
 <script>
 import { createNamespacedHelpers } from "vuex"
+  
 const { mapActions, mapGetters, mapMutations, mapState } = createNamespacedHelpers('home')
 export default {
 	computed: {
@@ -624,20 +630,20 @@ nextTick 的基本使用。
     }
   }
 </script>
+
 <template>
   <div>
-    <h2 class="title" ref="titleRef">{{message}}</h2>
+    <h2 class="title" ref="titleRef">{{ message }}</h2>
     <button @click="addMessageContent">添加内容</button>
   </div>
 </template>
+
 <style scoped>
   .title {
     width: 120px;
   }
 </style>
 ```
-
------
 
 # 认识 pinia
 
@@ -697,12 +703,12 @@ app.mount('#app')
 - 它有点像始终存在，并且每个人都可以读取和写入的组件；
 - 允许在应用程序中定义任意数量的 store 来管理不同模块的状态；
 - 一个 store 有三个核心概念：
-	- state、getters、actions；概念等同于组件的 data、computed、methods；
+	- state、getters、actions；这些概念等同于组件的 data、computed、methods；
 	- 一旦 store 被实例化，就可以直接在 store 上访问 state、getters 和 actions 中定义的任何属性；
 
 ## 定义一个 Store
 
-- 我们需要知道 store 是使用 `defineStore()` 定义的；
+- 我们需要知道创建 store 的函数是使用 `defineStore()` 定义的；
 - 并且它需要一个唯一名称 `name`，作为第一个参数传递；这个 name，也称为 id，是必要的，Pinia 使用它来将 store 连接到 devtools。
 - 返回的函数，统一使用 `useXxx ` 作为命名方案，这是约定的规范；
 
@@ -727,9 +733,9 @@ export default useHome
 
 ## 使用定义的 store
 
-- Store 在它被使用之前是不会创建的，我们可以通过调用之前导出的 useXxx 函数来使用 Store：
+- Store 在它被使用之前是不会创建的，我们可以通过调用之前导出的 useXxx 函数来获取并使用 Store：
 - 注意 Store 获取到后不能被解构，否则会失去响应式：
-	- 为了从 Store 中提取属性同时保持其响应式，您需要使用 Pinia 库提供的 `storeToRefs()`，或 Vue 提供的 `toRefs()`。
+	- 为了从 Store 中提取属性同时保持其响应式，需要使用 Pinia 库提供的 `storeToRefs()`，或 Vue 提供的 `toRefs()` API。
 
 src / components / Home.vue
 
@@ -746,6 +752,7 @@ src / components / Home.vue
 	// const { count } = toRefs(homeStore)
   const { count } = storeToRefs(homeStore)
 </script>
+
 <template>
   <div class="home">
     <h2>Home View</h2>
@@ -803,6 +810,7 @@ Home.vue
     homeStore.level = 200
   }
 </script>
+
 <template>
   <div class="home">
     <h2>Home View</h2>
@@ -812,8 +820,6 @@ Home.vue
     <button @click="changeState">修改 state</button>
   </div>
 </template>
-<style scoped>
-</style>
 ```
 
 ## 同时修改多个 state
@@ -843,6 +849,7 @@ Home.vue
     })
   }
 </script>
+
 <template>
   <div class="home">
     <h2>Home View</h2>
@@ -853,8 +860,6 @@ Home.vue
     <button @click="addFriend">添加 friend</button>
   </div>
 </template>
-<style scoped>
-</style>
 ```
 
 ## 重置 state
@@ -917,22 +922,21 @@ const useCounter = defineStore("counter", {
   }),
   getters: {
     // 1.基本使用
-    doubleCount: (state) => return state.count * 2,
+    doubleCount: state => state.count * 2,
     // 2.一个 getter 引入另外一个 getter
     doubleCountAddOne() {
       return this.doubleCount + 1 // this 是 store 实例
     },
     // 3.getters 也支持返回一个函数
-    getFriendById: (state) => (id) => state.friend.find(item => item.id === id),
+    getFriendById: state => id => state.friend.find(item => item.id === id),
     // 4.getters 中用到别的 store 中的数据
-    showMessage: (state) => {
+    showMessage: state => {
       const userStore = useUser() // 1.获取 user 信息
       return `name:${userStore.name}-count:${state.count}` // 2.拼接信息
     }
   }
 })
 export default useCounter
-
 ```
 
 ## 访问 Getters
@@ -942,6 +946,7 @@ export default useCounter
   import useCounter from '@/stores/counter';
   const counterStore = useCounter()
 </script>
+
 <template>
   <div class="home">
     <h2>Home View</h2>
@@ -951,16 +956,14 @@ export default useCounter
     <h2>showMessage: {{ counterStore.showMessage }}</h2>
   </div>
 </template>
-<style scoped>
-</style>
 ```
 
 # Pinia 核心三 Actions
 
 ## 认识 Actions
 
-- Actions 相当于组件中的 methods。可以使用 defineStore() 中的 actions 属性定义，并且它们非常适合定义业务逻辑；
-- 和 getters 一样，在 action 中可以通过 this 访问整个 store 实例的所有操作；
+- Actions 相当于组件中的 methods。可以使用 `defineStore()` 中的 `actions` 属性定义，并且它们非常适合定义业务逻辑；
+- 和 getters 一样，在 action 中可以通过 `this` 访问整个 store 实例的所有操作；
 - Actions 中是支持异步操作的，通过返回一个 Promise 告知使用者异步操作执行状态。
 
 
@@ -1003,6 +1006,7 @@ Home.vue
     console.log("fetchHomeMultidata 的 action 已经完成了:", res)
   })
 </script>
+
 <template>
   <div class="home">
     <h2>Home View</h2>
@@ -1014,8 +1018,6 @@ Home.vue
     </ul>
   </div>
 </template>
-<style scoped>
-</style>
 ```
 
 # 认识 axios 库
@@ -1080,14 +1082,14 @@ axios.get("http://123.207.32.32:9001/lyric", {
 })
 // 3.发送 post 请求
 axios.post("http://123.207.32.32:1888/02_param/postjson", {
-  name: "coderwhy",
+  name: "zzt",
   password: 123456
 }).then(res => {
   console.log("res", res.data)
 })
 axios.post("http://123.207.32.32:1888/02_param/postjson", {
   data: {
-    name: "coderwhy",
+    name: "zzt",
     password: 123456
   }
 }).then(res => {
@@ -1189,24 +1191,24 @@ axios 也可以设置拦截器：拦截每次请求和响应
 import axios from 'axios'
 
 // 对实例配置拦截器，请求拦截
-axios.interceptors.request.use((config) => { // 传入请求的配置信息 config
+axios.interceptors.request.use(config => { // 传入请求的配置信息 config
   console.log("请求成功的拦截")
   // 1.开始 loading 的动画
   // 2.对原来的配置进行一些修改
   // 3.添加 header，如认证登录: token / cookie
   // 4.请求参数进行某些转化
   return config
-}, (err) => {
+}, err => {
   console.log("请求失败的拦截")
   return err
 })
 // 响应拦截
-axios.interceptors.response.use((res) => {
+axios.interceptors.response.use(res => {
   console.log("响应成功的拦截")
   // 1.结束 loading 的动画
   // 2.对数据进行转化, 再返回数据
   return res.data
-}, (err) => {
+}, err => {
   console.log("响应失败的拦截:", err)
   return err
 })
@@ -1239,9 +1241,7 @@ class ZTRequest {
     return new Promise((resolve, reject) => {
       this.instance.request(config).then(res => {
         resolve(res.data)
-      }).catch(err => {
-        reject(err)
-      })
+      }).catch(reject)
     })
   }
   get(config) {

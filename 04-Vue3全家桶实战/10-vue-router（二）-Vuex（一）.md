@@ -90,6 +90,7 @@ App.vue
 		</transition>
 	</router-view>
 </template>
+
 <style scoped>
 .zzt-enter-from,
 .zzt-leave-to {
@@ -213,7 +214,7 @@ export default router
 - 一个 string 类型的路径，如 `'/login'`。
 - 一个对象，其中包含 path, query, params，如 `{ path: '/login/123', query: { name: 123 } }`，
 
-## 基本使用。
+## 基本使用
 
 在注册 route 时，模拟进行导航守卫，
 
@@ -243,6 +244,7 @@ const loginClick = () => {
 	router.push({ path: '/order' })
 }
 </script>
+
 <template>
 	<div>
 		Login
@@ -261,6 +263,7 @@ function logoutClick() {
 	window.localStorage.removeItem('token')
 }
 </script>
+
 <template>
 	<div class="home">
 		<h2>Home</h2>
@@ -271,11 +274,11 @@ function logoutClick() {
 
 ## 其它导航守卫
 
-官方文档：https://router.vuejs.org/zh/guide/advanced/navigation-guards.html
+[官方文档](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html)
 
 其它导航守卫函数的执行时机：
 
-1. 导航被触发。在失活的组件里调用 `beforeRouteLeave` 守卫（**组件内的守卫**）。能通过 this 拿到组件实例
+1. 导航被触发。在失活的组件里调用 `beforeRouteLeave` 守卫（**组件内的守卫**）。能通过 this 拿到组件实例。
 
    ```js
    // Home.vue （VOA 写法）
@@ -497,6 +500,7 @@ App.vue
 		<button @click="decrement">-1</button>
 	</div>
 </template>
+
 <script>
 export default {
 	methods: {
@@ -513,7 +517,7 @@ export default {
 
 ## 单一状态树理解
 
-Vuex 的单一状态数理解：
+Vuex 的单一状态树理解：
 
 1. 用一个对象（store），包含应用程序全部层级的状态（全局单例模式）。
 2. 也就是 SSOT( Single Source of Truth )，也可翻译成单一数据源。
@@ -538,6 +542,7 @@ src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
+
 const store = createStore({
 	state() {
 		return { rootCounter: 100 }
@@ -553,6 +558,7 @@ App.vue
 	<div>{{ $store.state.rootCounter }}</div>
 	<div>{{ rootCounter }}</div>
 </template>
+
 <script>
 export default {
 	computed: {
@@ -588,6 +594,7 @@ App.vue
 	<div>{{ name }} - {{ age }}</div>
 	<div>{{ myName }} - {{ myAge }}</div>
 </template>
+
 <script>
 // mapState 返回的是对象，对象中是一个个函数，函数中本质上也是通过 this.$store.state.xxx 来读取数据。
 import { mapState } from 'vuex'
@@ -618,6 +625,7 @@ App.vue
 <template>
 	<div>{{ myName }} - {{ myAge }}</div>
 </template>
+
 <script>
 import { computed } from 'vue'
 import { useStore, mapState } from 'vuex'
@@ -648,6 +656,7 @@ App.vue
 		<h2>age: {{ age }}</h2>
 	</div>
 </template>
+
 <script setup>
 import { toRefs } from 'vue'
 import { useStore } from 'vuex'
@@ -667,6 +676,7 @@ App.vue
 <template>
 	<div>{{ myName }} - {{ myAge }}</div>
 </template>
+
 <script>
 import { computed } from 'vue'
 import { useStore, mapState } from 'vuex'
@@ -747,6 +757,7 @@ src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
+
 const store = createStore({
 	state: () => ({
 		books: [
@@ -812,6 +823,7 @@ App.vue
 		{{ totalPriceWithCount }}
 	</div>
 </template>
+
 <script>
 export default {
   computed: {
@@ -859,9 +871,11 @@ App.vue
 <template>
 	<div>{{ totalPrice }}</div>
 </template>
+
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+  
 export default {
 	setup() {
 		// VCA 的基本使用
@@ -883,6 +897,7 @@ App.vue
 <template>
 	<div>{{ totalPrice }}</div>
 </template>
+
 <script setup>
 import { toRefs } from 'vue'
 import { useStore } from 'vuex'
@@ -902,6 +917,7 @@ App.vue
 <template>
 	<div>{{ totalPrice }}</div>
 </template>
+
 <script>
 import { computed } from 'vue'
 import { mapGetters, useStore } from 'vuex'
@@ -927,6 +943,7 @@ App.vue
 <template>
 	<div>{{ nameInfo }} - {{ ageInfo }}</div>
 </template>
+
 <script>
 import { computed } from 'vue'
 import { mapGetters, useStore } from 'vuex'
@@ -1006,6 +1023,7 @@ src / store / index.js
 
 ```javascript
 import { createStore } from 'vuex'
+
 const store = createStore({
 	state() {
 		return {
@@ -1034,6 +1052,7 @@ App.vue
     <button @click="decrement">-10/button>
   </div>
 </template>
+
 <script>
 export default {
   methods: {
@@ -1066,8 +1085,6 @@ export default {
 </script>
 ```
 
----
-
 #### 标识符值抽成常量
 
 将 mutations 中标识符值抽成常量，结合 ES6 对象增强语法计算属性名使用。这是一种设计规范，官方文档推荐这么做。
@@ -1083,6 +1100,7 @@ src/store/index.js
 ```javascript
 import { createStore } from 'vuex'
 import { DECREMENT } from './mutationTypes'
+
 const store = createStore({
 	state() {
 		return { rootCounter: 100 }
@@ -1102,6 +1120,7 @@ App.vue
 ```vue
 <script>
 import { DECREMENT } from './store/mutationTypes'
+  
 export default {
 	methods: {
 		decrement() {
@@ -1134,6 +1153,7 @@ template 中提交 mutations，结合 methods 使用：
 		<button @click="decrement">-1</button>
 	</div>
 </template>
+
 <script>
 export default {
 	methods: {
@@ -1160,8 +1180,10 @@ App.vue
 		<button @click="sub10({ n: 10 })">sub-1</button>
 	</div>
 </template>
+
 <script>
 import { mapMutations } from 'vuex'
+  
 export default {
 	data() {
 		return {}
