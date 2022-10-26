@@ -61,7 +61,7 @@ index.wxml
 
 ## hidden 属性。
 
-- hidden 是所有的组件都默认拥有的属性；
+- hidden 是所有的组件都默认拥有的公共属性；
 - 当 hidden 属性为 true 时, 组件会被隐藏；
 - 当 hidden 属性为 false 时, 组件会显示出来。
 
@@ -167,7 +167,7 @@ index.wxml
 
 ```html
 <view class="books">
-	<block wx:for="{{books}}" wx:key="id" wx:for-item="book" wx:for-index="i">
+	<block wx:for="{{ books }}" wx:key="id" wx:for-item="book" wx:for-index="i">
 		<view>{{ book.name }}-{{ book.price }}-{{ i }}</view>
 	</block>
 </view>
@@ -224,8 +224,8 @@ index.html
 </wxs>
 
 <view class="books">
-	<block wx:for="{{books}}" wx:key="id">
-		<view>name:{{item.name}}-price:{{format.formatPrice(item.price)}}</view>
+	<block wx:for="{{ books }}" wx:key="id">
+		<view>name:{{ item.name }}-price:{{ format.formatPrice(item.price) }}</view>
 	</block>
 </view>
 ```
@@ -257,11 +257,11 @@ index.html
 <wxs module="format" src="/utils/format.wxs"></wxs>
 
 <view class="books">
-	<block wx:for="{{books}}" wx:key="id">
-		<view>name:{{item.name}}-price:{{format.formatPrice(item.price)}}</view>
+	<block wx:for="{{ books }}" wx:key="id">
+		<view>name:{{ item.name }}-price:{{ format.formatPrice(item.price) }}</view>
 	</block>
 </view>
-<view class="total">总价格: {{format.calcPrice(books)}}</view>
+<view class="total">总价格: {{ format.calcPrice(books)}}</view>
 ```
 
 utils \ format.wxs
@@ -275,8 +275,8 @@ function calcPrice(books) {
 	// es5 中可以写高阶函数，不能写箭头函数
 	return (
 		'¥' +
-		books.reduce(function (preValue, item) {
-			return preValue + item.price
+		books.reduce(function (accumulator, item) {
+			return accumulator + item.price
 		}, 0)
 	)
 }
@@ -332,7 +332,7 @@ index.wxml
 ```html
 <wxs module="format" src="/utils/format.wxs"></wxs>
 
-<view class="count">播放量: {{format.formatCount(playCount)}}</view>
+<view class="count">播放量: {{ format.formatCount(playCount) }}</view>
 ```
 
 ### 案例二：对歌曲时间进行格式化
@@ -373,7 +373,7 @@ index.wxml
 <wxs module="format" src="/utils/format.wxs"></wxs>
 
 <view class="time">
-	{{format.formatTime(currentTime)}}/{{format.formatTime(duration)}}
+	{{ format.formatTime(currentTime) }}/{{ format.formatTime(duration) }}
 </view>
 ```
 
@@ -428,7 +428,7 @@ index.wxml
 
 当某个事件触发时, 会产生一个事件对象, 并且这个对象被传入到回调函数中, 事件对象有哪些常见的属性呢? [官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html#%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1)
 
-### 属性 currentTarget 和 target 的区别（再次强调）。
+### 属性 currentTarget 和 target 的区别（再次强调）
 
 - `currentTarget` 是当前处理事件的对象。
 - `target` 是事件触发的对象。
@@ -458,7 +458,7 @@ index.wsml
 
 ### 属性 touches 和 changedTouches 的区别（了解，很少用）
 
-- 在 `touchend` 事件对象中不同
+- 在 `touchend` 事件对象中不同。
 - 多手指触摸时不同。
 
 index.js
@@ -496,7 +496,7 @@ index.wxml
 
 当视图层发生事件时，某些情况需要事件携带一些参数到执行的函数中，在小程序中，目前有 2 种方式，实现事件参数传递。
 
-### 通过 `data-*`，
+### 通过 `data-*`
 
 本质上是 HTML 中 DOM 元素对象的特性：
 
@@ -571,7 +571,7 @@ Page({
   data: {
     titles: ["手机", "电脑", "iPad", "相机"],
     currentIndex: 0
-  }
+  },
 	onItemTap(event) {
     const currentIndex = event.currentTarget.dataset.index
     this.setData({ currentIndex })
@@ -963,7 +963,7 @@ index.wxml
 ```html
 <tab-control
 	class="tab-control"
-	titles="{{digitalTitles}}"
+	titles="{{ digitalTitles }}"
 	bind:indexchange="handleTabIndexChange"
 />
 ```

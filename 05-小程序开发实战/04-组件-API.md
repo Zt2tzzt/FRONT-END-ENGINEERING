@@ -90,7 +90,7 @@ components \ my-slot \ my-slot.wxml
     <slot></slot>
   </view>
   <!-- 使用 .default 元素结合伪类 :empty 实现默认插槽的效果 -->
-  <view class="default">哈哈哈哈</view>
+  <view class="default-content">哈哈哈哈</view>
   <view class="footer">Footer</view>
 </view>
 ```
@@ -98,10 +98,10 @@ components \ my-slot \ my-slot.wxml
 components \ my-slot \ my-slot.wxss
 
 ```css
-.default {
+.default-content {
   display: none;
 }
-.content:empty + .default {
+.content:empty + .default-content {
   display: block;
 }
 ```
@@ -256,7 +256,7 @@ Component({
     hide: function () {
       // 页面被隐藏
     },
-    resize: function (size) {
+    resize: function(size) {
       // 页面尺寸变化
     }
   }
@@ -724,7 +724,7 @@ Page({
     // 2.1. 获取到上一个页面的实例
     const pages = getCurrentPages()
     const prePage = pages[pages.length - 2]
-    // // 2.2.通过 setData 给上一个页面设置数据
+    // 2.2.通过 setData 给上一个页面设置数据
     prePage.setData({ message: '呵呵呵' })
   },
   // 如果默认返回（默认导航上的返回按钮），也需要传递数据，那么将逻辑放在 `onUnload` 生命周期中会更合适。
@@ -833,7 +833,7 @@ Page({
    /**
     * @description: 此函数用于发送请求，获取后端对 token 的校验结果
     * @Author: ZeT1an
-    * @param {String} token 用户token
+    * @param {String} token 用户 token
     * @return {*} 返回封装的请求
     */
    export const checkToken = token => ztRequest.post({
@@ -860,7 +860,7 @@ Page({
    /**
     * @description: 此函数用于发送请求，获取后端返回的 token
     * @Author: ZeT1an
-    * @param {String} code 用户code
+    * @param {String} code 用户 code
     * @return {Promise} 返回封装的请求
     */
     export const getToken = code => ztRequest.post({

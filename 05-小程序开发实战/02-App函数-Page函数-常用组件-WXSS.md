@@ -10,7 +10,9 @@ APP 函数：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/ref
 
 1. 监听生命周期函数，
    - 判断小程序的进入场景。
+
    - 执行对应的业务逻辑，比如在某个生命周期函数中进行登录操作或者请求网络数据；
+
 2. 因为 app 实例只有一个，并且是全局共享的（单例对象），所以我们可以将一些共享数据放在这里（仅限非响应式的数据，如 token，用户信息等等）；
 
 ## 案例演示：
@@ -87,13 +89,13 @@ Page({
 })
 ```
 
-> 微信小程序跳转的 page 路径中（wx.navigateTo），不能有中文。
+> 微信小程序跳转的 page 路径中（`wx.navigateTo`），不能有中文。
 
 # 注册页面 理解 Page 函数。
 
 Page 函数：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html)
 
-- 小程序中的每个页面, 都有一个对应的 js 文件, 其中调用 Page 函数注册页面实例。
+- 小程序中的每个页面, 都有一个对应的 js 文件, 其中调用 `Page` 函数注册页面实例。
 - 在注册时, 可以绑定初始化数据、生命周期回调、事件处理函数等。
 
 注册 page 时，通常会做些什么？
@@ -240,12 +242,12 @@ Button 组件用于创建按钮，默认**块级元素**
 
 > `wx.getUserInfo` API 用于获取用户信息，直接使用已经失效，获取到的 **username** 是”微信用户“，获取到的**头像**是默认头像。
 >
-> 需要使用特定的方式 `wx.getUserProfile` API 来拿用户信息。
+> 需要使用特定的方式结合 `wx.getUserProfile` API 来拿用户信息。
 >
 > 获取用户信息 API 的变化过程：
 >
-> 1. 直接静默调用 `wx.getUserInfo`（弃用）
-> 2. `button` + `open-type="getUserInfo"` + 事件监听 `event` 获取（弃用）
+> 1. 直接静默调用 `wx.getUserInfo`（废弃）
+> 2. `button` + `open-type="getUserInfo"` + 事件监听 `event` 获取（废弃）
 > 3. `button`或其它组件载体 + 事件监听 + `wx.getUserProfile` 获取（目前的方案）
 
 index.wxml
@@ -298,7 +300,7 @@ Page({
   getUserInfo() {
     // 调用 API, 获取用户的信息
     wx.getUserProfile({
-      desc: 'desc',
+      desc: '请求获取您的头像和昵称',
     }).then(res => {
       console.log(res);
     })
@@ -337,8 +339,8 @@ index.wxss
 image 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/component/image.html)
 
 - image 组件用于显示图片；
-- 其中 src 可以是本地图片，也可以是网络图片；
-- `mode` 属性使用也非常关键，
+- 其中 `src` 属性引用的路径，可以是本地图片，也可以是网络图片；
+- `mode` 属性使用也非常关键；
   - 常用值 `widthFix` 表示使用缩放模式，宽度不变，高度自动变化，保持原图宽高比不变。
 
 与 HTML 中的 img 元素不同；
@@ -389,7 +391,7 @@ Page({
 
 scroll-view 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html)
 
-- scroll-view 可以实现局部滚动。
+- scroll-view 可以实现局部滚动；
 - scroll-view 组件实现滚动的前提：
 	- 有固定高度/宽度，
 	- 内容大于固定高度/宽度。
@@ -448,9 +450,9 @@ Page({
   },
 	// 可滚动区域的宽度 = scrollLeft + 组件的宽度；
   // 同理，可滚动区域的高度 = scrollTop + 组件的高度；
-	// deltalX > 0，表示向左滚动，反之向右滚动。deltalY 同理。
   onScroll(event) {
     console.log("scrollview 发生了滚动:", event.detail);
+    // deltalX > 0，表示向左滚动，反之向右滚动。deltalY 同理
 		/* detail: {
 			deltaX: -5.7318878173828125
 			deltaY: 0
@@ -474,7 +476,7 @@ Page({
 index.html
 
 ```html
-<input type="text" model:value="{{ message }}"/>
+<input type="text" model:value="{{ msg }}"/>
 ```
 
 index.js
@@ -482,12 +484,10 @@ index.js
 ```js
 Page({
   data: {
-    message: '你好啊，李银河！'
+    msg: '你好啊，李银河！'
   }
 })
 ```
-
-
 
 # WXSS 编写样式
 
@@ -503,7 +503,7 @@ WXSS 扩展的单位 rpx，用于做自适应。
 
 - 尺寸单位
 	- rpx（responsive pixel）: 可以根据屏幕宽度进行自适应，规定屏幕宽为 750rpx。
-	- 如在 iPhone6 上，屏幕宽度为 375px，共有 750 个物理像素，则 750rpx = 375px = 750物理像素，1rpx = 0.5px = 1物理 像素。
+	- 如在 iPhone6 上，屏幕宽度为 375px，共有 750 个物理像素，则 750rpx = 375px = 750物理像素，1rpx = 0.5px = 1物理像素。
 - 建议：开发微信小程序时设计师用 iPhone6 作为视觉稿的标准（宽度375px）。
 
 行内样式
