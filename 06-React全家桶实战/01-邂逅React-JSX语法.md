@@ -23,7 +23,7 @@ React 与其它框架的关系。
 	- 包括 Vue3 很多新的特性，也是借鉴和学习了 React；
 	- 比如 React Hooks 是开创性的新功能（也是我们学习的重点）；
 	- Vue Composition API 学习了 React Hooks 的思想；
-- Flutter 的很多灵感都来自 React，来自官网的一段话：
+- Flutter 的很多灵感都来自 React，这是来自官网的一段话：
 	- 事实上 Flutter 中的 Widget – Element – RenderObject；
 	- 对应 React 的就是 JSX – 虚拟DOM – 真实DOM；
 - 所以 React 可以说是前端的先驱者，它总是会引领整个前端的潮流。
@@ -78,11 +78,11 @@ React 与其它框架的关系。
 
 React 的基本使用
 
-- React 16 和 18 有哪些区别？
+- React 16 和 18 在渲染根对象 root 时有哪些区别？
 - 在界面上通过 React 显示一个 Hello World
-	- 注意：这里我们编写 React 的 script 代码中，必须添加 `type="text/babel"`，作用是可以让 babel 解析 jsx 的语法
+	- 注意：这里我们编写 React 代码的 script 标签上，必须添加 `type="text/babel"`，作用是可以让 babel 解析 jsx 的语法
 - `ReactDOM.createRoot` 函数：用于创建一个 React 根，之后渲染的内容会包含在这个根中
-	- 参数：将渲染的内容，挂载到哪一个HTML元素上，这里我们已经提定义一个id为root的div
+	- 参数：将渲染的内容，挂载到哪一个HTML元素上，这里我们已经提前定义了一个 id 为 root 的div
 - `root.render` 函数:
 	- 参数：要渲染的根组件
 - 我们可以通过 `{}` 语法来引入外部的变量或者表达式
@@ -134,7 +134,7 @@ React 的基本使用
 babel 与 react 的关系是怎样的？
 
 - 默认情况下开发 React 其实可以不使用 babel。
-- 但是前提是我们自己使用 React.createElement 来编写源代码，它编写的代码非常的繁琐和可读性差。
+- 但是前提是我们自己使用 React.createElement 来编写源代码，它编写的代码非常的繁琐，可读性差。
 - 那么我们就可以直接编写 jsx（JavaScript XML）的语法，并且让 babel 帮助我们转换成 React.createElement。
 
 ## 依赖的引入方式
@@ -193,7 +193,7 @@ babel 与 react 的关系是怎样的？
 - 以上案例中，整个逻辑其实可以看做一个整体，那么我们就可以将其封装成一个组件：
 
 	- 我们知道 root.render 参数是一个 HTML 元素或者一个组件；
-	- 所以我们可以先将之前的业务逻辑封装到一个组件中，然后传入到 ReactDOM.render 函数中的第一个参数；
+	- 所以我们可以先将之前的业务逻辑封装到一个组件中，然后传入到 `root.render` 函数中的第一个参数；
 
 - 在 React 中，封装一个组件有两种方式，**类组件**和**函数式组件**。这里我们先使用类组件。
 
@@ -255,8 +255,8 @@ babel 与 react 的关系是怎样的？
 - 在组件中的数据，我们可以分成两类： 
 	- 参与界面更新的数据：当数据变化时，需要更新组件渲染的内容； 
 	- 不参与界面更新的数据：当数据变化时，不需要更新组建渲染的内容；
-- 参与界面更新的数据我们也可以称之为是**参与数据流**，这个数据是定义在当前对象的 state 中 
-	- 我们可以通过在构造函数中 this.state = {定义的数据} 
+- 参与界面更新的数据我们也可以称之为是**参与数据流**，这个数据是定义在当前对象的 `state` 中 
+	- 我们可以在构造函数中进行初始化 this.state = {定义的数据} 
 	- 当我们的数据发生变化时，我们可以调用 `this.setState` 来更新数据，并且通知 React 进行 update 操作；在进行 update 操作时，就会重新调用 render 函数，并且使用最新的数据，来渲染界面
 	
 ## 组件化的事件绑定处理。
@@ -272,7 +272,7 @@ babel 与 react 的关系是怎样的？
 	- jsx 代码会被 babel 编译为一段 js 代码，所以在 jsx 中引用类的实例方法，方法中的 this 默认绑定的是 undefined。
 	- `setState` 方法是继承过来的。`this.setState` 做了两件事：
 		1. 将 state 中 message 值修改掉；
-		2. 自动重新执行 render 函数函数。
+		2. 自动重新执行 render 函数。
 - 我们在绑定的函数中，可能想要使用当前对象，比如执行 `this.setState` 函数，就必须拿到当前对象的 this 
 	- 我们就需要在传入函数时，给这个函数直接绑定 this
 	- 类似于下面的写法：`<button onClick={ this.changeText.bind(this) }>改变文本</button>`
@@ -391,7 +391,7 @@ babel 与 react 的关系是怎样的？
 	- 比如在某些状态发生改变时，又需要改变 UI；
 - 他们之间是密不可分，所以 React 没有将标记分离到不同的文件中，而是将它们组合到了一起，这个地方就是组件（Component）； 
 
-# jsx 的书写规范。
+# jsx 的书写规范
 
 - JSX 的顶层只能有一个根元素，所以我们很多时候会在外层包裹一个 div 元素（或者使用后面我们学习的 Fragment）； 
 - 为了方便阅读，我们通常在 jsx 的外层包裹一个小括号 ()，这样可以方便阅读，并且 jsx 可以进行换行书写； 
