@@ -173,7 +173,7 @@ babel 与 react 的关系是怎样的？
 			render()
 		}
 
-		// 3.封装一个渲染函数
+		// 3.封装一个渲染函数，并调用一次。
 		render()
 		function render() {
 			// 第一个括号表示 render 方法执行，第二个括号表示 jsx 代码块整体
@@ -264,16 +264,16 @@ babel 与 react 的关系是怎样的？
 - 组件化问题二：事件绑定中的 this 
 	- 在类中直接定义一个函数，并且将这个函数绑定到元素的 onClick 事件上，当前这个函数的 this 指向的是谁呢？
 - 默认情况下是 undefined 
-	- 很奇怪，居然是 undefined？
-	- 因为在正常的 DOM 操作中，监听点击，监听函数中的 this 其实是节点对象（比如说是 button 对象）； 
-	- 这次因为 React 并不是直接渲染成真实的 DOM，我们所编写的 button 只是一个语法糖，它的本质 React 的 Element 对象； 
-	- 那么在这里发生监听的时候，react 在执行函数时并没有绑定 this，默认情况下就是一个 undefined；为什么呢？
-	- ES6 中使用 class，里面的实例方法默认开启严格模式；我们引用的 babel 库，其中也会开启严格模式。而在严格模式下，默认绑定会绑定 undefined。
-	- jsx 代码会被 babel 编译为一段 js 代码，所以在 jsx 中引用类的实例方法，方法中的 this 默认绑定的是 undefined。
-	- `setState` 方法是继承过来的。`this.setState` 做了两件事：
+	1. 很奇怪，居然是 undefined？
+	2. 因为在正常的 DOM 操作中，监听点击，监听函数中的 this 其实是节点对象（比如说是 button 对象）； 
+	3. 这次因为 React 并不是直接渲染成真实的 DOM，我们所编写的 button 只是一个语法糖，它的本质 React 的 Element 对象； 
+	4. 那么在这里发生监听的时候，react 在执行函数时并没有绑定 this，默认情况下就是一个 undefined；为什么呢？
+	5. ES6 中使用 class，里面的实例方法默认开启严格模式；我们引用的 babel 库，其中也会开启严格模式。而在严格模式下，默认绑定会绑定 undefined。
+	6. jsx 代码会被 babel 编译为一段 js 代码，所以在 jsx 中引用类的实例方法，方法中的 this 默认绑定的是 undefined。
+	7. `setState` 方法是继承过来的。`this.setState` 做了两件事：
 		1. 将 state 中 message 值修改掉；
 		2. 自动重新执行 render 函数。
-- 我们在绑定的函数中，可能想要使用当前对象，比如执行 `this.setState` 函数，就必须拿到当前对象的 this 
+- 我们在绑定事件处理的函数中，可能想要使用当前对象，比如执行 `this.setState` 函数，就必须拿到作为当前对象的 this 
 	- 我们就需要在传入函数时，给这个函数直接绑定 this
 	- 类似于下面的写法：`<button onClick={ this.changeText.bind(this) }>改变文本</button>`
 
