@@ -69,7 +69,7 @@ React 与其它框架的关系。
 - 多平台适配：
 	- 2013年，React 发布之初主要是开发 Web 页面；
 	- 2015年，Facebook 推出了 ReactNative，用于开发移动端跨平台；（虽然目前 Flutter 非常火爆，但是还是有很多公司在使用 ReactNative）；
-	- 2017年，Facebook 推出 ReactVR，用于开发虚拟现实Web应用程序；（VR 也会是一个火爆的应用场景）；
+	- 2017年，Facebook 推出 ReactVR，用于开发虚拟现实 Web 应用程序；（VR 也会是一个火爆的应用场景）；
 
 	<img src="NodeAssets/React多平台视频.jpg" alt="React多平台视频" style="zoom:100%;" />
 
@@ -80,7 +80,7 @@ React 的基本使用
 
 - React 16 和 18 在渲染根对象 root 时有哪些区别？
 - 在界面上通过 React 显示一个 Hello World
-	- 注意：这里我们编写 React 代码的 script 标签上，必须添加 `type="text/babel"`，作用是可以让 babel 解析 jsx 的语法
+	- 注意：这里我们编写 React 代码的 script 标签上，必须添加 `type="text/babel"`，作用是可以让 babel 解析 jsx 的语法。
 - `ReactDOM.createRoot` 函数：用于创建一个 React 根，之后渲染的内容会包含在这个根中
 	- 参数：将渲染的内容，挂载到哪一个HTML元素上，这里我们已经提前定义了一个 id 为 root 的div
 - `root.render` 函数:
@@ -140,7 +140,7 @@ babel 与 react 的关系是怎样的？
 ## 依赖的引入方式
 
 - 方式一：直接 CDN 引入。
-- 方式二：下载后，添加本地依赖。
+- 方式二：下载后，作为本地依赖引入。
 - 方式三：通过 npm 管理（后续脚手架再使用）。
 
 # Hello react
@@ -265,8 +265,8 @@ babel 与 react 的关系是怎样的？
 	- 在类中直接定义一个函数，并且将这个函数绑定到元素的 onClick 事件上，当前这个函数的 this 指向的是谁呢？
 - 默认情况下是 undefined 
 	1. 很奇怪，居然是 undefined？
-	2. 因为在正常的 DOM 操作中，监听点击，监听函数中的 this 其实是节点对象（比如说是 button 对象）； 
-	3. 这次因为 React 并不是直接渲染成真实的 DOM，我们所编写的 button 只是一个语法糖，它的本质 React 的 Element 对象； 
+	2. 我们知道在原生的 DOM 操作中，监听点击，监听函数中的 this 其实是节点对象（比如说是 button 对象）； 
+	3. 而 React 并不是直接渲染成真实的 DOM，我们所使用 JSX 编写的 button 只是一个语法糖，它的本质是 React 的 Element 对象； 
 	4. 那么在这里发生监听的时候，react 在执行函数时并没有绑定 this，默认情况下就是一个 undefined；为什么呢？
 	5. ES6 中使用 class，里面的实例方法默认开启严格模式；我们引用的 babel 库，其中也会开启严格模式。而在严格模式下，默认绑定会绑定 undefined。
 	6. jsx 代码会被 babel 编译为一段 js 代码，所以在 jsx 中引用类的实例方法，方法中的 this 默认绑定的是 undefined。
@@ -386,8 +386,8 @@ babel 与 react 的关系是怎样的？
 为什么 React 选择了 jsx？（面试）
 
 - React 认为渲染逻辑本质上与其他 UI 逻辑存在内在耦合 
-	- 比如 UI 需要绑定事件（button、a 原生等等）； 
-	- 比如 UI 中需要展示数据状态； 
+	- 比如 UI 需要绑定事件；
+	- 比如 UI 中需要展示数据状态；
 	- 比如在某些状态发生改变时，又需要改变 UI；
 - 他们之间是密不可分，所以 React 没有将标记分离到不同的文件中，而是将它们组合到了一起，这个地方就是组件（Component）； 
 
@@ -395,7 +395,7 @@ babel 与 react 的关系是怎样的？
 
 - JSX 的顶层只能有一个根元素，所以我们很多时候会在外层包裹一个 div 元素（或者使用后面我们学习的 Fragment）； 
 - 为了方便阅读，我们通常在 jsx 的外层包裹一个小括号 ()，这样可以方便阅读，并且 jsx 可以进行换行书写； 
-- JSX 中的标签可以是单标签，也可以是双标签；注意：如果是单标签，必须以 `/>` 结尾（html 中可省略，jsx 中不行）；
+- JSX 中的标签可以是单标签，也可以是双标签；注意：如果是单标签，必须以 `/>` 结尾（html 中单标签元素可省略，jsx 中不行）；
 
 
 # jsx 的使用
@@ -419,7 +419,7 @@ const divEl = (
 	- 转换的方式有很多，比如 `toString` 方法、和空字符串拼接，`String(变量)` 等方式；
 - 情况三：Object 对象类型不能作为子元素（not valid as a React child）在 JSX 语法中引用。
 
-## 键入表达式。
+## 嵌入表达式。
 
 - 运算表达式，如三元运算表达式。
 - 执行一个函数。
