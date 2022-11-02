@@ -69,12 +69,12 @@
 - 在事件执行后，我们可能需要获取当前类的实例对象中相关的属性，这个时候需要用到 this
 	- 如果我们这里直接打印 this，也会发现它是一个undefined
 - 为什么是 undefined 呢？
-	- 原因是 btnClick 函数并不是我们主动调用的，而且当 button 发生改变时，React 内部调用了 btnClick 函数；
+	- 原因是 btnClick 函数并不是我们主动调用的，而是当 button 发生点击时，React 内部调用了 btnClick 函数；
 	- 而它内部调用时，并不知道要如何绑定正确的 this；
 - 如何解决 this 的问题呢？
 	- 方案一：bind 给 btnClick 显示绑定 this
-	- 方案二：使用 ES6 class fields 语法，class 作用域中的 this 指向的是当前创建出来的实例。
-	- 方案三：事件监听时传入箭头函数（个人推荐）,传递参数非常方便。
+	- 方案二：使用 ES6 class fields 语法，给 btnClick 赋值一个箭头函数，箭头函数取上层作用域中的 this，即 class 作用域中的 this 指向的是当前创建出来的实例。
+	- 方案三：事件监听时传入箭头函数（个人推荐），传递参数非常方便。
 
 ```jsx
 <body>
@@ -505,24 +505,24 @@ root.render(<App />)
 				render() {
 					const { students } = this.state
 
-				 return (
-					 <div>
-						 <h2>学生列表数据</h2>
-						 <div className="list">
-							 {
-								students.filter(item => item.score > 97)
-									.slice(0, 1)
-									.map(item => (
-										<div className="item" key={ item.id }>
-											<h2>学号：{ item.id }</h2>
-											<h2>姓名：{ item.name }</h2>
-											<h2>分数：{ item.score }</h2>
-										</div>
-									))
-							}
-						 </div>
-					 </div>
-				 )
+           return (
+             <div>
+               <h2>学生列表数据</h2>
+               <div className="list">
+                 {
+                  students.filter(item => item.score > 97)
+                    .slice(0, 1)
+                    .map(item => (
+                      <div className="item" key={ item.id }>
+                        <h2>学号：{ item.id }</h2>
+                        <h2>姓名：{ item.name }</h2>
+                        <h2>分数：{ item.score }</h2>
+                      </div>
+                    ))
+                }
+               </div>
+             </div>
+           )
 				 }
 			}
 
@@ -712,7 +712,7 @@ root.render(React.createElement(App, null))
 - 虚拟 DOM 帮助我们从命令式编程转到了声明式编程的模式
 - React 官方的说法：Virtual DOM 是一种编程理念。
 	- 在这个理念中，UI 以一种理想化或者说虚拟化的方式保存在内存中，并且它是一个相对简单的 JavaScript 对象
-	- 我们可以通过 root.render 让 虚拟 DOM 和真实 DOM 同步起来，这个过程中叫做协调（Reconciliation）；
+	- 我们可以通过 root.render 让虚拟 DOM 和真实 DOM 同步起来，这个过程叫做协调（Reconciliation）；
 - 这种编程的方式赋予了 React 声明式的 API：
 	- 你只需要告诉 React 希望让 UI 是什么状态；
 	- React 来确保 DOM 和这些状态是匹配的；
