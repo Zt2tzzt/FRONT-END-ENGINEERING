@@ -62,7 +62,6 @@ React 与其它框架的关系。
 ## 组件化开发：
 
 - 组件化开发页面目前前端的流行趋势，我们会将复杂的界面拆分成一个个小的组件；
-- 如何合理的进行组件的划分和设计也是后面我会讲到的一个重点；
 
 <img src="NodeAssets/组件化开发模式.jpg" alt="组件化开发模式" style="zoom:80%;" />
 
@@ -135,7 +134,7 @@ babel 与 react 的关系是怎样的？
 
 - 默认情况下开发 React 其实可以不使用 babel。
 - 但是前提是我们自己使用 React.createElement 来编写源代码，它编写的代码非常的繁琐，可读性差。
-- 那么我们就可以直接编写 jsx（JavaScript XML）的语法，并且让 babel 帮助我们转换成 React.createElement。
+- 那么我们就可以直接编写 jsx（JavaScript XML）的语法，并且让 babel 帮助我们编译成 React.createElement。
 
 ## 依赖的引入方式
 

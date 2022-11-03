@@ -67,7 +67,7 @@
 # JSX 中事件绑定处理函数中 this 的绑定问题
 
 - 在事件执行后，我们可能需要获取当前类的实例对象中相关的属性，这个时候需要用到 this
-	- 如果我们这里直接打印 this，也会发现它是一个undefined
+	- 如果我们这里直接打印 this，也会发现它是一个 undefined
 - 为什么是 undefined 呢？
 	- 原因是 btnClick 函数并不是我们主动调用的，而是当 button 发生点击时，React 内部调用了 btnClick 函数；
 	- 而它内部调用时，并不知道要如何绑定正确的 this；
@@ -536,7 +536,7 @@ root.render(<App />)
 
 
 - 实际上，jsx 仅仅只是 `React.createElement(component, props, ...children)` 函数的语法糖。
-	- 所有的 jsx 最终都会被转换成 React.createElement 的函数调用。
+	- 所有的 jsx 最终都会被转化成 React.createElement 的函数调用。
 - createElement 需要传递三个参数：
 	- 参数一：type
 		- 当前 ReactElement 的类型；
@@ -712,7 +712,7 @@ root.render(React.createElement(App, null))
 - 虚拟 DOM 帮助我们从命令式编程转到了声明式编程的模式
 - React 官方的说法：Virtual DOM 是一种编程理念。
 	- 在这个理念中，UI 以一种理想化或者说虚拟化的方式保存在内存中，并且它是一个相对简单的 JavaScript 对象
-	- 我们可以通过 root.render 让虚拟 DOM 和真实 DOM 同步起来，这个过程叫做协调（Reconciliation）；
+	- 我们可以通过 `root.render` 让虚拟 DOM 和真实 DOM 同步起来，这个过程叫做协调（Reconciliation）；
 - 这种编程的方式赋予了 React 声明式的 API：
 	- 你只需要告诉 React 希望让 UI 是什么状态；
 	- React 来确保 DOM 和这些状态是匹配的；
@@ -720,7 +720,8 @@ root.render(React.createElement(App, null))
 
 # React 实现购物车案例。
 
-- 在 React 中，不要直接设值 state，当我们需要设值引用类型中的属性值时，一般通过浅拷贝进行设值。
+- 在 React 中，不要直接设值 state；
+- 当我们需要设值引用类型中的属性值时，一般通过浅拷贝进行设值。
 
 ```jsx
 <!DOCTYPE html>
@@ -783,6 +784,7 @@ root.render(React.createElement(App, null))
 		}
 
 		renderBookList(books) {
+      const books = this.state.books
 			return (
 				<div>
 					<table>
@@ -833,8 +835,7 @@ root.render(React.createElement(App, null))
 		}
 
 		render() {
-			const { books } = this.state
-			return books.length ? this.renderBookList(books) : this.renderBookEmpty()
+			return books.length ? this.renderBookList() : this.renderBookEmpty()
 		 }
 	}
 
@@ -867,9 +868,9 @@ root.render(React.createElement(App, null))
 - 传统的脚手架指的是建筑学的一种结构：在搭建楼房、建筑物时，临时搭建出来的一个框架；
 - 编程中提到的脚手架（Scaffold），其实是一种工具，帮我们可以快速生成项目的工程化结构；
 	- 每个项目作出完成的效果不同，但是它们的基本工程化结构是相似的；
-	- 既然相似，就没有必要每次都从零开始搭建，完全可以使用一些工具，帮助我们生产基本的工程化模板；
+	- 既然相似，就没有必要每次都从零开始搭建，完全可以使用一些工具，帮助我们生成基本的工程化模板；
 	- 不同的项目，在这个模板的基础之上进行项目开发或者进行一些配置的简单修改即可；
-	- 这样也可以间接保证项目的基本机构一致性，方便后期的维护；
+	- 这样也可以间接保证项目的基本结构的一致性，方便后期的维护；
 - 总结：脚手架让项目从搭建到开发，再到部署，整个流程变得快速和便捷；
 
 ## 安装 react 脚手架工具，创建项目
@@ -880,6 +881,7 @@ root.render(React.createElement(App, null))
 
    ```shell
    npm install create-react-app -g
+   create-react-app --version
    ```
 
 3. 创建一个 React 项目。
