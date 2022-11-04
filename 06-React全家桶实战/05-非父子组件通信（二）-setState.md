@@ -6,3 +6,7 @@
 * setState 为什么要设计成异步的（react18 之后，所有情况都是异步调用。
 * 验证 setState 是异步的，且 render 只执行了一次。
 * 验证 setState 的合并过程。
+* setState 一定是异步的吗？
+	- React18 后是的。
+	- React18 前，分不同情况。
+* 如何手动的将 setState 改为同步的。	
