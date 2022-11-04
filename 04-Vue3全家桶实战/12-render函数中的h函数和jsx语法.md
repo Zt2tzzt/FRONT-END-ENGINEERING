@@ -241,7 +241,8 @@ export default {
   render() {
     return h('div', null, [
       h('h2', null, 'Hello Frog'),
-      /* 插槽用 h 函数来体现，返回一个 VNode，
+      /* 
+      	插槽用 h 函数来体现，返回一个 VNode，
       	 - 插入了内容，则通过 $slot 调用该函数，返回一个 VNode，
       	 - 没插入内容，则调用默认的 h 函数返回一个 VNode
       */
@@ -417,7 +418,7 @@ export default {
 
 HelloFrogs.js （使用 VCA 顶层写法）
 
-```vue
+```jsx
 <script setup lang="jsx">
 import { useSlots } from 'vue'
   
@@ -425,7 +426,7 @@ const slots = useSlots()
 const jsx = () => (
   <div>
     <h2>Hello Frog</h2>
-    <!-- 在 {} 中应用值 -->
+    {/* 在 {} 中应用值  */}
     { slots.default ? slots.default({ name: 'zzt' }) : <span>哈哈哈</span> }
     { slots.title ? slots.title({ title: 'title' }) : <span>嘿嘿嘿</span> }
   </div>
