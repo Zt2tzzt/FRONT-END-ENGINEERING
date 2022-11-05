@@ -160,7 +160,7 @@ export default App
 如何可以获取到更新后的值呢？
 
 - 方式一：setState 的回调
-	- setState 接受两个参数：第二个参数是一个回调函数，这个回调函数会在更新后会执行；
+	- setState 接受两个参数：第二个参数是一个回调函数，这个回调函数会在更新后执行；
 	- 格式如下：`setState(partialState, callback)`
 	
 - 方式二：在生命周期函数获取：
@@ -180,7 +180,7 @@ export default App
 - setState 设计为异步，可以显著的提升性能；
 - 如果 setstate 同步更新了 state，并立即执行 render 函数，那么 render 函数可能会被频繁调用，界面频繁重新渲染，这样效率无疑是很低的；
 - 如果 setstate 同步更新了 state，但是不立即执行 render 函数，那么 state 和 props 不能保持同步；在开发中父子组件进行调试时，会产生很多的问题；
-- 所以最好的办法应该是收集到多个 setState 更新后，进行批处理，做批量更新（React 中会将每次 setState 操作放入一个队列中，以便进行批处理）。
+- 所以最好的办法应该是收集到多个 setState 操作后，进行批处理，做批量更新（React 中会将每次 setState 操作放入一个队列中，以便进行批处理）。
 
 # 验证 setState 是异步的，且 render 只执行了一次。
 
