@@ -73,7 +73,7 @@
 	- 而它内部调用时，并不知道要如何绑定正确的 this；
 - 如何解决 this 的问题呢？
 	- 方案一：bind 给 btnClick 显示绑定 this
-	- 方案二：使用 ES6 class fields 语法，给 btnClick 赋值一个箭头函数，箭头函数取上层作用域中的 this，即 class 作用域中的 this 指向的是当前创建出来的实例。
+	- 方案二：使用 ES13 class fields 语法，给 btnClick 赋值一个箭头函数，箭头函数取上层作用域中的 this，即 class 作用域中的 this 指向的是当前创建出来的实例。
 	- 方案三：事件监听时传入箭头函数（个人推荐），传递参数非常方便。
 
 ```jsx
@@ -102,9 +102,9 @@
 				})
 			}
 
-      // 使用 ES6 class fields 语法
+      // 使用 ES13 class fields 语法
 			onBtn2Click = () => {
-				// 这里的 this，是 class 作用域中的 this 指向的是当前创建出来的实例。
+				// 这里的 this，是 class 作用域中的 this 指向的是当前类创建出来的实例。
 				this.setState({ counter: 1000 })
 			}
 
@@ -693,7 +693,7 @@ root.render(React.createElement(App, null))
 >
 > - PS：JSX 不属于 React 框架的范畴。
 
-理解 JSX 代码 => 虚拟 DOM -> 真实 DOM 的过程。
+理解 JSX 代码 -> 虚拟 DOM -> 真实 DOM 的过程。
 
 <img src="NodeAssets/jsx代码-虚拟DOM-真实DOM.jpg" alt="jsx代码-虚拟DOM-真实DOM" style="zoom:150%;" />
 
@@ -703,7 +703,7 @@ root.render(React.createElement(App, null))
 
 - 更新数据时，没必要将所有数据重新渲染，有利于做 diff 算法。
 - 有利于实现跨平台，在 React 中，虚拟 DOM 既可以做 DOM 元素的渲染，也可以通过桥接的方式，实现移动端控件的渲染（比如 React Native）
-  - 补充：Weex：Vue 和阿里维护的用于做跨平台的库，用的非常少）。
+  - 补充：Weex 是 Vue 和阿里维护的用于做跨平台的库，用的非常少）。
 
 - React 官方文档提到：虚拟 DOM 帮助我们从命令式编程转为声明式编程，这也是虚拟 DOM 的作用之一。
 
@@ -783,7 +783,7 @@ root.render(React.createElement(App, null))
 			}, 0)
 		}
 
-		renderBookList(books) {
+		renderBookList() {
       const books = this.state.books
 			return (
 				<div>
@@ -836,7 +836,7 @@ root.render(React.createElement(App, null))
 
 		render() {
 			return books.length ? this.renderBookList() : this.renderBookEmpty()
-		 }
+		}
 	}
 
 	const root = ReactDOM.createRoot(document.querySelector('#root'))
