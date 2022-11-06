@@ -85,7 +85,7 @@ Vue 的渲染流程：
 
 React 的渲染流程：
 
-- render -> React.createElement -> VNode
+- render -> React.createElement -> 虚拟 DOM
 
 # 为什么 React 中要使用 setState（面试）？
 
@@ -349,7 +349,7 @@ export class App extends Component {
 	changeText() {
 		flushSync(() => {
 			this.setState({ message: '你好啊, 李银河' })
-		})
+		})n
 		console.log('message:', this.state.message) // 你好啊，李银河
 	}
 }
