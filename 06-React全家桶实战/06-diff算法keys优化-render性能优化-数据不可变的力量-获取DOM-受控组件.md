@@ -1,24 +1,24 @@
 # React 的更新机制，更新流程。
 
-我们在前面已经学习React的渲染流程：
+我们在前面已经学习 React 的渲染流程：
 
-- JSX -> 虚拟 DOM => 真实 DOM
+- JSX -> 虚拟 DOM -> 真实 DOM
 
-那么React的更新流程呢？
+那么 React 的更新流程呢？
 
 - props / state 改变 -> render 函数重新执行 -> 产生新的 DOM Tree -> 新旧 DOM 进行 diff -> 计算出差异进行更新 -> 更新到正式 DOM
 
 # React 中的 diff 算法
 
-- React在props或state发生改变时，会调用React的render方法，会创建一颗不同的树。
-- React需要基于这两颗不同的树之间的差别来判断如何有效的更新UI：
-	- 如果一棵树参考另外一棵树进行完全比较更新，那么即使是最先进的算法，该算法的复杂程度为 O(n³)，其中 n 是树中元素的数量；
+- React 在 props 或 state 发生改变时，会调用 React 的 render 方法，会创建一颗不同的 DOM 树。
+- React 需要基于这两颗不同的 DOM 树之间的差别来判断如何有效的更新 UI：
+	- 如果一棵树参考另外一棵树进行完全比较更新，那么即使是最先进的算法，该算法的复杂程度为 O(n²），其中 n 是树中元素的数量；
 	- 如果在 React 中使用了该算法，那么展示 1000 个元素所需要执行的计算量将在十亿的量级范围；
-	- 这个开销太过昂贵了，React的更新性能会变得非常低效；
-- 于是，React对这个算法进行了优化，将其优化成了O(n)，如何优化的呢？
+	- 这个开销太过昂贵了，React 的更新性能会变得非常低效；
+- 于是，React 对这个算法进行了优化，将其优化成了 O(n)，如何优化的呢？
 	- 同层节点之间相互比较，不会跨节点比较；
 	- 不同类型的节点，产生不同的树结构；
-	- 开发中，可以通过key来指定哪些节点在不同的渲染下保持稳定（与 Vue 中的 diff 算法原理类似。）；
+	- 开发中，可以通过 key 来指定哪些节点在不同的渲染下保持稳定（与 Vue 中的 diff 算法原理类似）；
 
 ## 列表渲染中 Keys 的优化
 
@@ -26,23 +26,22 @@
 
 情况一：更新列表时，在最后位置插入数据：
 
-- 这种情况，有无key意义并不大
+- 这种情况，有无 key 意义并不大
 
 情况二：更新列表时，在列表非末尾的地方插入数据。
 
-- 这种做法，假设列表中的元素是 li，在没有key的情况下，所有的li都需要进行修改；
+- 假设列表中的元素是 li，在没有 key 的情况下，插入到 li 后面的所有元素都需要进行修改；
 
-情况二中，使用 key 进行优化：
+- 使用 key 进行优化：
+  - 当子元素(这里的 li )拥有 key 时，React 使用 key 来匹配原有树上的子元素以及最新树上的子元素：
+  - 匹配到的子元素只需进行位移，不需要进行任何的修改；
+  - 没匹配到的元素在相应的位置插入即可。
 
-- 当子元素(这里的li)拥有 key 时，React 使用 key 来匹配原有树上的子元素以及最新树上的子元素：
-- 匹配到的子元素只需进行位移，不需要进行任何的修改；
-- 没匹配到的元素在相应的位置插入即可。
+key 的注意事项：
 
-key的注意事项：
-
-- key应该是唯一的；
-- key不要使用随机数（随机数在下一次render时，会重新生成一个数字）；
-- 使用index作为key，对性能是没有优化的；
+- key 应该是唯一的；
+- key 不要使用随机数（随机数在下一次 render 时，会重新生成一个数字）；
+- 使用 index 作为 key，对性能是没有优化的；
 
 # render 函数性能优化
 
@@ -50,7 +49,7 @@ key的注意事项：
 
 - 我们使用的普通组件（React.component），在执行 setState 操作时，会执行组件本身的 render 方法和子组件中的 render 方法，进行 diff 算法以及页面的刷新；
 - 如果我们给 state 中的状态，setState 一个相同的值，仍然会调用组件本身和所有子组件的 render 方法，进行 diff 算法以及页面的刷新，这无疑是多余的操作。
-- 或者我们给 state 中部分状态 setState 了新的值，而组件中的某些子组件不依赖这部分状态，这些字组件中的 render 方法仍然会执行，并进行 diff 算法更新页面。
+- 或者我们给组件 state 中部分状态 setState 了新的值，而某些子组件不依赖这部分状态，这些子组件中的 render 方法仍然会执行，并进行 diff 算法更新页面。
 
 案例演示：
 
@@ -65,15 +64,17 @@ export class App extends Component {
 		super()
 		this.state = {
 			msg: 'Hello World',
+      counter: 0
 		}
 	}
 	render() {
-		console.log('App render'); // 点击按钮，执行了一次
-		const { msg } = this.state
+		console.log('App render'); // 点击任意按钮，执行了一次
+		const { msg, counter } = this.state
 		return (
 			<div>
-				<h2>App: { msg }</h2>
+				<h2>App: { msg }-{ counter }</h2>
 				<button onClick={ e => this.changetext()}>修改文本</button>
+				<button onClick={ e => this.changenumber()}>counter+1</button>
 				<Home />
 			</div>
 		)
@@ -82,6 +83,9 @@ export class App extends Component {
 	changetext() {
 		this.setState({ msg: 'Hello World' }) // 设置一个相同的值
 	}
+  changenumber() {
+    this.setState({ counter: this.state.counter + 1 })
+  }
 }
 
 export default App
@@ -95,7 +99,7 @@ import React, { Component } from 'react'
 export class Home extends Component {
 
 	render() {
-		console.log('Home render'); // 点击 App 中的 按钮，执行了一次
+		console.log('Home render'); // 点击 App 中的任意按钮，执行了一次
 		const { msg } = this.props
 		return (
 			<div>
@@ -110,18 +114,19 @@ export default Home
 
 ## SCU 优化
 
-React给我们提供了一个生命周期方法 shouldComponentUpdate（很多时候，我们简称为SCU），这个方法接受参数，并且需要有 返回值：
+React 给我们提供了一个生命周期方法 `shouldComponentUpdate`（简称为 SCU），这个方法接收参数，并且需要有返回值：
 
-该方法有两个参数： 
+该方法有两个参数：
 
-- 参数一：nextProps 修改之后，最新的props属性 
-- 参数二：nextState 修改之后，最新的state属性
+- 参数一：nextProps 修改之后，最新的 props 属性
+- 参数二：nextState 修改之后，最新的 state 属性
 
-该方法返回值是一个boolean类型： 
+该方法返回值是一个 boolean 类型：
 
-- 返回值为true，那么就需要调用render方法； 
-- 返回值为false，那么久不需要调用render方法；
-- 默认返回的是true，也就是只要state发生改变，就会调用render方法；
+- 返回值为 true，那么就需要调用 render 方法；
+- 返回值为 false，那么久不需要调用 render 方法；
+
+默认返回的是 true，也就是只要 state 发生改变，就会调用 render 方法，为了避免这种情况，我们根据依赖的 state 进行优化：
 
 03-learn-component\src\12-render函数的优化\App.jsx
 
@@ -193,14 +198,14 @@ export default Home
 
 ## PureComponent
 
-如果所有的类，我们都需要手动来实现 shouldComponentUpdate，那么会给我们开发者增加非常多的工作量。 
+如果所有的类，我们都需要手动来实现 shouldComponentUpdate，那么会给我们开发者增加非常多的工作量。
 
-- 我们来设想一下shouldComponentUpdate中的各种判断的目的是什么？ 
-- props或者state中的数据是否发生了改变，来决定shouldComponentUpdate返回true或者false；
+- 我们来设想一下 shouldComponentUpdate 中的各种判断的目的是什么？
+- props 或者 state 中的数据是否发生了改变，来决定 shouldComponentUpdate 返回 true 或者 false；
 
-事实上React已经考虑到了这一点，所以React已经默认帮我们实现好了，如何实现呢？
+事实上 React 已经考虑到了这一点，所以 React 已经默认帮我们实现好了，如何实现呢？
 
-- 将class继承自PureComponent。
+- 将 class 继承自 PureComponent。
 
 03-learn-component\src\12-render函数的优化\App.jsx
 
@@ -262,7 +267,7 @@ export class Home extends PureComponent {
 export default Home
 ```
 
-PureComponent 会在 shouldComponentUpdate 生命周期中，使用 ShallowEqual 方法进行浅层比较
+PureComponent 会在 shouldComponentUpdate 生命周期中，使用 `ShallowEqual` 方法进行浅层比较
 
 - ` !shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState)`
 
@@ -291,16 +296,564 @@ const Profile = memo((props) => {
 export default Profile
 ```
 
-* 理解不可变数据的力量，如何修改 state 中的引用类型数据？
-	- 如果是 PureComponent，在渲染时会使用 shallowEqual 方法进行浅层比较。
-	- 如果是 PureComponent，在修改 state 中引用类型数据中的深层引用值时，仍需要使用浅拷贝的方式修改。
-* React 中获取 DOM 元素
-* React 中获取 React 组件
-	- 函数组件没有实例，需要绑定 jsx 中的某一个元素。使用 forwardRef 对 ref 进行转发。
-* 什么是受控组件？什么是非受控组件？
-* 受控组件的使用练习。
-	- 基本使用；
-	- 将表单中多个元素的 value 使用同一个事件做处理。
-	- 受控组件其它演练。
-* 如何操作非受控组件？
+# 不可变数据的力量（state）
+
+如何修改 state 中的引用类型数据？
+
+- 在普通的 Component，如果给 state 中引用类型中的元素赋值，而不修改引用地址，界面会正常更新。因为只要执行了 setState 函数，就会调用 render 方法。
+- 如果在 PureComponent 中，在渲染时会使用 shallowEqual 方法进行浅层比较，当发现引用地址没有改变，则不会调用 render 方法，页面也就不会刷新。
+- 所以在 PureComponent 中，在修改 state 中引用类型数据中的深层引用值时，仍需要使用类似于浅拷贝的方式修改，目的是改变 state 中的引用地址。
+
+03-learn-component\src\13-数不可变的力量\App.jsx
+
+```jsx
+import React, { PureComponent } from 'react'
+
+export class App extends PureComponent {
+	constructor()  {
+		super()
+		this.state = {
+			books: [
+				{ name: '你不知道的JavaScript', price: 99, count: 1 },
+				{ name: 'JavaScript高级程序设计', price: 88, count: 2 },
+				{ name: 'React高级设计', price: 78, count: 2 },
+				{ name: 'Vue高级设计', price: 99, count: 3 }
+			],
+
+		}
+	}
+	render() {
+		const { books } = this.state
+		return (
+			<div>
+				<h2>数据列表</h2>
+				<ul>
+					{
+						books.map((item, index) => (
+							<li key={ index }>
+								<span>name: { item.name }-price: { item.price }-count: { item.count }</span>
+								<button onClick={ e => this.addBookCount(index) }>+1</button>
+							</li>
+						))
+					}
+				</ul>
+				<button onClick={ e => this.addNewBook() }>添加新书籍</button>
+			</div>
+		)
+	}
+
+	addBookCount(index) {
+		const books = [...this.state.books]
+		books[index].count++
+		this.setState({ books: books })
+	}
+
+	addNewBook() {
+
+		const newBook ={ name: 'Angular高级设计', price: 88, count: 1 }
+		/**
+		 * 方式一：直接修改原有的 state，重新设值一遍（不要这么做）
+		 * 	这种方式在 PureComponent 中不能引起页面的渲染（调用 render 函数）
+		 * 	原因是 this.state.books 的引用地址没有改变。
+		 */
+		this.state.books.push(newBook)
+		this.setState({ books: this.state.books })
+
+		/**
+		 * 方式二：复制一份 books，在新的 books 中修改，设值新的 books
+		 */
+		//const books = [...this.state.books]
+		//books.push(newBook)
+    const books = this.state.books.concat([newBook])
+		this.setState({ books })
+	}
+}
+
+export default App
+```
+
+# React 中获取 DOM 元素对象
+
+在 React 的开发模式中，通常情况下不需要、也不建议直接操作 DOM 原生对象，但是某些特殊的情况，确实需要获取到 DOM 进行某些操作，比如：
+
+- 管理焦点，文本选择或媒体播放；
+- 触发强制动画；
+- 集成第三方 DOM 库；
+
+我们可以通过 refs 获取 DOM；如何创建 refs 来获取对应的 DOM 呢？目前有三种方式：
+
+- 方式一：传入字符串（已不推荐）
+	- 使用时通过 `this.refs`.传入的字符串格式获取对应的元素；
+- 方式二：传入一个对象（官方推荐）
+	- 对象是通过 `React.createRef()` 方式创建出来的；
+	- 使用时获取到创建的对象其中有一个 current 属性就是对应的元素；
+- 方式三：传入一个函数
+	- 该函数会在 DOM 被挂载时进行回调，这个函数会传入一个元素对象，我们可以自己保存；
+	- 使用时，直接拿到之前保存的元素对象即可；
+
+03-learn-component\src\14-ref获取DOM和组件\01_ref获取DOM.jsx
+
+```jsx
+import React, { PureComponent } from 'react'
+import { createRef } from 'react'
+
+export class App extends PureComponent {
+	constructor() {
+		super()
+		this.titleRef = createRef()
+		this.titleEl = null
+	}
+
+	render() {
+		return (
+			<div>
+				<h2 ref="zzt">Hello World</h2>
+				<h2 ref={ this.titleRef }>你好啊，李银河</h2>
+				<h2 ref={ el => this.titleEl = el }>你好啊，师姐</h2>
+				<button onClick={ e => this.getNativeDOM() }>获取DOM</button>
+			</div>
+		)
+	}
+
+	getNativeDOM() {
+		// 方式一：在 React 元素上绑定一个 ref 字符串
+		console.log(this.refs.zzt);
+
+		// 方式二：提前创建好 ref 对象,使用 createRef() API，将创建出来的对象绑定到元素
+		console.log(this.titleRef.current)
+
+		// 方式三：传入一个回调函数。在对应的元素被渲染之后，回调函数被执行，并且将元素传入
+		console.log(this.titleEl);
+	}
+}
+
+export default App
+```
+
+# ref 的类型
+
+ref 的值根据节点的类型而有所不同：
+
+- 当 ref 属性用于 HTML 元素时，构造函数中使用 React.createRef() 创建的 ref 接收**底层 DOM 元素**作为其 current 属性；
+- 当 ref 属性用于自定义 class 组件时，ref 对象接收**组件的挂载实例**作为其 current 属性；
+
+
+# React 中获取 React 组件对象
+
+```jsx
+import React, { PureComponent } from 'react'
+import { createRef } from 'react'
+
+export class App extends PureComponent {
+	constructor() {
+		super()
+		this.hwRef = createRef()
+		this.hwEl = null
+	}
+	render() {
+		return (
+			<div>
+				<HelloWorld ref={this.hwRef} />
+				<HelloWorld ref={el => this.hwEl = el} />
+				<button onClick={e => this.getComponent()}>获取组件实例</button>
+			</div>
+		)
+	}
+
+	getComponent() {
+		console.log(this.hwRef.current);
+		this.hwRef.current.test()
+	}
+}
+
+export default App
+
+export class HelloWorld extends PureComponent {
+	test() {
+		console.log('test------');
+	}
+	render() {
+		return (
+			<div>HelloWorld</div>
+		)
+	}
+}
+```
+
+## 获取函数组件中的 DOM 元素
+
+函数式组件是没有实例的，所以无法通过 ref 获取他们的实例：
+
+- 但是某些时候，我们可能想要获取函数式组件中的某个 DOM 元素；
+- 这个时候我们可以通过 `React.forwardRef `对 ref 进行转发。后面我们也会学习 hooks 中如何使用 ref；
+
+03-learn-component\src\14-ref获取DOM和组件\03-ref获取函数组件的DOM.jsx
+
+```jsx
+import React, { PureComponent } from 'react'
+import { forwardRef } from 'react'
+import { createRef } from 'react'
+
+export class App extends PureComponent {
+	constructor() {
+		super()
+		this.hwRef = createRef()
+	}
+	render() {
+		return (
+			<div>
+				<HelloWorld ref={ this.hwRef } />
+				<button onClick={ e => this.getComponent() }>获取组件实例</button>
+			</div>
+		)
+	}
+
+	getComponent() {
+		console.log(this.hwRef.current);
+	}
+}
+
+export default App
+
+export const HelloWorld = forwardRef((props, ref) => (
+		<div>
+			<h1 ref={ ref }>Hello World</h1>
+			<p>呵呵呵</p>
+		</div>
+	))
+```
+
+# 受控组件
+
+当我们在使用表单时，表单的默认提交功能，是早期使用的方式：
+
+- 这种方式向 action 中的地址发送网络请求改变 url，并会造成浏览器页面刷新。
+- 现在已很少使用表单提交与服务器沟通，通常是监听提交按钮的点击，再以 ajax 网络请求的方式向服务器发送数据。
+- 默认浏览器有帮助维护表单元素中的值，比如当我们在 input 元素中输入时，可以从 value 属性中获取输入的值。
+- 如果想要使用 react 中的 state 来进行维护，就需要进行绑定，将它变为受控组件。
+
+比如一个 input 元素，一旦绑定了 value 属性的值到 state 中，那么就成为了受控组件。否则就是非受控组件。
+
+## 基本使用；
+
+03-learn-component\src\15-受控和非受控组件\01-受控组件基本使用.jsx
+
+```jsx
+import React, { PureComponent } from 'react'
+
+export class App extends PureComponent {
+	constructor() {
+		super()
+		this.state = {
+			username: 'zzt'
+		}
+	}
+
+	render() {
+		const { username } = this.state
+		return (
+			<div>
+				{/* React 中没有双向绑定，受控组件必须绑定处理事件，将 value 更新到 state，否则在浏览器中的设值无效 */}
+				<input type="text" value={username} onInput={e => this.onInputChange(e)} />
+				{/* 非受控组件 */}
+				<input type="text" />
+				<h2>username: {username}</h2>
+			</div>
+		)
+	}
+
+	onInputChange(e) {
+		console.log('input value:', e.target.value)
+		this.setState({ username: e.target.value })
+	}
+}
+
+export default App
+```
+
+## 结合表单使用
+
+03-learn-component\src\15-受控和非受控组件\02-自己提交form的表单.jsx
+
+```jsx
+import React, { PureComponent } from 'react'
+
+export class App extends PureComponent {
+	constructor() {
+		super()
+		this.state = {
+			username: ''
+		}
+	}
+	render() {
+		const { username } = this.state
+		return (
+			<div>
+				<form onSubmit={e => this.onSubmitClick(e)}>
+					{/* 1.用户名 */}
+					<label htmlFor="username">
+						<input
+							id="username"
+							type="text"
+							name="username"
+							value={username}
+							onInput={e => this.onUsernameInput(e)}
+						/>
+					</label>
+					<button type="submit">注册</button>
+				</form>
+			</div>
+		)
+	}
+
+	onSubmitClick(e) {
+		// 1.阻止默认的行为
+		e.preventDefault()
+		// 2.获取到所有的表单数据，对数据进行组织
+		console.log('username:', this.state.username)
+		// 3.使用 ajax 发送网络请求，将数据传送给服务器
+		// ...
+	}
+	onUsernameInput(e) {
+		this.setState({ username: e.target.value })
+	}
+}
+
+export default App
+```
+
+## 处理表单中多个元素的 value
+
+将表单中多个元素的 value 使用同一个事件做处理。
+
+03-learn-component\src\15-受控和非受控组件\03-多个表单元素使用同一个处理函数.jsx
+
+```jsx
+import React, { PureComponent } from 'react'
+
+export class App extends PureComponent {
+	constructor() {
+		super()
+		this.state = {
+			username: '',
+			password: ''
+		}
+	}
+	render() {
+		const { username, password } = this.state
+		return (
+			<div>
+				<form onSubmit={e => this.onSubmitClick(e)}>
+					{/* 1.用户名 */}
+					<label htmlFor="username">
+						<input
+							id="username"
+							type="text"
+							name="username"
+							value={username}
+							onInput={e => this.onInputChange(e)}
+						/>
+					</label>
+					<label htmlFor="password">
+						<input
+							id="username"
+							type="password"
+							name="password"
+							value={password}
+							onChange={e => this.onInputChange(e)}
+						/>
+					</label>
+					<button type="submit">注册</button>
+				</form>
+			</div>
+		)
+	}
+
+	onSubmitClick(e) {
+		// 1.组织默认的行为。
+		e.preventDefault()
+		// 2.获取到所有的表单数据，对数据进行组织。
+		console.log('username:', this.state.username, 'password:', this.state.password)
+		// 3.以网络请求 ajax 的方式，将数据传递给服务器。
+	}
+	onInputChange(e) {
+    // ES6 中对象的增强写法 ，计算属性名
+		this.setState({ [e.target.name]: e.target.value })
+	}
+}
+
+export default App
+```
+
+## 受控组件其它演练
+
+input checkbox 单选，多选处理：
+
+```jsx
+import React, { PureComponent } from 'react'
+
+export class App extends PureComponent {
+	constructor() {
+		super()
+		this.state = {
+			isAgree: false,
+			hobbies: [
+				{ value: 'sing', text: '唱', isChecked: false },
+				{ value: 'dance', text: '跳', isChecked: false },
+				{ value: 'rap', text: 'rap', isChecked: false }
+			]
+		}
+	}
+	render() {
+		const { isAgree, hobbies } = this.state
+		return (
+			<div>
+				{/* checkbox 单选 */}
+				<label htmlFor="agree">
+					<input
+						type="checkbox"
+						id="agree"
+						checked={isAgree}
+						onChange={e => this.onAgreeChange(e)}
+					/>
+					同意协议
+				</label>
+				{/* checkbox 多选 */}
+				<div>
+					您的爱好：
+					{hobbies.map((item, index) => (
+						<label htmlFor={item.value} key={item.value}>
+							<input
+								type="checkbox"
+								id={item.value}
+								checked={item.isChecked}
+								onChange={e => this.onHobbiesChange(e, index)}
+							/>
+							<span>{item.text}</span>
+						</label>
+					))}
+				</div>
+			</div>
+		)
+	}
+	onAgreeChange(e) {
+		// checkbox 单选，取 checked 属性
+		this.setState({ isAgree: e.target.checked })
+	}
+	onHobbiesChange(e, index) {
+		const hobbies = [...this.state.hobbies]
+		hobbies[index].isChecked = e.target.checked
+		this.setState({ hobbies })
+	}
+}
+
+export default App
+```
+
+select 单选，多选处理
+
+```jsx
+import React, { PureComponent } from 'react'
+
+export class App extends PureComponent {
+	constructor() {
+		super()
+		this.state = {
+			gender: '',
+			fruit: ['orange']
+		}
+	}
+	render() {
+		const { fruit, gender } = this.state
+		return (
+			<div>
+				{/* select 单选处理 */}
+				<select value={gender} onChange={e => this.onGenderChange(e)}>
+					<option value="male">男</option>
+					<option value="female">女</option>
+				</select>
+				{/* select 多选处理 */}
+				<select value={fruit} onChange={e => this.onFruitChange(e)} multiple>
+					<option value="apple">苹果</option>
+					<option value="banana">香蕉</option>
+					<option value="orange">橘子</option>
+				</select>
+			</div>
+		)
+	}
+
+	onGenderChange(e) {
+		this.setState({ gender: e.target.value })
+	}
+
+	onFruitChange(e) {
+		// Array.from(iterable, mapHandler)
+		const fruit = Array.from(e.target.selectedOptions, item => item.value)
+		this.setState({ fruit })
+	}
+}
+
+export default App
+```
+
+# 非受控组件
+
+React 推荐大多数情况下使用受控组件来处理表单数据：
+
+- 一个受控组件中，表单数据是由 React 组件来管理的；
+- 另一种替代方案是使用非受控组件，这时表单数据将交由 DOM 节点来处理；
+
+如果要使用非受控组件中的数据，那么我们需要使用 ref 来从 DOM 节点中获取表单数据。在非受控组件中通常使用 `defaultValue` 来设置默认值；同样，<input type="checkbox"> 和 <input type="radio"> 支持 `defaultChecked`，<select> 和 <textarea> 支持 `defaultValue`。
+
+03-learn-component\src\15-受控和非受控组件\06-非受控组件的使用.jsx
+
+```jsx
+import React, { PureComponent } from 'react'
+import { createRef } from 'react'
+
+export class App extends PureComponent {
+	constructor() {
+		super()
+		this.state = {
+			intro: '哈哈哈'
+		}
+		this.introRef = createRef()
+	}
+
+	componentDidMount() {
+		this.introRef.current.addEventListener('input', e => {
+			console.log('intro value:', e.currentTarget.value);
+		})
+	}
+
+	render() {
+		const { intro } = this.state
+		return (
+			<div>
+				<form onSubmit={e => this.onSubmitChange(e)}>
+					<label htmlFor="intro">
+						<input
+							type="text"
+							id="intro"
+							defaultValue={intro}
+							ref={this.introRef}
+						/>介绍
+					</label>
+					<button type='submit'>注册</button>
+				</form>
+			</div>
+		)
+	}
+
+	onSubmitChange(e) {
+		// 1.组织默认的行为
+		e.preventDefault()
+		// 2.获取到到所有表单数据，对数据进行组织。
+		console.log('intro value:', this.introRef.current.value);
+		// 3.发送 ajax 网络请求，将数据传递给服务器
+	}
+}
+
+export default App
+```
 
