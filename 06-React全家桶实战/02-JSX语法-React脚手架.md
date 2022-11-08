@@ -259,7 +259,7 @@
 </body>
 ```
 
-理解几种重构方式，体现了了 React 的灵活性。
+理解几种重构方式，体现了 React 的灵活性。
 
 重构一：
 
@@ -473,8 +473,8 @@ root.render(<App />)
 
 - 在 React 中，展示列表最多的方式就是使用数组的 map 高阶函数；
 - 很多时候我们在展示一个数组中的数据之前，需要先对它进行一些处理：
-	- 比如过滤掉一些内容：filter 函数
-	- 比如截取数组中的一部分内容：slice 函数
+	- 比如过滤掉一些内容：就使用 filter 函数。
+	- 比如截取数组中的一部分内容：就使用 slice 函数。
 
 理解绑定的 key 的作用。
 
@@ -681,11 +681,9 @@ root.render(React.createElement(App, null))
 
 - 我们通过 React.createElement 最终创建出来一个 ReactElement 对象：
 - 这个 ReactElement 对象有什么作用呢？React 为什么要创建它呢？
-	- 原因是 React 利用 ReactElement 对象组成了一个 JavaScript 的对象树；
-	- JavaScript 的对象树就是虚拟 DOM（Virtual DOM）；
+	- 原因是 React 利用 ReactElement 对象组成了一个 JavaScript 的对象树；也就是虚拟 DOM。
 - 如何查看 ReactElement 的树结构呢？
 	- 我们可以将之前的 jsx 返回结果进行打印；
-- 而 ReactElement 最终形成的树结构就是 Virtual DOM；
 
 > Vue 中对 template 的解析，需要对指令等特殊语法做解析。
 >
@@ -703,7 +701,8 @@ root.render(React.createElement(App, null))
 
 - 更新数据时，没必要将所有数据重新渲染，有利于做 diff 算法。
 - 有利于实现跨平台，在 React 中，虚拟 DOM 既可以做 DOM 元素的渲染，也可以通过桥接的方式，实现移动端控件的渲染（比如 React Native）
-  - 补充：Weex 是 Vue 和阿里维护的用于做跨平台的库，用的非常少）。
+
+  > 补充：Weex 是 Vue 和阿里维护的用于做跨平台的库，用的非常少）。
 
 - React 官方文档提到：虚拟 DOM 帮助我们从命令式编程转为声明式编程，这也是虚拟 DOM 的作用之一。
 
@@ -835,6 +834,7 @@ root.render(React.createElement(App, null))
 		}
 
 		render() {
+      const books = this.state.books
 			return books.length ? this.renderBookList() : this.renderBookEmpty()
 		}
 	}

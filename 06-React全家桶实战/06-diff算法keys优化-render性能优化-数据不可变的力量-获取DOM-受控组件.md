@@ -26,14 +26,14 @@
 
 情况一：更新列表时，在最后位置插入数据：
 
-- 这种情况，有无 key 意义并不大
+- 这种情况，有无 key 意义并不大。
 
 情况二：更新列表时，在列表非末尾的地方插入数据。
 
 - 假设列表中的元素是 li，在没有 key 的情况下，插入到 li 后面的所有元素都需要进行修改；
 
 - 使用 key 进行优化：
-  - 当子元素(这里的 li )拥有 key 时，React 使用 key 来匹配原有树上的子元素以及最新树上的子元素：
+  - 当子元素(这里的 li)拥有 key 时，React 使用 key 来匹配原有树上的子元素以及最新树上的子元素：
   - 匹配到的子元素只需进行位移，不需要进行任何的修改；
   - 没匹配到的元素在相应的位置插入即可。
 
@@ -73,8 +73,8 @@ export class App extends Component {
 		return (
 			<div>
 				<h2>App: { msg }-{ counter }</h2>
-				<button onClick={ e => this.changetext()}>修改文本</button>
-				<button onClick={ e => this.changenumber()}>counter+1</button>
+				<button onClick={e => this.changetext()}>修改文本</button>
+				<button onClick={e => this.changenumber()}>counter+1</button>
 				<Home />
 			</div>
 		)
@@ -124,9 +124,9 @@ React 给我们提供了一个生命周期方法 `shouldComponentUpdate`（简�
 该方法返回值是一个 boolean 类型：
 
 - 返回值为 true，那么就需要调用 render 方法；
-- 返回值为 false，那么久不需要调用 render 方法；
+- 返回值为 false，那么就不需要调用 render 方法；
 
-默认返回的是 true，也就是只要 state 发生改变，就会调用 render 方法，为了避免这种情况，我们根据依赖的 state 进行优化：
+默认返回的是 true，也就是只要 state 发生改变，就会调用 render 方法，为了避免这种情况，我们在 SCU 中根据依赖的 state 进行优化：
 
 03-learn-component\src\12-render函数的优化\App.jsx
 
@@ -227,9 +227,9 @@ export class App extends PureComponent {
 		const { msg, counter } = this.state
 		return (
 			<div>
-				<h2>App: { msg }-{ counter }</h2>
-				<button onClick={ e => this.changetext() }>修改文本</button>
-				<button onClick={ e => this.changeCouter() }>counter+1</button>
+				<h2>App: {msg}-{counter}</h2>
+				<button onClick={e => this.changetext()}>修改文本</button>
+				<button onClick={e => this.changeCouter()}>counter+1</button>
 				<Home />
 			</div>
 		)
@@ -302,7 +302,7 @@ export default Profile
 
 - 在普通的 Component，如果给 state 中引用类型中的元素赋值，而不修改引用地址，界面会正常更新。因为只要执行了 setState 函数，就会调用 render 方法。
 - 如果在 PureComponent 中，在渲染时会使用 shallowEqual 方法进行浅层比较，当发现引用地址没有改变，则不会调用 render 方法，页面也就不会刷新。
-- 所以在 PureComponent 中，在修改 state 中引用类型数据中的深层引用值时，仍需要使用类似于浅拷贝的方式修改，目的是改变 state 中的引用地址。
+- 所以在 PureComponent 中，在修改 state 中引用类型数据中的深层引用值时，要使用类似于浅拷贝的方式修改，目的是改变 state 中的引用地址。
 
 03-learn-component\src\13-数不可变的力量\App.jsx
 
@@ -319,7 +319,6 @@ export class App extends PureComponent {
 				{ name: 'React高级设计', price: 78, count: 2 },
 				{ name: 'Vue高级设计', price: 99, count: 3 }
 			],
-
 		}
 	}
 	render() {
@@ -330,14 +329,14 @@ export class App extends PureComponent {
 				<ul>
 					{
 						books.map((item, index) => (
-							<li key={ index }>
-								<span>name: { item.name }-price: { item.price }-count: { item.count }</span>
-								<button onClick={ e => this.addBookCount(index) }>+1</button>
+							<li key={index}>
+								<span>name: {item.name}-price: {item.price}-count: {item.count}</span>
+								<button onClick={e => this.addBookCount(index)}>+1</button>
 							</li>
 						))
 					}
 				</ul>
-				<button onClick={ e => this.addNewBook() }>添加新书籍</button>
+				<button onClick={e => this.addNewBook()}>添加新书籍</button>
 			</div>
 		)
 	}
@@ -353,7 +352,7 @@ export class App extends PureComponent {
 		const newBook ={ name: 'Angular高级设计', price: 88, count: 1 }
 		/**
 		 * 方式一：直接修改原有的 state，重新设值一遍（不要这么做）
-		 * 	这种方式在 PureComponent 中不能引起页面的渲染（调用 render 函数）
+		 * 	这种方式在 PureComponent 中不能引起页面的渲染（即调用 render 函数）
 		 * 	原因是 this.state.books 的引用地址没有改变。
 		 */
 		this.state.books.push(newBook)
@@ -386,7 +385,7 @@ export default App
 	- 使用时通过 `this.refs`.传入的字符串格式获取对应的元素；
 - 方式二：传入一个对象（官方推荐）
 	- 对象是通过 `React.createRef()` 方式创建出来的；
-	- 使用时获取到创建的对象其中有一个 current 属性就是对应的元素；
+	- 使用时获取到创建的对象其中有一个 `current` 属性就是对应的元素；
 - 方式三：传入一个函数
 	- 该函数会在 DOM 被挂载时进行回调，这个函数会传入一个元素对象，我们可以自己保存；
 	- 使用时，直接拿到之前保存的元素对象即可；
@@ -516,11 +515,11 @@ export class App extends PureComponent {
 export default App
 
 export const HelloWorld = forwardRef((props, ref) => (
-		<div>
-			<h1 ref={ ref }>Hello World</h1>
-			<p>呵呵呵</p>
-		</div>
-	))
+	<div>
+		<h1 ref={ ref }>Hello World</h1>
+		<p>呵呵呵</p>
+	</div>
+))
 ```
 
 # 受控组件
