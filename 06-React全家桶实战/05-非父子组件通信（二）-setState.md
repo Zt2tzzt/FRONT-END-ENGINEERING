@@ -85,7 +85,7 @@ Vue 的渲染流程：
 
 React 的渲染流程：
 
-- render -> React.createElement -> 虚拟 DOM
+- render -> React.createElement -> 虚拟 DOM -> diff 算法 -> 显示真实 DOM -> 显示在页面上
 
 # 为什么 React 中要使用 setState（面试）？
 
@@ -171,11 +171,10 @@ export default App
   }
   ```
 
-  
 
 # setState 为什么要设计成异步的
 
-[React 成员，Redux 的作者 Dan Abramov 的回答](https://github.com/facebook/react/issues/11527#issuecomment-360199710%C3%AF%C2%BC%C5%82)
+[React 成员，Redux 的作者 Dan Abramov 的回答](https://github.com/facebook/react/issues/11527#issuecomment-360199710%C3%AF%C2%BC%C5%82)，可总结为：
 
 - setState 设计为异步，可以显著的提升性能；
 - 如果 setstate 同步更新了 state，并立即执行 render 函数，那么 render 函数可能会被频繁调用，界面频繁重新渲染，这样效率无疑是很低的；
@@ -278,8 +277,8 @@ export class App extends Component {
 
 	componentDidMount() {
 		const btnEl = document.querySelector('.btn')
-		// 在 react18 之前, setTimeout中setState 是同步操作
-		// 在 react18 之后, setTimeout中setState 是异步操作(批处理)
+		// 在 react18 之前, setTimeout 中 setState 是同步操作
+		// 在 react18 之后, setTimeout 中 setState 是异步操作(批处理)
 		btnEl.addEventListener('click', () => {
 			this.setState({ message: '你好吗？银河李' })
       console.log('message:', this.state.message)
@@ -302,8 +301,8 @@ export class App extends Component {
 
 	changeText() {
 		setTimeout(() => {
-			// 在 react18 之前, setTimeout中setState 是同步操作
-			// 在 react18 之后, setTimeout中setState 是异步操作(批处理)
+			// 在 react18 之前, setTimeout 中 setState 是同步操作
+			// 在 react18 之后, setTimeout 中 setState 是异步操作(批处理)
 			this.setState({ message: '你好啊, 李银河' })
 			console.log('message:', this.state.message)
 		}, 0)

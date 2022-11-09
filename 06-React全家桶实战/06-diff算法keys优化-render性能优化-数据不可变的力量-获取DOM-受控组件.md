@@ -12,7 +12,7 @@
 
 - React 在 props 或 state 发生改变时，会调用 React 的 render 方法，会创建一颗不同的 DOM 树。
 - React 需要基于这两颗不同的 DOM 树之间的差别来判断如何有效的更新 UI：
-	- 如果一棵树参考另外一棵树进行完全比较更新，那么即使是最先进的算法，该算法的复杂程度为 O(n²），其中 n 是树中元素的数量；
+	- 如果一棵树参考另外一棵树进行**完全比较更新**，那么即使是最先进的算法，该算法的复杂程度为 O(n²），其中 n 是树中元素的数量；
 	- 如果在 React 中使用了该算法，那么展示 1000 个元素所需要执行的计算量将在十亿的量级范围；
 	- 这个开销太过昂贵了，React 的更新性能会变得非常低效；
 - 于是，React 对这个算法进行了优化，将其优化成了 O(n)，如何优化的呢？
@@ -63,8 +63,8 @@ export class App extends Component {
 	constructor() {
 		super()
 		this.state = {
-			msg: 'Hello World',
-      counter: 0
+			msg: 'Hello World', // 设值一个相同的值
+      counter: 0 // 子元素对给状态没有依赖。
 		}
 	}
 	render() {
@@ -433,7 +433,7 @@ export default App
 
 ref 的值根据节点的类型而有所不同：
 
-- 当 ref 属性用于 HTML 元素时，构造函数中使用 React.createRef() 创建的 ref 接收**底层 DOM 元素**作为其 current 属性；
+- 当 ref 属性用于 HTML 元素时，构造函数中使用 `React.createRef()` 创建的 ref 接收**底层 DOM 元素**作为其 current 属性；
 - 当 ref 属性用于自定义 class 组件时，ref 对象接收**组件的挂载实例**作为其 current 属性；
 
 
@@ -827,6 +827,7 @@ export class App extends PureComponent {
 
 	render() {
 		const { intro } = this.state
+    
 		return (
 			<div>
 				<form onSubmit={e => this.onSubmitChange(e)}>
