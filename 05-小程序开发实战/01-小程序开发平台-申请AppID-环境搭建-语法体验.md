@@ -239,7 +239,7 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 
 # 小程序的双线程模型
 
-谁是小程序的宿主环境呢？微信客户端.
+谁是小程序的宿主环境呢？微信客户端.。
 
 - 宿主环境为了执行小程序的各种文件：wxml 文件、wxss 文件、js 文件
 
@@ -357,7 +357,7 @@ pages / profile / index.json
   "navigationBarTitleText": "个人信息",
   "navigationBarBackgroundColor": "#f00",
   "enablePullDownRefresh": true, // 上拉刷新
-  "onReachBottomDistance": 100 // 触底前100px，触发触底的回调
+  "onReachBottomDistance": 100 // 触底前 100px，触发触底的回调
 }
 ```
 
@@ -380,10 +380,10 @@ Page({
 
       // API: 停止下拉刷新
       wx.stopPullDownRefresh({
-        success: (res) => {
+        success: res => {
           console.log("成功停止了下拉刷新", res);
         },
-        fail: (err) => {
+        fail: err => {
           console.log("失败停止了下拉刷新", err);
         }
       })

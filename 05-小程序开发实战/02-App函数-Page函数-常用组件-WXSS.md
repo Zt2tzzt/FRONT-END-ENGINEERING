@@ -91,7 +91,7 @@ Page({
 
 > 微信小程序跳转的 page 路径中（`wx.navigateTo`），不能有中文。
 
-# 注册页面 理解 Page 函数。
+# 注册页面 理解 Page 函数
 
 Page 函数：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html)
 
