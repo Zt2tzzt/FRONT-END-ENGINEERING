@@ -173,7 +173,7 @@ behaviors 是用于组件间代码共享的特性，类似于 Vue 中的 “mixi
 
 - 每个 behavior 可以包含一组属性、数据、生命周期函数和方法；
 - 组件引用它时，它的属性、数据和方法会被合并到组件中，生命周期函数也会在对应时机被调用；
-- 每个组件可以引用多个 behavior ，behavior 也可以引用其它 behavior ；
+- 每个组件可以引用多个 behavior，behavior 也可以引用其它 behavior；
 
 behaviors \ counter.js
 
@@ -422,9 +422,9 @@ ztRequest
 ```js
 wx.showToast({
   title: '购买失败!',
-  icon: 'error',
-  duration: 5000,
-  mask: true,
+  icon: 'success', // 默认值
+  duration: 1500, // 默认值
+  mask: false, // 默认值
   success: res => {
     console.log('res:', res)
   },
@@ -610,9 +610,7 @@ index.js
 ```js
 Page({
   onNavTap() {
-    // 页面导航操作
     wx.navigateTo({
-      // 跳转的过程, 传递一些参数过去
       url: '/pages2/detail/detail'
     })
   }
@@ -696,7 +694,7 @@ Page({
   onLoad() {
     const eventChannel = this.getOpenerEventChannel()
     // 监听 sendDataToOpenPage 事件，获取上一页面通过 eventChannel 传送到当前页面的数据
-    eventChannel.on('sendDataToOpenPage', function (data) {
+    eventChannel.on('sendDataToOpenPage', function(data) {
       console.log(data)
     })
   }
@@ -727,7 +725,7 @@ Page({
     // 2.2.通过 setData 给上一个页面设置数据
     prePage.setData({ message: '呵呵呵' })
   },
-  // 如果默认返回（默认导航上的返回按钮），也需要传递数据，那么将逻辑放在 `onUnload` 生命周期中会更合适。
+  // 如果是默认返回（即点击默认导航上的返回按钮），也需要传递数据，那么将逻辑放在 `onUnload` 生命周期中会更合适。
   onUnload() {
     const pages = getCurrentPages()
     const prePage = pages[pages.length - 2]

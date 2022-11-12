@@ -11,8 +11,8 @@
 
 ## Mustache 语法
 
-- 小程序和 Vue 一样, 提供了插值语法: Mustache 语法；
-- 小程序中的 Mustache 中只能写标识符和表达式，不能写函数。
+- 小程序和 Vue 一样, 提供了插值语法: 即 Mustache 语法；
+- 小程序的 Mustache 中只能写标识符和表达式，不能写函数。
 
 index.js
 
@@ -93,7 +93,7 @@ index.wxml
 <view wx:if="{{ !isHidden }}">呵呵呵呵</view>
 ```
 
-## 列表渲染，
+## 列表渲染
 
 ### 基本使用：
 
@@ -261,7 +261,7 @@ index.html
 		<view>name:{{ item.name }}-price:{{ format.formatPrice(item.price) }}</view>
 	</block>
 </view>
-<view class="total">总价格: {{ format.calcPrice(books)}}</view>
+<view class="total">总价格: {{ format.calcPrice(books) }}</view>
 ```
 
 utils \ format.wxs
