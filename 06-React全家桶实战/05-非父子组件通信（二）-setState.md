@@ -85,7 +85,7 @@ Vue 的渲染流程：
 
 React 的渲染流程：
 
-- render -> React.createElement -> 虚拟 DOM -> diff 算法 -> 显示真实 DOM -> 显示在页面上
+- render -> React.createElement -> 虚拟 DOM -> diff 算法 -> 真实 DOM -> 显示在页面上
 
 # 为什么 React 中要使用 setState（面试）？
 

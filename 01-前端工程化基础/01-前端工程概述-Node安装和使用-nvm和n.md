@@ -7,13 +7,11 @@
 自己总结：
 
 - 我们知道 V8 可以嵌入到任何 C++ 应用程序中，无论是 Chrome 还是 Node.js，都是嵌入了 V8 引擎来执行 JavaScript 代码；
-- 在 Chrome 浏览器中，
+- 在 Chrome 浏览器中，除了 V8 引擎以外：
   - 还有解析、渲染 HTML、CSS 等相关渲染引擎，
-  - 还有提供支持浏览器操作的API、浏览器自己的事件循环等；
+  - 还有提供支持浏览器操作的 API、浏览器自己的事件循环等；
 - 在 Node.js 中
   - 有文件系统读/写、网络IO、加密、压缩解压文件等操作；- Node 和 Node.js 代表的是一个意思。
-
------
 
 # Node 架构
 
@@ -60,7 +58,7 @@ Node.js 的六大应用场景。
 
 安装 Node.js 2点注意事项：
 
-1. 安装过程中会配置环境变量（安装完后，可以在命令行直接使用）；
+1. 安装过程中会自动配置环境变量（安装完后，可以在命令行直接使用）；
 2. 会附带安装 npm（Node Package Manager）工具；
 
 -----
@@ -74,7 +72,7 @@ Node.js 的六大应用场景。
 
 # Node 版本管理工具介绍
 
-Node 的版本管理工具有哪些（都不支持 Windows）？
+Node 的版本管理工具有哪些？（原生都不支持 Windows）
 
 - nvm：Node Version Manager；
 - n：Interactively Manage Your Node.js Versions（交互式管理你的 Node.js 版本）
@@ -214,7 +212,7 @@ Node 全局对象
 - 定时器函数：在 Node 中使用定时器有好几种方式： 
 	- setTimeout(callback, delay[, ...args])：callback 在 delay 毫秒后执行一次； 
 	- setInterval(callback, delay[, ...args])：callback 每 delay 毫秒重复执行一次； 
-	- setImmediate(callback[, ...args])：callbackI / O 事件后的回调的“立即”执行；
+	- setImmediate(callback[, ...args])：callback I/O 事件后的回调的“立即”执行；
 		- 先不展开讨论它和 setTimeout(callback, 0) 之间的区别；因为涉及到事件循环的阶段问题，后续详细讲解事件循环相关的知识；
 	- process.nextTick(callback[, ...args])：添加到下一次 tick 队列中； 也放到事件循环中说明；
 

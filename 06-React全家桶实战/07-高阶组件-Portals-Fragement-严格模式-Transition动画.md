@@ -503,7 +503,7 @@ StrictMode 是一个用来突出显示应用程序中潜在问题的工具：
 	- 这是严格模式下故意进行的操作，让你来查看在这里写的一些逻辑代码被调用多次时，是否会产生一些副作用；React18 之后，且安装了 DevTools 时，第二次中的打印会显示半灰色。
 	- 在生产环境中，是不会被调用两次的；
 
-- 四、使用废弃的 `findDOMNode` 方法。
+- 四、检查使用废弃的 `findDOMNode` 方法。
   - 在之前的 React API 中，可以通过 findDOMNode 来获取 DOM，不过已经不推荐使用了，
   - 一些第三方库，比如 Ant-Design，react-transition-group 中还在使用这种 API。
     - 消除警告的3种方式：1.关闭严格模式；2.修改库的源码（不推荐）；3.使用 ref（见下方 CSSTransition 案例）
@@ -595,27 +595,27 @@ yarn add react-transition-group
 - CSSTransition 是基于 Transition 组件构建的： 
 - CSSTransition 执行过程中，有三个状态：appear、enter、exit；
 - 它们有三种状态，需要定义对应的 CSS 样式： 
-	- 第一类，开始状态：对于的类是 -appear、-enter、-exit； 
-	- 第二类：执行动画：对应的类是 -appear-active、-enter-active、-exit-active； 
-	- 第三类：执行结束：对应的类是 -appear-done、-enter-done、-exit-done；
+	- 第一类，开始状态：对应的类是 `-appear`、`-enter`、`-exit`； 
+	- 第二类：执行动画：对应的类是 `-appear-active`、`-enter-active`、`-exit-active`； 
+	- 第三类：执行结束：对应的类是 `-appear-done`、`-enter-done`、`exit-done`；
 - CSSTransition 常见对应的属性： 
-	- i`n`：触发进入或者退出状态 
+	- `in`：触发进入或者退出状态 
 		- 如果添加了 `unmountOnExit={true}`，那么该组件会在执行退出动画结束后被移除掉； 
-		- 当 in 为 true 时，触发进入状态，会添加 -enter、-enter-acitve 的 class 开始执行动画，当动画执行结束后，会移除两个class，并且添加 -enter-done 的 class；
-		- 当 in 为 false 时，触发退出状态，会添加 -exit、-exit-active 的 class 开始执行动画，当动画执行结束后，会移除两个class，并且添加 -enter-done 的 class；
+		- 当 in 为 true 时，触发进入状态，会添加 `-enter`、`-enter-acitve` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
+		- 当 in 为 false 时，触发退出状态，会添加 `-exit`、`-exit-active` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
 	- `classNames`：动画 class 的名称 ：
-		- 决定了在编写 css 时，对应的 class 名称：比如当 `classNames="card"` 时，card-enter、card-enter-active、card-enter-done；
+		- 决定了在编写 css 时，对应的 class 名称：比如当 `classNames="card"` 时，对应的类名为：`card-enter`、`card-enter-active`、`card-enter-done`；
 	- `timeout`：过渡动画的时间，最好与样式中的时间保持一致（必须添加，否则没有动画效果）。
 	- `appear`：是否在初次进入添加动画（需要和 in 同时为 true）
 	- `unmountOnExit`：退出后卸载组件。
 	- 其他属性参考[官方文档](https://reactcommunity.org/react-transition-group/transition)
-	- CSSTransition 对应的钩子函数：主要为了检测动画的执行过程，来完成一些 JavaScript 的操作 
-		- onEnter：在进入动画之前被触发； 
-		- onEntering：在应用进入动画时被触发；
-		- onEntered：在应用进入动画结束后被触发；
-		- onExit：在离开动画之前被触发。
-		- onExiting：在应用离开动画时被触发。
-		- onExited：在应用离开动画结束后被触发。
+- CSSTransition 对应的钩子函数：主要为了检测动画的执行过程，来完成一些 JavaScript 的操作 
+	- `onEnter`：在进入动画之前被触发； 
+	- `onEntering`：在应用进入动画时被触发；
+	- `onEntered`：在应用进入动画结束后被触发；
+	- `onExit`：在离开动画之前被触发。
+	- `onExiting`：在应用离开动画时被触发。
+	- `onExited`：在应用离开动画结束后被触发。
 
 ### 实现淡入淡出动画
 
@@ -701,12 +701,12 @@ export default App
 - SwitchTransition 可以完成两个组件之间切换的炫酷动画： 
 	- 比如我们有一个按钮需要在 on 和 off 之间切换，我们希望看到 on 先从左侧退出，off 再从右侧进入； 
 	- 这个动画在 vue 中被称之为 vue transition modes；react-transition-group 中使用 SwitchTransition 来实现该动画；
-- SwitchTransition 中主要有一个属性：mode，有两个值 
+- SwitchTransition 中主要有一个属性：`mode`，有两个值 
 	- `in-out`：表示新组件先进入，旧组件再移除； 
 	- `out-in`：表示旧组件先移除，新组建再进入；
 - 如何使用 SwitchTransition 呢？ 
 	- SwitchTransition 组件里面要有 CSSTransition 或者 Transition 组件，不能直接包裹你想要切换的组件； 
-	- SwitchTransition 里面的 CSSTransition 或 Transition 组件不再像以前那样接受 in 属性来判断元素是何种状态，取而代之的是 `key` 属性；
+	- SwitchTransition 里面的 CSSTransition 或 Transition 组件不再像以前那样接受 `in` 属性来判断元素是何种状态，取而代之的是 `key` 属性；
 
 ### 实现按钮切换动画
 
