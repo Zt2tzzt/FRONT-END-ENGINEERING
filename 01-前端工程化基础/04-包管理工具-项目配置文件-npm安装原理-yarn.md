@@ -13,39 +13,32 @@ npm 的配置文件是 package.json，它有什么用？
 - 手动从零创建项目，`npm init –y`
 - 通过脚手架创建项目，脚手架会帮助我们生成 package.json，并且里面有相关的配置。
 
------
-
 package.json 中有哪些常见的属性，它们有什么含义？
 
-- 必须填写的属性：name、version
-	- name 是项目的名称；
-	- version 是当前项目的版本号；
-	- description 是描述信息，很多时候是作为项目的基本描述；
-	- author 是作者相关信息（发布时用到）；
-	- license 是开源协议（发布时用到）；
-- private 属性：
-	- private 属性记录当前的项目是否是私有的；
+- name 是项目的名称（必填）；
+- version 是当前项目的版本号（必填）；
+- description 是描述信息，很多时候是作为项目的基本描述；
+- author 是作者相关信息（发布时用到）；
+- license 是开源协议（发布时用到）；
+
+- private 属性：记录当前的项目是否是私有的；
 	- 当值为 true 时，npm 是不能发布它的，这是防止私有项目或模块发布出去的方式；
-- main 属性：
-	- 设置程序的入口。
-		- 比如我们使用 axios 模块 `const axios = require('axios');`
-		- 实际上是找到 axios 包中，package.json 文件的 main 属性，作为对应的入口属性查找文件的；
+- main 属性：设置程序的入口。
+	- 比如我们使用 axios 模块 `const axios = require('axios');` 实际上是找到 axios 包中，package.json 文件的 main 属性，作为对应的入口属性查找文件的；
 - scripts 属性
 	- scripts 属性用于配置一些脚本命令，以键值对的形式存在；
 	- 配置后我们可以通过 `npm run` 命令的 key 来执行这个命令；
 	- npm start 和 npm run start 的区别是什么？
-		- 它们是等价的；
-		- 对于常用的 start、 test、stop、restart 可以省略掉 run 直接通过 npm start 等方式运行；
+		- 它们是等价的；对于常用的 start、test、stop、restart 可以省略掉 run 直接通过 npm start 这样的方式运行；
 - dependencies 属性
 	- dependencies 属性是指定无论开发环境还是生产环境都需要依赖的包；
 	- 通常是我们项目实际开发用到的一些库或框架 vue、vuex、vue-router、react、react-dom、axios 等等；
-	- 与之对应的是 devDependencies；
 - devDependencies 属性
 	- 一些包在生产环境是不需要的，比如 webpack、babel 等；
 	- 这个时候我们会通过 `npm install webpack --save-dev`，将它安装到 devDependencies 属性中；
 - peerDependencies 属性
 	- 还有一种项目依赖关系是对等依赖，也就是你依赖的一个包，它必须是以另外一个宿主包为前提的；
-	- 比如 element-plus 是依赖于 vue3 的，ant design 是依赖于 react、react-dom；
+	- 比如 element-plus 是依赖于 vue3 的，ant-design 是依赖于 react、react-dom；
 - engines 属性（很少用）
 	- engines 属性用于指定 Node 和 NPM 的版本号；
 	- 在安装的过程中，会先检查对应的引擎版本，如果不符合就会报错；
@@ -54,8 +47,6 @@ package.json 中有哪些常见的属性，它们有什么含义？
 	- 用于配置打包后的 JavaScript 浏览器的兼容情况，参考；
 	- 否则我们需要手动的添加 polyfills 来支持某些语法；
 	- 也就是说它是为 webpack 等打包工具服务的一个属性（这里不是详细讲解 webpack 等工具的工作原理，所以不再给出详情）
-
------
 
 # Semver 包管理规范
 
@@ -72,8 +63,6 @@ npm 包版本管理规范是怎样的？
 	- x.y.z：表示一个明确的版本号；
 	- ^x.y.z：表示 x 是保持不变的，y 和 z 永远安装最新的版本；
 	- ~x.y.z：表示x和y保持不变的，z 永远安装最新的版本；
-
------
 
 # npm 包的安装
 
@@ -101,8 +90,6 @@ npm i webpack –D
 npm install
 ```
 
------
-
 # npm 包的安装原理
 
 npm install 的原理是什么？分2种情况。npm install 会检测是否有 package-lock.json 文件：
@@ -123,8 +110,6 @@ npm install 的原理是什么？分2种情况。npm install 会检测是否有 
 
 <img src="NodeAssets/npm install 的原理图.jpg" alt="npm install 的原理图" style="zoom:150%;" />
 
------
-
 # package-lock.json
 
 package-lock.json 有哪些属性，分别有什么含义？
@@ -143,8 +128,6 @@ package-lock.json 有哪些属性，分别有什么含义？
 
 <img src="NodeAssets/package-lock.json 结构图.jpg" alt="package-lock.json 结构图" style="zoom:80%;" />
 
------
-
 # npm 的其它命令
 
 npm 还有哪些其它常用命令？
@@ -162,8 +145,6 @@ npm cache clean
 npm config get cache
 ```
 
------
-
 # yarn
 
 什么是 yarn 工具，它与 npm 命令对应的命令是什么？
@@ -174,8 +155,6 @@ npm config get cache
 - 虽然从 npm5 版本开始，进行了很多的升级和改进，但是依然很多人喜欢使用 yarn；
 
 <img src="NodeAssets/yarn 与 npm 相对应的命令.jpg" alt="yarn 与 npm 相对应的命令" style="zoom:150%;" />
-
------
 
 # cnpm
 
