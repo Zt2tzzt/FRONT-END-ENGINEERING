@@ -36,8 +36,6 @@
 
   > webpack 比较特殊，命令行直接输入 `webpack --version`，也会去 mode_module 下查找 webpack 命令。
 
------
-
 # npm 发布包
 
 npm 发布自己的包的步骤。
@@ -72,13 +70,11 @@ npm 发布自己的包的步骤。
   npm deprecate
   ```
 
------
+# pnpm
 
-# pnpm 原理
+## 什么是 pnpm
 
-什么是 pnpm？
-
-- performant npm 缩写
+- performance npm 缩写
 
 主要解决了什么痛点？
 
@@ -97,13 +93,11 @@ pnpm 4大优势理解：
 
 <img src="NodeAssets/pnpm node_modules 目录结构.jpg" alt="pnpm node_modules 目录结构" style="zoom:70%;" />
 
------
-
-什么是文件拷贝？
+## 什么是文件拷贝？
 
 - 在硬盘中复制出来一份新的文件数据。
 
-什么是硬连接？
+## 什么是硬连接？
 
 - 硬连接（英语：hard link）是电脑文件系统中的多个文件平等地共享同一个文件存储单元； 
 - 删除一个文件名字后，还可以用其它名字继续访问该文件；
@@ -113,7 +107,9 @@ pnpm 4大优势理解：
 - 硬链接只能操作文件，不能操作目录，因此，使用 pnpm 下载 axios 时，会将 axios 中的所有文件保存一份在 pnpm 指定的区域内。
 - 硬连接不能跨磁盘，所以项目文件与 pnpm 保存包的特定位置需要在同一磁盘。
 
-什么是软连接（也称符号链接 soft link、Symbolic link），
+## 什么是软连接？
+
+软连接也称符号链接 soft link、Symbolic link
 
 - 是一类特殊的文件； 其包含有一条以绝对路径或者相对路径的形式指向其它文件或者目录的引用；
 - 操作系统中的快捷方式文件，就是软连接的体现。
@@ -122,8 +118,6 @@ pnpm 4大优势理解：
 理解它们在操作系统中的抽象图。
 
 <img src="NodeAssets/硬链接和软连接的概念.jpg" alt="硬连接和软连接的概念" style="zoom:50%;" />
-
------
 
 拷贝文件、软连接和硬连接的操作练习。
 
@@ -150,7 +144,7 @@ pnpm 4大优势理解：
 
 <img src="NodeAssets/文件拷贝、硬链接和软连接的理解.jpg" alt="文件拷贝、硬连接和软连接的理解" style="zoom:60%;" />
 
------
+## pnpm 原理
 
 pnpm 到底做了哪些操作？（pnpm 最大优势体现）
 
