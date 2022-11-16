@@ -32,8 +32,8 @@ React 与其它框架的关系。
 
 - 首先，React 和 Vue 是前端开发人员必须掌握的两个框架。
 - 下面的观点是一个目前比较普遍的共识，没有贬低任何框架的意思。
-- 大中型公司选择 React 会较多，灵活和稳定；
-- 中小型公司选择 Vue 会较多，易上手和代码统一；
+  - 大中型公司选择 React 会较多，灵活和稳定；
+  - 中小型公司选择 Vue 会较多，易上手和代码统一；
 
 <img src="NodeAssets/Vue和React在中大型公司中的应用.jpg" alt="Vue和React在中大型公司中的应用" style="zoom:80%;" />
 
@@ -55,7 +55,7 @@ React 与其它框架的关系。
 ## 声明式编程：
 
 - 声明式编程是目前整个大前端开发的模式：Vue、React、Flutter、SwiftUI；
-- 它允许我们只需要维护自己的状态，当状态改变时，React 可以根据最新的状态去渲染我们的UI界面；
+- 它允许我们只需要维护自己的状态，当状态改变时，React 可以根据最新的状态去渲染我们的 UI 界面；
 
 <img src="NodeAssets/声明时编程的模式.jpg" alt="声明时编程的模式" style="zoom:80%;" />
 
@@ -116,11 +116,11 @@ React 的基本使用
 	- babel：将 jsx 转换成 React 代码的工具
 - 对于 Vue 来说，我们只是依赖一个 vue.js 文件即可，但是 react 居然要依赖三个包。
 	- 其实呢，这三个库是各司其职的，目的就是让每一个库只单纯做自己的事情;
-	- 在 React 的0.14版本之前是没有 react-dom 这个概念的，所有功能都包含在 react 里；
+	- 在 React 的 0.14 版本之前是没有 react-dom 这个概念的，所有功能都包含在 react 里；
 - 为什么要进行拆分呢？原因就是 react-native。
 	- react 包中包含了 react web 和 react-native 所共同拥有的核心代码。
 	- react-dom 针对 web 和 native 所完成的事情不同：
-		- web 端：react-dom 会将 jsx 最终渲染成真实的 DOM，显示在浏览器中
+		- web 端：react-dom 会将 jsx 最终渲染成真实的 DOM，显示在浏览器中。
 		- native 端：react-dom 会将 jsx 最终渲染成原生的控件（比如 Android 中的 Button，iOS 中的 UIButton）。
 
 
@@ -377,7 +377,7 @@ babel 与 react 的关系是怎样的？
 
 什么是 jsx？
 
-- JSX 是一种 JavaScript 的语法扩展（eXtension），也在很多地方称之为 JavaScript XML，因为看起就是一段 XML 语法； 
+- JSX 是一种 JavaScript 的语法扩展（extension），也在很多地方称之为 JavaScript XML，因为看起就是一段 XML 语法； 
 - 它用于描述我们的 UI 界面，并且其完全可以和 JavaScript 融合在一起使用；
 - 它不同于 Vue 中的模块语法，你不需要专门学习模块语法中的一些指令（比如 v-for、v-if、v-else、v-bind）；
 
@@ -530,7 +530,7 @@ const divEl = (
 					isActive: true,
 					styleObj: {
 						color: 'red',
-						fontsize: '30px'
+						fontSize: '30px'
 					}
 				}
 			}

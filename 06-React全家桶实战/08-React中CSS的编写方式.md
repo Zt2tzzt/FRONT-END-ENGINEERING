@@ -56,9 +56,6 @@ export class App extends PureComponent {
 			titleSize: 30
 		}
 	}
-	addTitleSize() {
-		this.setState({ titleSize: this.state.titleSize + 2 })
-	}
 	render() {
 		const { titleSize } = this.state
 		return (
@@ -68,6 +65,9 @@ export class App extends PureComponent {
 				<p style={{color: 'blue', fontSize: '20px'}}>我是内容，哈哈哈</p>
 			</div>
 		)
+	}
+	addTitleSize() {
+		this.setState({ titleSize: this.state.titleSize + 2 })
 	}
 }
 
