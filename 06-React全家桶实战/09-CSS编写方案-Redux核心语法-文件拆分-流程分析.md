@@ -1,4 +1,4 @@
-bug 复现，函数不能写在逻辑运算符两侧。
+bug 复现，函数不能写在逻辑运算符两侧。否则结果一定为 true
 
 ```js
 const obj = {
@@ -65,8 +65,9 @@ vue 中添加 class 是一件非常简单的事情：
   <div class="static" v-bind:class="[{active: isActive}, 'text-danger']"></div>
   ```
 
+# React 中添加 class 的方式
 
-# React 中添加 class 的方式。
+## 普通方式
 
 React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaScript 代码一样，通过一些逻辑来动态添加某些 class：
 
@@ -79,7 +80,7 @@ React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaS
 
 ## 使用 classnames 库
 
-也可以借助于一个第三方的库：classnames；来动态添加样式
+也可以借助于一个第三方的库：`classnames`；来动态添加样式。
 
 1. 安装 classnames；
 
@@ -125,7 +126,7 @@ React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaS
 
 # React 中纯函数概念的应用
 
-- 在 react 开发中纯函数是被多次提及的，比如 react 中组件就被要求像是一个纯函数（为什么是像，因为还有 class 组件），
+- 在 react 开发中纯函数是被多次提及的，比如 react 中组件就被要求像是一个纯函数（为什么是像，因为除了函数式组件以外，还有 class 组件），
 - redux 中有一个 reducer 的概念，也是要求必须是一个纯函数；
 
 所以掌握纯函数对于理解很多框架的设计是非常有帮助的；
@@ -257,8 +258,8 @@ function reducer(state = initialState, action) {
 	console.log(state, action);
 	/**
 	 * 当没有给 state 设置默认值时，
-	 * 第一次打印：undefined { type: '@@redux/INIT0.7.y.e.0.b' }
-	 * 第二次打印：{name: 'zzt', level: 99 } { type: 'change_name', name: 'kobe' }
+	 * 	第一次打印：undefined { type: '@@redux/INIT0.7.y.e.0.b' }
+	 * 	第二次打印：{name: 'zzt', level: 99 } { type: 'change_name', name: 'kobe' }
 	 */
 
 	// 有新数据进行更新时，返回一个新 state
@@ -510,7 +511,7 @@ Redux 使用流程官方图解
 # node 中对 ES6 模块的支持。
 
 
-- 从 node v13.2.0开始，node 才对 ES6 模块化提供了支持： 
+- 从 node v13.2.0 开始，node 才对 ES6 模块化提供了支持： 
 - node v13.2.0 之前，需要进行如下操作： 
   - 在 package.json 中添加属性：`"type": "module"`； 
   - 在执行命令中添加如下选项：`node --experimental-modules src/index.js`;
