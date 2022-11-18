@@ -199,10 +199,10 @@ export default Home
 
 ## PureComponent
 
-如果所有的类，我们都需要手动来实现 shouldComponentUpdate，那么会给我们开发者增加非常多的工作量。
+如果所有的类，我们都需要手动来实现 `shouldComponentUpdate`，那么会给我们开发者增加非常多的工作量。
 
-- 我们来设想一下 shouldComponentUpdate 中的各种判断的目的是什么？
-- props 或者 state 中的数据是否发生了改变，来决定 shouldComponentUpdate 返回 true 或者 false；
+- 我们来设想一下 `shouldComponentUpdate` 中的各种判断的目的是什么？
+- props 或者 state 中的数据是否发生了改变，来决定 `shouldComponentUpdate` 返回 true 或者 false；
 
 事实上 React 已经考虑到了这一点，所以 React 已经默认帮我们实现好了，如何实现呢？
 
@@ -268,7 +268,7 @@ export class Home extends PureComponent {
 export default Home
 ```
 
-PureComponent 会在 shouldComponentUpdate 生命周期中，使用 `ShallowEqual` 方法进行浅层比较
+PureComponent 会在 `shouldComponentUpdate` 生命周期中，使用 `ShallowEqual` 方法进行浅层比较
 
 - ` !shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState)`
 
@@ -382,7 +382,7 @@ export default App
 
 我们可以通过 refs 获取 DOM；如何创建 refs 来获取对应的 DOM 呢？目前有三种方式：
 
-- 方式一：传入字符串（已不推荐）
+- 方式一：传入字符串（不推荐）
 	- 使用时通过 `this.refs`.传入的字符串格式获取对应的元素；
 - 方式二：传入一个对象（官方推荐）
 	- 对象是通过 `React.createRef()` 方式创建出来的；
@@ -485,7 +485,7 @@ export class HelloWorld extends PureComponent {
 函数式组件是没有实例的，所以无法通过 ref 获取他们的实例：
 
 - 但是某些时候，我们可能想要获取函数式组件中的某个 DOM 元素；
-- 这个时候我们可以通过 `React.forwardRef `对 ref 进行转发。后面我们也会学习 hooks 中如何使用 ref；
+- 这个时候我们可以通过 `React.forwardRef ` 对 ref 进行转发。后面我们也会学习 hooks 中如何使用 ref；
 
 03-learn-component\src\14-ref获取DOM和组件\03-ref获取函数组件的DOM.jsx
 
@@ -721,17 +721,19 @@ export class App extends PureComponent {
 				{/* checkbox 多选 */}
 				<div>
 					您的爱好：
-					{hobbies.map((item, index) => (
-						<label htmlFor={item.value} key={item.value}>
-							<input
-								type="checkbox"
-								id={item.value}
-								checked={item.isChecked}
-								onChange={e => this.onHobbiesChange(e, index)}
-							/>
-							<span>{item.text}</span>
-						</label>
-					))}
+					{
+            hobbies.map((item, index) => (
+              <label htmlFor={item.value} key={item.value}>
+                <input
+                  type="checkbox"
+                  id={item.value}
+                  checked={item.isChecked}
+                  onChange={e => this.onHobbiesChange(e, index)}
+                />
+                <span>{item.text}</span>
+              </label>
+            ))
+          }
 				</div>
 			</div>
 		)

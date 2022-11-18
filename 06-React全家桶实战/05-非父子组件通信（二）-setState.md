@@ -157,7 +157,7 @@ export class App extends Component {
 export default App
 ```
 
-如何可以获取到更新后的值呢？
+# 如何可以获取到更新后的值呢？
 
 - 方式一：setState 的回调
 	- setState 接受两个参数：第二个参数是一个回调函数，这个回调函数会在更新后执行；
@@ -176,10 +176,12 @@ export default App
 
 [React 成员，Redux 的作者 Dan Abramov 的回答](https://github.com/facebook/react/issues/11527#issuecomment-360199710%C3%AF%C2%BC%C5%82)，可总结为：
 
-- setState 设计为异步，可以显著的提升性能；
+setState 设计为异步，可以显著的提升性能；
+
 - 如果 setstate 同步更新了 state，并立即执行 render 函数，那么 render 函数可能会被频繁调用，界面频繁重新渲染，这样效率无疑是很低的；
 - 如果 setstate 同步更新了 state，但是不立即执行 render 函数，那么 state 和 props 不能保持同步；在开发中父子组件进行调试时，会产生很多的问题；
-- 所以最好的办法应该是收集到多个 setState 操作后，进行批处理，做批量更新（React 中会将每次 setState 操作放入一个队列中，以便进行批处理）。
+
+所以最好的办法应该是收集到多个 setState 操作后，进行批处理，做批量更新（React 中会将每次 setState 操作放入一个队列中，以便进行批处理）。
 
 # 验证 setState 是异步的，且 render 只执行了一次。
 
@@ -277,8 +279,8 @@ export class App extends Component {
 
 	componentDidMount() {
 		const btnEl = document.querySelector('.btn')
-		// 在 react18 之前, setTimeout 中 setState 是同步操作
-		// 在 react18 之后, setTimeout 中 setState 是异步操作(批处理)
+		// 在 react18 之前, 原生 DOM 事件监听 中 setState 是同步操作
+		// 在 react18 之后, 原生 DOM 事件监听 中 setState 是异步操作(批处理)
 		btnEl.addEventListener('click', () => {
 			this.setState({ message: '你好吗？银河李' })
       console.log('message:', this.state.message)

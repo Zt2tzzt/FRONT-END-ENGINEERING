@@ -366,10 +366,9 @@ export default App
 - HOC 需要在原组件上进行包裹或者嵌套，如果大量使用 HOC，将会产生非常多的嵌套，这让调试变得非常困难；
 - HOC 可以劫持 props，在不遵守约定的情况下也可能造成冲突；
 
-Hooks 的出现，是开创性的，它解决了很多 React 之前的存在的问题。
+后面我们会介绍 Hooks，Hooks 的出现，是开创性的，它解决了很多 React 之前的存在的问题。
 
-- 比如 this 指向问题、比如 hoc 的嵌套复杂度问题等等；
-- 后续我们还会介绍 hooks 相关的知识。
+- 比如 this 指向问题、比如 HOC 的嵌套复杂度问题等等；
 
 结合高阶组件的概念，理解之前的函数式组件中的 ref 转发。
 
@@ -436,7 +435,7 @@ export default App
 </body>
 ```
 
-Fragment 的使用，
+# Fragment 的使用
 
 - 在之前的开发中，我们总是在一个组件中返回内容时包裹一个 div 元素：
 - 我们有时希望可以不渲染这样一个 div 应该如何操作呢？
@@ -504,11 +503,11 @@ StrictMode 是一个用来突出显示应用程序中潜在问题的工具：
 	- 在生产环境中，是不会被调用两次的；
 
 - 四、检查使用废弃的 `findDOMNode` 方法。
-  - 在之前的 React API 中，可以通过 findDOMNode 来获取 DOM，不过已经不推荐使用了，
+  - 在之前的 React API 中，可以通过 `findDOMNode` 来获取 DOM，不过已经不推荐使用了，
   - 一些第三方库，比如 Ant-Design，react-transition-group 中还在使用这种 API。
     - 消除警告的3种方式：1.关闭严格模式；2.修改库的源码（不推荐）；3.使用 ref（见下方 CSSTransition 案例）
 
-- 五、检测过时的 context API。
+- 五、检测过时的用于共享的 context API。
 
 	- 早期的 Context 是通过 static 属性声明 Context 对象属性，通过 getChildContext 返回 Context 对象等方式来使用 Context 的；目前这种方式已经不推荐使用，
 
@@ -601,11 +600,11 @@ yarn add react-transition-group
 - CSSTransition 常见对应的属性： 
 	- `in`：触发进入或者退出状态 
 		- 如果添加了 `unmountOnExit={true}`，那么该组件会在执行退出动画结束后被移除掉； 
-		- 当 in 为 true 时，触发进入状态，会添加 `-enter`、`-enter-acitve` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
+		- 当 `in` 为 `true` 时，触发进入状态，会添加 `-enter`、`-enter-acitve` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
 		- 当 in 为 false 时，触发退出状态，会添加 `-exit`、`-exit-active` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
 	- `classNames`：动画 class 的名称 ：
 		- 决定了在编写 css 时，对应的 class 名称：比如当 `classNames="card"` 时，对应的类名为：`card-enter`、`card-enter-active`、`card-enter-done`；
-	- `timeout`：过渡动画的时间，最好与样式中的时间保持一致（必须添加，否则没有动画效果）。
+	- `timeout`：过渡动画的时间，最好与样式中的时间保持一致（**必须添加**，否则没有动画效果）。
 	- `appear`：是否在初次进入添加动画（需要和 in 同时为 true）
 	- `unmountOnExit`：退出后卸载组件。
 	- 其他属性参考[官方文档](https://reactcommunity.org/react-transition-group/transition)
