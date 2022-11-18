@@ -80,7 +80,7 @@ React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaS
 
 ## 使用 classnames 库
 
-也可以借助于一个第三方的库：`classnames`；来动态添加样式。
+也可以借助于一个第三方的库`classnames`来动态添加样式。
 
 1. 安装 classnames；
 

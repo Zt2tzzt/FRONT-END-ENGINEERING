@@ -173,8 +173,8 @@ export default App
 
 ## 两种方案：
 
-- 使用 `npm run eject`，在弹出的配置文件中进行修改。
-- 使用 craco（create-react-app config）
+- 方案一：使用 `npm run eject`，在弹出的配置文件中进行修改。
+- 方案二：使用 craco（create-react-app config）
 
 > React 2个 UI 库使用 CSS 的方式
 >
@@ -280,7 +280,7 @@ export default App
 
 - 官方文档也有提到过 CSS in JS 这种方案：
 	- 这是指一种模式，其中 CSS 由 JavaScript 生成而不是在外部文件中定义；
-	- 注意此功能并不是 React 的一部分，而是由第三方库提供；React 对样式如何定义并没有明确态度；
+	- 注意此功能并不是 React 的一部分，而是由第三方库提供；**React 对样式如何定义并没有明确态度**；
 
 - 在传统的前端开发中，我们通常会将结构（HTML）、样式（CSS）、逻辑（JavaScript）进行分离。
 	- 但是在前面的学习中，我们就提到过，React 的思想中认为逻辑本身和 UI 是无法分离的，所以才会有了 JSX 的语法。而样式也是属于 UI 的一部分；
@@ -294,7 +294,7 @@ export default App
 
 - 批评声音虽然有，但是在我们看来很多优秀的 CSS-in-JS 的库依然非常强大、方便：
 	- CSS-in-JS 通过 JavaScript 来为 CSS 赋予一些能力，包括类似于 CSS 预处理器一样的样式嵌套、函数定义、逻辑复用、动态修改状态等等；
-	- 虽然 CSS 预处理器也具备某些能力，但是获取动态状态依然是一个不好处理的点；
+	- 虽然 CSS 预处理器也具备某些能力，但是**获取动态状态**依然是一个不好处理的点；
 	- 所以，目前可以说 CSS-in-JS 是 React 编写 CSS 最为受欢迎的一种解决方案；
 
 - 目前比较流行的 CSS-in-JS 的库有哪些呢？
