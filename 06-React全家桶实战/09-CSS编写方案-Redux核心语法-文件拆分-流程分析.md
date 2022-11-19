@@ -126,7 +126,9 @@ React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaS
 
 # React 中纯函数概念的应用
 
-- 在 react 开发中纯函数是被多次提及的，比如 react 中组件就被要求像是一个纯函数（为什么是像，因为除了函数式组件以外，还有 class 组件），
+在 react 开发中纯函数是被多次提及的，
+
+- 比如 react 中组件就被要求像是一个纯函数（为什么是像，因为除了函数式组件以外，还有 class 组件），
 - redux 中有一个 reducer 的概念，也是要求必须是一个纯函数；
 
 所以掌握纯函数对于理解很多框架的设计是非常有帮助的；
@@ -200,7 +202,7 @@ npm i redux
 
 基本使用
 
-## 获取 store 中的数据
+## 创建 store
 
 05-learn-redux\src\store\index.js
 
@@ -225,6 +227,8 @@ const store = createStore(reducer)
 
 module.exports = store
 ```
+
+## 获取 store 中的数据
 
 05-learn-redux\src\01-使用store中的数据.js
 

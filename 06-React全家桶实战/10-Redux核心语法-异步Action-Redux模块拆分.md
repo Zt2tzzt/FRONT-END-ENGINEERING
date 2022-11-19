@@ -350,9 +350,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(Category)
 - redux-thunk 是如何做到让我们可以发送异步的请求呢？
 	- 我们知道，默认情况下的 dispatch，action 需要是一个 JavaScript 的对象；
 	- redux-thunk 可以让 store 派发一个函数类型的 action。
-	- 该函数会被调用，并且会传给这个函数两个参数，分别是： dispatch 函数和，getState 函数；
-		- dispatch 函数用于我们之后再次派发对象类型的 action；
-		- getState 函数考虑到我们之后的一些操作需要依赖原来的状态，用于让我们可以获取之前的一些状态；
+	- 该函数会被调用，并且会传给这个函数两个参数，分别是： `dispatch` 函数和，`getState` 函数；
+		- `dispatch` 函数用于我们之后再次派发对象类型的 action；
+		- `getState` 函数考虑到我们之后的一些操作需要依赖原来的状态，用于让我们可以获取之前的一些状态；
 
 
 ## 总结如何使用 redux-thunk。
@@ -364,7 +364,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Category)
    ```
 
 2. 在创建 store 时传入应用了 middleware 的 enhance 函数：
-	- 通过 applyMiddleware 来结合多个 Middleware, 返回一个 enhancer；
+	- 通过 `applyMiddleware` 来结合多个 Middleware, 返回一个 enhancer；
 	- 将 enhancer 作为第二个参数传入到 createStore 中；
 
 	```js
@@ -432,9 +432,8 @@ export default store
 因此，我们需要对 reducer 进行拆分：
 - 我们先抽取一个对 counter 处理的 reducer；
 - 再抽取一个对 home 处理的 reducer；
-- 将它们合并起来；
 
-将 reducer 拆封成一个个小的模块，拆分后的目录结构如下：
+最后将它们合并起来；拆分后的目录结构如下：
 
 <img src="NodeAssets/reducer拆分后的目录结构.jpg" alt="reducer拆分后的目录结构" style="zoom:67%;" />
 
@@ -575,8 +574,8 @@ export class App extends PureComponent {
 
   componentDidMount() {
     store.subscribe(() => {
-      const state = store.getState().counter
-      this.setState({ counter: state.counter })
+      const counterState = store.getState().counter
+      this.setState({ counter: counterState.counter })
     })
   }
 
@@ -668,7 +667,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(About)
 
 - 事实上，redux 给我们提供了一个 combineReducers 函数可以方便的让我们对多个 reducer 进行合并： 
 - 那么 combineReducers 是如何实现的呢？ 
-	- 事实上，它也是将我们传入的 reducers 合并到一个对象中，最终返回一个 combination 的函数（相当于我们之前的 reducer 函 数了）；
+	- 事实上，它也是将我们传入的 reducers 合并到一个对象中，最终返回一个 combination 的函数（相当于我们之前的 reducer 函数了）；
 	- 在执行 combination 函数的过程中，它会通过判断前后返回的数据是否相同来决定返回之前的 state 还是新的 state；
 	- 新的 state 会触发订阅者发生对应的刷新，而旧的 state 可以有效的组织订阅者发生刷新；
 
