@@ -4,7 +4,7 @@ Redux Toolkit 是官方推荐的编写 Redux 逻辑的库。
 - 在前面我们使用 Redux 时应该已经发现：
 	- redux 的编写逻辑过于的繁琐和麻烦，并且代码通常分拆在多个文件中（虽然也可以放到一个文件管理，但是代码量过多，不利于管理）;
 	- 创建 store 时，createStore API 也已不再推荐使用。
-- Redux Toolkit 库旨在成为编写 Redux 逻辑的标准方式，从而解决上面提到的问题；在很多地方为了称呼方便，也将之称为“RTK”；
+- Redux Toolkit 库可解决以上问题，它旨在成为编写 Redux 逻辑的标准方式，在很多地方也将之称为“RTK”；
 
 安装 Redux Toolkit：
 
@@ -12,9 +12,10 @@ Redux Toolkit 是官方推荐的编写 Redux 逻辑的库。
 npm install @reduxjs/toolkit react-redux
 ```
 
-Redux Toolkit 的核心API主要是如下几个：
+Redux Toolkit 的核心 API 主要是如下几个：
 
-- `configureStore`：包装 createStore 以提供简化的配置选项和良好的默认值。它可以自动组合你的 slice reducer，添加你提供的任何Redux 中间件，默认包含 redux-thunk，并启用 Redux DevTools Extension。
+- `configureStore`：包装 createStore 以提供简化的配置选项和良好的默认值。它可以自动组合你的 slice reducer，添加你提供的任何 Redux 中间件，
+  - 默认包含 redux-thunk，并启用 Redux DevTools Extension。
 - `createSlice`：接受 reducer 函数的对象、切片名称和初始状态值，并自动生成切片 reducer，并带有相应的 actions。
 - `createAsyncThunk`: 接受一个动作类型字符串和一个返回承诺的函数，并生成一个 pending / fulfilled / rejected 基于该承诺分
   派动作类型的 thunk
@@ -353,20 +354,143 @@ export const { changeBanners, changeRecommends } = homeSlice.actions
 export default homeSlice.reducer
 ```
 
+## 异步操作还能怎么实现？
 
+在网络请求获取到结果后，直接 dispatch action
 
+07-learn-reduxtoolkit\src\store\features\home.js
 
+```js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios'
 
+export const fetchHomeMultidateAction = createAsyncThunk('home/multidata', async (payload, { dispatch, getState }) => {
+	console.log('payload:', payload)
+	// payload: {name: 'zzt', age: 18}
 
+	// 1. 发送网络请求
+	const res = await axios.get("http://123.207.32.32:8000/home/multidata")
+	// 2.取出数据，并且在此处直接 dispatch action
+	const banners = res.data.data.banner.list
+	const recommends = res.data.data.recommend.list
+	dispatch(changeBanners(banners))
+	dispatch(changeRecommends(recommends))
+})
 
+const homeSlice = createSlice({
+	name: 'home',
+	initialState: {
+		banners: [],
+		recommends: []
+	},
+	reducers: {
+		changeBanners(state, { payload }) {
+			state.banners = payload
+		},
+		changeRecommends(state, { payload }) {
+			state.recommends = payload
+		}
+	}
+})
 
+export const { changeBanners, changeRecommends } = homeSlice.actions
+export default homeSlice.reducer
+```
 
+# Redux Toolkit 中数据不可变的原理
 
+- 在 React 开发中，我们总是会强调数据的不可变性： 
+	- 无论是类组件中的 state，还是 redux 中管理的 state；如果 state 不修改，就不会通知订阅者，也就不会产生页面刷新。
+	- 事实上在整个 JavaScript 编码过程中，数据的不可变性都是非常重要的；
 
+- 所以在前面我们经常会进行浅拷贝来完成某些操作，但是浅拷贝事实上也是存在问题的： 
+	- 比如过大的对象，进行浅拷贝也会造成性能的浪费； 
+	- 比如浅拷贝后的对象，在深层改变时，依然会对之前的对象产生影响；
 
+- 事实上 Redux Toolkit 底层使用了 immerjs 的一个库来保证数据的不可变性。immutable.js 和 immer.js 是两个库。
+- [immutable-js 库的底层原理和使用方法](https://mp.weixin.qq.com/s/hfeCDCcodBCGS5GpedxCGg)
 
-- 在函数 action 中直接派发数据。
+- 为了节约内存，它们实现了一个新的算法：Persistent Data Structure（持久化数据结构或一致性数据结构）； 
+	- 用一种数据结构来保存数据； 
+	- 当数据被修改时，会返回一个对象，但是新的对象会尽可能的利用之前的数据结构而不会对内存造成浪费；
 
-* 了解 Redux Toolkit 中数据不可变的原理。
-* 自己封装 redux-react 中的 connect 函数。
-	- 使用 Context 处理 store，对 store 进行解耦操作。
+<img src="NodeAssets/Persistent Data Structure.gif" alt="Persistent Data Structure1" style="zoom:80%;" />
+
+# 自定义 connect 函数
+
+自己封装 redux-react 中的 connect 函数。
+
+07-learn-reduxtoolkit\src\hoc\connect.js
+
+```js
+import { PureComponent } from 'react'
+import { StoreContext } from './StoreContext'
+
+export function connect(mapStateToProps, mapDispatchToProps) {
+	// 返回一个高阶组件
+	return function (OriginCpn) {
+		return class extends PureComponent {
+			static contextType = StoreContext // 就是 store
+
+			constructor(props, context) {
+				super(props)
+				this.state = mapStateToProps(context.getState())
+			}
+			componentDidMount() {
+				this.unSubscripbe = this.context.subscriibe(() => {
+					this.setState(mapStateToProps(this.context.getState()))
+				})
+			}
+			componentWillUnmount() {
+				this.unSubscripbe()
+			}
+			render() {
+				const stateObj = mapStateToProps(this.context.getState())
+				const dispatchObj = mapDispatchToProps(this.context.dispatch)
+				return <OriginCpn {...this.props} {...stateObj} {...dispatchObj} />
+			}
+		}
+	}
+}
+```
+
+使用 Context 处理 store，对 store 进行解耦操作。
+
+07-learn-reduxtoolkit\src\hoc\StoreContext.js
+
+```js
+import { createContext } from 'react'
+
+export const StoreContext = createContext()
+```
+
+07-learn-reduxtoolkit\src\hoc\index.js
+
+```js
+export { StoreContext } from './StoreContext'
+export { connect } from './connect'
+```
+
+为 App 提供 store
+
+07-learn-reduxtoolkit\src\index.js
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// import { Provider } from "react-redux"
+import { StoreContext } from "./hoc"
+import App from './App';
+import store from './store';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    {/* <Provider store={store}> */}
+		<StoreContext.Provider value={store}>
+			<App />
+		</StoreContext.Provider>
+    {/* </Provider> */}
+  </React.StrictMode>
+);
+```
