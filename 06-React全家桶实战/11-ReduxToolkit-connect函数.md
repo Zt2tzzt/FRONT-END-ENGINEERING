@@ -3,10 +3,11 @@
 Redux Toolkit 是官方推荐的编写 Redux 逻辑的库。
 - 在前面我们使用 Redux 时应该已经发现：
 	- redux 的编写逻辑过于的繁琐和麻烦，并且代码通常分拆在多个文件中（虽然也可以放到一个文件管理，但是代码量过多，不利于管理）;
-	- 创建 store 时，createStore API 也已不再推荐使用。
-- Redux Toolkit 库可解决以上问题，它旨在成为编写 Redux 逻辑的标准方式，在很多地方也将之称为“RTK”；
+	- 创建 store 时，`createStore` API 也已不再推荐使用。
+- Redux Toolkit 库可解决以上问题，
+  - 它旨在成为编写 Redux 逻辑的标准方式，在很多地方也将之称为“RTK”；
 
-安装 Redux Toolkit：
+安装 Redux Toolkit，推荐和 react-redux 一起使用：
 
 ```shell
 npm install @reduxjs/toolkit react-redux
@@ -15,9 +16,9 @@ npm install @reduxjs/toolkit react-redux
 Redux Toolkit 的核心 API 主要是如下几个：
 
 - `configureStore`：包装 createStore 以提供简化的配置选项和良好的默认值。它可以自动组合你的 slice reducer，添加你提供的任何 Redux 中间件，
-  - 默认包含 redux-thunk，并启用 Redux DevTools Extension。
-- `createSlice`：接受 reducer 函数的对象、切片名称和初始状态值，并自动生成切片 reducer，并带有相应的 actions。
-- `createAsyncThunk`: 接受一个动作类型字符串和一个返回承诺的函数，并生成一个 pending / fulfilled / rejected 基于该承诺分
+  - 默认包含 redux-thunk 中间件，并启用 Redux DevTools Extension。
+- `createSlice`：接收【切片名称】、【初始状态值】、【包含 reducer 函数的对象】，并自动生成切片 reducer，并带有相应的 actions。
+- `createAsyncThunk`: 接收一个动作类型字符串和一个返回承诺的函数，并生成一个 pending / fulfilled / rejected 基于该承诺分
   派动作类型的 thunk
 
 # Redux Toolkit 基本使用
@@ -37,12 +38,12 @@ const counterSlice = createSlice({
 		counter: 888
 	},
 	reducers: {
-		addNumber(state, action) { // 该方法中编写的逻辑，相当于以前 reducer 函数中 case 语句中编写的逻辑。
+		addNumberAction(state, action) { // 该方法中编写的逻辑，相当于以前 reducer 函数中 case 语句中编写的逻辑。
 			console.log(action.type, action.payload)
-			// couter/addNumber 5
+			// couter/addNumberAction 5
 			state.counter = state.counter + action.payload
 		},
-		subNumber(state, action) {
+		subNumberAction(state, action) {
 			state.counter = state.counter - action.payload
 		}
 	}
@@ -76,7 +77,7 @@ export default store
 ```jsx
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux';
-import { addNumber } from '../store/features/counter'
+import { addNumberAction } from '../store/features/counter'
 
 export class About extends PureComponent {
 	render() {
@@ -99,7 +100,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
 	addNumber(num) {
-		dispatch(addNumber(num))
+		dispatch(addNumberAction(num))
 	}
 })
 
@@ -116,12 +117,12 @@ createSlice 需要传入一个对象，该对象主要包含以下属性：
 	- 第一次初始化时的值；
 - `reducers`：相当于之前的 reducer 函数
 	- 对象类型，并且可以添加很多的函数；
-	- 函数类似于redux原来reducer中的一个case语句；
+	- 函数类似于 redux 原来 reducer 中的一个 case 语句；
 	- 函数的参数： 
-		- 参数一：state 
-		- 参数二：调用这个action时，传递的action参数；
+		- 参数一：state；
+		- 参数二：action ，其中有属性 type 和 payload；
 
-createSlice返回值是一个对象，包含所有的 actions；
+createSlice 返回值是一个对象，包含所有的 actions；
 
 ## configureStore 的使用
 
@@ -174,7 +175,7 @@ const homeSlice = createSlice({
 		},
 		// 一般监听该状态即可
 		[fetchHomeMultidateAction.fulfilled](state, { payload }) {
-			state.banners = payload.data.banner.list
+			state.banners = payload.data.banner.list // 可直接修改 state 中的值，内部使用了 immer.js 保证数据的不可变
 			state.recommends = payload.data.recommend.list
 		},
 		[fetchHomeMultidateAction.rejected](state, action) {
@@ -287,7 +288,7 @@ export default connect(mapStateToProps)(Profile)
 
 ## createAsyncThunk 的使用
 
-在之前的开发中，我们通过 redux-thunk 中间件让 dispatch 中可以进行异步操作。 Redux Toolkit 默认已经集成了 Thunk 相关的功能：即使用 createAsyncThunk API：
+在之前的开发中，我们通过 redux-thunk 中间件让 dispatch 的 action 中可以进行异步操作。 Redux Toolkit 默认已经集成了 Thunk 相关的功能：即使用 `createAsyncThunk` API：
 
 当 createAsyncThunk 创建出来的 action 被 dispatch 时，会存在三种状态： 
 
@@ -295,12 +296,13 @@ export default connect(mapStateToProps)(Profile)
 - `fulfilled`：获取到最终的结果（有返回值的结果）； 
 - `rejected`：执行过程中有错误或者抛出了异常；
 
-我们可以在 createSlice 的 `entraReducer` 中监听这些结果：
-
+我们可以在 createSlice 的 `extraReducer` 中监听这些结果：
 
 ## extraReducer 另一种写法
 
-- extraReducer 还可以传入一个函数，函数接受一个 builder 参数。 
+链式编程写法：
+
+- `extraReducer` 还可以传入一个函数，函数接收一个 `builder` 参数。 
 - 我们可以向 builder 中添加 case 来监听异步操作的结果：
 
 07-learn-reduxtoolkit\src\store\features\home.js
@@ -335,19 +337,18 @@ const homeSlice = createSlice({
 			state.recommends = payload
 		}
 	},
-	extraReducers: builder => {
-		builder
-			.addCase(fetchHomeMultidateAction.pending, (state, action) => {
-				console.log('fetchHomeMultidateAction pending')
-			})
-			.addCase(fetchHomeMultidateAction.fulfilled, (state, { payload }) => {
-				state.banners = payload.data.banner.list
-				state.recommends = payload.data.recommend.list
-			})
-			.addCase(fetchHomeMultidateAction.rejected, (state, action) => {
-				console.log('fetchHomeMultidateAction rejected')
-			})
-	}
+	extraReducers: builder => builder
+    .addCase(fetchHomeMultidateAction.pending, (state, action) => {
+      console.log('fetchHomeMultidateAction pending')
+    })
+    .addCase(fetchHomeMultidateAction.fulfilled, (state, { payload }) => {
+      state.banners = payload.data.banner.list
+      state.recommends = payload.data.recommend.list
+    })
+    .addCase(fetchHomeMultidateAction.rejected, (state, action) => {
+      console.log('fetchHomeMultidateAction rejected')
+    })
+	
 })
 
 export const { changeBanners, changeRecommends } = homeSlice.actions
@@ -363,19 +364,6 @@ export default homeSlice.reducer
 ```js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-export const fetchHomeMultidateAction = createAsyncThunk('home/multidata', async (payload, { dispatch, getState }) => {
-	console.log('payload:', payload)
-	// payload: {name: 'zzt', age: 18}
-
-	// 1. 发送网络请求
-	const res = await axios.get("http://123.207.32.32:8000/home/multidata")
-	// 2.取出数据，并且在此处直接 dispatch action
-	const banners = res.data.data.banner.list
-	const recommends = res.data.data.recommend.list
-	dispatch(changeBanners(banners))
-	dispatch(changeRecommends(recommends))
-})
 
 const homeSlice = createSlice({
 	name: 'home',
@@ -394,6 +382,20 @@ const homeSlice = createSlice({
 })
 
 export const { changeBanners, changeRecommends } = homeSlice.actions
+
+export const fetchHomeMultidateAction = createAsyncThunk('home/multidata', async (payload, { dispatch, getState }) => {
+	console.log('payload:', payload)
+	// payload: {name: 'zzt', age: 18}
+
+	// 1. 发送网络请求
+	const res = await axios.get("http://123.207.32.32:8000/home/multidata")
+	// 2.取出数据，并且在此处直接 dispatch action
+	const banners = res.data.data.banner.list
+	const recommends = res.data.data.recommend.list
+	dispatch(changeBanners(banners))
+	dispatch(changeRecommends(recommends))
+})
+
 export default homeSlice.reducer
 ```
 
@@ -407,12 +409,15 @@ export default homeSlice.reducer
 	- 比如过大的对象，进行浅拷贝也会造成性能的浪费； 
 	- 比如浅拷贝后的对象，在深层改变时，依然会对之前的对象产生影响；
 
-- 事实上 Redux Toolkit 底层使用了 immerjs 的一个库来保证数据的不可变性。immutable.js 和 immer.js 是两个库。
+- 事实上 Redux Toolkit 底层使用了 immerjs 库来保证数据的不可变性
+
+  > immutable.js 和 immer.js 是两个库。
+
 - [immutable-js 库的底层原理和使用方法](https://mp.weixin.qq.com/s/hfeCDCcodBCGS5GpedxCGg)
 
 - 为了节约内存，它们实现了一个新的算法：Persistent Data Structure（持久化数据结构或一致性数据结构）； 
 	- 用一种数据结构来保存数据； 
-	- 当数据被修改时，会返回一个对象，但是新的对象会尽可能的利用之前的数据结构而不会对内存造成浪费；
+	- 当数据被修改时，会返回一个对象，该新对象会尽可能的利用之前的数据结构而不会对内存造成浪费；
 
 <img src="NodeAssets/Persistent Data Structure.gif" alt="Persistent Data Structure1" style="zoom:80%;" />
 
@@ -475,7 +480,7 @@ export { connect } from './connect'
 
 07-learn-reduxtoolkit\src\index.js
 
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // import { Provider } from "react-redux"

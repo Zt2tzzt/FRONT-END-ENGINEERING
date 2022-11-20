@@ -80,7 +80,7 @@ React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaS
 
 ## 使用 classnames 库
 
-也可以借助于一个第三方的库`classnames`来动态添加样式。
+也可以借助于一个第三方的库 `classnames` 来动态添加样式。
 
 1. 安装 classnames；
 
@@ -148,9 +148,9 @@ React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaS
   - 无论是组件定义自己的 state，还是组件之间的通信通过 props 进行传递；也包括通过 Context 进行数据之间的共享； 
   - React 主要负责帮助我们管理视图，state 如何维护最终还是我们自己来决定；
 - Redux 就是一个帮助我们管理 State 的容器：Redux 是 JavaScript 的状态容器，提供了可预测的状态管理；
-- Redux 除了和 React 一起使用之外，它也可以和其他界面库一起来使用（比如 Vue），并且它非常小（包括依赖在内，只有2kb）
+- Redux 除了和 React 一起使用之外，它也可以和其他框架一起来使用（比如 Vue），并且它非常小（包括依赖在内，只有2kb）
 
-# Redux 的核心理念 store。
+# Redux 的核心理念 state
 
 
 - Redux 的核心理念非常简单。 
@@ -174,11 +174,11 @@ const initialState = {
 
 - Redux 要求我们通过 action 来更新数据： 
   - 所有数据的变化，必须通过派发（dispatch）action 来更新； 
-  - action 是一个普通的 JavaScript 对象，用来描述这次更新的 type 和 content；
+  - action 是一个普通的 JavaScript 对象，用来描述这次更新的 `type` 和 `content`；
 - 比如下面就是几个更新 friends 的 action： 
   - 强制使用 action 的好处是可以清晰的知道数据到底发生了什么样的变化，所有的数据变化都是可跟追、可预测的； 
   - 当然，目前我们的 action 是固定的对象；
-  - 真实应用中，我们会通过函数来定义，返回一个action；
+  - 真实应用中，我们会通过函数来定义，返回一个 action；
 
 ```js
 const action1 = { type: 'ADD_FRIEND', info: {name: 'curry', age: 39 } }
@@ -189,10 +189,10 @@ const action3 = { type: 'CHANGE_NAME', payload: {newName: 'ZeT1an', index: 0} }
 # Redux 的核心理念 reducer
 
 - reducer 将 state 和 action 联系在一起。
-  - reducer 是一个纯函数；
-  - reducer 做的事情就是将传入的 state 和 action 结合起来生成一个新的 state；
+- reducer 是一个纯函数；
+- reducer 做的事情就是将传入的 state 和 action 结合起来生成一个新的 state；
 
-# Redux 的使用初体验.
+# Redux 的使用初体验
 
 安装 redux
 
@@ -475,7 +475,7 @@ unSubscribe() // 取消订阅
 1. actionCreators 和 reducer 函数中使用字符串常量是一致的, 所以将常量抽取到一个独立 constants 的文件中。
 2. 将派发的 action 生成过程放到一个 actionCreators 函数中。
 3. 将定义的所有 actionCreators 的函数, 放到一个独立的文件中: actionCreators.js。
-4. 将 reducer 和默认值 (initialState) 放到一个独立的 reducer.js 文件中, 而不是在 index.js
+4. 将 reducer 和初始状态 (initialState) 放到一个独立的 reducer.js 文件中, 而不是在 index.js
 
 # 理解 Redux 的使用流程图解。
 
@@ -495,6 +495,7 @@ Redux 使用流程官方图解
   - 整个应用程序的 state 被存储在一颗 object tree 中，并且这个 object tree 只存储在一个 store 中：
   - Redux 并没有强制让我们不能创建多个 Store，但是那样做并不利于数据的维护； 
   - 单一的数据源可以让整个应用程序的 state 变得方便维护、追踪、修改（概念类似于 Vuex，与 Pinia 不同）；
+  
 - State 是只读的 
   - 唯一修改 State 的方法一定是触发 action。
   
@@ -507,10 +508,9 @@ Redux 使用流程官方图解
     > 经过 reducer 进行 state 修改，能够明确调用顺序，不会造成竟态。
   
 - 使用纯函数来执行修改 
-  - 通过 reducer 将旧 state 和 actions 联系在一起，并且返回一个新的 State： 
-  - 随着应用程序的复杂度增加，我们可以将 reducer 拆分成多个小的 reducers，分别操作不同 state tree 的一部分；
-
   - 但是所有的 reducer 都应该是纯函数，不能产生任何的副作用；
+
+通过 reducer 将旧 state 和 actions 联系在一起，并且返回一个新的 State：随着应用程序的复杂度增加，我们可以将 reducer 拆分成多个小的 reducers，分别操作不同 state tree 的一部分；
 
 # node 中对 ES6 模块的支持。
 

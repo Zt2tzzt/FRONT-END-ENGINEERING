@@ -16,7 +16,7 @@
   - 通过 `lang` 属性来设置你喜欢的 less、sass 等预处理器；
   - 通过内联样式风格的方式来根据最新状态设置和改变 css；
 
-- Vue 在 CSS上虽然不能称之为完美，但是已经足够简洁、自然、方便了，至少统一的样式风格不会出现多个开发人员、多个项目采用不一样的样式风格。
+- Vue 在 CSS 上虽然不能称之为完美，但是已经足够简洁、自然、方便了，至少统一的样式风格不会出现多个开发人员、多个项目采用不一样的样式风格。
 
 # React 中的 CSS
 
@@ -174,7 +174,7 @@ export default App
 ## 两种方案：
 
 - 方案一：使用 `npm run eject`，在弹出的配置文件中进行修改。
-- 方案二：使用 craco（create-react-app config）
+- 方案二：使用 `craco`（create-react-app config）
 
 > React 2个 UI 库使用 CSS 的方式
 >
@@ -298,22 +298,22 @@ export default App
 	- 所以，目前可以说 CSS-in-JS 是 React 编写 CSS 最为受欢迎的一种解决方案；
 
 - 目前比较流行的 CSS-in-JS 的库有哪些呢？
-	- styled-components
-	- emotion
-	- glamorous
+	- `styled-components`
+	- `emotion`
+	- `glamorous`
 
-- 目前可以说 styled-components 依然是社区最流行的 CSS-in-JS 库。
+- 目前可以说 `styled-components` 依然是社区最流行的 CSS-in-JS 库。
 
 ## 使用 styled-components
 
-1. 安装 styled-components：
+1. 安装 `styled-components`：
 
    ```shell
    npm install styled-components
    ```
 > 回顾标签模板字符串的用法。
 
-2. 安装 VSCode-style-component 插件，使代码高亮。
+2. 安装 `VSCode-style-component` 插件，使代码高亮。
 
 ### 基本使用。
 
@@ -352,9 +352,9 @@ export class App extends PureComponent {
 export default App
 ```
 
-- styled-components 的本质是通过函数的调用，最终创建出一个组件：
+- `styled-components` 的本质是通过函数的调用，最终创建出一个组件：
 	- 这个组件会被自动添加上一个不重复的 class；
-	- styled-components 会给该 class 添加相关的样式；
+	- `styled-components` 会给该 class 添加相关的样式；
 
 - 另外，它支持类似于 CSS 预处理器一样的样式嵌套：
 	- 支持直接子代选择器或后代选择器，并且直接编写样式；
