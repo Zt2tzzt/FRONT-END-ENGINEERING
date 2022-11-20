@@ -9,3 +9,7 @@
 * 配置路由的跳转。Link 和 NavLink 的使用。
 * 使用 Navigate 用于做重定向。
 * NotFound 页面配置。
+* 路由的嵌套。
+* 使用命令式编程（代码）实现路由跳转。
+	- React-router 6 中提供了 useNavigate API 做手动跳转，但只能在函数式组件中使用。
+	- Hook相关 API 只能放到顶层使用。
