@@ -43,7 +43,7 @@ Node 中的内置模块 path 有什么用？
 - 拼接绝对路径：`path.resolve()` **常用**
   - path.resolve() 方法会把一个路径或路径片段的序列解析为一个**绝对路径**；
   - 给定的路径的序列参数是**从右往左**被处理的，后面每个 path 被依次解析，直到构造完成一个绝对路径；
-  - 如果在处理完所有给定 path 路径序列之后，还没有生成绝对路径，则使用当前工作目录；
+  - 如果在处理完所有给定 path 路径序列之后，还没有生成绝对路径，则使用当前工作目录来生成绝对路径；
     - 绝对路径是用 `/` 开头来表示的路径，而非 `./` 或 `../`
   -  生成的路径被规范化并删除尾部斜杠，零长度 path 段被忽略；
   - 如果没有 path 传递段，path.resolve() 将返回当前工作目录的绝对路径；
@@ -52,8 +52,6 @@ Node 中的内置模块 path 有什么用？
   const path = require('path')
   path.resolve("./abc/cba", "../zzt/kobe", "./abc.txt") // D:\Workshop\Mobile_HDD\coderwhy-fromt-end-system\FRONT-END-ENGINEERING\demo-project\src\abc\zzt\kobe\abc.txt
   ```
-
------
 
 # webpack 打包基础
 
@@ -70,8 +68,6 @@ webpack 可应用于哪些场景？
 	- 事实上，这三大框架的创建过程都是借助于脚手架（CLI）的； 
 		- Vue-CLI、create-react-app、Angular-CLI 都是基于 webpack 来帮助我们支持模块化、其中就包括 less、TypeScript、打包优化等等；
 
------
-
 一句话说明 webpack 是什么
 
 - webpack 是一个为现代 JavaScript 应用程序而生的静态模块化打包工具。
@@ -79,8 +75,6 @@ webpack 可应用于哪些场景？
 	- 静态的（static）：最终可以将代码打包成静态资源（部署到静态服务器）。
 	- 模块化（module）：默认支持各种模块化开发，ESMoudule、CommonJS、AMD、CMD。
 	- 打包（bundler）：webpack 可帮助我们进行打包，所以它是一个打包工具。
-
----
 
 ## webpack 的工作原理
 
@@ -112,7 +106,7 @@ webpack 可应用于哪些场景？
 
 webpack 的使用前提，依赖 Node 环境，
 
-- webpack 的中文官方文档是 https://webpack.docschina.org/
+- webpack [中文官方文档](https://webpack.docschina.org/)
 
 webpack 的安装分两部分 webpack，webpack-cli（如果要在命令行执行命令，那么必须安装）
 

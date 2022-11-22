@@ -4,13 +4,13 @@
 
 devServer 中使用 host 设置主机地址，两个值，区别
 
-- 默认值是 locahost：
+- 默认值是 `locahost`：
   - 本质是域名，会被解析为 127.0.0.1，它是回环地址（loop back address），意思是主机自己发送的包，被自己接收。
   - 正常的数据包经过**应用层-传输层-网络层-数据链路层-物理层**，在回环地址中，数据包在网络层被获取到，不会经过后面2层。
   - 比如我们监听 127.0.0.1 时，在同一个网段下的主机中，通过 ip 地址是不能访问的;
 - 0.0.0.0：( windows 浏览器解析可能会出错。)
   - 监听 IPV4 上所有的地址，再根据端口找到不同的应用程序。
-  - 比如监听 0.0.0.0 时，同一网段下的主机，通过 ip 地址可以访问
+  - 比如监听 0.0.0.0 时，同一网段下的主机，通过 ip 地址可以访问。
 
 ```javascript
 module.exports = {
@@ -19,8 +19,6 @@ module.exports = {
   }
 }
 ```
-
-------
 
 ##  port，open，compress 配置
 
@@ -42,8 +40,6 @@ module.exports = {
 }
 ```
 
-------
-
 ## 跨域问题怎么产生的？
 
 比如一个 api 请求是 `http://localhost:8888` ，但本地启动服务器域名是 `http://localhost:8000`，这个时候浏览器发送网络请求就会出现跨域问题。
@@ -55,8 +51,6 @@ module.exports = {
 - 使用 nginx 代理访问静态资源和 api
 
 以上方式都需要后端参与，那么在前端开发中我们如何临时解决跨域问题？在 webpack 中设置代理。
-
-------
 
 ## proxy 配置
 
@@ -76,14 +70,12 @@ module.exports = {
 					"^/api": '' // 在代理路径中删除掉 /api
 				},
         secure: false, // 在 https 的情况下，仍代理，默认为 true
-        changeOrigin: true // 表示是否更新代理后，请求的 headers 中 host 地址，默认 http://localhost:8000 ,应该为 http://localhost:8888
+        changeOrigin: true // 表示是否更新代理后，请求的 headers 中 host 地址，默认 http://localhost:8000 ,会改为 http://localhost:8888
       }
     }
   }
 }
 ```
-
-------
 
 # 环境区分
 
@@ -104,6 +96,7 @@ module.exports = {
    ```javascript
    const { merge } = require('webpack-merge') 
    const commonConfig = require('./webpack.comm.config')
+   
    module.exports = merge(commonConfig, {
      // ...
    })
@@ -115,6 +108,7 @@ module.exports = {
 
    ```javascript
    const path = require('path')
+   
    module.exports = {
      context: path.resolve(__dirname, './'), // 为入口文件设置相对路径，此时代表 ./config 目录，
      entry: "../src/index.js" // 默认是 ./src/index.js，即 webpack 运行的目录，即项目根目录

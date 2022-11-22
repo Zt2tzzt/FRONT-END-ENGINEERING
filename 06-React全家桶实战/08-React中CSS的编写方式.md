@@ -125,7 +125,7 @@ css modules 并不是 React 特有的解决方案，而是所有使用了类似�
 
 - 如果在其他项目中使用它，那么我们需要自己来进行配置，比如配置 webpack.config.js 中的 `modules: true` 等。
 
-React 的脚手架已经内置了 css modules 的配置：
+- React 的脚手架已经内置了 css modules 的配置：
 - .css/.less/.scss 等样式文件都需要修改成 `.module.css`、`.module.less`、`.module.scss` 等；之后就可以引用并且进行使用了；
 
 css modules 确实解决了局部作用域的问题，也是很多人喜欢在 React 中使用的一种方案。但是这种方案也有自己的缺陷：
@@ -278,31 +278,32 @@ export default App
 
 # CSS in JS 的写法
 
-- 官方文档也有提到过 CSS in JS 这种方案：
-	- 这是指一种模式，其中 CSS 由 JavaScript 生成而不是在外部文件中定义；
-	- 注意此功能并不是 React 的一部分，而是由第三方库提供；**React 对样式如何定义并没有明确态度**；
+官方文档也有提到过 CSS in JS 这种方案：
+- 这是指一种模式，其中 CSS 由 JavaScript 生成而不是在外部 css 文件中定义；
+- 注意此功能并不是 React 的一部分，而是由第三方库提供；**React 对样式如何定义并没有明确态度**；
 
-- 在传统的前端开发中，我们通常会将结构（HTML）、样式（CSS）、逻辑（JavaScript）进行分离。
-	- 但是在前面的学习中，我们就提到过，React 的思想中认为逻辑本身和 UI 是无法分离的，所以才会有了 JSX 的语法。而样式也是属于 UI 的一部分；
-	- 事实上 CSS-in-JS 的模式就是一种将样式（CSS）也写入到 JavaScript 中的方式，并且可以方便的使用 JS 中的状态；
-	- 这种写法又被人称之为 All in JS；
+在传统的前端开发中，我们通常会将结构（HTML）、样式（CSS）、逻辑（JavaScript）进行分离。
+- 但是在前面的学习中，我们就提到过，React 的思想中认为逻辑本身和 UI 是无法分离的，所以才会有了 JSX 的语法。而样式也是属于 UI 的一部分；
+- 事实上 CSS-in-JS 的模式就是一种将样式（CSS）也写入到 JavaScript 中的方式，并且可以方便的使用 JS 中的状态；
+- 这种写法又被人称之为 All in JS；
 
-- 当然，这种开发的方式也受到了很多的批评：
-	- [Stop using CSS in JavaScript for web development](https://hackernoon.com/stop-using-css-in-javascript-for-web-development-fa32fb873dcc)
+当然，这种开发的方式也受到了很多的批评：
+
+- [Stop using CSS in JavaScript for web development](https://hackernoon.com/stop-using-css-in-javascript-for-web-development-fa32fb873dcc)
 
 ## 认识 styled-components
 
-- 批评声音虽然有，但是在我们看来很多优秀的 CSS-in-JS 的库依然非常强大、方便：
-	- CSS-in-JS 通过 JavaScript 来为 CSS 赋予一些能力，包括类似于 CSS 预处理器一样的样式嵌套、函数定义、逻辑复用、动态修改状态等等；
-	- 虽然 CSS 预处理器也具备某些能力，但是**获取动态状态**依然是一个不好处理的点；
-	- 所以，目前可以说 CSS-in-JS 是 React 编写 CSS 最为受欢迎的一种解决方案；
+批评声音虽然有，但是在我们看来很多优秀的 CSS-in-JS 的库依然非常强大、方便：
+- CSS-in-JS 通过 JavaScript 来为 CSS 赋予一些能力，包括类似于 CSS 预处理器一样的样式嵌套、函数定义、逻辑复用、动态修改状态等等；
+- 虽然 CSS 预处理器也具备某些能力，但是**获取动态状态**依然是一个不好处理的点；
+- 所以，目前可以说 CSS-in-JS 是 React 编写 CSS 最为受欢迎的一种解决方案；
 
-- 目前比较流行的 CSS-in-JS 的库有哪些呢？
-	- `styled-components`
-	- `emotion`
-	- `glamorous`
+目前比较流行的 CSS-in-JS 的库有哪些呢？
+- `styled-components`
+- `emotion`
+- `glamorous`
 
-- 目前可以说 `styled-components` 依然是社区最流行的 CSS-in-JS 库。
+目前可以说 `styled-components` 依然是社区最流行的 CSS-in-JS 库。
 
 ## 使用 styled-components
 
@@ -352,24 +353,23 @@ export class App extends PureComponent {
 export default App
 ```
 
-- `styled-components` 的本质是通过函数的调用，最终创建出一个组件：
-	- 这个组件会被自动添加上一个不重复的 class；
-	- `styled-components` 会给该 class 添加相关的样式；
+`styled-components` 的本质是通过函数的调用，最终创建出一个组件：
 
-- 另外，它支持类似于 CSS 预处理器一样的样式嵌套：
-	- 支持直接子代选择器或后代选择器，并且直接编写样式；
-	- 可以通过 `&` 符号获取当前元素；
-	- 支持伪类选择器、伪元素等；
+- 这个组件会被自动添加上一个不重复的 class；
+- `styled-components` 会给该这个 class 添加相关的样式；
+
+另外，它支持类似于 CSS 预处理器一样的样式嵌套：
+- 支持直接子代选择器或后代选择器嵌套编写；
+- 可以通过 `&` 符号获取当前元素；
+- 支持伪类选择器、伪元素等；
 
 ### props、attrs 属性的使用
 
-- props 可以传递
+props 可以被传递给 styled 组件
+- 获取 props 需要通过 `${}` 传入一个插值函数，props 会作为该函数的参数；
+- 这种方式可以有效的解决动态样式的问题；
 
-- props 可以被传递给 styled 组件
-	- 获取 props 需要通过 `${}` 传入一个插值函数，props 会作为该函数的参数；
-	- 这种方式可以有效的解决动态样式的问题；
-
-- 添加 attrs 属性
+在 attrs 方法中为 props 中的属性添加默认值。
 
 04-learn-react-css\src\05-CSS-IN-JS\variables.js
 

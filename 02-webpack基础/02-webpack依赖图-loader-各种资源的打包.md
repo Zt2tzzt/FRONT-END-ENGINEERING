@@ -24,33 +24,30 @@ import '../css/style.css'
 
 # webpack loader
 
-什么是 loader？
+## 什么是 loader？
 
 1. loader 可用于对模块的源代码进行转换。
 2. 比如将 css 文件看作一个模块，我们通过 `import` 来加载这个模块，
 3. 在加载这个模块时，webpack 并不知道如何对其加载，必须制定对应的 loader 来完成这个功能。
 4. webpack 默认可以对 JS 打包，所以不需要 JS 的 loader
 
-loader 的配置方式
+## loader 的配置方式
 
-- 配置方式表示的意思是在我们的 webpack.config.js 文件中写明配置信息： 
-	- module.rules 中允许我们配置多个 loader（因为我们也会使用不止一个 loader，来完成其他文件模块的加载）； 
-	- 这种方式可以更好的表示 loader 的配置，也方便后期的维护，同时也让你对各个 Loader 有一个全局的概览；
+配置方式表示的意思是在我们的 webpack.config.js 文件中写明配置信息： 
+- module.rules 中允许我们配置多个 loader（因为我们也会使用不止一个 loader，来完成其他文件模块的加载）； 
+- 这种方式可以更好的表示 loader 的配置，也方便后期的维护，同时也让你对各个 Loader 有一个全局的概览；
 
 module.rules 的配置如下： 
 
 - rules 属性对应的值是一个数组：[Rule] 
 - 数组中存放的是一个个 Rule 对象，其中可以设置多个属性： 
 	- test 属性：用于对 resource（资源）进行匹配的，通常会设置成正则表达式； 
-	- use 属性：对应的值是一个数组：[UseEntry] 
-		- UseEntry 是一个对象，可以通过对象的属性来设置一些其他属性 
-			- loader：必须的属性，对应的是一个字符串； 
-			- options：可选的属性，值是一个字符串或者对象，值会被传入到 loader 中； 
-			- query：目前已经使用 options 来替代；
-		- 传递字符串（如：use: [ 'style-loader' ]）是 loader 属性的简写方式（如：use: [ { loader: 'style-loader'} ]）；
+	- use 属性：对应的值是一个数组：数组中包含一个个的 [UseEntry]，它是一个对象，可以通过对象的属性来设置一些其他属性。
+		- loader：必须的属性，对应的是一个字符串； 
+		- options：可选的属性，值是一个字符串或者对象，值会被传入到 loader 中； 
+		- query：目前已经使用 options 来替代；
+		- 传递字符串（如：use: [ 'style-loader' ]）是 loader 属性的简写方式，完整写法如：use: [ { loader: 'style-loader'} ]）；
 	- loader 属性： Rule.use: [ { loader } ] 的简写。
-
-------
 
 # CSS 打包
 
@@ -73,8 +70,6 @@ css-loader 的3种使用方案。
 2. CLI 方式（webpack5 中不再使用），不方便管理。
 
 3. 在 `webpack.config.js` 中写明配置信息，方便后期维护。
-
-------
 
 ## style-loader
 
@@ -108,10 +103,9 @@ module.exports = {
 }
 ```
 
-- 多个 loader 的加载顺序：从下到上，从后到前，从右向左。
-- 使用上述方法，css 打包后是作为内部样式添加到 html 模板文件上。如果要达到使用外部样式引入的效果，需要使用 plugin（后续讲解）
+> 多个 loader 的加载顺序：从下到上，从后到前，从右向左。
 
-------
+使用上述方法，css 打包后是作为内部样式添加到 html 模板文件上。如果要达到使用外部样式引入的效果，需要使用 plugin（后续讲解）
 
 ## less 打包
 
@@ -151,8 +145,6 @@ npx lessc ./src/css/title.less title.css
    }
    ```
    
-
-------
 
 ##  PostCSS 工具
 
@@ -272,8 +264,6 @@ postcss-preset-env 是 postcss 预设的插件，作用是：
 	}
 	```
 
------
-
 # 各种资源打包
 
 在项目中引入图片的2种方式
@@ -291,8 +281,6 @@ postcss-preset-env 是 postcss 预设的插件，作用是：
     background-image: url("xxx")
   }
   ```
-
-------
 
 ## file-loader & url-loader
 
@@ -329,7 +317,7 @@ document.body.append(imgEl)
 
 - [ext]：处理文件的扩展名。
 - [name]：处理文件的名称。
-- [hash]：文件的内容，使用 MD4 的散列函数处理，生成的一个128位的 hash 值（32个十六进制）
+- [hash]：文件的内容，使用 MD4 的散列函数处理，生成的一个 128 位的 hash 值（32个十六进制）
 - [contentHash]：在 file-loader 中和 [hash] 结果是一致的。
 - [hash:\<length\>]：截取 hash 的长度，默认32个字符太长了。
 - [path]：文件相对于 webpack 配置文件的路径。
@@ -386,8 +374,6 @@ module.exports = {
 }
 ```
 
-------
-
 ## asset module type
 
 webpack5 中内置的资源模块类型（asset module type）4个，作用
@@ -405,8 +391,6 @@ webpack5 中内置的资源模块类型（asset module type）4个，作用
 - 往往是小的图片需要转换 base64，而大的图片直接请求即可 。
 - 这是因为小的图片转换 base64 之后可以和页面一起被请求，减少不必要的请求过程；
 - 如果大的图片也进行 base64 转换，反而会影响页面的请求速度；
-
-------
 
 使用 asset module type 配置文件名和路径（2种），实现 limit 效果。
 
@@ -436,8 +420,6 @@ module.exports = {
   }
 }
 ```
-
-------
 
 打包字体的2种方式：
 

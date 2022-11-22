@@ -16,9 +16,10 @@ npm install @reduxjs/toolkit react-redux
 Redux Toolkit 的核心 API 主要是如下几个：
 
 - `configureStore`：包装 createStore 以提供简化的配置选项和良好的默认值。它可以自动组合你的 slice reducer，添加你提供的任何 Redux 中间件，
-  - 默认包含 redux-thunk 中间件，并启用 Redux DevTools Extension。
+  - 默认包含了 redux-thunk 中间件，
+  - 默认启用了 Redux DevTools Extension。
 - `createSlice`：接收【切片名称】、【初始状态值】、【包含 reducer 函数的对象】，并自动生成切片 reducer，并带有相应的 actions。
-- `createAsyncThunk`: 接收一个动作类型字符串和一个返回承诺的函数，并生成一个 pending / fulfilled / rejected 基于该承诺分
+- `createAsyncThunk`: 接收一个动作类型字符串和一个返回承诺的函数，并生成一个拥有 pending / fulfilled / rejected 状态的承诺，基于该承诺分
   派动作类型的 thunk
 
 # Redux Toolkit 基本使用
@@ -48,7 +49,7 @@ const counterSlice = createSlice({
 		}
 	}
 })
-export const { addNumber, subNumber } = counterSlice.actions
+export const { addNumberAction, subNumberAction } = counterSlice.actions
 export default counterSlice.reducer
 ```
 
@@ -402,7 +403,7 @@ export default homeSlice.reducer
 # Redux Toolkit 中数据不可变的原理
 
 - 在 React 开发中，我们总是会强调数据的不可变性： 
-	- 无论是类组件中的 state，还是 redux 中管理的 state；如果 state 不修改，就不会通知订阅者，也就不会产生页面刷新。
+	- 无论是类组件中的 state，还是 redux 中管理的状态；如果 state 不修改，就不会通知订阅者，也就不会产生页面刷新。
 	- 事实上在整个 JavaScript 编码过程中，数据的不可变性都是非常重要的；
 
 - 所以在前面我们经常会进行浅拷贝来完成某些操作，但是浅拷贝事实上也是存在问题的： 
@@ -415,7 +416,7 @@ export default homeSlice.reducer
 
 - [immutable-js 库的底层原理和使用方法](https://mp.weixin.qq.com/s/hfeCDCcodBCGS5GpedxCGg)
 
-- 为了节约内存，它们实现了一个新的算法：Persistent Data Structure（持久化数据结构或一致性数据结构）； 
+- 为了节约内存和性能消耗，它们实现了一个新的算法：Persistent Data Structure（持久化数据结构或一致性数据结构）； 
 	- 用一种数据结构来保存数据； 
 	- 当数据被修改时，会返回一个对象，该新对象会尽可能的利用之前的数据结构而不会对内存造成浪费；
 

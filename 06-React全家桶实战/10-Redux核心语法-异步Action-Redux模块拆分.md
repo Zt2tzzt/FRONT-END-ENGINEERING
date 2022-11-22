@@ -10,11 +10,10 @@
    npm i react-redux
    ```
 
-2. 使用库中的 Provider 组件，为 <App /> 提供 store。
+2. 使用 react-redux 库中的 Provider 组件，为 <App /> 提供 store。
 
-3. 在需要使用 store 的组件中，使用 `connect` 函数返回一个高阶组件。再将原组件传入高阶组件中，使原组件获取 store 中的 state。
+3. 在需要使用 store 的组件中，使用 `connect` 函数返回一个高阶组件。再将原组件传入高阶组件中，并对 state 和 dispatch 进行解耦。
 
-4. 使用 `connect` 函数，使用 store 中的 state。对 dispatch 进行解耦。
 
 总结：connect 是高阶函数，返回一个高阶组件。
 
@@ -86,7 +85,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(About)
 总结 react-redux 的使用：
 
 - 开始之前需要强调一下，redux 和 react 没有直接的关系，你完全可以在 React, Angular, Ember, jQuery, 或者 vanilla JavaScript 中使用 Redux。
-- 尽管这样说，redux 依然是和 React 库结合的更好，因为他们是通过 state 函数来描述界面的状态，Redux 可以发射状态的更新， 让他们作出响应。
+- 尽管这样说，redux 依然是和 React 库结合的更好，因为他们是通过 state 函数来描述界面的状态，Redux 可以发射状态的更新，让他们作出响应。
 - redux 官方帮助我们提供了 react-redux 的库，可以直接在项目中使用，来帮助我们省去 redux 与 react 的结合使用，主要提供了2个 API，如 `connect` 和 `Provier`。并且实现的逻辑会更加的严谨和高效。
 
 # 组件中的异步操作
@@ -240,16 +239,16 @@ export default connect(mapStateToProps)(About)
 
 # Redux 中的异步操作
 
-- 上面的代码有一个缺陷：
-	- 我们必须将网络请求的异步代码放到组件的生命周期中来完成；
-	- 事实上，网络请求到的数据也属于我们状态管理的一部分，更好的一种方式应该是将其也交给 redux 来管理；
+上面的代码有一个缺陷：
+- 我们必须将网络请求的异步代码放到组件的生命周期中来完成；
+- 事实上，网络请求到的数据也属于我们状态管理的一部分，更好的一种方式应该是将其也交给 redux 来管理；
 
-	<img src="NodeAssets/Redux中的异步操作.jpg" alt="Redux中的异步操作" style="zoom:150%;" />
+<img src="NodeAssets/Redux中的异步操作.jpg" alt="Redux中的异步操作" style="zoom:150%;" />
 
-- 但是在 redux 中如何可以进行异步的操作呢？
-	- 答案就是使用中间件（Middleware）；
-	- 学习过 Express 或 Koa 框架的开发者对中间件的概念一定不陌生；
-	- 在这类框架中，Middleware 可以帮助我们在请求和响应之间嵌入一些操作的代码，比如 cookie 解析、日志记录、文件压缩等操作
+但是在 redux 中如何可以进行异步的操作呢？
+- 答案就是使用中间件（Middleware）；
+- 学习过 Express 或 Koa 框架的开发者对中间件的概念一定不陌生；
+- 在这类框架中，Middleware 可以帮助我们在请求和响应之间嵌入一些操作的代码，比如 cookie 解析、日志记录、文件压缩等操作。
 
 ## 案例一
 
@@ -342,20 +341,23 @@ export default connect(mapStateToProps, mapDispatchToProps)(Category)
 
 ## 什么是中间件？
 
-- redux 引入了中间件（Middleware）的概念：
-	- 这个中间件的目的是在 dispatch 的 action 和最终达到的 reducer 之间，扩展一些自己的代码；
-	- 比如日志记录、调用异步接口、添加代码调试功能等等；
-- 我们现在要做的事情就是发送异步的网络请求，所以我们可以添加对应的中间件：
-	- 官方推荐使用 `redux-thunk`；
-- redux-thunk 是如何做到让我们可以发送异步的请求呢？
-	- 我们知道，默认情况下的 dispatch，action 需要是一个 JavaScript 的对象；
-	- redux-thunk 可以让 store 派发一个函数类型的 action。
-	- 该函数会被调用，并且会传给这个函数两个参数，分别是： `dispatch` 函数和，`getState` 函数；
-		- `dispatch` 函数用于我们之后再次派发对象类型的 action；
-		- `getState` 函数考虑到我们之后的一些操作需要依赖原来的状态，用于让我们可以获取之前的一些状态；
+redux 引入了中间件（Middleware）的概念：
+- 这个中间件的目的是在 dispatch 的 action 和最终达到的 reducer 之间，扩展一些自己的代码；
+- 比如日志记录、调用异步接口、添加代码调试功能等等；
+
+我们现在要做的事情就是发送异步的网络请求，所以我们可以添加对应的中间件：
+
+- 官方推荐使用 `redux-thunk`；
+
+redux-thunk 是如何做到让我们可以发送异步的请求呢？
+- 我们知道，默认情况下的 dispatch，action 需要是一个 JavaScript 的对象；
+- redux-thunk 可以让 store 派发一个函数类型的 action。
+- 该函数会被调用，并且会传给这个函数两个参数，分别是： `dispatch` 函数和，`getState` 函数；
+	- `dispatch` 函数用于我们之后再次派发对象类型的 action；
+	- `getState` 函数考虑到我们之后的一些操作需要依赖原来的状态，用于让我们可以获取之前的一些状态；
 
 
-## 总结如何使用 redux-thunk。
+## 总结如何使用 redux-thunk
 
 1. 安装 redux-thunk
 

@@ -577,13 +577,13 @@ npm install react-transition-group
 
 ## 主要组件
 
-- Transition 
+- Transition
 	- 该组件是一个和平台无关的组件（不一定要结合 CSS）； 
 	- 在前端开发中，我们一般是结合 CSS 来完成样式，所以比较常用的是 CSSTransition；
 - CSSTransition 
 	- 在前端开发中，通常使用 CSSTransition 来完成过渡动画效果。
 - SwitchTransition 
-	- 两个组件显示和隐藏切换时，使用该组件
+	- 两个组件显示和隐藏切换时，使用该组件。
 - TransitionGroup
 	- 将多个动画组件包裹在其中，一般用于列表中元素的动画；
 

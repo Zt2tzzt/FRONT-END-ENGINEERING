@@ -13,9 +13,7 @@ Babel 本质上是什么？
 
 - Babel 本质上是一个编译器。
 
-------
-
- Babel 与 PostCSS 一样都支持单独（脱离 webpack）运行，如何单独使用？
+Babel 与 PostCSS 一样都支持单独（脱离 webpack）运行，如何单独使用？
 
 1. 安装两个库：
 
@@ -160,14 +158,14 @@ module.exports = {
 
 Vue 框架源码打包后的两大版本及特点，
 
-- runtime-compiler：包含了对 template 模板的编译代码，更加完整，包更大。
-- runtime-only：没有包含对 template 模板的编译代码，包更小。
+- runtime-compiler：包含了对 template 模板的编译代码，包含了该模块的 vue 包，更加完整，包更大。
+- runtime-only：未包含对 template 模板的编译代码，使得 vue 包更小。
 
 打包后的不同版本：( `.runtime` 意味着不包含 template 的 compiler，包更小，`.prod` 意味做过压缩和丑化)
 
 - vue(.runtime).global(.prod).js：通过浏览器中的 `<script>` 标签引用，暴露一个全局的 Vue。
 - vue(.runtime).esm-broswer(.prod).js：通过原生 ES 模块导入，如在浏览器中使用 `<script type="module">` 引入。
-- vue(.runtime).esm-bundle.js：webpack / rollup 等构建工具中默认使用该版本，如需解析 template，手动指定**非 ` runtime`** 版本。
+- vue(.runtime).esm-bundle.js：webpack / rollup 等构建工具中默认使用该版本，如需解析 template，手动指定**非  runtime** 版本。
 - vue.cjs(.prod).js：服务器端渲染使用，通过 require() 在 Node.js 中使用。
 
 ------
@@ -175,7 +173,7 @@ Vue 框架源码打包后的两大版本及特点，
 vue 中编写 DOM 元素有3种方式：
 
 - 在 HTML 文件中编写 template 模板并引用 vue 框架的方式。
-  - 需要通过源码中的一部分代码来进行编译。
+  - 需要通过源码中的 compiler 模块代码来进行编译。
 - 通过 `.vue` 文件中的 template 来编写。
   - 通过在 vue-loader 中对其进行编译和处理
 - render 函数的方式，使用 h 函数来编写渲染的内容。
@@ -223,6 +221,7 @@ webpack 对 vue 代码打包的步骤：
 
    ```javascript
    import { createApp } from 'vue/dist/vue.esm.bundle.js' /* 手动指定非 runtime 版本 */
+   
    createApp({
      template: '#my-app',
      data() {
@@ -238,6 +237,7 @@ webpack 对 vue 代码打包的步骤：
 
    ```javascript
    const { DefinePlugin } = require('webpack')
+   
    module.exports = {
      plugins: [
        new DefinePlugin({
@@ -272,6 +272,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
    ```javascript
    import App from './vue/App.vue'
    import { createApp } from 'vue/dist/vue.esm.bundle.js' /* 后续安装 @vue/compiler-sfc，配置 vue-loader-plugin 后，可改为默认引入方式，即 vue */
+   
    createApp(App).mount('#app')
    ```
 
@@ -307,6 +308,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
    ```javascript
    const { VueLoaderPlugin } = require('vue-loader/dist/index')
    const { DefinePlugin } = require('webpack')
+   
    module.exports = {
      plugins: [
        new VueLoaderPlugin,
@@ -348,7 +350,7 @@ resolve 有什么用：
 
 resolve 中的 `extensions` 和 `alias`
 
-- extensions 是解析到文件时自动添加扩展名： 
+- `extensions` 是解析到文件时自动添加扩展名： 
 	- 默认值是 ['.wasm', '.mjs', '.js', '.json']； 
 	- 所以如果我们代码中想要添加加载 `.vue` 或者 `.jsx `或者 `.ts` 等文件时，我们必须自己写上扩展名；
 - 另一个非常好用的功能是配置别名 alias： 
@@ -361,6 +363,7 @@ resolve 怎么配置：
 
 ```javascript
 const path = require('path')
+
 module.exports = {
   resolve: {
     modules: ['node_modules'], // 默认值，指定所有目录自动检索。
@@ -381,11 +384,11 @@ webpack 能解析的3种路径
 - 绝对路径：
 	- 由于已经获得文件的绝对路径，所以不需要要进一步解析。
 - 相对路径：
-	- 在这种情况下，使用 import 或 require 的资源文件所处的目录，被认为是上下文目录； 
+	- 在这种情况下，使用 `import` 或 `require` 的资源文件所处的目录，被认为是上下文目录； 
 	- 在 import / require 中给定的相对路径，会拼接此上下文路径，来生成模块的绝对路径；
 - 模块路径：
-	- 使用 `resolve.modules` 中指定的所有目录检索模块，默认是 ['node_modules']
-	- 我们可以通过设置别名 alias 的方式来替换初始模块路径；
+	- 使用 `resolve.modules` 中指定的所有目录检索模块，默认是 `['node_modules']`
+	- 我们可以通过设置别名 `alias` 的方式来替换初始模块路径；
 
 ------
 
@@ -445,14 +448,13 @@ ClearWebpackPlugin 的作用。
 
    ```javascript
    const { cleanWebpackPlugin } = require('clean-webpack-plugin')
+   
    module.exports = {
      plugins: [
        new CleanWebpackPlugin()
      ]
    }
    ```
-
-------
 
 ## HtmlWebpackPlugin
 
@@ -472,6 +474,7 @@ HtmlWebpackPlugin 的作用，
 
    ```javascript
    const HtmlWebpackPlugin = require('html-webpack-plugin')
+   
    module.exports = {
      plugin: [
        new HtmlWebpackPlugin({
@@ -481,8 +484,6 @@ HtmlWebpackPlugin 的作用，
      ]
    }
    ```
-
-------
 
 ## DefinePlugin 
 
@@ -503,6 +504,7 @@ DefinePlugin 的作用，它是 webpack 默认提供的插件。
 
 ```javascript
 const { DefinePlugin } = require('webpack')
+
 module.exports = {
   plugins: [
     new DefinePlugin({
@@ -511,8 +513,6 @@ module.exports = {
   ]
 }
 ```
-
-------
 
 ## CopyWebpackPlugin 
 
@@ -532,6 +532,7 @@ CopyWebpackPlugin 插件的作用：
 
    ```javascript
    const CopyWebpackPlugin = require('copy-webpack-plugin')
+   
    module.exports = {
      plugins: [
        new CopyWebpackPlugin({
@@ -574,8 +575,6 @@ devtool：选择一种源映射方式，
 
 - 在开发时，一般选择 source-map，建立 js 映射文件，方便调试代码和错误
 
------
-
 # 搭建本地服务
 
 为什么要搭建本地服务？
@@ -592,7 +591,7 @@ webpack 中3种自动编译的方式。
 - webpack-dev-server（常用）
 - webpack-dev-middleware（中间件）（不常用）
 
-------
+## webpack watch mode
 
 webpack 提供了 watch 模式，有什么作用。
 
@@ -620,7 +619,7 @@ watch 模式有什么缺点：
 
 - 没有具备 live loading（热加载）的功能，自动重新编译后需要刷新页面才有效果。
 
-------
+## webpack-dev-serve
 
 webpack-dev-server 有什么用：
 
@@ -649,9 +648,7 @@ webpack-dev-server 有什么用：
 - webpack-dev-server 在编译之后不会输出任何文件，而是将打包后的文件保留在内存中。
   - 事实上 webpack-dev-server 使用了一个库叫 memfs（memory-fs，webpack 自己写的）
 
-------
-
-## 开发阶段静态资源打包配置
+### 开发阶段静态资源打包配置
 
 devServer 中的 `contentBase` 已弃用，代替它的是 `static` 属性，有什么用：
 
@@ -663,6 +660,7 @@ devServer 中的 `contentBase` 已弃用，代替它的是 `static` 属性，有
 
 ```javascript
 const path = require('path')
+
 module.exports = {
   devServer: {
     // contentBase: "./public"
@@ -670,8 +668,6 @@ module.exports = {
   }
 }
 ```
-
-------
 
 ## HMR 配置
 
@@ -703,6 +699,7 @@ HMR 的好处，2点：
 
    ```javascript
    import './js/util.js' // 需要先引入模块。
+   
    if (module.hot) {
      module.hot.accept("./js/util.js", () => {
        console.log("util更新了")
@@ -710,14 +707,10 @@ HMR 的好处，2点：
    }
    ```
 
-------
-
-在实际开发项目时，是否需要经常手动写 module.hot.accept 代码呢？2个例子：
+在实际开发项目时，是否需要经常手动写 `module.hot.accept` 代码呢？2个例子：
 
 - vue 开发中，vue-loader 支持 vue 组件的 HMR，提供开箱即用的体验。
 - react 开发中，react-refresh（React Hot Loader 已弃用）实时调整 react 组件。
-
-------
 
 HMR 原理的理解，2方面，。
 
@@ -737,7 +730,7 @@ webpack-dev-server 会创建两个服务：
 
 理解 Socket 连接和 Http 连接的连接过程。
 
-Socket 连接：长连接，用于及时通讯（微信，聊天，直播送礼物，进场）
+Socket 连接：也称“长连接”，用于及时通讯（微信，聊天，直播送礼物，进场）
 
 - 经过3次或5次握手，通过心跳包建立连接通道，客户端和服务器可随时互相发送消息。
 

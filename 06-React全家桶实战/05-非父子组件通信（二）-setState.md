@@ -77,11 +77,11 @@ export class HomeBanner extends Component {
 export default HomeBanner
 ```
 
-# Vue 和 React 数据管理和渲染流程的对比。
+# Vue 和 React 数据管理和渲染流程的对比
 
 Vue 的渲染流程：
 
-- template -> compiler 编译 -> render 函数（返回 createVNode （h） 函数） -> VNode ( -> 渲染器 patch / 挂载 -> 真实 DOM -> 显示在页面上)
+- template -> compiler 模块编译 -> render 函数（返回 createVNode （h） 函数） -> VNode ( -> 渲染器 patch / 挂载 -> 真实 DOM -> 显示在页面上)
 
 React 的渲染流程：
 
@@ -90,14 +90,14 @@ React 的渲染流程：
 # 为什么 React 中要使用 setState（面试）？
 
 - 开发中我们并不能直接通过修改 state 的值来让界面发生更新；
-- React 并没有实现类似于 Vue2 中的 Object.defineProperty 或者 Vue3 中的 Proxy 的方式来监听数据的变化；
+- React 并没有实现类似于 Vue2 中的 `Object.defineProperty` 或者 Vue3 中的 `Proxy` 的方式来监听数据的变化；
 - 我们必须通过 setState 来告知 React 数据已经发生了变化；
 
 > 组件中并没有实现 setState 的方法，它是从 Component 中继承过来的。
 >
 > setState 源码位置 packages/react/src/ReactBaseClasses.js
 
-# setState 的3种用法。
+# setState 的3种用法
 
 03-learn-component\src\11-setState的使用\App.jsx
 

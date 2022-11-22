@@ -59,14 +59,14 @@ git pull
 
 3个解决方法。
 
-- 为本地分支指明要推送的远程分支：
+- 方法一：为本地分支指明要推送的远程分支：
 
   ```shell
   git push origin master:main # 表示把本地 master 分支推送到远程 main 分支。
   git push origin head:main # head 代表当前所在分支，如 master
   ```
 
-- 为 push 设置 default 行为（push.default），
+- 方法二：为 push 设置 default 行为（push.default），
 
   - 默认值是 `simple`，表示 push 远程同名的分支，
 
@@ -74,7 +74,7 @@ git pull
 
     ```shell
     # 此时本地当前分支为 master
-    git fetch # （git pull），因为本地还没有 main 分支，先要将远程 main 分支获取到本地形成 origin / main 分支。
+    git fetch # （git pull），因为本地还没有 main 分支，先要将远程 main 分支获取到本地形成 origin/main 分支。
     git branch --set-upstream-to=origin/main # 将当前分支，与远程的 origin main 分支进行关联跟踪。
     git config push.default upstream # 只在当前仓库配置。
     git push
@@ -87,19 +87,18 @@ git pull
     git config push default.current
     git push # 在远程仓库创建了 master 分支，并将本地仓库的 master 分支提交到了该分支
     ```
+    
 
-- 或者换一种写法：
+- 方法三： 在本地切换一个新分支，并跟踪远程的同名分支。
 
   ```shell
   git checkout --track origin/main # 在本地切换一个新分支 main，并跟踪远程的同名分支
   git checkout main # 以上的简写形式
   ```
 
----
-
 ## 实际工作中初始化 git 仓库的 2 种情况
 
-- 项目已有远程仓库。
+- 情况一：项目已有远程仓库。
 
   1. 克隆仓库
 
@@ -116,7 +115,7 @@ git pull
      git push
      ```
 
-- 项目没有 git 仓库，且需要自己搭建，2 种方案：
+- 情况二：项目没有 git 仓库，且需要自己搭建，2 种方案：
 
   - 方案一：创建一个远程仓库（**推荐**）。
 
@@ -147,13 +146,11 @@ git pull
       # 如果本地当前分支（如 master）不再使用，可删除该分支
       ```
 
-------
+# 开源协议
 
 常见的开源协议划分，理解图解。
 
 <img src="NodeAssets/Git的开源协议.jpg" alt="Git的开源协议" style="zoom:150%;" />
-
----
 
 # Git 标签 tag
 
@@ -162,7 +159,7 @@ git pull
 对于大的版本我们常常会打上一个标签，以表示它的重要性：
 
 - Git 可以给仓库历史中的某一个提交打上标签（可理解为在提交对象上的一个指针）；
-- 比较有代表性的是人们会使用这个功能来标记发布节点（ v1.0 .0、 v2.0.0 等等）；
+- 比较有代表性的是人们会使用这个功能来标记发布节点（ 如 v1.0.0、 v2.0.0 等等）；
 
 ## 查看当前仓库已有标签
 
@@ -223,19 +220,17 @@ git branch newbranch v1.0.0
 git checkout newbranch
 ```
 
----
-
 # Git 的提交对象
 
 ## 相关操作
 
-`git add .`
+执行 `git add .` 后：
 
 1. 在 ./.git/object/ 中创建了进制数开头的目录如“00...”，里面保存的是二进制文件。如 “d2...”
 2. 使用 `git cat-file -t 00d2`，来查看文件类型，显示 blob，表示文件是二进制文件。
 3. 使用 `git cat-file -p 00d2`，来查看文件保存的内容，发现是添加到暂存区的内容。
 
-`git commit -m 'starting the project'`
+执行 `git commit -m 'starting the project'` 后：
 
 1. 在 ./git/object/ 中又创建了进制数开头的目录如“46...”和“eb...”，里面保存的是二进制文件如“58...”和“5c...”
 2. 使用 `git cat-file -p 4658`，可查看到另一个二进制文件，其中有索引信息以及对应的工作区文件名称，这个文件被称为**树（tree）文件**。
@@ -258,8 +253,6 @@ git checkout newbranch
 
 <img src="NodeAssets/git的校验和.jpg" alt="多个提交对象" style="zoom:80%;" />
 
----
-
 # Git 的本地分支
 
 ## master 分支
@@ -268,15 +261,13 @@ Git 的本地默认分支 maser 分支理解。
 
 Git 的分支，其实本质上仅仅是指向提交对象的可变指针。
 - Git 的默认分支名字是 master，在多次提交操作之后，你其实已经有一个指向最后那个提交对象的 master 分支；
-- master 分支会在每次提交时自动移动；
+- master 分支的指针会在每次提交时自动移动；
 
 Git 的 master 分支并不是一个特殊分支。
 - 它与其它分支完全没有区别；
 - 之所以几乎每一个仓库都有 master 分支，是因为 git init 命令默认创建它，并且大多数人都懒得去改动它；
 
 <img src="NodeAssets/Git的master分支和tag指针.jpg" alt="Git的master分支和tag指针" style="zoom:80%;" />
-
----
 
 ## 创建新分支
 
@@ -366,8 +357,6 @@ git branch –d hotfix # 删除当前分支，删除的是分支指针，提交�
 git branch –D hotfix # 强制删除某一个分支
 ```
 
----
-
 # Git 分支合并冲突解决
 
 - 对 2 个分支进行合并（不论远程还是本地），某些情况下会出现冲突，比如两分支在同一文件中都做了修改。
@@ -376,8 +365,6 @@ git branch –D hotfix # 强制删除某一个分支
 - 也可使用现有编辑工具（如 VSCode）中给出的选项，进行合并。
 
 <img src="NodeAssets/合并冲突.jpg" alt="合并冲突" style="zoom:100%;" />
-
----
 
 # Git 工作流
 
@@ -398,13 +385,11 @@ git branch –D hotfix # 强制删除某一个分支
 
 <img src="NodeAssets/大厂流行的git-flow.jpg" alt="大厂流行的git-flow" style="zoom:50%;" />
 
----
-
 # Git 的远程分支
 
 ## 认识远程分支。
 
-远程分支是也是一种分支结构：
+远程分支也是一种分支结构：
 
 以 `<remote>/<branch>` 的形式命名；
 
@@ -450,8 +435,6 @@ git checkout dev # 简写，做了4步操作。
 git push origin --delete dev
 ```
 
----
-
 # Git rebase
 
 ## 认识 Git rebase？
@@ -493,8 +476,6 @@ git merge experiment
 
 <img src="NodeAssets/rebase后主分支合并.jpg" alt="rebase后主分支合并" style="zoom:50%;" />
 
----
-
 ## rebase 和 merge 在开发中的选择。
 事实上，rebase 和 merge 是对 Git 历史的不同处理方法： 
 - merge 用于记录 git 的所有历史，那么分支的历史错综复杂，也全部记录下来； 
@@ -509,8 +490,6 @@ git merge experiment
 
 <img src="NodeAssets/错误的 rebase 方式.jpg" alt="错误的 rebase 方式" style="zoom:50%;" />
 
----
-
-Git 命令速查表图解。
+# Git 命令速查表图解
 
 <img src="NodeAssets/git命令速查表.jpg" alt="git命令速查表" style="zoom:150%;" />
