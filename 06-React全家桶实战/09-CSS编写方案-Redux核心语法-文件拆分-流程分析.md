@@ -472,10 +472,9 @@ unSubscribe() // 取消订阅
 
 ## 规范目录优化总结
 
-1. actionCreators 和 reducer 函数中使用字符串常量是一致的, 所以将常量抽取到一个独立 constants 的文件中。
-2. 将派发的 action 生成过程放到一个 actionCreators 函数中。
-3. 将定义的所有 actionCreators 的函数, 放到一个独立的文件中: actionCreators.js。
-4. 将 reducer 和初始状态 (initialState) 放到一个独立的 reducer.js 文件中, 而不是在 index.js
+1. actionCreators 和 reducer 函数中使用字符串常量是一致的, 所以将常量抽取到一个独立 `constants.js` 的文件中。
+2. 将派发的 action 生成过程放到一个 actionCreators 函数中。将定义的所有 actionCreators 的函数, 放到一个独立的文件中: `actionCreators.js`。
+4. 将 reducer 和初始状态 (initialState) 放到一个独立的 `reducer.js` 文件中, 而不是在 index.js
 
 # 理解 Redux 的使用流程图解。
 
@@ -508,6 +507,7 @@ Redux 使用流程官方图解
     > 经过 reducer 进行 state 修改，能够明确调用顺序，不会造成竟态。
   
 - 使用纯函数来执行修改 
+  
   - 但是所有的 reducer 都应该是纯函数，不能产生任何的副作用；
 
 通过 reducer 将旧 state 和 actions 联系在一起，并且返回一个新的 State：随着应用程序的复杂度增加，我们可以将 reducer 拆分成多个小的 reducers，分别操作不同 state tree 的一部分；
