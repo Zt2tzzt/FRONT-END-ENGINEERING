@@ -272,7 +272,7 @@ export default App
 
 ## 测量页面渲染时间
 
-使用的是生命周期劫持。
+使用的是生命周期劫持：
 
 03-learn-component\src\16-React高阶组件\hoc\LogRenderTime.jsx
 
@@ -300,9 +300,10 @@ function LogRenderTime(OriginCpn) {
 export default LogRenderTime
 ```
 
-- 组件的名称问题：
-	- 在 ES6 中，类表达式中类名是可以省略的；
-	- 组件的名称都可以通过 `displayName` 来修改；
+> 组件的名称问题：
+>
+> - 在 ES6 中，类表达式中类名是可以省略的；
+> - 组件的名称都可以通过 `displayName` 来修改；
 
 03-learn-component\src\16-React高阶组件\page\Detai.jsx
 
@@ -408,9 +409,7 @@ export class App extends PureComponent {
 		return (
 			<div className='app'>
 				<h1>App h1</h1>
-				{
-					createPortal(<h2>App h2</h2>, document.querySelector('#zzt'))
-				}
+				{ createPortal(<h2>App h2</h2>, document.querySelector('#zzt')) }
 				{/* modal 组件 */}
 				<Modal>
 					<h2>我是标题</h2>
@@ -505,7 +504,7 @@ StrictMode 是一个用来突出显示应用程序中潜在问题的工具：
 - 四、检查使用废弃的 `findDOMNode` 方法。
   - 在之前的 React API 中，可以通过 `findDOMNode` 来获取 DOM，不过已经不推荐使用了，
   - 一些第三方库，比如 `Ant-Design`，`react-transition-group` 中还在使用这种 API。
-    - 消除警告的3种方式：1.关闭严格模式；2.修改库的源码（不推荐）；3.使用 ref（见下方 CSSTransition 案例）
+    - 消除警告的3种方式：1.关闭严格模式；2.修改库的源码（不推荐）；3.某些库提供了使用 ref 的方式进行替换（见下方 CSSTransition 案例）
 
 - 五、检测过时的用于共享的 context API。
 
@@ -577,27 +576,24 @@ npm install react-transition-group
 
 ## 主要组件
 
-- Transition
+- `Transition`
 	- 该组件是一个和平台无关的组件（不一定要结合 CSS）； 
 	- 在前端开发中，我们一般是结合 CSS 来完成样式，所以比较常用的是 CSSTransition；
-- CSSTransition 
+- `CSSTransition`
 	- 在前端开发中，通常使用 CSSTransition 来完成过渡动画效果。
-- SwitchTransition 
+- `SwitchTransition`
 	- 两个组件显示和隐藏切换时，使用该组件。
-- TransitionGroup
+- `TransitionGroup`
 	- 将多个动画组件包裹在其中，一般用于列表中元素的动画；
 
 ## CSSTransition
 
-- CSSTransition 是基于 Transition 组件构建的： 
-- CSSTransition 执行过程中，有三个状态：appear、enter、exit；
-- 它们有三种状态，需要定义对应的 CSS 样式： 
-	- 第一类，开始状态：对应的类是 `-appear`、`-enter`、`-exit`； 
-	- 第二类：执行动画：对应的类是 `-appear-active`、`-enter-active`、`-exit-active`； 
-	- 第三类：执行结束：对应的类是 `-appear-done`、`-enter-done`、`exit-done`；
-- CSSTransition 常见对应的属性： 
-	- `in`：触发进入或者退出状态 
-		- 如果添加了 `unmountOnExit={true}`，那么该组件会在执行退出动画结束后被移除掉； 
+- CSSTransition 是基于 Transition 组件构建的：执行过程中，有三个状态：`appear`、`enter`、`exit`；对应需要定义对应的 CSS 样式：
+  - 第一类，开始状态：对应的类是 `-appear`、`-enter`、`-exit`； 
+  - 第二类：执行动画：对应的类是 `-appear-active`、`-enter-active`、`-exit-active`； 
+  - 第三类：执行结束：对应的类是 `-appear-done`、`-enter-done`、`exit-done`；
+- CSSTransition 组件常见对应的属性： 
+	- `in`：触发进入或者退出状态 如果添加了 `unmountOnExit={true}`，那么该组件会在执行退出动画结束后被移除掉； 
 		- 当 `in` 为 `true` 时，触发进入状态，会添加 `-enter`、`-enter-acitve` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
 		- 当 `in` 为 `false` 时，触发退出状态，会添加 `-exit`、`-exit-active` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
 	- `classNames`：动画 class 的名称 ：
@@ -605,7 +601,7 @@ npm install react-transition-group
 	- `timeout`：过渡动画的时间，最好与样式中的时间保持一致（**必须添加**，否则没有动画效果）。
 	- `appear`：是否在初次进入添加动画（需要和 `in` 同时为 `true`）
 	- `unmountOnExit`：退出后卸载组件。
-	- 其他属性参考[官方文档](https://reactcommunity.org/react-transition-group/transition)
+	- [其他属性参考官方文档](https://reactcommunity.org/react-transition-group/transition)
 - CSSTransition 对应的钩子函数：主要为了检测动画的执行过程，来完成一些 JavaScript 的操作 
 	- `onEnter`：在进入动画之前被触发； 
 	- `onEntering`：在应用进入动画时被触发；
