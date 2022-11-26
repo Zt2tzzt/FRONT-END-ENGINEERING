@@ -209,7 +209,7 @@ react-router 最主要的 API 是给我们提供的一些组件：
 
 08-learn-reactrouter\src\index.js
 
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -229,7 +229,7 @@ root.render(
 
 ## 配置路由的映射
 
-使用 `Routes` 组件：包裹所有的 `Route` 组件，在其中匹配一个路由（Router 5.x 使用的是 `Switch` 组件，且允许 Route 单独存在，现在 6.x 必须放入 `Routes` 里。）
+使用 `Routes` 组件：包裹所有的 `Route` 组件，在其中匹配一个路由（Router 5.x 使用的是 `Switch` 组件，且允许 Route 单独存在，现在 6.x 必须放入 `Routes` 里）
 
 Route：用于路径的匹配；
 
@@ -512,9 +512,9 @@ export default App
 
 ## NotFound 页面配置
 
-需求：如果用户随意输入一个地址，该地址无法匹配，这种情况下，让用户看到一个 Not Found 的页面。
+需求：如果用户随意输入一个地址，该地址无法匹配，这种情况下，让用户看到一个 NotFound 的页面。
 
-- 开发一个 Not Found 页面；
+- 开发一个 NotFound 页面；
 - 配置对应的 Route，并且设置 path 为 * 即可；
 
 08-learn-reactrouter\src\pages\NotFound.jsx
@@ -576,7 +576,7 @@ export default App
 
 在开发中，路由之间是存在嵌套关系的。
 
-这里我们假设 Home 页面中有两个页面内容：
+需求：Home 页面中有两个页面内容：
 
 - 推荐列表和排行榜列表；
 - 点击不同的链接可以跳转到不同的地方，显示不同的内容；
@@ -701,6 +701,7 @@ import Order from './pages/Order';
 
 export function App() {
 
+  // 只能在顶层使用 useNavigate API
   const navigate = useNavigate()
 
   function navigateTo(path) {
