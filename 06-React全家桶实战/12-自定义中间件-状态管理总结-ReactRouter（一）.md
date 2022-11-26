@@ -151,7 +151,7 @@ React 中有哪些状态管理方式？如何选择？
 - 有些开发者，将类似于主题、用户信息等数据放到 Context 中进行共享和管理；
 - 做为一个开发者，到底选择怎样的状态管理方式，是你的工作之一，选择一个你认为最好的平衡方式即可（Find a balance that works for you, and go with it.）；
 
-我采用的 state 管理方案：
+我采用的状态管理方案：
 
 - UI 相关的组件内部可以维护的状态，在组件内部自己来维护；
 - 大部分需要共享的状态，都交给 redux 来管理和维护；
@@ -178,18 +178,18 @@ React 中有哪些状态管理方式？如何选择？
 目前前端流行的三大框架, 都有自己的路由实现:
 
 - Angular 的 ngRouter
-- React 的 ReactRouter
+- React 的 react-router
 - Vue 的 vue-router
 
 React router 是由社区维护的库，而非官方，但被官方所承认。
 
-React Router 在最近两年版本更新的较快，并且在最新的 React Router6.x 版本中发生了较大的变化。
+React Router 在最近两年版本更新的较快，并且在最新的 React Router 6.x 版本中发生了较大的变化。
 
-目前 React Router6.x 已经非常稳定，我们可以放心的使用；
+目前 React Router 6.x 已经非常稳定，我们可以放心的使用；
 
 ## 安装 react-router
 
-- 安装时，我们选择 react-router-dom；
+- 安装时，我们选择 `react-router-dom`；
 - react-router 会包含一些 react-native 的内容，web 开发并不需要；
 
 ```shell
@@ -202,10 +202,10 @@ Router 中包含了对路径改变的监听，并且会将相应的路径传递�
 
 react-router 最主要的 API 是给我们提供的一些组件：
 
-BrowserRouter 或 HashRouter
+`BrowserRouter` 或 `HashRouter`
 
 - `BrowserRouter` 使用 history 模式；
-- `HashRouter` 使用hash模式；
+- `HashRouter` 使用 hash 模式；
 
 08-learn-reactrouter\src\index.js
 
@@ -229,13 +229,13 @@ root.render(
 
 ## 配置路由的映射
 
-使用 Routes 组件：包裹所有的 Route 组件，在其中匹配一个路由（Router5.x 使用的是 Switch 组件，且允许 Route 单独存在，现在必须放入 Routes 里。）
+使用 `Routes` 组件：包裹所有的 `Route` 组件，在其中匹配一个路由（Router 5.x 使用的是 `Switch` 组件，且允许 Route 单独存在，现在 6.x 必须放入 `Routes` 里。）
 
-Route：Route 用于路径的匹配；
+Route：用于路径的匹配；
 
 - `path` 属性：用于设置匹配到的路径；
-- `element` 属性：设置匹配到路径后，渲染的组件（Router5.x 使用的是 component 属性）；
-- `exact` 精准匹配，只有精准匹配到完全一致的路径，才会渲染对应的组件（Router6.x 不再支持该属性）；
+- `element` 属性：设置匹配到路径后，渲染的组件（Router 5.x 使用的是 `component` 属性）；
+- `exact` 精准匹配，只有精准匹配到完全一致的路径，才会渲染对应的组件（Router 6.x 不再支持该属性）；
 
 08-learn-reactrouter\src\App.jsx
 
@@ -276,13 +276,13 @@ export default App
 
 ## 配置路由的跳转
 
-Link 组件的使用。
+`Link` 组件的使用：
 
-- 通常路径的跳转是使用 Link 组件，它最终会被渲染成 a 元素；
+- 通常路径的跳转是使用 `Link` 组件，它最终会被渲染成 a 元素；
 - `to` 属性：Link 组件中最重要的属性，用于设置跳转到的路径；
 - `replace` 属性：Boolean 类型，设置为 true，跳转后不能返回。
 - `state` 属性：history 模式跳转时传入的 state，很少用。
-- `reloadDocument` 属性，Boolean 类型，跳转后是否重新加载文档。
+- `reloadDocument` 属性，Boolean 类型，跳转后是否重新加载文档，很少用。
 
 08-learn-reactrouter\src\App.jsx
 
@@ -325,7 +325,7 @@ export class App extends PureComponent {
 export default App
 ```
 
-NavLink 组件的使用：
+`NavLink` 组件的使用：
 
 - NavLink 组件是在 Link 组件基础之上增加了一些样式属性；
 
@@ -335,12 +335,10 @@ NavLink 组件的使用：
 
 当然，如果你担心这个 “active” class 在其他地方被使用了，出现样式的层叠，也可以自定义 class。
 
-需求：路径选中时，对应的a元素变为红色
+需求：路径选中时，对应的 a 元素变为红色，这个时候，我们要使用 NavLink 组件来替代 Link 组件：
 
-这个时候，我们要使用 NavLink 组件来替代 Link 组件：
-
-- `style` 属性：传入函数，函数接受一个对象，包含 isActive 属性。
-- `className` 属性：传入函数，函数接受一个对象，包含 isActive 属性。
+- `style` 属性：传入函数，函数接受一个对象，包含 `isActive` 属性。
+- `className` 属性：传入函数，函数接受一个对象，包含 `isActive` 属性。
 
 08-learn-reactrouter\src\App.jsx
 
@@ -398,9 +396,11 @@ export class App extends PureComponent {
 export default App
 ```
 
+实际开发中很少用，设置过于麻烦。
+
 ## 路由重定向
 
-Navigate 组件用于路由的重定向，当这个组件出现时，就会执行跳转到对应的to路径中（5.x 用的是 Redirect 组件）：
+`Navigate` 组件用于路由的重定向，当这个组件出现时，就会执行跳转到对应的 to 路径中（5.x 用的是 `Redirect` 组件）：
 
 需求：Login 页面有一个 isLogin 状态，当为 false 时，显示登录按钮；当为 true 时，重定向到 Home 页面。
 
@@ -410,9 +410,9 @@ Navigate 组件用于路由的重定向，当这个组件出现时，就会执�
 import React, { PureComponent } from 'react'
 import { Navigate } from 'react-router-dom'
 
-export class Profile extends PureComponent {
-	constructor(props) {
-		super(props)
+export class Login extends PureComponent {
+	constructor() {
+		super()
 		this.state = {
 			isLogin: false
 		}
@@ -433,7 +433,7 @@ export class Profile extends PureComponent {
 	}
 }
 
-export default Profile
+export default Login
 ```
 
 08-learn-reactrouter\src\App.jsx
@@ -512,10 +512,10 @@ export default App
 
 ## NotFound 页面配置
 
-如果用户随意输入一个地址，该地址无法匹配，这种情况下，让用户看到一个 Not Found 的页面。
+需求：如果用户随意输入一个地址，该地址无法匹配，这种情况下，让用户看到一个 Not Found 的页面。
 
-- 开发一个Not Found页面；
-- 配置对应的Route，并且设置path为*即可；
+- 开发一个 Not Found 页面；
+- 配置对应的 Route，并且设置 path 为 * 即可；
 
 08-learn-reactrouter\src\pages\NotFound.jsx
 
@@ -581,7 +581,7 @@ export default App
 - 推荐列表和排行榜列表；
 - 点击不同的链接可以跳转到不同的地方，显示不同的内容；
 
-<Outlet> 组件用于在父路由元素中作为子路由的占位元素（相当于 vue-router 中的 <router-vue />）。
+`<Outlet>` 组件用于在父路由元素中作为子路由的占位元素（相当于 vue-router 中的 `<router-view />`）。
 
 08-learn-reactrouter\src\pages\HomeRecommend.jsx
 
@@ -657,7 +657,7 @@ export class App extends PureComponent {
           <Routes>
             <Route path='/' element={<Navigate to='/home' />} />
             <Route path='/home' element={<Home />}>
-              {/* 5.x 路由的嵌套，需要再每个页面中进行配置。会造成路由配置太分散的问题。 */}
+              {/* 5.x 路由的嵌套，需要在每个页面中进行配置。会造成路由配置太分散的问题。 */}
               {/* 6.x 路由的嵌套，可在一级路由中集中配置 */}
               {/* 设置二级路由的重定向 */}
               <Route path='/home' element={<Navigate to='/home/recommend' />} />
@@ -683,11 +683,11 @@ export default App
 
 既然使用了 react-router 库，就不要用原生的 DOM 操作实现路由的跳转。
 
-在 Router 6.x 版本之后，代码类的API都迁移到了 hooks 的写法：
+在 Router 6.x 版本之后，代码类的 API 都迁移到了 hooks 的写法：
 
-- 如果我们希望进行代码跳转，需要通过 useNavigate 的 Hook 获取到 navigate 对象进行操作；
-- 在函数式组件中，可以直接调用 useNavigate，且只能在顶层使用。
-- 类组件不能使用 useNavigate。如果一定要在类组件中使用，需要使用高阶组件进行封装。
+- 如果我们希望进行代码跳转，需要通过 `useNavigate` 的 Hook 获取到 navigate 对象进行操作；
+- 在函数式组件中，可以直接调用 `useNavigate`，且只能在顶层使用。
+- 类组件不能使用 `useNavigate`。如果一定要在类组件中使用，需要使用高阶组件进行增强。
 
 在函数式组件中，使用代码实现路由跳转
 
@@ -712,8 +712,8 @@ export function App() {
       <div className="header">
         header
         <div className="nav">
-          <button onClick={e => navigateTo('/category') }>分类</button>
-          <span onClick={e => navigateTo('/order') }>订单</span>
+          <button onClick={e => navigateTo('/category')}>分类</button>
+          <span onClick={e => navigateTo('/order')}>订单</span>
         </div>
         <hr />
       </div>

@@ -8,13 +8,9 @@
 - 它基于标准 HTML、CSS 和 JavaScript 构建，并提供了一套声明式的、组件化的编程模型；
 - 帮助你高效地开发用户界面，无论任务是简单还是复杂；
 
------
-
 Vue 在前端处于什么地位？
 
 <img src="NodeAssets/Vue在前端框架中的地位.jpg" alt="Vue在前端框架中的地位" style="zoom:50%;" />
-
------
 
 # Vue3 与 vue2 的区别
 
@@ -39,7 +35,7 @@ API方面
 - Vue3 由 Options API 转到 Composition API，同时兼容 Options API。
 	- Vue2 通过 Options API 来描述组件对象，
 	- 其中包括 data, props, methods, computed, watch, 生命周期等等这些选项。
-	- 造成编写代码时，一个逻辑可能是在不同的地方，代码内聚性非常差。
+	- 造成编写代码时，一个逻辑可能写在不同的地方，代码内聚性非常差。
 	- Composition API 可以将相关联的代码放到同一处进行处理，而不需要在多个 Options 之间寻找
 - Hook 函数增加代码的复用性：
 	- vue2 通常使用 mixin 在多个组件之间共享逻辑。
@@ -198,7 +194,7 @@ Vue 的初体验，3个案例的实现。
 
 template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
 
-- 使用 script 标签，并且标记它的类型为 `x-template` (type="x-template")，并设置 Id
+- 方式一：使用 script 标签，并且标记它的类型为 `x-template` (type="x-template")，并设置 Id
 
   ```html
   <div id="app"></div>
@@ -217,7 +213,7 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
   </script>
   ```
 
-- 使用任意标签（通常是 `<template>`，因为加载时不会呈现，运行时可使用 JavaScript 实例化），设置 Id
+- 方式二：使用任意标签（通常是 `<template>`，因为加载时不会呈现，运行时可使用 JavaScript 实例化），设置 Id
 
   ```html
   <div id="app"></div>
@@ -236,7 +232,7 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
   </script>
   ```
 
-## 与眼生代码对比
+## 与原生代码对比
 
 使用原生方式实现计数器，对比命令式和声明式编程的区别。
 
@@ -269,8 +265,6 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
 - 声明式编程关注的是 “what to do”，由框架(机器)完成 “how” 的过程；
 
 > 目前 Vue、React、Angular、小程序的编程模式，我们称之为声明式编程；
-
------
 
 # MVVM 开发模式
 
@@ -311,7 +305,7 @@ methods 属性有什么用？
 - 这些方法可以被绑定到模板中；
 - 在该方法中，我们可以使用 `this` 关键字来直接访问到 data 中返回的对象的属性；
 
-> methods 中定义的方法，不能是箭头函数，不然 this 会指向上级作用域中的 this，即 window
+> methods 中定义的方法，不能是箭头函数，不然 this 会指向上级作用域中的 this，即 window，严格模式下为 undefined
 
 methods 中 this 的指向。
 
