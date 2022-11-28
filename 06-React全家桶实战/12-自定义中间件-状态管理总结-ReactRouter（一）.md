@@ -230,7 +230,7 @@ root.render(
 
 使用 `Routes` 组件：包裹所有的 `Route` 组件，在其中匹配一个路由（Router 5.x 使用的是 `Switch` 组件，且允许 Route 单独存在，现在 6.x 必须放入 `Routes` 里）
 
-Route：用于路径的匹配；
+Route 组件用于路径的匹配，有以下属性；
 
 - `path` 属性：用于设置匹配到的路径；
 - `element` 属性：设置匹配到路径后，渲染的组件（Router 5.x 使用的是 `component` 属性）；
@@ -275,9 +275,8 @@ export default App
 
 ## 配置路由的跳转
 
-`Link` 组件的使用：
+通常路径的跳转是使用 `Link` 组件，它最终会被渲染成 a 元素，它有以下属性；
 
-- 通常路径的跳转是使用 `Link` 组件，它最终会被渲染成 a 元素；
 - `to` 属性：Link 组件中最重要的属性，用于设置跳转到的路径；
 - `replace` 属性：Boolean 类型，设置为 true，跳转后不能返回。
 - `state` 属性：history 模式跳转时传入的 state，很少用。
@@ -399,7 +398,7 @@ export default App
 
 ## 路由重定向
 
-`Navigate` 组件用于路由的重定向，当这个组件出现时，就会执行跳转到对应的 to 路径中（5.x 用的是 `Redirect` 组件）：
+`Navigate` 组件用于路由的重定向，当这个组件出现时，就会执行跳转到 to 对应的路径中（5.x 用的是 `Redirect` 组件）：
 
 需求：Login 页面有一个 isLogin 状态，当为 false 时，显示登录按钮；当为 true 时，重定向到 Home 页面。
 
@@ -684,9 +683,9 @@ export default App
 
 在 Router 6.x 版本之后，代码类的 API 都迁移到了 hooks 的写法：
 
-- 如果我们希望进行代码跳转，需要通过 `useNavigate` 的 Hook 获取到 navigate 对象进行操作；
+- 如果我们希望进行代码跳转，需要通过 `useNavigate` 的 Hook 获取到 navigate 函数进行操作；
 - 在函数式组件中，可以直接调用 `useNavigate`，且只能在顶层使用。
-- 类组件不能使用 `useNavigate`。如果一定要在类组件中使用，需要使用高阶组件进行增强。
+- 类组件不能使用 `useNavigate`。如果一定要在类组件中使用，需要使用**高阶组件进行增强**。
 
 在函数式组件中，使用代码实现路由跳转
 
@@ -699,7 +698,6 @@ import Category from './pages/Category';
 import Order from './pages/Order';
 
 export function App() {
-
   // 只能在顶层使用 useNavigate API
   const navigate = useNavigate()
 
