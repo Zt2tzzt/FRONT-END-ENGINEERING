@@ -103,16 +103,7 @@ const reducer = combineReducers({
 	home: homeReducer
 })
 
-// combineReducers 实现原理（了解）
-/* function reducer(state = {}, action) {
-	// 返回一个对象，store 的 state
-	return {
-		couter: counterReducer(state.counter, action),
-		home: homeReducer(state.home, action),
-	}
-} */
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace: true}) || compose; // 开发环境
+//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace: true}) || compose; // 开发环境
 // const composeEnhancers = compose; // 生产环境
 
 // const enhancer = applyMiddleware(thunk)
@@ -149,11 +140,12 @@ React 中有哪些状态管理方式？如何选择？
 - 有些开发者，选择将所有的状态放到 redux 中进行管理，因为这样方便追踪和共享；
 - 有些开发者，选择将某些组件自己的状态放到组件内部进行管理；
 - 有些开发者，将类似于主题、用户信息等数据放到 Context 中进行共享和管理；
-- 做为一个开发者，到底选择怎样的状态管理方式，是你的工作之一，选择一个你认为最好的平衡方式即可（Find a balance that works for you, and go with it.）；
+
+做为一个开发者，到底选择怎样的状态管理方式，是你的工作之一，选择一个你认为最好的平衡方式即可（Find a balance that works for you, and go with it.）；
 
 我采用的状态管理方案：
 
-- UI 相关的组件内部可以维护的状态，在组件内部自己来维护；
+- 与 UI 关联的组件内部可以维护的状态，在组件内部自己来维护；
 - 大部分需要共享的状态，都交给 redux 来管理和维护；包括从服务器请求的数据（以及请求的操作），都交给 redux 来维护；
 
 更多的情况，需要我们根据实际业务判断，取舍。
@@ -226,7 +218,7 @@ root.render(
 ```
 
 
-## 配置路由的映射
+## 配置路由的映射（Routes、Route 组件）
 
 使用 `Routes` 组件：包裹所有的 `Route` 组件，在其中匹配一个路由（Router 5.x 使用的是 `Switch` 组件，且允许 Route 单独存在，现在 6.x 必须放入 `Routes` 里）
 
@@ -273,7 +265,7 @@ export default App
 ```
 
 
-## 配置路由的跳转
+## 配置路由的跳转（Link、NavLink 组件）
 
 通常路径的跳转是使用 `Link` 组件，它最终会被渲染成 a 元素，它有以下属性；
 
@@ -396,9 +388,9 @@ export default App
 
 实际开发中很少用，设置过于麻烦。
 
-## 路由重定向
+## 路由重定向（Navigate 组件）
 
-`Navigate` 组件用于路由的重定向，当这个组件出现时，就会执行跳转到 to 对应的路径中（5.x 用的是 `Redirect` 组件）：
+`Navigate` 组件用于路由的重定向，当这个组件出现时，就会执行跳转到 `to` 属性对应的路径中（5.x 用的是 `Redirect` 组件）：
 
 需求：Login 页面有一个 isLogin 状态，当为 false 时，显示登录按钮；当为 true 时，重定向到 Home 页面。
 
@@ -570,7 +562,7 @@ export class App extends PureComponent {
 export default App
 ```
 
-## 路由的嵌套
+## 路由的嵌套（Outlet 占位组件）
 
 在开发中，路由之间是存在嵌套关系的。
 
@@ -677,7 +669,40 @@ export class App extends PureComponent {
 export default App
 ```
 
-## 代码实现路由跳转
+08-learn-reactrouter\src\pages\Home.jsx
+
+```jsx
+import React, { PureComponent } from 'react'
+import { Link, Outlet } from 'react-router-dom'
+import withRouter from '../hoc/withRouter';
+
+export class Home extends PureComponent {
+	render() {
+		return (
+			<div>
+				<h1>Home Page</h1>
+				<div className="home-nav">
+					<Link to='/home/recommend'>推荐</Link>
+					<Link to='/home/ranking'>排行榜</Link>
+					<button onClick={e => this.navigateTo('/home/songmenu')}>歌单</button>
+				</div>
+
+				{/* 占位组件 */}
+				<Outlet />
+			</div>
+		)
+	}
+
+	navigateTo(path) {
+		const { navigate } = this.props.router
+		navigate(path)
+	}
+}
+
+export default withRouter(Home)
+```
+
+## 代码实现路由跳转（useNavigate Hook）
 
 既然使用了 react-router 库，就不要用原生的 DOM 操作实现路由的跳转。
 

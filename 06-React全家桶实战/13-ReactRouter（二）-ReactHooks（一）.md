@@ -37,7 +37,7 @@ export default HomeSongMenu
 // ...
 ```
 
-使用高阶组件 withRouter
+使用高阶组件 `withRouter`
 
 08-learn-reactrouter\src\hoc\withRouter.jsx
 
@@ -97,7 +97,7 @@ export default withRouter(Home)
 `useNavigate` 返回的函数 `navigate`，可传入那些参数？
 
 - `to`：string 类型，跳转的路径。
-- `option`: {replacement: boolean, state: any}: 传入一些路由跳转的选项。
+- `option`: {replacement: boolean, state: any}，传入一些路由跳转的选项。
 - `delta`：number 类型，表示前进或后退的层级数。
 
 eg:
@@ -191,7 +191,7 @@ export class HomeSongMenu extends PureComponent {
 export default withRouter(HomeSongMenu)
 ```
 
-跳转进入 Detail 页面，并接收传入的参数。
+跳转进入 Detail 页面，接收传入的参数。
 
 08-learn-reactrouter\src\pages\Detail.jsx
 
@@ -306,7 +306,7 @@ export default withRouter(User)
 
 目前我们所有的路由定义都是直接使用 `Route` 组件，并且添加属性来完成的。
 
-但是这样的方式会让路由变得非常混乱，我们希望将所有的路由配置放到一个地方进行集中管理：
+但是这样的方式会让路由变得非常混乱，我们希望将所有的路由配置放到一个地方进行集中管理，如一个单独的配置文件中：
 
 - 在 Router 5.x 及以前的版本，需要借助于 `react-router-config` 库来完成；
 - 在 Router 6.x 中，已为我们提供 `useRoutes` API 来完成相关的配置；
@@ -509,10 +509,10 @@ class 组件可以定义自己的 state，用来保存组件自己内部的状�
 - 函数式组件不可以，因为函数每次调用都会产生新的临时变量；
 
 class 组件有自己的生命周期，我们可以在对应的生命周期中完成自己的逻辑；
-- 比如在 componentDidMount 中发送网络请求，并且该生命周期函数只会执行一次；
+- 比如在 `componentDidMount` 中发送网络请求，并且该生命周期函数只会执行一次；
 - 如果在函数中发送网络请求，意味着每次重新渲染都会重新发送一次网络请求；
 
-class 组件可以在状态改变时重新执行 render 函数以及生命周期函数 componentDidUpdate 等；
+class 组件可以在状态改变时重新执行 `render` 函数以及生命周期函数 `componentDidUpdate` 等；
 
 - 函数式组件在重新渲染时，整个函数都会被执行，似乎没有什么地方可以只让它们调用一次；
 
@@ -539,12 +539,12 @@ class 组件可以在状态改变时重新执行 render 函数以及生命周期
 
 Hook 是 React 16.8 的新增特性，它可以让我们在不编写 class 的情况下使用类组件的特性。可以延伸出非常多的用法。
 
-Hook 的使用场景： 
-- Hook 的出现基本可以代替我们之前所有使用 class 组件的地方； 
-- Hook 只能在函数组件中使用，不能在类组件，或者函数组件之外的地方使用；除非是在自定义 Hook 函数中使用，即以“use”开头的函数。
-- 如果是一个旧的项目，你并不需要直接将所有的代码重构为 Hooks，因为它完全向下兼容，你可以渐进式的来使用它； 
+Hook 的使用场景：
+- Hook 的出现基本可以代替我们之前所有使用 class 组件的地方；
+- Hook 只能在函数组件中使用，不能在类组件，以及函数组件之外的地方使用；除非是在自定义 Hook 函数中使用，即以“use”开头的函数。
+- 如果是一个旧的项目，你并不需要直接将所有的代码重构为 Hooks，因为它完全向下兼容，你可以渐进式的来使用它；
 
-在我们继续之前，请记住 Hook 是： 
+在我们继续之前，请记住 Hook 是：
 - 完全可选的：你无需重构任何已有代码，就可以原有项目中使用 Hook。它是 100% 向后兼容的：Hook 不包含任何破坏性改动。
 
 ## 计数器案例
@@ -637,7 +637,7 @@ export default CounterHook
 
 ## useState 的使用
 
-useState 来自 react，需要从 react 中导入；
+`useState` 来自 react，需要从 react 中导入；
 
 它是一个 hook；帮助我们定义一个 state 变量，它与 class 里面的 `this.state` 提供的功能完全相同。
 
@@ -652,7 +652,7 @@ useState 来自 react，需要从 react 中导入；
 - 调用 setCount，设置一个新的值；
 - 组件重新渲染，并且根据新的值返回 DOM 结构；
 
-Hook 就是 JavaScript 函数，这个函数可以帮助你 钩入（hook into）React State 以及生命周期等特性；
+Hook 就是 JavaScript 函数，这个函数可以帮助你钩入（hook into）React State 以及生命周期等特性；
 
 使用 Hooks 两个规则：
 - 只能在函数最外层调用 Hook。不要在循环、条件判断或者子函数中调用。 

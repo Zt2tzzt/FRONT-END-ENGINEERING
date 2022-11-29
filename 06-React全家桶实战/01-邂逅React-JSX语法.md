@@ -1,13 +1,14 @@
 # 认识 React？
 
-- 相信每个做开发的人对 React 都或多或少有一些印象；
-- 这里我们来看一下官方对它的解释：用于**构建用户界面的 JavaScript 库**；
+相信每个做开发的人对 React 都或多或少有一些印象；
+
+这里我们来看一下官方对它的解释：用于**构建用户界面的 JavaScript 库**；
 
 React 在前端处于什么地位？react 官网。
 
 - 目前对于前端开发来说，几乎很少直接使用原生的 JavaScript 来开发应用程序，而是选择一个 JavaScript 库（框架）。
 	- 在过去的很长时间内，jQuery 是被使用最多的 JavaScript 库；
-	- 在过去的一份调查中显示，全球前10,000个访问最高的网站中，有65%使用了jQuery，是当时最受欢迎的 JavaScript 库；
+	- 在过去的一份调查中显示，全球前10,000个访问最高的网站中，有65%使用了 jQuery，是早期最受欢迎的 JavaScript 库；
 	- 但是，目前已经处于淘汰的边缘了；
 
 - 而无论是国内外，最流行的其实是三大框架：Vue、React、Angular。
@@ -80,7 +81,7 @@ React 的基本使用
 - React 16 和 18 在渲染根对象 root 时有哪些区别？
 - 在界面上通过 React 显示一个 Hello World
 	- 注意：这里我们编写 React 代码的 script 标签上，必须添加 `type="text/babel"`，作用是可以让 babel 解析 jsx 的语法。
-- `ReactDOM.createRoot` 函数：用于创建一个 React 根，之后渲染的内容会包含在这个根中
+- `ReactDOM.createRoot` 函数：用于创建一个 React 根，之后渲染的内容会包含在这个根中。
 	- 参数：将渲染的内容，挂载到哪一个 HTML 元素上，这里我们已经提前定义了一个 id 为 root 的 div
 - `root.render` 函数:
 	- 参数：要渲染的根组件
@@ -110,30 +111,34 @@ React 的基本使用
 
 # React 的开发依赖有哪些？
 
-- 开发 React 必须依赖三个库：
-	- react：包含 react 所必须的核心代码
-	- react-dom：react 渲染在不同平台所需要的核心代码
-	- babel：将 jsx 转换成 React 代码的工具
-- 对于 Vue 来说，我们只是依赖一个 vue.js 文件即可，但是 react 居然要依赖三个包。
-	- 其实呢，这三个库是各司其职的，目的就是让每一个库只单纯做自己的事情;
-	- 在 React 的 0.14 版本之前是没有 react-dom 这个概念的，所有功能都包含在 react 里；
-- 为什么要进行拆分呢？原因就是 react-native。
-	- react 包中包含了 react web 和 react-native 所共同拥有的核心代码。
-	- react-dom 针对 web 和 native 所完成的事情不同：
-		- web 端：react-dom 会将 jsx 最终渲染成真实的 DOM，显示在浏览器中。
-		- native 端：react-dom 会将 jsx 最终渲染成原生的控件（比如 Android 中的 Button，iOS 中的 UIButton）。
+开发 React 必须依赖三个库：
+- `react`：包含 react 所必须的核心代码。
+- `react-dom`：react 渲染在不同平台所需要的核心代码。
+- `babel`：将 jsx 转换成 React 代码的工具。
+
+对于 Vue 来说，我们只是依赖一个 vue.js 文件即可，但是 react 居然要依赖三个包。
+- 其实呢，这三个库是各司其职的，目的就是让每一个库只单纯做自己的事情;
+- 在 React 的 0.14 版本之前是没有 react-dom 这个概念的，所有功能都包含在 react 里；
+
+为什么要进行拆分呢？原因就是 react-native。
+- react 包中包含了 react web 和 react-native 所共同拥有的核心代码。
+- react-dom 针对 web 和 native 所完成的事情不同：
+	- web 端：react-dom 会将 jsx 最终渲染成真实的 DOM，显示在浏览器中。
+	- native 端：react-dom 会将 jsx 最终渲染成原生的控件（比如 Android 中的 Button，iOS 中的 UIButton）。
 
 
 ## 什么是 babel
 
-- Babel 是一个工具链，最早用于在旧浏览器或环境中将 ES6+ 代码转成向后兼容的版本。
-- 现在主要用于语法转换，源代码转换等。
-- Babel 本质上是一个编译器。
+Babel 是一个工具链，最早用于在旧浏览器或环境中将 ES6+ 代码转成向后兼容的版本。
+
+现在主要用于语法转换，源代码转换等。
+
+Babel 本质上是一个编译器。
 
 babel 与 react 的关系是怎样的？
 
 - 默认情况下开发 React 其实可以不使用 babel。
-- 但是前提是我们自己使用 React.createElement 来编写源代码，它编写的代码非常的繁琐，可读性差。
+- 但是前提是我们自己使用 `React.createElement` 来编写源代码，它编写的代码非常的繁琐，可读性差。
 - 那么我们就可以直接编写 jsx（JavaScript XML）的语法，并且让 babel 帮助我们编译成 React.createElement。
 
 ## 依赖的引入方式
@@ -189,15 +194,15 @@ babel 与 react 的关系是怎样的？
 
 # React 的组件化开发
 
-- 以上案例中，整个逻辑其实可以看做一个整体，那么我们就可以将其封装成一个组件：
+以上案例中，整个逻辑其实可以看做一个整体，那么我们就可以将其封装成一个组件：
 
-	- 我们知道 root.render 参数是一个 HTML 元素或者一个组件；
-	- 所以我们可以先将之前的业务逻辑封装到一个组件中，然后传入到 `root.render` 函数中的第一个参数；
+- 我们知道 `root.render` 参数是一个 HTML 元素或者一个组件；
+- 所以我们可以先将之前的业务逻辑封装到一个组件中，然后传入到 `root.render` 函数中的第一个参数；
 
-- 在 React 中，封装一个组件有两种方式，**类组件**和**函数式组件**。这里我们先使用类组件。
+在 React 中，封装一个组件有两种方式，**类组件**和**函数式组件**。这里我们先使用类组件。
 
-	1. 定义一个类（类名首字母必须大写，因为组件的名称是必须大写的，小写会被认为是 HTML 元素），继承自 React.Component 
-	2. 实现当前组件的 render 函数，render 当中返回的 jsx 内容，就是之后 React 会帮助我们渲染的内容
+1. 定义一个类（类名首字母必须大写，因为组件的名称是必须大写的，小写会被认为是 HTML 元素），继承自 `React.Component` 
+2. 实现当前组件的 render 函数，render 当中返回的 jsx 内容，就是之后 React 会帮助我们渲染的内容
 
 ```jsx
 <body>
@@ -250,31 +255,37 @@ babel 与 react 的关系是怎样的？
 
 ## 组件化的数据依赖处理。
 
-- 组件化问题一：数据在哪里定义？ 
-- 在组件中的数据，我们可以分成两类： 
-	- 参与界面更新的数据：当数据变化时，需要更新组件渲染的内容； 
-	- 不参与界面更新的数据：当数据变化时，不需要更新组建渲染的内容；
-- 参与界面更新的数据我们也可以称之为是**参与数据流**，这个数据是定义在当前对象的 `state` 中 
-	- 我们可以在构造函数中进行初始化 this.state = {定义的数据} 
-	- 当我们的数据发生变化时，我们可以调用 `this.setState` 来更新数据，并且通知 React 进行 update 操作；在进行 update 操作时，就会重新调用 render 函数，并且使用最新的数据，来渲染界面。
-	
+组件化问题一：数据在哪里定义？ 
+
+在组件中的数据，我们可以分成两类： 
+- 参与界面更新的数据：当数据变化时，需要更新组件渲染的内容； 
+- 不参与界面更新的数据：当数据变化时，不需要更新组建渲染的内容；
+
+参与界面更新的数据我们也可以称之为是**参与数据流**，这个数据是定义在当前对象的 `state` 中 
+- 我们可以在构造函数中进行初始化 `this.state = {定义的数据}`
+- 当我们的数据发生变化时，我们可以调用 `this.setState` 来更新数据，并且通知 React 进行 update 操作；
+- 在进行 update 操作时，就会重新调用 render 函数，并且使用最新的数据，来渲染界面。
+
 ## 组件化的事件绑定处理。
 
-- 组件化问题二：事件绑定中的 this 
-	- 在类中直接定义一个函数，并且将这个函数绑定到元素的 onClick 事件上，当前这个函数的 this 指向的是谁呢？
-- 默认情况下是 undefined 
-	1. 很奇怪，居然是 undefined？
-	2. 我们知道在原生的 DOM 操作中，监听点击，监听函数中的 this 其实是节点对象（比如说是 button 对象）； 
-	3. 而 React 并不是直接渲染成真实的 DOM，我们所使用 JSX 编写的 button 只是一个语法糖，它的本质是 React 的 Element 对象； 
-	4. 那么在这里发生监听的时候，react 在执行函数时并没有绑定 this，默认情况下就是一个 undefined；为什么呢？
-	5. ES6 中使用 class，里面的实例方法默认开启严格模式；我们引用的 babel 库，其中也会开启严格模式。而在严格模式下，默认绑定会绑定 undefined。
-	6. jsx 代码会被 babel 编译为一段 js 代码，所以在 jsx 中引用类的实例方法，方法中的 this 默认绑定的是 undefined。
-	7. `setState` 方法是继承过来的。`this.setState` 做了两件事：
-		1. 将 state 中 message 值修改掉；
-		2. 自动重新执行 render 函数。
-- 我们在绑定事件处理的函数中，可能想要使用当前对象，比如执行 `this.setState` 函数，就必须拿到作为当前对象的 this 
-	- 我们就需要在传入函数时，给这个函数直接绑定 this
-	- 类似于下面的写法：`<button onClick={ this.changeText.bind(this) }>改变文本</button>`
+组件化问题二：事件绑定中的 this 
+
+- 在类中直接定义一个函数，并且将这个函数绑定到元素的 onClick 事件上，当前这个函数的 this 指向的是谁呢？
+
+默认情况下是 undefined 
+1. 很奇怪，居然是 undefined？
+2. 我们知道在原生的 DOM 操作中，监听点击，监听函数中的 this 其实是节点对象（比如说是 button 对象）； 
+3. 而 React 并不是直接渲染成真实的 DOM，我们所使用 JSX 编写的 button 只是一个语法糖，它的本质是 React 的 Element 对象； 
+4. 那么在这里发生监听的时候，react 在执行函数时并没有绑定 this，默认情况下就是一个 undefined；为什么呢？
+5. ES6 中使用 class，里面的实例方法默认开启严格模式；我们引用的 babel 库，其中也会开启严格模式。而在严格模式下，默认绑定会绑定 undefined。
+6. jsx 代码会被 babel 编译为一段 js 代码，所以在 jsx 中引用类的实例方法，方法中的 this 默认绑定的是 undefined。
+7. `setState` 方法是继承过来的。`this.setState` 做了两件事：
+	1. 将 state 中 message 值修改掉；
+	2. 自动重新执行 render 函数。
+
+我们在绑定事件处理的函数中，可能想要使用当前对象，比如执行 `this.setState` 函数，就必须拿到作为当前对象的 this 
+- 我们就需要在传入函数时，给这个函数直接绑定 this
+- 类似于下面的写法：`<button onClick={ this.changeText.bind(this) }>改变文本</button>`
 
 # 电影列表案例实现
 
@@ -384,7 +395,7 @@ babel 与 react 的关系是怎样的？
 
 为什么 React 选择了 jsx？（面试）
 
-- React 认为渲染逻辑本质上与其他 UI 逻辑存在内在耦合 
+- React 认为渲染逻辑本质上与其他 UI 逻辑存在内在耦合：
 	- 比如 UI 需要绑定事件；
 	- 比如 UI 中需要展示数据状态；
 	- 比如在某些状态发生改变时，又需要改变 UI；
@@ -393,8 +404,9 @@ babel 与 react 的关系是怎样的？
 # jsx 的书写规范
 
 - JSX 的顶层只能有一个根元素，所以我们很多时候会在外层包裹一个 div 元素（或者使用后面我们学习的 Fragment）； 
-- 为了方便阅读，我们通常在 jsx 的外层包裹一个小括号 ()，这样可以方便阅读，并且 jsx 可以进行换行书写； 
-- JSX 中的标签可以是单标签，也可以是双标签；注意：如果是单标签，必须以 `/>` 结尾（html 中单标签元素可省略，jsx 中不行）；
+- 为了方便阅读，我们通常在 jsx 的外层包裹一个小括号 ()，jsx 也可以进行换行书写； 
+- JSX 中的标签可以是单标签，也可以是双标签；
+  - 如果是单标签，必须以 `/>` 结尾（html 中单标签元素可省略，jsx 中不行）；
 
 
 # jsx 的使用
@@ -416,7 +428,7 @@ const divEl = (
 - 情况二：当变量是 null、undefined、Boolean 类型时，内容为空；
 	- 如果希望可以显示 null、undefined、Boolean，那么需要转成字符串； 
 	- 转换的方式有很多，比如 `toString` 方法、和空字符串拼接，`String(变量)` 等方式；
-- 情况三：Object 对象类型不能作为子元素（not valid as a React child）在 JSX 语法中引用。
+- 情况三：Object 对象类型不能作为**子元素**（not valid as a React child）在 JSX 语法中引用。
 
 ## 嵌入表达式。
 
