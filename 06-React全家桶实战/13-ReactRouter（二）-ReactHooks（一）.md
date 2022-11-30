@@ -92,7 +92,7 @@ export class Home extends PureComponent {
 export default withRouter(Home)
 ```
 
-## useNavigate API 的使用总结
+## useNavigate Hook 使用总结
 
 `useNavigate` 返回的函数 `navigate`，可传入那些参数？
 
@@ -111,7 +111,7 @@ navigate(-1)
 
 传递参数有两种方式
 
-### 方式一：动态路由的方式
+### 方式一：动态路由
 
 首先在 App 中注册一个动态路由。
 
@@ -202,6 +202,7 @@ import withRouter from '../hoc/withRouter'
 export class Detail extends PureComponent {
 	render() {
 		const { params } = this.props.router
+    
 		return (
 			<div>
 				<h1>Detail Page</h1>
@@ -214,7 +215,7 @@ export class Detail extends PureComponent {
 export default withRouter(Detail)
 ```
 
-### 方式二：查询字符串（search）传递参数
+### 方式二：查询字符串（search）
 
 在 App 中注册路由，为了方便，这里直接在 Link 的 to 属性上拼接查询字符串。
 
@@ -243,7 +244,7 @@ export default withRouter(Detail)
 // ...
 ```
 
-增强 withRouter 的功能。使用 `useLoacation` 或 `useSearchParams` API 获取查询字符串。
+增强 withRouter 的功能。使用 `useLoacation` 或 `useSearchParams` Hook 获取查询字符串。
 
 08-learn-reactrouter\src\hoc\withRouter.jsx
 
@@ -263,13 +264,13 @@ function withRouter(WrapperComponent) {
 		const location = useLocation()
 		console.log('location:', location)
     // {pathname: '/user', search: '?name=zzt&age=18', hash: '', state: null, key: '1k1r7ie4'}
+    
 		const [searchParams] = useSearchParams()
 		const query = Object.fromEntries(searchParams)
 		console.log('query:', query);
     // {name: 'zzt', age: '18'}
 
 		const router = { navigate, params, location, query }
-
 		return <WrapperComponent {...props} router={ router } />
 	}
 }
@@ -376,6 +377,7 @@ const routes = [
 	{
 		path: '/home',
 		element: <Home />,
+    // 二级路由
 		children: [
 			{
 				path: '/home',
@@ -403,6 +405,7 @@ const routes = [
 		path: '/order',
 		element: <Order />
 	},
+  // 动态路由
 	{
 		path: '/detail/:id',
 		element: <Detail />
@@ -411,6 +414,7 @@ const routes = [
 		path: '/user',
 		element: <User />
 	},
+  // NotFound
 	{
 		path: '*',
 		element: <NotFound />
@@ -649,8 +653,8 @@ export default CounterHook
 	- 元素二：设置状态值的函数；
 
 在上述案例中，点击 button 按钮后，会做两件事情： 
-- 调用 setCount，设置一个新的值；
-- 组件重新渲染，并且根据新的值返回 DOM 结构；
+1. 调用 setCount，设置一个新的值；
+2. 组件重新渲染，并且根据新的值返回 DOM 结构；
 
 Hook 就是 JavaScript 函数，这个函数可以帮助你钩入（hook into）React State 以及生命周期等特性；
 

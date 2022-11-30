@@ -4,7 +4,7 @@
 
 在计算机科学中，Effect 通常表示副作用。
 
-事实上，类似于网络请求、DOM 操作、一些事件的监听，都是 React 更新 DOM 携带的副作用（Side Effects）；
+事实上，类似于网络请求、DOM 操作、事件监听，都是 React 更新 DOM 需要携带的副作用（Side Effects）；
 
 所以对于完成这些功能的 Hook 被称之为 Effect Hook；
 
@@ -80,7 +80,7 @@ const App = memo(() => {
 export default App
 ```
 
-## useEffect 的使用解析。
+## useEffect 的副作用执行时机
 
 - 通过 `useEffect` 的 Hook，可以告诉 React 需要在渲染后执行某些操作；
 - `useEffect` 要求我们传入一个回调函数，在 React 执行完更新 DOM 操作之后，就会回调这个函数；
@@ -180,7 +180,7 @@ export default App
 
 默认情况下，`useEffect` 的回调函数会在每次渲染（更新）时都重新执行，但是这会导致两个问题：
 - 问题一：某些代码我们只是希望执行一次即可，类似于 `componentDidMount` 和 `componentWillUnmount` 中完成的事情；（比如网络请求、订阅和取消订阅）；
-- 问题二：多次执行也会导致一定的性能问题；
+- 问题二：多次执行也会导致一定的性能消耗；
 
 我们如何决定 `useEffect` 在什么时候应该执行和什么时候不应该执行呢？useEffect 实际上可以传入两个参数：
 - 参数一：执行的回调函数；
@@ -197,7 +197,7 @@ const App = memo(() => {
 
 	/**
 	 * 使用 useEffect 模拟 componentDidMount 和 componentWillUnmount 生命周期，
-	 * 	传入一个空数组。副作用只会在初次渲染完成后执行，取消副作用函数只会在组件卸载时执行。
+	 * 	传入一个空数组。副作用只会在组件初次渲染完成后执行，取消副作用函数只会在组件卸载时执行。
 	 */
 	useEffect(() => {
 		console.log('订阅 redux 中的数据')
@@ -426,7 +426,7 @@ export default App
 - useCallback 会返回一个函数的 memoized（记忆） 值；
 - 在依赖的状态（传入的第二个参数（数组）中的元素）不变的情况下，多次定义的时候，返回的值是相同的；
 
-如果我们想要在函数的定义层面做优化，让函数只定义一次，很难做到。尝试使用 useCallback 解决。
+如果我们想要在函数的定义层面做优化，让函数只定义一次，很难做到。尝试使用 `useCallback` 解决。
 
 ```jsx
 import React, { memo, useState, useCallback } from 'react'
@@ -469,10 +469,11 @@ const App = memo(() => {
 	 * 
 	 * 如果是一个空数组，表示不依赖任何状态；
 	 * 	那么 increment 永远不会改变。
-	 * 	这种情况下，就会产生“闭包陷阱”的问题。组件状态 count 更新，引起函数重新执行；
+	 * 	这种情况下，就会产生“闭包陷阱”的问题：
+	 * 		组件状态 count 更新，引起函数重新执行；
 	 * 		useCallback 中会传入一个新的匿名函数；
 	 * 		而 useCallback 返回的 memorized（即 increment 函数） 使用的仍然是最初的匿名函数；
-	 * 		该匿名函数形成的闭包，引用的外层作用域中的 count，也就是组件初始的的 count。
+	 * 		该匿名函数形成的闭包，引用的外层作用域中的 count，也就是组件初始的 count。
 	 */
 	const increment = useCallback(function() {
 		setCount(count + 1)
@@ -563,7 +564,7 @@ const App = memo(() => {
 	/**
 	 * 在 useCallback 中将 count 依赖移除掉，即传入的第二个参数为一个空数组，会产生“闭包陷阱”
 	 * 	使用 useRef hook，生成一个 countRef，将其中的 current 属性赋值为 count。
-	 * 	将 useCallback 中使用的匿名函数的闭包引用该为 countRef
+	 * 	将 useCallback 中使用的匿名函数的闭包引用外层作用域变量改为 countRef
 	 */
 	const countRef = useRef()
 	countRef.current = count

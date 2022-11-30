@@ -1,80 +1,81 @@
 # JSX 的事件绑定，
 
-相比原生是怎样的？
+如果原生 DOM 有一个监听事件，我们可以如何操作呢？
+- 方式一：获取原生 DOM 对象，添加监听事件；
 
-- 如果原生 DOM 有一个监听事件，我们可以如何操作呢？
-	- 方式一：获取原生 DOM 对象，添加监听事件；
+  ```js
+  const boxEl = document.querySelector('.box')
+  boxEl.addEventListener('click', function() {/*...*/})
+  ```
 
-	  ```js
-	  const boxEl = document.querySelector('.box')
-	  boxEl.addEventListener('click', function() {/*...*/})
-	  ```
+- 方式二：在原生 DOM 对象上，直接绑定 `onclick`；
 
-	- 方式二：在原生 DOM 对象上，直接绑定 `onclick`；
+  ```js
+  const boxEl = document.querySelector('.box')
+  boxEl.onclick = function() {/*...*/}
+  ```
 
-	  ```js
-	  const boxEl = document.querySelector('.box')
-	  boxEl.onclick = function() {/*...*/}
-	  ```
+在 React 中是如何操作呢？或者说在 JSX 中如何操作呢？这里主要有两点不同：
+- React 事件的命名采用小驼峰式（camelCase），而不是纯小写；
+- 我们需要通过 {} 传入一个事件处理函数，这个函数会在事件发生时被执行；
 
-- 在 React 中是如何操作呢？或者说在 JSX 中如何操作呢？这里主要有两点不同：
-	- React 事件的命名采用小驼峰式（camelCase），而不是纯小写；
-	- 我们需要通过 {} 传入一个事件处理函数，这个函数会在事件发生时被执行；
+```jsx
+<body>
+	<div id="root"></div>
 
-	```jsx
-	<body>
-		<div id="root"></div>
+	<script src="../../lib/react.development.js"></script>
+	<script src="../../lib/react-dom.development.js"></script>
+	<script src="../../lib/babel.min.js"></script>
 
-		<script src="../../lib/react.development.js"></script>
-		<script src="../../lib/react-dom.development.js"></script>
-		<script src="../../lib/babel.min.js"></script>
-
-		<script type="text/babel">
-			class App extends React.Component {
-				constructor() {
-					super()
-					this.state = {
-						meg: 'Hello World',
-						counter: 30
-					}
-
-					this.onBtn1Click = this.onBtn1Click.bind(this)
+	<script type="text/babel">
+		class App extends React.Component {
+			constructor() {
+				super()
+				this.state = {
+					meg: 'Hello World',
+					counter: 30
 				}
 
-				onBtn1Click() {
-					this.setState({
-						counter: ++this.state.counter
-					})
-				}
-
-				render() {
-					const { counter } = this.state
-					return (
-						<div>
-							<h2>{ counter }</h2>
-							<button onClick={ this.onBtn1Click }>按钮1</button>
-						</div>
-					)
-				}
+				this.onBtn1Click = this.onBtn1Click.bind(this)
 			}
 
-			const root = ReactDOM.createRoot(document.querySelector('#root'))
-			root.render(<App/>)
-		</script>
-	</body>
-	```
+			onBtn1Click() {
+				this.setState({
+					counter: ++this.state.counter
+				})
+			}
+
+			render() {
+				const { counter } = this.state
+				return (
+					<div>
+						<h2>{ counter }</h2>
+						<button onClick={ this.onBtn1Click }>按钮1</button>
+					</div>
+				)
+			}
+		}
+
+		const root = ReactDOM.createRoot(document.querySelector('#root'))
+		root.render(<App/>)
+	</script>
+</body>
+```
 
 # JSX 中事件绑定处理函数中 this 的绑定问题
 
-- 在事件执行后，我们可能需要获取当前类的实例对象中相关的属性，这个时候需要用到 this
-	- 如果我们这里直接打印 this，也会发现它是一个 undefined
-- 为什么是 undefined 呢？
-	- 原因是 btnClick 函数并不是我们主动调用的，而是当 button 发生点击时，React 内部调用了 btnClick 函数；
-	- 而它内部调用时，并不知道要如何绑定正确的 this；
-- 如何解决 this 的问题呢？
-	- 方案一：bind 给 btnClick 显示绑定 this
-	- 方案二：使用 ES13 class fields 语法，给 btnClick 赋值一个箭头函数，箭头函数取上层作用域中的 this，即 class 作用域中的 this 指向的是当前创建出来的实例。
-	- 方案三：事件监听时传入箭头函数（个人推荐），传递参数非常方便。
+在事件执行后，我们可能需要获取当前类的实例对象中相关的属性，这个时候需要用到 this
+
+- 如果我们这里直接打印 this，也会发现它是一个 undefined
+
+为什么是 undefined 呢？
+- 原因是 btnClick 函数并不是我们主动调用的，而是当 button 发生点击时，React 内部调用了 btnClick 函数；
+- 而它内部调用时，并不知道要如何绑定正确的 this；
+
+如何解决 this 的问题呢？
+- 方案一：bind 给 btnClick 显示绑定 this
+- 方案二：使用 ES13 class fields 语法，给 btnClick 赋值一个箭头函数，箭头函数取上层作用域中的 this，即 class 作用域中的 this 指向的是当前创建出来的实例。
+- 方案三：事件监听时传入箭头函数（个人推荐），传递参数非常方便。
 
 ```jsx
 <body>
@@ -97,9 +98,7 @@
 			}
 
 			onBtn1Click() {
-				this.setState({
-					counter: ++this.state.counter
-				})
+				this.setState({ counter: ++this.state.counter })
 			}
 
       // 使用 ES13 class fields 语法
