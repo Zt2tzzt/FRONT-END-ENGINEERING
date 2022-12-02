@@ -1,7 +1,7 @@
 # FRONT-END-ENGINEERING
 
 #### 介绍
-ZeTian的 coderwhy 前端学习资料分享：FRONT-END--ENGINEERING，前端工程化
+ZeTian 的 coderwhy 前端学习笔记分享：FRONT-END--ENGINEERING，前端工程化
 
 #### 参与贡献
 

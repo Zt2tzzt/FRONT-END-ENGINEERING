@@ -4,7 +4,7 @@ useMemo 实际的目的也是为了进行性能的优化。
 
 如何进行性能的优化呢？
 
-- useMemo 返回的也是一个 memorized（记忆的）值；这个 memorized 针对的是回调函数的返回值。
+- `useMemo` 返回的也是一个 memorized（记忆的）值；这个 memorized 针对的是回调函数的返回值。
 - 在依赖不变的情况下，多次定义的时候，返回的值是相同的；
 
 09-learn-reacthooks\src\08-useMemo的使用\App.jsx
@@ -39,8 +39,8 @@ const App = memo(() => {
 	 * 	不依赖任何状态，每次组件更新，info 引用地址不变；
 	 * 	使子组件不会频繁渲染更新，
 	 */
-	const info = useMemo(() => ({ name: 'zzt', age: 18 }), [])
 	// const info = { name: 'zzt', age: 18 } // 每次组件重新渲染，info 引用地址改变。
+	const info = useMemo(() => ({ name: 'zzt', age: 18 }), [])
 
 	/**
 	 * useMemo 与 useCallback 的对比。
@@ -140,21 +140,20 @@ export default App
 
 # useImperativeHandle Hook（了解）
 
-`useImperativeHandle` 有什么用？
+`useImperativeHandle` 有什么用？我们先来回顾一下 `ref` 和 `forwardRef` 结合使用：
 
-我们先来回顾一下 `ref` 和 `forwardRef` 结合使用：
 - 通过 forwardRef 可以将 ref 转发到函数式子组件；
 - 子组件拿到父组件中创建的 ref，绑定到自己的某一个元素中；
 
 `forwardRef` 的做法本身没有什么问题，但是我们是将子组件的 DOM 直接暴露给了父组件：
-- 直接暴露给父组件带来的问题是某些情况的不可控；
+- 直接暴露给父组件带来的问题是权限的不可控；
 - 父组件可以拿到 DOM 后进行任意的操作；
 - 如果我们希望在父组件中，拿到子组件中的 input 元素，只对它进行 focus 操作，除此之外不希望父组件有其它的操作权限呢？
 
 通过 `useImperativeHandle` 可以只暴露固定的操作：
 - 通过 `useImperativeHandle` 的 Hook，将传入的 ref 和 useImperativeHandle 第二个参数返回的对象绑定到了一起；
 - 所以在父组件中，使用 `inputRef.current` 时，实际上使用的是上述返回的对象；
-- 比如只能进行 `focus` 操作和 `setValue` 操作；
+- 比如下方案例，在父组件中只能进行 `focus` 操作和 `setValue` 操作；
 
 09-learn-reacthooks\src\10-useImperativeHandle的使用\App.jsx
 
@@ -511,7 +510,7 @@ function useLocalStorage(key) {
 		return item ? JSON.parse(item) : ''
 	})
 
-	// 2. 监听 data 改变，保存 data 最新值
+	// 2. 监听 data 改变，缓存 data 最新值
 	useEffect(() => {
 		localStorage.setItem(key, JSON.stringify(data))
 	}, [data, key])

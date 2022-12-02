@@ -227,6 +227,7 @@ export default withRouter(Detail)
 	<div className="header">
 		header
 		<div className="nav">
+      {/* 查询字符串 */}
 			<Link to='/user?name=zzt&age=18'>用户</Link>
 		</div>
 		<hr />
@@ -317,12 +318,12 @@ export default withRouter(User)
 ```jsx
 import React from 'react'
 import { useNavigate, Link, useRoutes } from 'react-router-dom';
+// 引入配置文件
 import routes from './router';
 
 export function App() {
 
   const navigate = useNavigate()
-
   function navigateTo(path) {
     navigate(path)
   }
@@ -355,7 +356,7 @@ export default App
 
 配置文件：
 
-08-learn-reactrouter\src\router\index.js
+08-learn-reactrouter\src\router\index.jsx
 
 ```jsx
 import Category from '../pages/Category'
@@ -372,6 +373,7 @@ import { Navigate } from 'react-router-dom'
 const routes = [
 	{
 		path: '/',
+    // 重定向
 		element: <Navigate to="/home" />
 	},
 	{
@@ -512,8 +514,7 @@ class 组件可以定义自己的 state，用来保存组件自己内部的状�
 
 - 函数式组件不可以，因为函数每次调用都会产生新的临时变量；
 
-class 组件有自己的生命周期，我们可以在对应的生命周期中完成自己的逻辑；
-- 比如在 `componentDidMount` 中发送网络请求，并且该生命周期函数只会执行一次；
+class 组件有自己的生命周期，我们可以在对应的生命周期中完成自己的逻辑；比如在 `componentDidMount` 中发送网络请求，并且该生命周期函数只会执行一次；
 - 如果在函数中发送网络请求，意味着每次重新渲染都会重新发送一次网络请求；
 
 class 组件可以在状态改变时重新执行 `render` 函数以及生命周期函数 `componentDidUpdate` 等；
@@ -545,12 +546,10 @@ Hook 是 React 16.8 的新增特性，它可以让我们在不编写 class 的�
 
 Hook 的使用场景：
 - Hook 的出现基本可以代替我们之前所有使用 class 组件的地方；
-- Hook 只能在函数组件中使用，不能在类组件，以及函数组件之外的地方使用；除非是在自定义 Hook 函数中使用，即以“use”开头的函数。
+- Hook 只能在函数组件中使用，不能在类组件，以及函数组件之外的地方使用；除非是自定义 Hook 函数，即以“use”开头的函数。
 - 如果是一个旧的项目，你并不需要直接将所有的代码重构为 Hooks，因为它完全向下兼容，你可以渐进式的来使用它；
 
-在我们继续之前，请记住 Hook 是：
-- 完全可选的：你无需重构任何已有代码，就可以原有项目中使用 Hook。它是 100% 向后兼容的：Hook 不包含任何破坏性改动。
-
+在我们继续之前，请记住 Hook 是完全可选的：你无需重构任何已有代码，就可以在原有项目中使用 Hook。它是 100% 向后兼容的：Hook 不包含任何破坏性改动。
 ## 计数器案例
 
 使用计数器案例对比函数式组件结合 Hooks 和类组件的实现方式。
@@ -647,26 +646,26 @@ export default CounterHook
 
 一般来说，在函数退出后变量就会”消失”，而 state 中的变量会被 React 保留。
 
-- 参数：接受唯一一个参数，表示初始化值，如果不设置，默认为 undefined； 
+- 参数：接受唯一一个参数，表示初始化值，如果不设置，默认为 undefined；
 - 返回值：数组，包含两个元素；可以通过数组的解构进行使用，非常方便。
 	- 元素一：当前状态的值（第一此调用为初始化值）； 
 	- 元素二：设置状态值的函数；
 
 在上述案例中，点击 button 按钮后，会做两件事情： 
-1. 调用 setCount，设置一个新的值；
+1. 调用 `setCount`，设置一个新的值；
 2. 组件重新渲染，并且根据新的值返回 DOM 结构；
 
 Hook 就是 JavaScript 函数，这个函数可以帮助你钩入（hook into）React State 以及生命周期等特性；
 
-使用 Hooks 两个规则：
+使用 React Hooks 两个规则：
 - 只能在函数最外层调用 Hook。不要在循环、条件判断或者子函数中调用。 
-- 只能在 React 的函数组件中调用 Hook。不要在其他普通 JavaScript 函数中调用，除非是在自定义 Hook 函数中调用，即以“use”开头的函数。
+- 只能在 React 的函数式组件中调用 Hook。不要在其他普通 JavaScript 函数中调用，除非是在自定义 Hook 函数中调用，即以“use”开头的函数。
 
 ```jsx
 import { memo, useState } from "react";
 
 // 普通的函数, 里面不能使用 hooks
-// 在自定义的 hooks 中, 可以使用 react 提供的其他 hooks: 必须使用 use 开头
+// 在自定义的 hooks 中（必须使用“use”开头）, 可以使用 react 提供的其他 hooks:
 function useFoo() {
   const [ message ] = useState("Hello World")
   return message

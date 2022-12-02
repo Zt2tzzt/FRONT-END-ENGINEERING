@@ -2,7 +2,7 @@
 
 ## 认识 Effect Hook。
 
-在计算机科学中，Effect 通常表示副作用。
+在编程中，Effect 通常表示副作用。
 
 事实上，类似于网络请求、DOM 操作、事件监听，都是 React 更新 DOM 需要携带的副作用（Side Effects）；
 
@@ -575,6 +575,7 @@ const App = memo(() => {
 	return (
 		<div>
 			<h1>计数：{count}</h1>
+      {/* 即使修改 count，ZtButton 也不会重新刷新 */}
 			<button onClick={increment}>+1</button>
 			<ZtButton increment={increment} />
 			<h1>文本：{msg}</h1>
