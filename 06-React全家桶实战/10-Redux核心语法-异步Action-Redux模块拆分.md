@@ -84,23 +84,23 @@ export default connect(mapStateToProps, mapDispatchToProps)(About)
 
 总结 react-redux 的使用：
 
-- 开始之前需要强调一下，redux 和 react 没有直接的关系，你完全可以在 React, Angular, Ember, jQuery, 或者 vanilla JavaScript 中使用 Redux。
+- 需要强调的是，redux 和 react 没有直接的关系，你完全可以在 React, Angular, Ember, jQuery, 或者 vanilla JavaScript 中使用 Redux。
 - 尽管这样说，redux 依然是和 React 库结合的更好，因为他们是通过 state 函数来描述界面的状态，Redux 可以发射状态的更新，让他们作出响应。
-- redux 官方帮助我们提供了 react-redux 的库，可以直接在项目中使用，来帮助我们省去 redux 与 react 的结合使用，主要提供了2个 API，如 `connect` 和 `Provier`。并且实现的逻辑会更加的严谨和高效。
+- redux 官方帮助我们提供了 react-redux 的库，可以直接在项目中使用，来帮助我们省去 redux 与 react 的结合使用，主要提供了2个 API，如 `connect` 和 `Provier`。和几个 Hook，如 `useSelector`、`useDispatch` 和 `useStore`（后续介绍）并且实现的逻辑会更加的严谨和高效。
 
 # 组件中的异步操作
 
-- 在之前简单的案例中，redux 中保存的 counter 是一个本地定义的数据。
-	- 我们可以直接通过同步的操作来 dispatch action，state 就会被立即更新。
-	- 但是真实开发中，redux 中保存的很多数据可能来自服务器，我们需要进行异步的请求，再将数据保存到 redux 中。
+在之前简单的案例中，redux 中保存的 counter 是一个本地定义的数据。
+- 我们可以直接通过同步的操作来 dispatch action，state 就会被立即更新。
+- 但是真实开发中，redux 中保存的很多数据可能来自服务器，我们需要进行异步的请求，再将数据保存到 redux 中。
 
-- 在之前学习网络请求的时候我们讲过，网络请求可以在 class 组件的 `componentDidMount` 中发送，所以我们可以有这样的结构：
+在之前学习网络请求的时候我们讲过，网络请求可以在 class 组件的 `componentDidMount` 中发送，所以我们可以有这样的结构：
 
-  <img src="NodeAssets/组件中的异步操作.jpg" alt="组件中的异步操作" style="zoom:150%;" />
+<img src="NodeAssets/组件中的异步操作.jpg" alt="组件中的异步操作" style="zoom:150%;" />
 
-- 现在完成如下案例操作：
-	- 在 Category 组件中请求 banners 和 recommends 的数据；
-	- 在 About 组件中展示 banners 和 recommends 的数据；
+现在完成如下案例操作：
+- 在 Category 组件中请求 banners 和 recommends 的数据；
+- 在 About 组件中展示 banners 和 recommends 的数据；
 
 ## 案例一
 
@@ -252,9 +252,11 @@ export default connect(mapStateToProps)(About)
 
 ## 案例一
 
-- 将发送网络请求，获取数据的代码，抽取到 Redux 中的 actionCreator 中。
-- 正常境况下，dispatch 只能派发一个对象作为 action，如果需要派发一个函数，必须要对 store 进行增强，比如使用中间件 `redux-thunk`。
-- 使用中间件增强后，派发一个函数作为 action，在这个函数中发送网络请求。最终还是要在作为函数的 action 中派发一个对象 action。
+将发送网络请求，获取数据的代码，抽取到 Redux 中的 actionCreator 中。
+
+正常境况下，dispatch 只能派发一个对象作为 action，如果需要派发一个函数，必须要对 store 进行增强，比如使用中间件 `redux-thunk`。
+
+使用中间件增强后，派发一个函数作为 action，在这个函数中发送网络请求。最终还是要在作为函数的 action 中派发一个对象 action。
 
 06-react-redux\src\store\actionCreators.js
 
@@ -382,7 +384,7 @@ redux-thunk 是如何做到让我们可以发送异步的请求呢？
 3. 定义返回一个函数的 action：
 
    - 注意：这里不是返回一个对象了，而是一个函数；
-   - 该函数在 dispatch 之后会被执行；
+   - 该函数在 dispatch 之后会被立即执行；
 
    ```jsx
    export const fetchHomeMultidataAction = () => {
@@ -405,7 +407,7 @@ redux-thunk 是如何做到让我们可以发送异步的请求呢？
    ```
 # React Developer Tools 和 Redux DevTools
 
-安装2个工具（浏览器插件） React Developer Tools 和 Redux DevTools
+安装2个工具（浏览器插件） `React Developer Tools` 和 `Redux DevTools`
 
 - 使用代码开启 Redux DevTools，
 - 仅在开发环境中开启，生产环境需要关闭。
@@ -576,6 +578,7 @@ export class App extends PureComponent {
 
   componentDidMount() {
     store.subscribe(() => {
+      // 获取 state 时，要指明哪个模块
       const counterState = store.getState().counter
       this.setState({ counter: counterState.counter })
     })
@@ -666,9 +669,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(About)
 
 # combineReducers 函数
 
-- 事实上，redux 给我们提供了一个 combineReducers 函数可以方便的让我们对多个 reducer 进行合并： 
-- 那么 combineReducers 是如何实现的呢？ 
-	- 事实上，它也是将我们传入的 reducers 合并到一个对象中，最终返回一个 combination 的函数（相当于我们之前的 reducer 函数了）；
-	- 在执行 combination 函数的过程中，它会通过判断前后返回的数据是否相同来决定返回之前的 state 还是新的 state；
-	- 新的 state 会触发订阅者（subscribe）发生对应的刷新，而旧的 state 可以有效的阻止订阅者发生刷新；
+事实上，redux 给我们提供了一个 `combineReducers` 函数可以方便的让我们对多个 reducer 进行合并： 
+
+那么 combineReducers 是如何实现的呢？ 
+- 事实上，它也是将我们传入的 reducers 合并到一个对象中，最终返回一个 combination 的函数（相当于我们之前的 reducer 函数了）；
+- 在执行 combination 函数的过程中，它会通过判断前后返回的数据是否相同来决定返回之前的 state 还是新的 state；
+- 新的 state 会触发订阅者（subscribe）发生对应的刷新，而旧的 state 可以有效的阻止订阅者发生刷新；
 

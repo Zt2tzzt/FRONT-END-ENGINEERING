@@ -1,6 +1,6 @@
 # useMemo Hook
 
-useMemo 实际的目的也是为了进行性能的优化。
+useMemo 实际的目的也是为了进行性能优化。
 
 如何进行性能的优化呢？
 
@@ -203,6 +203,8 @@ const App = memo(() => {
 export default App
 ```
 
+开发中很少用，常使用于第三方库中用于限制用户的操作权限。
+
 # useLayoutEffect Hook
 
 `useLayoutEffect` 看起来和 `useEffect` 非常的相似，事实上他们也只有一点区别而已： 
@@ -211,7 +213,7 @@ export default App
 
 <img src="NodeAssets/useEffect和useLayoutEffect的对比.jpg" alt="useEffect和useLayoutEffect的对比" style="zoom:150%;" />
 
-[官方文档](https://zh-hans.reactjs.org/docs/hooks-reference.html#uselayouteffect)更推荐使用 `useEffect`，如果我们希望在某些操作发生之后再更新 DOM，那么应该将这个操作放到 `useLayoutEffect`。
+[官方文档](https://zh-hans.reactjs.org/docs/hooks-reference.html#uselayouteffect)更推荐使用 `useEffect`，如果我们希望在某些操作发生之后再更新 DOM，那么再将这个操作放到 `useLayoutEffect`。
 
 执行时机对比
 
@@ -255,7 +257,7 @@ import { useEffect } from 'react'
 const App = memo(() => {
 	const [count, setCount] = useState(100)
 
-  // 使用该代码块，会出现数字闪烁的情况。
+  // 使用该代码块，点击按钮后，会出现数字闪烁的情况，由 0 闪烁切换为一个随机的数字。
 	/* useEffect(() => {
 		console.log('useEffect');
 		if (count === 0) {
@@ -274,7 +276,6 @@ const App = memo(() => {
 
 	return (
 		<div>
-			{/* 会出现闪烁的现象，由 0 闪烁切换为一个随机的数字 */}
 			<h2>count: {count}</h2>
 			<button onClick={e => setCount(0)}>设置为 0</button>
 		</div>

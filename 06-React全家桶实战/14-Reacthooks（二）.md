@@ -493,7 +493,7 @@ export default App
 
 ## useCallback 的真正用途
 
-经过以上案例的探索，得出结论，`useCallback` 的真正用途，
+经过以上案例的探索，得出结论，`useCallback` 的真正用途：
 - 是当需要给子组件传递函数时，对该函数使用 useCallback；将返回的 memorized 传递给子组件，
 - 避免与子组件无关联的状态改变后，子组件发生重新渲染的情况，以节省性能开支。
 
@@ -540,7 +540,7 @@ export default App
 - 与子组件不相关的状态 msg 改变，useCallback 返回的 memorize 不会改变。
 - 而当状态 count 改变时，memorized 就会改变。
 
-有没有一种办法，使得 count 改变后，memorized 不变，而只改变 memorized 使用的匿名函数中，引用的上层作用域状态值（count），以解除“闭包陷阱”？
+因为案例中，ZtButton 不依赖 count 状态，那么有没有一种办法，使得 count 改变后，memorized 仍不变，而只改变 memorized 使用的匿名函数中，引用的上层作用域状态值（count），以解除“闭包陷阱”？
 
 - 使用 `useRef` Hook 做优化
 

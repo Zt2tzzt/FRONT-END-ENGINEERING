@@ -34,7 +34,9 @@
     </ul>
     <button @click="insert">插入f</button>
   </div>
+  
   <script src="https://unpkg.com/vue@next"></script>
+  
   <script>
     const app = {
       data() {
@@ -97,8 +99,7 @@
 
 什么是计算属性 computed？
 
-- 官方并没有给出直接的概念解释； 
-- 而是说：对于任何**包含响应式数**据的复杂逻辑，你都应该使用计算属性； 
+- 官方并没有给出直接的概念解释；而是说：对于任何**包含响应式数**据的复杂逻辑，你都应该使用计算属性； 
 - 计算属性将被混入到组件实例中
 	- 所有 getter 和 setter 的 this 上下文自动地绑定为组件实例；
 
@@ -111,7 +112,9 @@
     <h2>{{ result }}</h2>
     <h2>{{ reverseMessage }}</h2>
   </div>
+  
   <script src="https://unpkg.com/vue@next"></script>
+  
   <script>
     const app = {
       data() {
@@ -144,9 +147,7 @@
 计算属性 computed 与 methods 的区别？
 
 - 原理上：计算属性有缓存。
-	1. 计算属性会基于依赖关系做缓存。
-	2. 依赖的数据不发生变化时，计算属性不需要重新计算。
-	3. 依赖的数据变化，计算属性会重新计算。
+  - 计算属性会基于依赖关系做缓存。依赖的数据不发生变化时，计算属性不需要重新计算。依赖的数据变化，计算属性会重新计算。
 - 写法上：计算属性在模板语法中更优雅（不用写()）
 
 ```html
@@ -160,7 +161,7 @@
 <h2>{{ fullname }}</h2>
 ```
 
-## 计算属性的完整写法，setter 和 getter。
+## 计算属性的完整写法，setter 和 getter
 
 - 计算属性在大多数情况下，只需要一个 getter 方法即可，所以我们会将计算属性直接写成一个函数。 
 - 但是，如果我们确实想设置计算属性的值呢？ 这个时候我们也可以给计算属性设置一个 setter 的方法；
@@ -171,7 +172,9 @@
     <button @click="changeFullname">修改fullname</button>
     <h2>{{ fullname }}</h2>
   </div>
+  
   <script src="https://unpkg.com/vue@next"></script>
+  
   <script>
     const app = {
       data() {
@@ -223,7 +226,9 @@
     <h2>{{message}}</h2>
     <button @click="changeMessage">修改message</button>
   </div>
+  
   <script src="../lib/vue.js"></script>
+  
   <script>
     const app = Vue.createApp({
       data() {
@@ -239,12 +244,12 @@
         }
       },
       watch: {
-        message(newValue, oldValue) { // 默认有两个参数: newValue, oldValue
-          console.log("message数据发生了变化:", newValue, oldValue)
+        message(newVal, oldVal) { // 默认有两个参数: newVal, oldVal
+          console.log("message数据发生了变化:", newVal, oldVal)
         },
-        info(newValue, oldValue) {
+        info(newVal, oldVal) {
           // 如果是对象类型, 那么拿到的是代理对象 proxy
-          console.log(newValue.name, oldValue.name) // 默认情况下，侦听器只能侦听对象引用的变化。对象中属性发生改变，newValue 和 oldValue 相同。
+          console.log(newVal.name, oldVal.name) // 默认情况下，侦听器只能侦听对象引用的变化。对象中属性发生改变，newVal 和 oldVal 相同。
         }
       }
     })
@@ -258,9 +263,9 @@
 ```js
 const app = {
 	watch: {
-		info(newValue, oldValue) {
-			console.log({ ...newValue }) // 方法一，利用对象的展开语法，浅拷贝。
-			console.log(Vue.toRaw(newValue)) // 方法二，利用 Vue 提供的方法。
+		info(newVal, oldVal) {
+			console.log({ ...newVal }) // 方法一，利用对象的展开语法，浅拷贝。
+			console.log(Vue.toRaw(newVal)) // 方法二，利用 Vue 提供的方法。
 		}
 	}
 }
@@ -268,8 +273,9 @@ const app = {
 
 ## 配置选项
 
-- template 中的监听是深度监听的。
-- watch 中的监听默认不是深度监听。
+template 中的监听是深度监听的。
+
+watch 中的监听默认不是深度监听。
 
 ```html
 <body>
@@ -280,7 +286,9 @@ const app = {
     <button @click="changeInfoName">改变Info.name</button>
     <button @click="changeInfoPremierName">改变Info.premier.name</button>
   </div>
+    
   <script src="https://unpkg.com/vue@next"></script>
+  
   <script>
     const app = {
       data() {
@@ -297,7 +305,7 @@ const app = {
           deep: true,
           immediate: true
         },
-        // 侦听单个嵌套
+        // 侦听对象中的深层属性
         'info.name': function (newVal, oldVal) {
           console.log('newVal.name', newVal, 'oldVal.name', oldVal)
         },
@@ -350,7 +358,9 @@ const app = {
     <h2>{{message}}</h2>
     <button @click="changeMessage">修改message</button>
   </div>
+  
   <script src="../lib/vue.js"></script>
+  
   <script>
     const app = Vue.createApp({
       data() {

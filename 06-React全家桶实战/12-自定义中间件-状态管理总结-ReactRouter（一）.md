@@ -22,7 +22,7 @@ function log(store) {
 		console.log('派发之后的结果：', store.getState())
 	}
 
-	// monkey patch: 猴补丁 => 篡改现有的代码，对整体的执行逻辑进行修改
+	// monkey patch: 猴补丁：篡改现有的代码，对整体的执行逻辑进行修改
 	store.dispatch = logAndDispatch
 }
 
@@ -40,6 +40,7 @@ function thunk(store) {
 	const next = store.dispatch
 
 	function disptachThunk(action) {
+    // 考虑到用户可能会派发多次函数，所以需要进行判断，并做递归操作。
 		if (typeof action === 'function') {
 			action(store.dispatch, store.getState)
 		} else {
@@ -172,7 +173,7 @@ React 中有哪些状态管理方式？如何选择？
 - React 的 react-router
 - Vue 的 vue-router
 
-React router 是由社区维护的库，而非官方，但被官方所承认。
+React router 是**由社区维护**的库，而非官方，但被官方所承认。
 
 React Router 在最近两年版本更新的较快，并且在最新的 React Router 6.x 版本中发生了较大的变化。
 
@@ -220,7 +221,10 @@ root.render(
 
 ## 配置路由的映射（Routes、Route 组件）
 
-使用 `Routes` 组件：包裹所有的 `Route` 组件，在其中匹配一个路由（Router 5.x 使用的是 `Switch` 组件，且允许 Route 单独存在，现在 6.x 必须放入 `Routes` 里）
+使用 `Routes` 组件：包裹所有的 `Route` 组件，在其中匹配一个路由
+
+- Router 5.x 使用的是 `Switch` 组件，且允许 Switch 单独存在，
+- Router 6.x `Route` 必须放入 `Routes` 里）
 
 Route 组件用于路径的匹配，有以下属性；
 
@@ -327,8 +331,8 @@ export default App
 
 需求：路径选中时，对应的 a 元素变为红色，这个时候，我们要使用 NavLink 组件来替代 Link 组件：
 
-- `style` 属性：传入函数，函数接受一个对象，包含 `isActive` 属性。
-- `className` 属性：传入函数，函数接受一个对象，包含 `isActive` 属性。
+- `style` 属性：传入函数，函数返回一个对象，包含 `isActive` 属性。
+- `className` 属性：传入函数，函数返回一个对象，包含 `isActive` 属性。
 
 08-learn-reactrouter\src\App.jsx
 
@@ -392,6 +396,8 @@ export default App
 
 `Navigate` 组件用于路由的重定向，当这个组件出现时，就会执行跳转到 `to` 属性对应的路径中（5.x 用的是 `Redirect` 组件）：
 
+<hr>
+
 需求：Login 页面有一个 isLogin 状态，当为 false 时，显示登录按钮；当为 true 时，重定向到 Home 页面。
 
 08-learn-reactrouter\src\pages\Login.jsx
@@ -425,6 +431,8 @@ export class Login extends PureComponent {
 
 export default Login
 ```
+
+在路由中注册 Login 页面。
 
 08-learn-reactrouter\src\App.jsx
 
@@ -463,6 +471,8 @@ export class App extends PureComponent {
 
 export default App
 ```
+
+<hr>
 
 需求：url 重定向到 Home 页面
 
@@ -504,8 +514,7 @@ export default App
 
 需求：如果用户随意输入一个地址，该地址无法匹配，这种情况下，让用户看到一个 NotFound 的页面。
 
-- 开发一个 NotFound 页面；
-- 配置对应的 Route，并且设置 path 为 * 即可；
+开发一个 NotFound 页面；
 
 08-learn-reactrouter\src\pages\NotFound.jsx
 
@@ -525,6 +534,8 @@ export class NotFound extends PureComponent {
 
 export default NotFound
 ```
+
+配置对应的 Route，并且设置 path 为 * 即可；
 
 08-learn-reactrouter\src\App.jsx
 

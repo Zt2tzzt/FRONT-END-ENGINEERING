@@ -26,7 +26,9 @@
 		<!-- 等价于 -->
 		<input type="text" v-model="message" />
 	</div>
+  
 	<script src="https://unpkg.com/vue@next"></script>
+  
 	<script>
 		const app = {
 			data() {
@@ -39,8 +41,6 @@
 	</script>
 </body>
 ```
-
----
 
 ## 绑定 input, textarea, select
 
@@ -60,18 +60,21 @@ v-model 在元素上的使用场景：
 ```html
 <body>
 	<div id="app">
+    
 		<!-- 1.绑定 textarea -->
 		<label for="intro">
 			自我介绍
 			<textarea id="intro" name="intro" cols="30" rows="10" v-model="intro"></textarea>
 		</label>
 		<h2>intro: {{intro}}</h2>
+    
 		<!-- 2.input checkbox -->
 		<!-- 2.1. 单选框  v-model 绑定的是布尔值。此时 input 的 value 属性并不影响 v-model 的值。-->
 		<label for="agree">
 			<input id="agree" type="checkbox" v-model="isAgree" /> 同意协议
 		</label>
 		<h2>单选框: {{isAgree}}</h2>
+    
 		<!-- 2.2. 多选框，当有多个复选框时，因为可以选中多个，所以对应的 data 中属性是一个数组。当选中某一个时，就会将 input 的 value 添加到数组中。 -->
 		<span>你的爱好:</span>
 		<label for="sing">
@@ -87,6 +90,7 @@ v-model 在元素上的使用场景：
 			<input id="basketball" type="checkbox" value="basketball" v-model="hobbies" /> 篮球
 		</label>
 		<h2>hobbies: {{hobbies}}</h2>
+    
 		<!-- 3.input radio -->
 		<span>你的性别: </span>
 		<label for="male">
@@ -96,6 +100,7 @@ v-model 在元素上的使用场景：
 			<input id="female" type="radio" value="female" v-model="gender" /> 女
 		</label>
 		<h2>性别: {{gender}}</h2>
+    
 		<!-- 4.select -->
 		<!-- 4.1. 单选，只能选中一个值，v-model 绑定的是一个值； -->
 		<label for="fruit">
@@ -106,6 +111,7 @@ v-model 在元素上的使用场景：
 			</select>
 		</label>
 		<h2>单选水果: {{fruit}}</h2>
+    
 		<!-- 4.2. 多选，可以选中多个值，v-model 绑定的是一个数组；当选中多个值时，就会将选中的 option 对应的 value 添加到数组 fruits 中；-->
 		<span>喜欢的水果:</span>
 		<label for="fruits">
@@ -117,7 +123,9 @@ v-model 在元素上的使用场景：
 		</label>
 		<h2>多选水果: {{fruits}}</h2>
 	</div>
+  
 	<script src="https://unpkg.com/vue@next"></script>
+  
 	<script>
 		const app = {
 			template: '#my-app',
@@ -136,8 +144,6 @@ v-model 在元素上的使用场景：
 	</script>
 </body>
 ```
-
----
 
 ## 值绑定
 
@@ -160,6 +166,7 @@ v-model 在元素上的使用场景：
       </select>
     </label>
 		<h2>多选: {{fruits}}</h2>
+    
 		<!-- 2.checkbox 的值绑定 -->
 		<div class="hobbies">
 			<h2>请选择你的爱好:</h2>
@@ -171,7 +178,9 @@ v-model 在元素上的使用场景：
 			<h2>爱好: {{hobbies}}</h2>
 		</div>
 	</div>
+  
 	<script src="../lib/vue.js"></script>
+  
 	<script>
 		const app = Vue.createApp({
 			data() {
@@ -199,40 +208,40 @@ v-model 在元素上的使用场景：
 </body>
 ```
 
----
-
 ## 修饰符
 
 v-model 有哪些常见的修饰符？有什么用？
 
-- lazy 修饰符
-  - 默认情况下，v-model 在进行双向绑定时，绑定的是 input 事件，那么会在每次内容输入后就将最新的值和绑定的属性进行同步；
-  - 如果我们在 v-model 后跟上 lazy 修饰符，那么会将绑定的事件切换为 change 事件，只有在提交时（比如回车），或者失去焦点时才会触发；
-- number 修饰符
+`lazy` 修饰符
 
-  - v-model 绑定后的值默认是 string 类型：
+- 默认情况下，v-model 在进行双向绑定时，绑定的是 input 事件，那么会在每次内容输入后就将最新的值和绑定的属性进行同步；
+- 如果我们在 v-model 后跟上 lazy 修饰符，那么会将绑定的事件切换为 change 事件，只有在提交时（比如回车），或者失去焦点时才会触发；
 
-  - 需要将 input 元素的 type 设置为 number，v-model 绑定的值才是 number 类型（Vue2 中即使设置了，类型也不会改变）；
+`number` 修饰符
 
-    ```html
-    <input type="number" v-model="score" /><!-- 在 Vue2 中绑定的仍是 string 类型 -->
-    <input type="text" v-model.number="score" />
-    ```
-    
-  - 如果我们希望绑定 input 元素值的默认类型，即 string 类型转换为 number 类型，那么可以使用 .number 修饰符：
-    
-  - 另外，在我们进行逻辑判断时，如果是一个 string 类型，在可以转化的情况下会进行隐式转换的：
+- v-model 绑定后的值默认是 string 类型：
+
+- 需要将 input 元素的 type 设置为 number，v-model 绑定的值才是 number 类型（Vue2 中即使设置了，类型也不会改变）；
+
+  ```html
+  <input type="number" v-model="score" /><!-- 在 Vue2 中绑定的仍是 string 类型 -->
+  <input type="text" v-model.number="score" />
+  ```
   
-    ```js
-    const score = '100'
-    if (score > 90) {	// 逻辑判断时, 可以转化的情况下, 会隐式的将一个 string 类型转成一个 number 类型, 再来进行判断
-      console.log('优秀')
-    }
-    ```
+- 如果我们希望绑定 input 元素值的默认类型，即 string 类型转换为 number 类型，那么可以使用 .number 修饰符：
   
-- trim 修饰符：
+- 另外，在我们进行逻辑判断时，如果是一个 string 类型，在可以转化的情况下会进行隐式转换的：
 
-  - 自动过滤用户输入的首尾空白字符。
+  ```js
+  const score = '100'
+  if (score > 90) {	// 逻辑判断时, 可以转化的情况下, 会隐式的将一个 string 类型转成一个 number 类型, 再来进行判断
+    console.log('优秀')
+  }
+  ```
+
+`trim` 修饰符：
+
+- 自动过滤用户输入的首尾空白字符。
 
 基本使用。
 
@@ -242,19 +251,24 @@ v-model 有哪些常见的修饰符？有什么用？
 		<!-- 1.lazy: 绑定 change 事件  -->
 		<input type="text" v-model.lazy="message" />
 		<h2>message: {{message}}</h2>
+    
 		<!-- 2.number: 自动将内容转换成数字 -->
 		<input type="text" v-model.number="counter1" />
 		<h2>counter:{{counter1}}-{{typeof counter1}}</h2>
 		<input type="number" v-model="counter2" />
 		<h2>counter2:{{counter2}}-{{typeof counter2}}</h2>
+    
 		<!-- 3.trim: 去除首尾的空格 -->
 		<input type="text" v-model.trim="content" />
 		<h2>content: {{content}}</h2>
+    
 		<!-- 4.多个修饰符同时使用 -->
 		<input type="text" v-model.lazy.trim="content" />
 		<h2>content: {{content}}</h2>
 	</div>
+  
 	<script src="../lib/vue.js"></script>
+  
 	<script>
 		const app = Vue.createApp({
 			data() {
@@ -276,26 +290,21 @@ v-model 有哪些常见的修饰符？有什么用？
 </body>
 ```
 
----
-
 # 组件化开发
 
-什么是组件化开发思想？
+现在可以说整个的大前端开发都是组件化的天下，
+- 无论从三大框架（Vue、React、Angular），还是跨平台方案的 Flutter，甚至是移动端都在转向组件化开发，包括小程序的开发也是采用组件化开发的思想。
+- 所以，学习组件化最重要的是它的思想，每个框架或者平台可能实现方法不同，但是思想都是一样的。
 
-- 现在可以说整个的大前端开发都是组件化的天下，
-  - 无论从三大框架（Vue、React、Angular），还是跨平台方案的 Flutter，甚至是移动端都在转向组件化开发，包括小程序的开发也是采用组件化开发的思想。
-  - 所以，学习组件化最重要的是它的思想，每个框架或者平台可能实现方法不同，但是思想都是一样的。
-- 我们需要通过组件化的思想来思考整个应用程序：
-  - 我们将一个完整的页面分成很多个组件；
-  - 每个组件都用于实现页面的一个功能块；
-  - 每一个组件又可以进行细分；
-  - 组件本身又可以在多个地方进行复用；
-
----
+我们需要通过组件化的思想来思考整个应用程序：
+- 我们将一个完整的页面分成很多个组件；
+- 每个组件都用于实现页面的一个功能块；
+- 每一个组件又可以进行细分；
+- 组件本身又可以在多个地方进行复用；
 
 Vue 的组件化开发 3 点理解。
 
-- createApp 函数传入了一个对象 app，这个对象本质上是一个组件，也就是我们应用程序的根组件。
+- `createApp` 函数传入了一个对象 app，这个对象本质上是一个组件，也就是我们应用程序的根组件。
 - 组件化提供了一种抽象，可以开发出一个个独立可复用的小组件来构建应用。
 - 任何应用都会被抽象成一颗组件树。
 
@@ -306,14 +315,12 @@ Vue 的组件化开发 3 点理解。
 - 全局组件：在任何其它组件中都可以使用的组件。
 - 局部组件：只有在注册的组件中才能使用的组件。
 
----
-
 ## 全局组件
 
 注册一个全局组件。并编写组件自己的代码逻辑。
 
 - 全局组件需要使用我们全局创建的 app 来注册组件；
-- 通过 component 方法传入组件名称、组件对象即可注册一个全局组件了；
+- 通过 `component` 方法传入组件名称、组件对象即可注册一个全局组件了；
 - 之后，我们可以在 App 组件的 template 中直接使用这个全局组件
 
 ```html
@@ -325,9 +332,11 @@ Vue 的组件化开发 3 点理解。
 		<product-item></product-item>
 		<product-item></product-item>
 	</div>
+  
 	<template id="nav">
 		<h2>我是应用程序的导航</h2>
 	</template>
+  
 	<template id="product">
 		<div class="product">
 			<h2>{{ title }}</h2>
@@ -336,7 +345,9 @@ Vue 的组件化开发 3 点理解。
 			<button @click="favarItem">收藏</button>
 		</div>
 	</template>
+  
 	<script src="../lib/vue.js"></script>
+  
 	<script>
 		const app = Vue.createApp({
 			data() {
@@ -368,8 +379,6 @@ Vue 的组件化开发 3 点理解。
 </body>
 ```
 
----
-
 为什么在开发中很少或不使用全局组件？
 
 - 全局组件往往是在应用程序一开始就会全局注册完成，那么就意味着如果某些组件我们并没有用到，也会一起被注册，增加主包的大小；
@@ -389,10 +398,8 @@ Vue 的组件化开发 3 点理解。
 什么是局部组件？
 
 - 局部注册是在我们需要使用到的组件中，通过 **components 属性**选项来进行注册；
-- 比如之前的 App 组件中，我们有 data、computed、methods 等选项了，事实上还可以有一个 components 选项；
+- 比如之前的 App 组件中，我们有 data、computed、methods 等选项了，事实上还可以有一个 `components` 选项；
 - 该 components 选项对应的是一个对象，对象中的键值对是组件的名称: 组件对象；
-
----
 
 注册一个局部组件。
 
@@ -404,6 +411,7 @@ Vue 的组件化开发 3 点理解。
 		<product-item></product-item>
 		<product-item></product-item>
 	</div>
+  
 	<template id="product">
 		<div class="product">
 			<h2>{{title}}</h2>
@@ -412,13 +420,16 @@ Vue 的组件化开发 3 点理解。
 			<button>收藏</button>
 		</div>
 	</template>
+  
 	<template id="nav">
 		<div>-------------------- nav start ---------------</div>
 		<h1>我是home-nav的组件</h1>
 		<product-item></product-item>
 		<div>-------------------- nav end ---------------</div>
 	</template>
+  
 	<script src="../lib/vue.js"></script>
+  
 	<script>
 		const ProductItem = {
 			template: '#product',
@@ -452,22 +463,22 @@ Vue 的组件化开发 3 点理解。
 </body>
 ```
 
----
-
 # Vue 的组件化开发模式
 
-理解实际工作中，Vue 的开发模式
 
-- 目前我们使用 vue 的过程都是在 html 文件中，通过 template 编写自己的模板、脚本逻辑、样式等。
-- 但是随着项目越来越复杂，我们需要采用更清晰的组件化的方式来进行开发：
-  - 这就意味着每个组件都会有自己的模板、脚本逻辑、样式等；
-  - 当然我们依然可以把它们抽离到单独的 js、css 文件中，但是它们还是会分离开来；
-  - 也包括我们的 script 是在一个全局的作用域下，很容易出现命名冲突的问题；
-  - 并且我们的代码为了适配一些浏览器，必须使用 ES5 的语法；
-  - 在我们编写代码完成之后，依然需要通过工具对代码进行构建、代码；
-- 所以在真实开发中，我们可以通过一个后缀名为 .vue 的 single-file components (单文件组件) 来解决，并且可以使用 webpack 或者 vite 或者 rollup 等构建工具来对其进行处理。
 
----
+目前我们使用 vue 的过程都是在 html 文件中，通过 template 编写自己的模板、脚本逻辑、样式等。
+
+但是随着项目越来越复杂，我们需要采用更清晰的组件化的方式来进行开发：
+- 这就意味着每个组件都会有自己的模板、脚本逻辑、样式等；
+- 当然我们依然可以把它们抽离到单独的 js、css 文件中，但是它们还是会分离开来；
+- 也包括我们的 script 是在一个全局的作用域下，很容易出现命名冲突的问题；
+- 并且我们的代码为了适配一些浏览器，必须使用 ES5 的语法；
+- 在我们编写代码完成之后，依然需要通过工具对代码进行构建、代码；
+
+所以在真实开发中，我们可以通过一个后缀名为 .vue 的 single-file components (单文件组件) 来解决，
+
+并且可以使用 webpack 或者 vite 或者 rollup 等构建工具来对其进行处理。
 
 # SFC 文件
 
@@ -483,8 +494,6 @@ Vue 的组件化开发 3 点理解。
 - 使用 Vue CLI 来创建项目，项目会默认帮助我们配置好所有的配置选项，可以在其中直接使用 .vue 文件；
 - 自己使用 webpack 或 rollup 或 vite 这类打包工具，对其进行打包处理；
 
----
-
 # Vue CLI 脚手架
 
 什么是 Vue CLI 脚手架
@@ -493,13 +502,11 @@ Vue 的组件化开发 3 点理解。
 - 所以在真实开发中，我们通常会使用脚手架来创建一个项目，Vue 的项目我们使用的就是 Vue 的脚手架；
 - 脚手架其实是建筑工程中的一个概念，在我们软件工程中也会将一些帮助我们搭建项目的工具称之为脚手架；
 
-Vue CL I 的 3 点理解：
+Vue CLI 的3点理解：
 
 - CLI 是 command-line-interface，翻译为命令行界面。
 - 我们可以通过 CLI 选择项目的配置和创建出我们的项目。
 - Vue CLI 已经内置了 webpack 的相关配置，不需要从 0 开始配置。
-
----
 
 ## 安装和使用。
 
@@ -507,6 +514,7 @@ Vue CL I 的 3 点理解：
 npm install @vue/cli -g # 安装
 vue --version # 安装完后，查看脚手架版本。
 npm update @vue/cli -g # 更新
+
 vue create [项目的名称] # 使用它创建项目
 ```
 
