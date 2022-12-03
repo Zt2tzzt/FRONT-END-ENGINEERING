@@ -126,7 +126,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 `useSelector` 的作用是将 state 映射到组件中：
 
-- 参数一：传入一个函数，将 state 映射到组件中；
+- 参数一：传入一个函数，这个函数返回一个对象，将 state 映射到组件中；
 - 参数二：传入一个浅层比较函数，来决定组件是否需要重新渲染；
 
 `useDispatch` 非常简单，就是直接获取 dispatch 函数，之后在组件中直接使用即可；
@@ -214,12 +214,10 @@ const Home = memo(props => {
 })
 
 const App = memo((props) => {
-	// 1.使用 useSelector 将 redux 中的 store 的数据映射到组件内
 	const { count } = useSelector(state => ({
 		count: state.counter.count
 	}), shallowEqual)
 
-	// 2.使用 dispatch 直接派发 action
 	const dispatch = useDispatch()
 
 	function changeNumberHandle(num, isAdd = true) {
@@ -269,7 +267,7 @@ export default App
 
 	- 搜索引擎的爬虫，通常只爬取一个网站的 index.html 中的内容，存入到数据库中。
 	- 而 SPA 项目的 index.html 通常没有实质内容，
-	- 造成搜索引擎排名靠后。
+	- 造成搜索引擎收录的排名靠后。
 
 ## 什么是 SSR
 
