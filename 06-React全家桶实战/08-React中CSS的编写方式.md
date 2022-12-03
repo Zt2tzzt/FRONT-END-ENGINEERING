@@ -186,7 +186,7 @@ export default App
 1. 安装 craco
 
    ```shell
-   npm i @craco/craco
+   npm i @craco/craco -D # 生产时依赖
    ```
 
 2. 修改 react 项目 package.json 中的启动配置。
@@ -205,7 +205,7 @@ export default App
 3. 安装 craco-less
 
    ```shell
-   npm i craco-less
+   npm i craco-less -D
    ```
 
 4. 配置 craco.config.js 文件
