@@ -1,11 +1,14 @@
 # 认识 Redux Toolkit
 
 Redux Toolkit 是官方推荐的编写 Redux 逻辑的库。
-- 在前面我们使用 Redux 时应该已经发现：
-	- redux 的编写逻辑过于的繁琐和麻烦，并且代码通常分拆在多个文件中（虽然也可以放到一个文件管理，但是代码量过多，不利于管理）;
-	- 创建 store 时，`createStore` API 也已不再推荐使用。
-- Redux Toolkit 库可解决以上问题，
-  - 它旨在成为编写 Redux 逻辑的标准方式，在很多地方也将之称为“RTK”；
+
+在前面我们使用 Redux 时应该已经发现：
+- redux 的编写逻辑过于的繁琐和麻烦，并且代码通常分拆在多个文件中（虽然也可以放到一个文件管理，但是代码过多，不利于管理）;
+- 创建 store 时，`createStore` API 也已不再推荐使用。
+
+Redux Toolkit 库可解决以上问题，
+
+- 它旨在成为编写 Redux 逻辑的标准方式，在很多地方也将之称为“RTK”；
 
 安装 Redux Toolkit，推荐和 react-redux 一起使用：
 
@@ -19,8 +22,7 @@ Redux Toolkit 的核心 API 主要是如下几个：
   - 默认包含了 redux-thunk 中间件，
   - 默认启用了 Redux DevTools Extension。
 - `createSlice`：接收【切片名称】、【初始状态值】、【包含 reducer 函数的对象】，并自动生成切片 reducer，并带有相应的 actions。
-- `createAsyncThunk`: 接收一个动作类型字符串和一个返回承诺的函数，并生成一个拥有 pending / fulfilled / rejected 状态的承诺，基于该承诺分
-  派动作类型的 thunk
+- `createAsyncThunk`: 接收一个动作类型字符串和一个返回承诺的函数，并生成一个拥有 pending / fulfilled / rejected 状态的承诺，基于该承诺分派动作类型的 thunk
 
 # Redux Toolkit 基本使用
 
@@ -123,7 +125,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(About)
 		- 参数一：`state`；
 		- 参数二：`action` ，其中有属性 `type` 和 `payload`；
 
-createSlice 返回值是一个对象，其中包含所有的 actions；
+createSlice 返回值是一个对象，其中包括 actions 对象和 reducer；
 
 ## configureStore 的使用
 
