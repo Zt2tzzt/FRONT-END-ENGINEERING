@@ -3,7 +3,7 @@
 ## 回顾 react-redux 的普通用法
 
 在之前的 redux 开发中，为了让 react 和 redux 结合起来，我们使用了 react-redux 中的 `connect`：
-- 但是这种方式必须使用高阶函数返回的高阶组件；
+- 但是这种方式本质上在使用高阶函数返回的高阶组件；
 - 并且必须编写：mapStateToProps 和 mapDispatchToProps 映射的函数；
 
 
@@ -173,7 +173,7 @@ export default App
 
 `useSelector` 默认会比较我们返回的两个对象是否相等；
 
-- 如何比较呢？ const refEquality = (a, b) => a === b；
+- 如何比较呢？ `const refEquality = (a, b) => a === b`；
 - 也就是我们必须返回两个完全相等的对象才可以不引起重新渲染；
 
 我们需要让 useSelector 返回的值进行浅层比较，这么做，与组件无关的状态被改变，就不会引起组件的重新渲染；
@@ -347,7 +347,7 @@ export default App
 
 官方解释：返回一个状态值表示过渡任务的等待状态，以及一个启动该过渡任务的函数。
 
-直白的说，useTransition 其实在告诉 react 对于某部分任务的更新优先级较低，可以稍后进行更新。
+直白的说，`useTransition` 其实在告诉 react 对于某部分任务的更新优先级较低，可以稍后进行更新。
 
 09-learn-reacthooks\src\15-useTransition和useDeferredValue\namesArray.js
 
@@ -384,9 +384,7 @@ const App = memo(() => {
 			{/* 执行耗时操作时，告知用户 */}
 			<h2>用户名列表：{pending && <span>Loading...</span>}</h2>
 			<ul>
-				{
-					names.map((item, index) => <li key={index}>{item}</li>)
-				}
+				{ names.map((item, index) => <li key={index}>{item}</li>) }
 			</ul>
 		</div>
 	)
@@ -422,9 +420,7 @@ const App = memo(() => {
 			<h2>用户列表：</h2>
 			<ul>
 				{/* defeeredNames 相关的运算，会被延迟进行 */}
-				{
-					deferredNames.map((item, index) => <li key={index}>{item}</li>)
-				}
+				{ deferredNames.map((item, index) => <li key={index}>{item}</li>) }
 			</ul>
 		</div>
 	)

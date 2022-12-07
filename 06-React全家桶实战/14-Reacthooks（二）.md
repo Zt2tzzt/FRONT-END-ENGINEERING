@@ -419,14 +419,14 @@ const App = memo(() => {
 export default App
 ```
 
-`useCallback` 实际的目的是为了进行性能的优化（到底是优化哪一方面的性能？见下文分析）。
+useCallback 实际的目的是为了进行性能的优化（到底是优化哪一方面的性能？见下文分析）。
 
 如何进行性能的优化呢？
 
 - useCallback 会返回一个函数的 memoized（记忆） 值；
 - 在依赖的状态（传入的第二个参数（数组）中的元素）不变的情况下，多次定义的时候，返回的值是相同的；
 
-如果我们想要在函数的定义层面做优化，让函数只定义一次，很难做到。尝试使用 `useCallback` 解决。
+如果我们想要在函数的定义层面做优化，让函数只定义一次，很难做到。尝试使用 useCallback 解决。
 
 ```jsx
 import React, { memo, useState, useCallback } from 'react'

@@ -9,8 +9,6 @@
 
 <img src="NodeAssets/Vue CLI运行原理.jpg" alt="Vue CLI 运行原理" style="zoom:80%;" />
 
-------
-
 # 额外知识补充
 
 在 vue.config.js 中配置 resolve 别名。
@@ -19,6 +17,7 @@
 
 ```js
 const { defineConfig } = require('@vue/cli-service')
+
 module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: {
@@ -63,7 +62,7 @@ module.exports = defineConfig({
 
 理解 Vue 的渲染流程。
 
-- template -> (compiler) -> createVNode 函数 -> VNode -> 虚拟 DOM -> 真实 DOM
+- template -> (compiler 模块) -> createVNode 函数 -> VNode -> 虚拟 DOM -> 真实 DOM
 - vue-loader 完成了 template 转换到 createVNode 函数的编译过程。
 - 在非脚手架（没有 vue-loader 参与打包）的环境中，需要 Vue 的源码来完成上面的编译 compiler 过程，即需要引入非 runtime 版本的 Vue 源码，如 `vue.esm-buldel.js`。
 
@@ -79,7 +78,9 @@ vue 的 sfc 文件 css 作用域的理解
 
 - 文件打包后通过给组件加上一个特殊的属性如 “data-v-f23aade0”，来防止样式穿透。
 
-  > 然而，组件要是没有根元素，或使用的是元素选择器添加样式，可能还是会出现穿透效果。所以在开发中，一般推荐给组件**加上根元素**，**通过 class 来给样式**。
+  > 然而，组件要是没有根元素，或使用的是元素选择器添加样式，可能还是会出现穿透效果。
+  >
+  > 所以在开发中，一般推荐给组件**加上根元素**，**通过 class 来给样式**。
 
 
 # Vite 创建项目（一）
@@ -107,7 +108,7 @@ vue 的 sfc 文件 css 作用域的理解
 npm init vue@latest
 ```
 
-1. 执行上面的命令，代表远程仓库已有 `create-vue` 工具，
+1. 首先要知道，能执行上面的命令，代表远程仓库已有 `create-vue` 工具，
 2. 会安装一个本地工具 create-vue。
 3. 再使用 create-vue 创建一个 vue 项目
 4. 创建出的项目会通过 vite 打包
@@ -123,8 +124,8 @@ vite 的定位：下一代构建工具；vite 的发音：/vit/；vite 由两部
 
 现在大部分新的浏览器，都已支持 ES6+ 语法和 ES 模块化，vite 只需帮助我们解决2点问题：
 
-- 引入第三方依赖如 lodash，加载了上百个 js 代码，对于浏览器是巨大消耗。
-- 代码中有 Typescript，less，vue 等代码时，浏览器并不能直接识别。
+- 引入第三方依赖如 lodash，加载了上百个 js 代码，对于浏览器是巨大消耗（打包代码）。
+- 代码中有 Typescript，less，vue 等代码时，浏览器并不能直接识别（预处理器）。
 
 ------
 
@@ -149,15 +150,13 @@ npx vite
 - 引用模块路径不用加后缀名。
 - 引用第三方依赖可直接使用依赖名。
 - 将请求的第三方依赖打包在一个文件中，减少发送请求的次数。
-- 第一次使用 vite 打包，会对第三方依赖做预打包，放在 node_modules / vite 中。
+- 第一次使用 vite 打包，会对第三方依赖做预打包，放在 node_modules/vite 中。
 
 ------
 
 ## css 支持
 
-vite 对 css 的支持步骤：
-
-1. 直接导入 css 即可。
+vite 对 css 的默认支持，直接导入 css 即可。
 
 ## less 支持
 
@@ -193,9 +192,7 @@ vite 对 postcss 的支持步骤：
 
 ## TypeScript 支持
 
-Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成编译：
-
-直接导入 ts 即可。
+Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成编译：直接导入 ts 即可。
 
 # vite 原理
 
@@ -203,7 +200,7 @@ Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成
 
 1. 浏览器发送请求给 vite 中的 Connect 服务器。
 2. Connect 服务器对请求进行转发。
-3. 给浏览器返回编译后的代码，浏览器可直接解析（比如，浏览器中获取的仍是.ts 结尾的代码文件，但里面的代码是 js 的语法）。
+3. 给浏览器返回编译后的代码，浏览器可直接解析（比如，浏览器中获取的仍是 .ts 结尾的代码文件，但里面的代码是 js 的语法）。
 
 # vite 的使用（二）
 

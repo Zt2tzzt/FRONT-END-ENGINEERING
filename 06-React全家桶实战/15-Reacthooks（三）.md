@@ -102,7 +102,7 @@ export default App
 
 ## 案例二：使用 ref 保存值，
 
-回顾 useCallback 优化案例。
+回顾 useCallback 优化案例，解除闭包陷阱。
 
 09-learn-reacthooks\src\09-useRef的使用\App.jsx
 
@@ -208,7 +208,7 @@ export default App
 # useLayoutEffect Hook
 
 `useLayoutEffect` 看起来和 `useEffect` 非常的相似，事实上他们也只有一点区别而已： 
-- useEffect 会在渲染的内容更新到 DOM 上后执行，不会阻塞 DOM 的更新； 
+- useEffect 会在渲染的内容更新到 DOM 上后执行，不会阻塞 DOM 的更新；
 - useLayoutEffect 会在渲染的内容更新到 DOM 上之前执行，会阻塞 DOM 的更新；
 
 <img src="NodeAssets/useEffect和useLayoutEffect的对比.jpg" alt="useEffect和useLayoutEffect的对比" style="zoom:150%;" />

@@ -10,15 +10,17 @@
 
 # React 中的 diff 算法
 
-- React 在 props 或 state 发生改变时，会调用 React 的 render 方法，会创建一颗不同的 DOM 树。
-- React 需要基于这两颗不同的 DOM 树之间的差别来判断如何有效的更新 UI：
-	- 如果一棵树参考另外一棵树进行**完全比较更新**，那么即使是最先进的算法，该算法的复杂程度也为 O(n²），其中 n 是树中元素的数量；
-	- 如果在 React 中使用了该算法，那么展示 1000 个元素所需要执行的计算量将在十亿的量级范围；
-	- 这个开销太过昂贵了，React 的更新性能会变得非常低效；
-- 于是，React 对这个算法进行了优化，将其优化成了 O(n)，如何优化的呢？
-	- 同层节点之间相互比较，不会跨节点比较；
-	- 不同类型的节点，产生不同的树结构；
-	- 开发中，可以通过 key 来指定哪些节点在不同的渲染下保持稳定（与 Vue 中的 diff 算法原理类似）；
+React 在 props 或 state 发生改变时，会调用 React 的 render 方法，会创建一颗不同的 DOM 树。
+
+React 需要基于这两颗不同的 DOM 树之间的差别来判断如何有效的更新 UI：
+- 如果一棵树参考另外一棵树进行**完全比较更新**，那么即使是最先进的算法，该算法的复杂程度也为 O(n²），其中 n 是树中元素的数量；
+- 如果在 React 中使用了该算法，那么展示 1000 个元素所需要执行的计算量将在十亿的量级范围；
+- 这个开销太过昂贵了，React 的更新性能会变得非常低效；
+
+于是，React 对这个算法进行了优化，将其优化成了 O(n)，如何优化的呢？
+- 同层节点之间相互比较，不会跨节点比较；
+- 不同类型的节点，产生不同的树结构；
+- 开发中，可以通过 key 来指定哪些节点在不同的渲染下保持稳定（与 Vue 中的 diff 算法原理类似）；
 
 ## 列表渲染中 Keys 的优化
 
@@ -31,6 +33,8 @@
 情况二：更新列表时，在列表**非末尾**的地方插入数据。
 
 - 假设列表中的元素是 li，在没有 key 的情况下，插入到 li 后面的所有元素都需要进行修改；
+
+-----
 
 
 使用 key 进行优化：
@@ -49,7 +53,7 @@ key 的注意事项：
 为什么要进行性能优化？
 
 - 我们使用的普通组件（React.component），在执行 setState 操作时，会执行组件本身的 render 方法和子组件中的 render 方法，进行 diff 算法以及页面的刷新；
-- 如果我们给 state 中的状态，设值一个相同的值，仍然会调用组件本身和所有子组件的 render 方法，进行 diff 算法以及页面的刷新，这无疑是多余的操作。
+- 如果我们给 state 中的状态，setState 一个相同的值，仍然会调用组件本身和所有子组件的 render 方法，进行 diff 算法以及页面的刷新，这无疑是多余的操作。
 - 或者我们给组件 state 中部分状态设值了新的值，而某些子组件不依赖这部分状态，这些子组件中的 render 方法仍然会执行，并进行 diff 算法更新页面。
 
 案例演示：
@@ -64,8 +68,8 @@ export class App extends Component {
 	constructor() {
 		super()
 		this.state = {
-			msg: 'Hello World', // 设值一个相同的值
-      counter: 0 // 子元素对给状态没有依赖。
+			msg: 'Hello World',
+      counter: 0 // 子组件 Home 对该状态没有依赖。
 		}
 	}
 	render() {
@@ -135,7 +139,7 @@ React 给我们提供了一个生命周期方法 `shouldComponentUpdate`（简�
 import React, { Component } from 'react'
 import Home from './Home';
 
-export class App extends Component {
+export class App extends Component 9
 	constructor() {
 		super()
 		this.state = {
@@ -202,11 +206,11 @@ export default Home
 如果所有的类，我们都需要手动来实现 `shouldComponentUpdate`，那么会给我们开发者增加非常多的工作量。
 
 - 我们来设想一下 `shouldComponentUpdate` 中的各种判断的目的是什么？
-- props 或者 state 中的数据是否发生了改变，来决定 `shouldComponentUpdate` 返回 true 或者 false；
+- 就是判断 props 或者 state 中的数据是否发生了改变，来决定 `shouldComponentUpdate` 返回 true 或者 false；
 
 事实上 React 已经考虑到了这一点，所以 React 已经默认帮我们实现好了，如何实现呢？
 
-- 将 class 继承自 PureComponent。
+- 将 class 继承自 `PureComponent`。
 
 03-learn-component\src\12-render函数的优化\App.jsx
 
@@ -268,9 +272,11 @@ export class Home extends PureComponent {
 export default Home
 ```
 
-PureComponent 会在 `shouldComponentUpdate` 生命周期中，使用 `ShallowEqual` 方法进行浅层比较
+PureComponent 会在 shouldComponentUpdate 生命周期中，使用 `ShallowEqual` 方法进行浅层比较
 
-- ` !shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState)`
+```js
+!shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState)
+```
 
 > PureComponent 源码位置：packages\react\src\ReactBaseClasses.js
 >
@@ -301,9 +307,11 @@ export default Profile
 
 如何修改 state 中的引用类型数据？
 
-- 在普通的 Component，如果给 state 中引用类型中的元素赋值，而**不修改引用地址**，界面会正常更新。因为只要执行了 setState 函数，就会调用 render 方法。
-- 如果在 PureComponent 中，在渲染时会使用 shallowEqual 方法进行浅层比较，当发现引用地址没有改变，则不会调用 render 方法，页面也就不会刷新。
-- 所以在 PureComponent 中，在修改 state 中引用类型数据中的深层引用值时，要使用类似于浅拷贝的方式修改，目的是改变 state 中的引用地址。
+- 在普通的 Component 中
+  - 如果给 state 中引用类型中的元素赋值，而**不修改引用地址**，界面会正常更新。因为只要执行了 setState 函数，就会调用 render 方法。
+- 如果在 PureComponent 中，
+  - 在渲染时会使用 shallowEqual 方法进行浅层比较，当发现引用地址没有改变，则不会调用 render 方法，页面也就不会刷新。
+  - 所以在 PureComponent 中，修改 state 中引用类型数据中的深层引用值时，要使用类似于浅拷贝的方式修改，目的是改变 state 中的引用地址。
 
 03-learn-component\src\13-数不可变的力量\App.jsx
 
@@ -383,7 +391,7 @@ export default App
 我们可以通过 refs 获取 DOM；如何创建 refs 来获取对应的 DOM 呢？目前有三种方式：
 
 - 方式一：传入字符串（不推荐）
-	- 使用时通过 `this.refs`.传入的字符串格式获取对应的元素；
+	- 使用时通过 `this.refs.传入的字符串`，获取对应的元素；
 - 方式二：传入一个对象（官方推荐）
 	- 对象是通过 `React.createRef()` 方式创建出来的；
 	- 使用时获取到创建的对象其中有一个 `current` 属性就是对应的元素；
@@ -407,8 +415,11 @@ export class App extends PureComponent {
 	render() {
 		return (
 			<div>
+				{/* 方式一：在 React 元素上绑定一个 ref 字符串 */}
 				<h2 ref="zzt">Hello World</h2>
+				{/* 方式二：提前创建好 ref 对象,使用 createRef() API，将创建出来的对象绑定到元素 */}
 				<h2 ref={ this.titleRef }>你好啊，李银河</h2>
+				{/* 方式三：传入一个回调函数。在对应的元素被渲染之后，回调函数被执行，并且将元素传入 */}
 				<h2 ref={ el => this.titleEl = el }>你好啊，师姐</h2>
 				<button onClick={ e => this.getNativeDOM() }>获取DOM</button>
 			</div>
@@ -416,13 +427,8 @@ export class App extends PureComponent {
 	}
 
 	getNativeDOM() {
-		// 方式一：在 React 元素上绑定一个 ref 字符串
 		console.log(this.refs.zzt);
-
-		// 方式二：提前创建好 ref 对象,使用 createRef() API，将创建出来的对象绑定到元素
 		console.log(this.titleRef.current)
-
-		// 方式三：传入一个回调函数。在对应的元素被渲染之后，回调函数被执行，并且将元素传入
 		console.log(this.titleEl);
 	}
 }
@@ -529,7 +535,9 @@ export const HelloWorld = forwardRef((props, ref) => (
 
 - 这种方式向 action 中的地址发送网络请求改变 url，并会造成浏览器页面刷新。
 - 现在已很少使用表单提交与服务器沟通，通常是监听提交按钮的点击，再以 ajax 网络请求的方式向服务器发送数据。
-- 默认浏览器有帮助维护表单元素中的值，比如当我们在 input 元素中输入时，可以从 value 属性中获取输入的值。
+
+默认浏览器有帮助维护表单元素中的值，比如当我们在 input 元素中输入时，可以从 value 属性中获取输入的值。
+
 - 如果想要使用 react 中的 state 来进行维护，就需要进行绑定，将它变为**受控组件**。
 
 比如一个 input 元素，一旦绑定了 value 属性的值到 state 中，那么就成为了受控组件。否则就是非受控组件。
@@ -636,7 +644,7 @@ export class App extends PureComponent {
 		super()
 		this.state = {
 			username: '',
-			password: ''
+			password: （
 		}
 	}
 	render() {
@@ -805,7 +813,9 @@ React 推荐大多数情况下使用受控组件来处理表单数据：
 - 一个受控组件中，表单数据是由 React 组件来管理的；
 - 另一种替代方案是使用非受控组件，这时表单数据将交由 DOM 节点来处理；
 
-如果要使用非受控组件中的数据，那么我们需要使用 ref 来从 DOM 节点中获取表单数据。在非受控组件中通常使用 `defaultValue` 来设置默认值；同样，<input type="checkbox"> 和 <input type="radio"> 支持 `defaultChecked`，<select> 和 <textarea> 支持 `defaultValue`。
+如果要使用非受控组件中的数据，那么我们需要使用 ref 来从 DOM 节点中获取表单数据。
+
+在非受控组件中通常使用 `defaultValue` 来设置默认值；同样，`<input type="checkbox">` 和 `<input type="radio">` 支持 `defaultChecked`，`<select>` 和 `<textarea>` 支持 `defaultValue`。
 
 03-learn-component\src\15-受控和非受控组件\06-非受控组件的使用.jsx
 
