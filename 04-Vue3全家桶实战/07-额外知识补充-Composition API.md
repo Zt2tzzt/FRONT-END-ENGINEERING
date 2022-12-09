@@ -26,7 +26,7 @@ provide 和 inject 可看作 “long range props”，2点理解。
 1. 父组件不需要知道哪些子组件使用 provide 的 properties。
 2. 子组件不需要知道 inject 的 properties 来自哪里。
 
-Provide / Inject 基本使用，provide 的函数写法，处理响应式数据（需要解包）。
+Provide / Inject 基本使用；provide 的函数写法；处理响应式数据（需要解包）。
 
 父组件：App.vue
 
@@ -94,7 +94,7 @@ Provide / Inject 基本使用，provide 的函数写法，处理响应式数据�
 
 事件总线的使用，
 
-- 为了使框架功能专一，Vue3 移除了实例上的 `$on`, `$off`, `$once` 方法，官方推荐用第三方库实现全局事件总线，如 mitt 库或 tiny-emitter 库。
+- 为了使框架功能专一，Vue3 移除了实例上的 `$on`, `$off`, `$once` 方法，官方推荐用第三方库实现全局事件总线，如 `mitt` 库或 `tiny-emitter` 库。
 
 - 这里介绍 hy-event-store 库，它是一个轻量级的库，可以实现事件总线和状态管理的功能，
 
@@ -235,7 +235,7 @@ hy-event-store 基本使用
 
 # 在 Vue 中获取 DOM 对象
 
-在 Vue 开发中不推荐进行 DOM 操作； 
+在 Vue 开发中不推荐进行原生 DOM 操作； 
 
 1. 如果一定要获取 DOM。这个时候，我们可以给元素或者组件绑定一个 `ref` 的 attribute 属性；
 2. 再通过 `this.$refs` 来获取元素 DOM 对象。
@@ -273,9 +273,9 @@ $refs 的使用步骤：
     },
     methods: {
       changeTitle() {
-        // 1.在 Vue 中，不要主动的去获取 DOM，并且修改 DOM 内容
-        // const titleEl = document.querySelector('.title')
-				// title.textContent = '你好啊，李银河'
+        // 1.在 Vue 中，不要使用原生方法去获取 DOM，并且修改 DOM 内容
+        /* const titleEl = document.querySelector('.title')
+				title.textContent = '你好啊，李银河' */
         
         // 2.获取 h2/button DOM 对象
         console.log(this.$refs.title)
@@ -325,16 +325,12 @@ $refs 的使用步骤：
 </script>
 ```
 
------
-
-$parent 和 $root 的使用。Vue3 中已移除 $children。
+`$parent` 和 `$root` 的使用。Vue3 中已移除 `$children`。
 
 - $parent：用来访问父组件。
 - $root：用来访问根组件。
 
 不推荐使用，使用时耦合性太强。
-
------
 
 # 内置 Component 组件
 
@@ -688,6 +684,7 @@ Suspense 与异步组件的结合使用：
 		</template>
   </suspense>
 </template>
+
 <script>
 import Loading from "./Loading.vue";
 import { defineAsyncComponent } from 'vue'

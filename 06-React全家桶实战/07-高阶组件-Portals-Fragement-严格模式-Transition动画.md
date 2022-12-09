@@ -141,7 +141,7 @@ export default App
 
 > 高阶组件在一些 React 第三方库中非常常见：
 > - 比如 redux 中的 connect；（后续会讲到）
-> - 比如 react-router 中的 withRouter；（后续会讲到）
+> - 比如 react-router 中的 withRouter；（后续会讲到，自行封装）
 
 ## 应用二 Context 共享
 
@@ -375,11 +375,13 @@ export default App
 
 # Portals 的使用。
 
-- 通常来讲，当你从组件的 render 方法返回一个元素时，该元素将被挂载到 DOM 节点中离其最近的父节点：
-- 某些情况下，我们希望渲染的内容独立于父组件，甚至是独立于当前挂载到的 DOM 元素中（默认都是挂载到 id 为 root 的 DOM 元素上的）。
-- Portal 提供了一种将子节点渲染到存在于父组件以外的 DOM 节点的优秀的方案：
-	- 第一个参数（child）是任何可渲染的 React 子元素，例如一个元素，字符串或 fragment；
-	- 第二个参数（container）是一个 DOM 元素；
+通常来讲，当你从组件的 render 方法返回一个元素时，该元素将被挂载到 DOM 节点中离其最近的父节点：
+
+某些情况下，我们希望渲染的内容独立于父组件，甚至是独立于当前挂载到的 DOM 元素中（默认都是挂载到 id 为 root 的 DOM 元素上的）。
+
+Portal 提供了一种将子节点渲染到存在于父组件以外的 DOM 节点的优秀的方案：
+- 第一个参数（child）是任何可渲染的 React 子元素，例如一个元素，字符串或 fragment；
+- 第二个参数（container）是一个 DOM 元素；
 
 
 03-learn-component\src\17-React的Portals\Modal.jsx
@@ -436,13 +438,15 @@ export default App
 
 # Fragment 的使用
 
-- 在之前的开发中，我们总是在一个组件中返回内容时包裹一个 div 元素：
-- 我们有时希望可以不渲染这样一个 div 应该如何操作呢？
-	- 使用 Fragment；
-	- Fragment 允许你将子列表分组，而无需向 DOM 添加额外节点；
-- React 还提供了 Fragment 的短语法（语法糖写法）：
-	- 它看起来像空标签 `<>` `</>`；
-	- 但是，如果我们需要在 Fragment 中添加 key，那么就不能使用短语法
+在之前的开发中，我们总是在一个组件中返回内容时包裹一个 div 元素：
+
+我们有时希望可以不渲染这样一个 div 应该如何操作呢？
+- 使用 Fragment；
+- Fragment 允许你将子列表分组，而无需向 DOM 添加额外节点；
+
+React 还提供了 Fragment 的短语法（语法糖写法）：
+- 它看起来像空标签 `<>` `</>`；
+- 但是，如果我们需要在 Fragment 中添加 key，那么就不能使用短语法
 
 03-learn-component\src\18-React的fragment写法\App.jsx
 
@@ -517,13 +521,13 @@ import React, { PureComponent } from 'react'
 
 export class Profile extends PureComponent {
 	UNSAFE_componentWillMount() {
-		console.log('UNSAFE_componentWillMount');
+		console.log('UNSAFE_componentWillMount'); // 会打印两次
 	}
 	componentDidMount() {
-		console.log('Profile componentDidMount')
+		console.log('Profile componentDidMount') // 会打印两次
 	}
 	render() {
-		console.log('Profile render');
+		console.log('Profile render'); // 会打印两次
 		return (
 			<div>
 				<h2 ref="title">Profile Title</h2>
@@ -560,12 +564,15 @@ export default App
 
 # react-transition-group
 
-- 在开发中，我们想要给一个组件的显示和消失添加某种过渡动画，可以很好的增加用户体验。 
-- 当然，我们可以通过原生的 CSS 来实现这些过渡动画，但是 React 社区为我们提供了 `react-transition-group` 用来完成过渡动画。 
-- React 曾为开发者提供过动画插件 `react-addons-css-transition-group`，后由社区维护，形成了现在的 `react-transition-group`。
-	- 这个库可以帮助我们方便的实现组件的入场和离场动画，使用时需要进行额外的安装：
-	- 与 Vue 中的 Transition 内置组件一样，本质上也是在合适的时机添加编写好的样式。
-- `react-transition-group` 本身非常小，不会为我们应用程序增加过多的负担。
+在开发中，我们想要给一个组件的显示和消失添加某种过渡动画，可以很好的增加用户体验。 
+
+当然，我们可以通过原生的 CSS 来实现这些过渡动画，但是 React 社区为我们提供了 `react-transition-group` 用来完成过渡动画。 
+
+React 曾为开发者提供过动画插件 `react-addons-css-transition-group`，后由社区维护，形成了现在的 `react-transition-group`。
+- 这个库可以帮助我们方便的实现组件的入场和离场动画，使用时需要进行额外的安装：
+- 与 Vue 中的 Transition 内置组件一样，本质上也是在合适的时机添加编写好的样式。
+
+`react-transition-group` 本身非常小，不会为我们应用程序增加过多的负担。
 
 ## 安装
 
@@ -576,39 +583,48 @@ npm install react-transition-group
 
 ## 主要组件
 
-- `Transition`
-	- 该组件是一个和平台无关的组件（不一定要结合 CSS）； 
-	- 在前端开发中，我们一般是结合 CSS 来完成样式，所以比较常用的是 CSSTransition；
-- `CSSTransition`
-	- 在前端开发中，通常使用 CSSTransition 来完成过渡动画效果。
-- `SwitchTransition`
-	- 两个组件显示和隐藏切换时，使用该组件。
-- `TransitionGroup`
-	- 将多个动画组件包裹在其中，一般用于列表中元素的动画；
+`Transition`
+
+- 该组件是一个和平台无关的组件（不一定要结合 CSS）； 
+- 在前端开发中，我们一般是结合 CSS 来完成样式，所以比较常用的是 CSSTransition；
+
+`CSSTransition`
+
+- 在前端开发中，通常使用 CSSTransition 来完成过渡动画效果。
+
+`SwitchTransition`
+
+- 两个组件显示和隐藏切换时，使用该组件。
+
+`TransitionGroup`
+
+- 将多个动画组件包裹在其中，一般用于列表中元素的动画；
 
 ## CSSTransition
 
-- CSSTransition 是基于 Transition 组件构建的：执行过程中，有三个状态：`appear`、`enter`、`exit`；对应需要定义对应的 CSS 样式：
-  - 第一类，开始状态：对应的类是 `-appear`、`-enter`、`-exit`； 
-  - 第二类：执行动画：对应的类是 `-appear-active`、`-enter-active`、`-exit-active`； 
-  - 第三类：执行结束：对应的类是 `-appear-done`、`-enter-done`、`exit-done`；
-- CSSTransition 组件常见对应的属性： 
-	- `in`：触发进入或者退出状态 如果添加了 `unmountOnExit={true}`，那么该组件会在执行退出动画结束后被移除掉； 
-		- 当 `in` 为 `true` 时，触发进入状态，会添加 `-enter`、`-enter-acitve` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
-		- 当 `in` 为 `false` 时，触发退出状态，会添加 `-exit`、`-exit-active` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
-	- `classNames`：动画 class 的名称 ：
-		- 决定了在编写 css 时，对应的 class 名称：比如当 `classNames="card"` 时，对应的类名为：`card-enter`、`card-enter-active`、`card-enter-done`；
-	- `timeout`：过渡动画的时间，最好与样式中的时间保持一致（**必须添加**，否则没有动画效果）。
-	- `appear`：是否在初次进入添加动画（需要和 `in` 同时为 `true`）
-	- `unmountOnExit`：退出后卸载组件。
-	- [其他属性参考官方文档](https://reactcommunity.org/react-transition-group/transition)
-- CSSTransition 对应的钩子函数：主要为了检测动画的执行过程，来完成一些 JavaScript 的操作 
-	- `onEnter`：在进入动画之前被触发； 
-	- `onEntering`：在应用进入动画时被触发；
-	- `onEntered`：在应用进入动画结束后被触发；
-	- `onExit`：在离开动画之前被触发。
-	- `onExiting`：在应用离开动画时被触发。
-	- `onExited`：在应用离开动画结束后被触发。
+CSSTransition 是基于 Transition 组件构建的：执行过程中，有三个状态：`appear`、`enter`、`exit`；对应需要定义对应的 CSS 样式：
+- 第一类，开始状态：对应的类是 `-appear`、`-enter`、`-exit`； 
+- 第二类：执行动画：对应的类是 `-appear-active`、`-enter-active`、`-exit-active`； 
+- 第三类：执行结束：对应的类是 `-appear-done`、`-enter-done`、`exit-done`；
+
+CSSTransition 组件常见对应的属性： 
+- `in`：触发进入或者退出状态 如果添加了 `unmountOnExit={true}`，那么该组件会在执行退出动画结束后被移除掉； 
+	- 当 `in` 为 `true` 时，触发进入状态，会添加 `-enter`、`-enter-acitve` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
+	- 当 `in` 为 `false` 时，触发退出状态，会添加 `-exit`、`-exit-active` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
+- `classNames`：动画 class 的名称 ：
+	- 决定了在编写 css 时，对应的 class 名称：比如当 `classNames="card"` 时，对应的类名为：`card-enter`、`card-enter-active`、`card-enter-done`；
+- `timeout`：过渡动画的时间，最好与样式中的时间保持一致（**必须添加**，否则没有动画效果）。
+- `appear`：是否在初次进入添加动画（需要和 `in` 同时为 `true`）
+- `unmountOnExit`：退出后卸载组件。
+- [其他属性参考官方文档](https://reactcommunity.org/react-transition-group/transition)
+
+CSSTransition 对应的钩子函数：主要为了检测动画的执行过程，来完成一些 JavaScript 的操作 
+- `onEnter`：在进入动画之前被触发； 
+- `onEntering`：在应用进入动画时被触发；
+- `onEntered`：在应用进入动画结束后被触发；
+- `onExit`：在离开动画之前被触发。
+- `onExiting`：在应用离开动画时被触发。
+- `onExited`：在应用离开动画结束后被触发。
 
 ### 实现淡入淡出动画
 
@@ -691,15 +707,17 @@ export default App
 ```
 ## SwitchTransition
 
-- SwitchTransition 可以完成两个组件之间切换的炫酷动画： 
-	- 比如我们有一个按钮需要在 on 和 off 之间切换，我们希望看到 on 先从左侧退出，off 再从右侧进入； 
-	- 这个动画在 vue 中被称之为 vue transition modes；react-transition-group 中使用 SwitchTransition 来实现该动画；
-- SwitchTransition 中主要有一个属性：`mode`，有两个值 
-	- `in-out`：表示新组件先进入，旧组件再移除； 
-	- `out-in`：表示旧组件先移除，新组建再进入；
-- 如何使用 SwitchTransition 呢？ 
-	- SwitchTransition 组件里面要有 CSSTransition 或者 Transition 组件，不能直接包裹你想要切换的组件； 
-	- SwitchTransition 里面的 CSSTransition 或 Transition 组件不再像以前那样接受 `in` 属性来判断元素是何种状态，取而代之的是 `key` 属性；
+SwitchTransition 可以完成两个组件之间切换的炫酷动画：
+- 比如我们有一个按钮需要在 on 和 off 之间切换，我们希望看到 on 先从左侧退出，off 再从右侧进入； 
+- 这个动画在 vue 中被称之为 vue transition modes；react-transition-group 中使用 SwitchTransition 来实现该动画；
+
+SwitchTransition 中主要有一个属性：`mode`，有两个值
+- `in-out`：表示新组件先进入，旧组件再移除； 
+- `out-in`：表示旧组件先移除，新组建再进入；
+
+如何使用 SwitchTransition 呢？
+- SwitchTransition 组件里面要有 CSSTransition 或者 Transition 组件，不能直接包裹你想要切换的组件； 
+- SwitchTransition 里面的 CSSTransition 或 Transition 组件不再像以前那样接受 `in` 属性来判断元素是何种状态，取而代之的是 `key` 属性；
 
 ### 实现按钮切换动画
 
