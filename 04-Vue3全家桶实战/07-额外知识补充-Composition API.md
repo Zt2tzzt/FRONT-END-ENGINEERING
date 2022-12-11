@@ -801,9 +801,11 @@ App.vue
 
 ```vue
 <template>
-	<!--  v-model:title 做了2件事：
-				1.使用 v-bind 绑定了 title 属性。:title
-				2.使用 v-on 监听了 update:title 的事件。@update:title=“newValue => title = newValue” 	-->
+	<!-- 
+		v-model:title 做了2件事：
+      1.使用 v-bind 绑定了 title 属性。:title
+      2.使用 v-on 监听了 update:title 的事件。@update:title=“newValue => title = newValue” 
+  -->
   <MyCpn v-model="message" v-model:title="title"></MyCpn>
 </template>
 
@@ -907,6 +909,7 @@ export default {
   mixins: [ demoMixin ],
 };
 </script>
+
 <style scoped>
 </style>
 ```
@@ -1011,8 +1014,8 @@ Options API 的缺点，
 setup 函数主要有2个参数：
 
 1. `props`：Object 类型，父组件中传递过来的属性。它是**响应式的**，**不能使用解构语法**，除非使用 `toRefs`
-   - props、emits 还是需要在选项 Options 中定义（components 属性也通过选项 Options 定义)，在 setup 函数中通过 props 参数获取，而不是 `this`
-   - 在 template 中依然是可以正常去使用 props 中的属性，比如 message
+   - `props`、`emits` 还是需要在选项 Options 中定义（`components` 属性也通过选项 Options 定义)，在 setup 函数中通过 props 参数获取，而不是 `this`
+   - 在 template 中依然是可以正常去使用 props 中的属性。
 2. `context`，Object 类型，称之为 SetupContext，它里面包含3个属性（可使用解构获取）：
    - `attrs`：所有非 prop 的 attribute。
    - `slots`：父组件传递过来的插槽，可用于 render 函数。
@@ -1027,7 +1030,7 @@ setup 函数的返回值，可以用来做什么：
 
 - 在模板 template 中使用（可代替 data, methods 等等选项中定义的内容）
 
-基本使用 & Hooks 抽取代码体验
+基本使用，并使用 Hooks 体验抽取代码。
 
 App.vue
 

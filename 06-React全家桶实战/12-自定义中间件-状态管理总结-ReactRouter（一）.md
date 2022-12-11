@@ -695,18 +695,12 @@ export class Home extends PureComponent {
 				<div className="home-nav">
 					<Link to='/home/recommend'>推荐</Link>
 					<Link to='/home/ranking'>排行榜</Link>
-					<button onClick={e => this.navigateTo('/home/songmenu')}>歌单</button>
 				</div>
 
 				{/* 占位组件 */}
 				<Outlet />
 			</div>
 		)
-	}
-
-	navigateTo(path) {
-		const { navigate } = this.props.router
-		navigate(path)
 	}
 }
 
