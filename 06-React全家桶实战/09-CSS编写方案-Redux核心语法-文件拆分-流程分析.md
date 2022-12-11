@@ -669,3 +669,4 @@ export class Home extends PureComponent {
 
 export default Home
 ```
+
