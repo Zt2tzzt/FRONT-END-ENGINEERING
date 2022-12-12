@@ -108,7 +108,7 @@ navigate(-1)
 
 ## 路由跳转传递参数
 
-传递参数有两种方式
+传递参数有两种方式。
 
 ### 方式一：动态路由
 
@@ -171,11 +171,9 @@ export class HomeSongMenu extends PureComponent {
 			<div>
 				<h1>Home Song Menu</h1>
 				<ul>
-					{
-						songMenus.map(item => (
-							<li key={item.id} onClick={e => this.navigateToDetail(item.id)}>{item.name}</li>
-						))
-					}
+					{songMenus.map(item => (
+            <li key={item.id} onClick={e => this.navigateToDetail(item.id)}>{item.name}</li>
+          ))}
 				</ul>
 			</div>
 		)
@@ -491,8 +489,9 @@ function App() {
 
 	/**
 	 * 函数式组件存在的最大缺陷：
-	 * 	1.修改 msg 之后，组件不会被重新渲染。
-	 * 	2.即使页面重新渲染，意味着函数会被重新执行，那么会重新给 msg 赋值为“Hello World”
+	 *  1.不能保存状态。
+	 * 	 * 修改 msg 之后，组件不会被重新渲染。
+	 * 	 * 即使页面重新渲染，意味着函数会被重新执行，那么会重新给 msg 赋值为“Hello World”
 	 * 	3.类似于生命周期的回调函数，也是没有的。
 	 */
 
@@ -551,7 +550,7 @@ Hook 的使用场景：
 在我们继续之前，请记住 Hook 是完全可选的：你无需重构任何已有代码，就可以在原有项目中使用 Hook。它是 100% 向后兼容的：Hook 不包含任何破坏性改动。
 ## 计数器案例
 
-使用计数器案例对比函数式组件结合 Hooks 和类组件的实现方式。
+使用计数器案例对比函数式组件结合 Hooks 和类组件的实现方式：
 
 09-learn-reacthooks\src\02-计数器案例对比\App.jsx
 
@@ -647,17 +646,17 @@ export default CounterHook
 
 - 参数：接受唯一一个参数，表示初始化值，如果不设置，默认为 undefined；
 - 返回值：数组，包含两个元素；可以通过数组的解构进行使用，非常方便。
-	- 元素一：当前状态的值（第一此调用为初始化值）； 
+	- 元素一：当前状态的值（第一此调用为初始化值）；
 	- 元素二：设置状态值的函数；
 
-在上述案例中，点击 button 按钮后，会做两件事情： 
+在上述案例中，点击 button 按钮后，会做两件事情：
 1. 调用 `setCount`，设置一个新的值；
 2. 组件重新渲染，并且根据新的值返回 DOM 结构；
 
 Hook 就是 JavaScript 函数，这个函数可以帮助你钩入（hook into）React State 以及生命周期等特性；
 
 使用 React Hooks 两个规则：
-- 只能在函数最外层调用 Hook。不要在循环、条件判断或者子函数中调用。 
+- 只能在函数最外层调用 Hook。不要在循环、条件判断或者子函数中调用。
 - 只能在 React 的函数式组件中调用 Hook。不要在其他普通 JavaScript 函数中调用，除非是在自定义 Hook 函数中调用，即以“use”开头的函数。
 
 ```jsx

@@ -2,7 +2,7 @@
 
 使用场景，
 
-- 为 **Object / Array 类型**数据提供响应式的特性。
+- 为 **Object / Array 等引用类型**数据提供响应式的特性。
 
 reactive API 响应式原理介绍，3点：
 
@@ -57,12 +57,12 @@ reactive API 的基本使用：
 
 需要注意的是：
 
-1. 在 \<template\> 模板中引入 ref 的值时，vue 会自动帮助我们进行浅层解包操作，并不需要通过 `ref.value` 的方式使用。
+1. 在 `<template>` 模板中引入 ref 的值时，vue 会自动帮助我们进行浅层解包操作，并不需要通过 `ref.value` 的方式使用。
 2. 在 setup 函数内部，它依然是一个 ref 引用，所以需要通过 `ref.value` 的方式来使用。
 
 如何理解 ref API 的浅层解包。
 
-- 在早期，如果 ref 对象在外层包裹一个对象，那么它在 template 模板中不会自动解包，除非外层包裹的对象是 reactive 对象。
+- 在早期，如果 ref 对象在外层包裹一个对象，那么它在 template 模板中不会自动解包，除非外层包裹的对象是 `reactive` 对象。
 - 现在已经能做到不完全的深层解包（解包后可读取，不能操作）。
 
 ref API 的基本使用：
@@ -127,7 +127,7 @@ ref API 的基本使用：
 
 > 按照“单向数据流”的规范，在子组件中不能直接修改父组件的数据，而是通过发射事件的方式让父组件修改。
 
-readonly API 的原理：
+`readonly` API 的原理：
 
 - readonly 会返回原始对象的只读代理（Proxy），这个代理对象中的 set 方法被劫持，使它不能进行修改。
 
@@ -191,6 +191,7 @@ readonly API 结合普通对象和响应式对象的使用：
     }
   }
 </script>
+
 <template>
   <div>
     <!-- 使用 readonly 的数据 -->
@@ -199,8 +200,6 @@ readonly API 结合普通对象和响应式对象的使用：
     <button @click="roInfoBtnClick">roInfo按钮</button> <!-- 正确的做法 -->
   </div>
 </template>
-<style scoped>
-</style>
 ```
 
 # reactive 相关 API
@@ -339,8 +338,8 @@ export default function (value, delay = 300) {
 
 为什么不能使用 this
 
-1. setup 被调用之前，data, computed, methods 等选项都没有被解析。
-2. setup 函数**调用时未绑定 this**，所以它的 this 没有指向组件实例 Instance，而是 undefined。
+1. 首先，setup 被调用之前，data, computed, methods 等选项都没有被解析。
+2. 本质上，setup 函数**调用时未绑定 this**，所以它的 this 没有指向组件实例 Instance，而是 undefined。
 
 setup 函数的执行过程在阅读源码的过程中，代码是按照如下顺序执行的： 
 
@@ -360,7 +359,7 @@ Vue 官方文档推荐，对于任何**包含响应式数据**的复杂逻辑，
 
 setup 中实现计算属性 API 是 `computed`，基本使用：
 
-- 接受一个 getter 函数，并为 getter 函数返回的值，返回一个**不变的** ref 对象。
+- 接受一个 `getter` 函数，并为 getter 函数返回的值，返回一个**不可写的** ref 对象。
 
    ```vue
    <script>
@@ -382,7 +381,7 @@ setup 中实现计算属性 API 是 `computed`，基本使用：
    </template>
    ```
    
-- 接受一个具有 get 和 set 方法的对象，返回一个可变的（可读写）ref 对象。
+- 接受一个具有 `get` 和 `set` 方法的对象，返回一个可变的（可读写）ref 对象。
 
    ```Vue
    <script>
@@ -435,9 +434,9 @@ setup 中侦听器提供了2种 API ：
   
   export default {
     setup() {
-      // watchEffect: 自动收集响应式的依赖
       const name = ref("zzt");
       const age = ref(18);
+      // watchEffect: 自动收集响应式的依赖
       watchEffect(() => {
         console.log("name:", name.value, "age:", age.value);
       });
@@ -513,10 +512,10 @@ watchEffect(onInvalidate => {
 
 watch 侦听单个数据源，可传2种类型：
 
-- 一个 getter 函数，该函数返回值必须要引用响应式对象（如 reactive 或 ref 对象）。
-- 一个响应式对象，reactive 或者 ref 对象（常用）
+- 一个 `getter` 函数，该函数返回值必须要引用响应式对象（如 reactive 或 ref 对象）。
+- 一个响应式对象，`reactive` 或者 `ref` 对象（常用）
 
-watch 侦听单个数据源，newVal 和 oldVal 拿到普通值和响应式对象的4种情况。侦听 Reactive 对象后获取普通对象。
+watch 侦听单个数据源，`newVal` 和 `oldVal` 拿到普通值和响应式对象的4种情况。侦听 Reactive 对象后获取普通对象。
 
 - 侦听一个 reactive 对象，newVal 和 oldVal 是响应式对象（Proxy）。
 
@@ -617,23 +616,6 @@ const changeData = () => {
 
 1. 定义一个 ref 对象（传入 null），将它绑定到元素或者组件的 ref 属性上即可
 
-   ```vue
-   <script>
-     import { ref } from 'vue';
-     
-     export default {
-       setup() {
-         const titleRef = ref(null);
-         return { titleREf }
-       }
-     }
-   </script>
-   
-   <template>
-     <h2 ref="titleRef">哈哈哈</h2>
-   </template>
-   ```
-
 2. 可在对应的生命周期函数（`onMounted`）中通过 `titleRef` 拿到元素本身。
 
    ```vue
@@ -714,11 +696,13 @@ export default {
 }
 ```
 
-> 同一个生命周期钩子函数可以多次使用而不会被覆盖，有什么好处？有利于代码的抽取复用。
+> 同一个生命周期钩子函数可以多次使用而不会被覆盖，有什么好处？
+>
+> - 有利于代码的抽取复用。
 
 # Provide, Inject API
 
-结合响应式 API 和 readonly，使用 Provide, Inject API.
+结合响应式 API 和 readonly，使用 `Provide`, `Inject` API.
 
 父组件 App.vue
 
@@ -973,7 +957,7 @@ export default function (key, value) {
 
 ## defineProps 和 defineEmits 的使用
 
-- 为了在声明 props 和 emits 选项时获得完整的类型推断支持，我们可以使用 defineProps 和 defineEmits API，它们将自动地在 \<script setup\> 中可用：
+为了在声明 `props` 和 `emits` 选项时获得完整的类型推断支持，我们可以使用 `defineProps` 和 `defineEmits` API，它们将自动地在 \<script setup\> 中可用：
 
 基本使用：
 
@@ -999,7 +983,7 @@ const clickbtn = () => emit('increment', 1000000)
 
 ## defineExpose 的使用
 
-- 使用 \<script setup\> 的组件是默认关闭的：通过模板 ref 或者 $parent 链获取到的组件的公开实例，不会暴露任何在 \<script setup\> 中声明的绑定；
+- 使用 \<script setup\> 的组件是默认关闭的：通过模板 `ref` 或者 `$parent` 链获取到的组件的公开实例，不会暴露任何在 \<script setup\> 中声明的绑定；
 - 通过 `defineExpose` 编译器宏来显式指定在 \<script setup\> 组件中要暴露出去的 property：
 
 子组件 Home.vue
