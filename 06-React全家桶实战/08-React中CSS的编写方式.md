@@ -11,9 +11,9 @@
 
 在编写 CSS 的规范性上，Vue 做的要好于 React：
 
-- Vue 通过在 .vue 文件中编写 <style><style> 标签来编写自己的样式；
+- Vue 通过在 .vue 文件中编写 `<style><style>` 标签来编写自己的样式；
 - 通过是否添加 `scoped` 属性来决定编写的样式是全局有效还是局部有效；
-- 通过 `lang` 属性来设置你喜欢的 less、sass 等预处理器；
+- 通过 `lang` 属性来设置你喜欢的预处理器，如 less、sass 等。
 - 通过内联样式风格的方式来根据最新状态设置和改变 css；
 
 Vue 在 CSS 上虽然不能称之为完美，但是已经足够简洁、自然、方便了，至少统一的样式风格不会出现多个开发人员、多个项目采用不一样的样式风格。
@@ -22,7 +22,7 @@ Vue 在 CSS 上虽然不能称之为完美，但是已经足够简洁、自然�
 
 事实上，css 一直是 React 的痛点，也是被很多开发者吐槽、诟病的一个点。
 
-相比而言，React 官方并没有给出在 React 中统一的样式风格（React 官方对 CSS 编写方式没有明确的态度）：
+相比而言，React 官方并没有给出在 React 中统一的样式风格（**React 官方对 CSS 编写方式没有明确的态度**）：
 
 - 由此，从普通的 css，到 css modules，再到 css in js，有几十种不同的解决方案，上百个不同的库；
 - 大家都在寻找最好的或者说最适合自己的 CSS 方案，但是到目前为止也没有统一的方案；
@@ -30,8 +30,8 @@ Vue 在 CSS 上虽然不能称之为完美，但是已经足够简洁、自然�
 
 # 内联样式的写法
 
-内联样式是官方推荐的一种 css 样式的写法：
-- style 接收一个采用小驼峰命名属性的 JavaScript 对象，而不是 CSS 字符串；可以引用 state 中的状态来设置相关的样式；
+内联样式是官方文档中有在用的一种 css 样式的写法：
+- style 接收一个采用小驼峰命名属性的 JavaScript 对象，而不是 CSS 字符串；
 
 内联样式的优点:
 - 样式之间不会有冲突。
@@ -59,6 +59,7 @@ export class App extends PureComponent {
 	}
 	render() {
 		const { titleSize } = this.state
+    
 		return (
 			<div>
 				<button onClick={e => this.addTitleSize()}>增加 titleSize</button>
@@ -179,7 +180,7 @@ export default App
 > React 2个 UI 库使用 CSS 的方式
 >
 > - Material UI：CSS in JS
-> - Ant-Desigh：less
+> - Ant-Desigh：CSS in JS
 
 ## 如何使用 craco
 
@@ -219,14 +220,14 @@ export default App
      plugins: [
        {
          plugin: CracoLessPlugin,
-         options: {
+         /* options: {
            lessLoaderOptions: {
              lessOptions: {
                modifyVars: { '@primary-color': '#1DA57A' },
                javascriptEnabled: true,
              },
            },
-         },
+         }, */
        },
      ],
    };
@@ -309,9 +310,9 @@ export default App
 
 1. 安装 `styled-components`：
 
-   ```shell
-   npm install styled-components
-   ```
+ ```shell
+ npm install styled-components
+ ```
 > 回顾标签模板字符串的用法。
 
 2. 安装 `VSCode-style-component` 插件，使代码高亮。
@@ -353,10 +354,10 @@ export class App extends PureComponent {
 export default App
 ```
 
-`styled-components` 的本质是通过函数的调用，最终创建出一个组件：
+styled-components 的本质是通过函数的调用，最终创建出一个组件：
 
 - 这个组件会被自动添加上一个不重复的 class；
-- `styled-components` 会给该这个 class 添加相关的样式；
+- styled-components 会给该这个 class 添加相关的样式；
 
 另外，它支持类似于 CSS 预处理器一样的样式嵌套：
 - 支持直接子代选择器或后代选择器嵌套编写；
@@ -365,11 +366,12 @@ export default App
 
 ### props、attrs 属性的使用
 
-props 可以被传递给 styled 组件
+`props` 可以被传递给 styled 组件
+
 - 获取 props 需要通过 `${}` 传入一个插值函数，props 会作为该函数的参数；
 - 这种方式可以有效的解决动态样式的问题；
 
-在 attrs 方法中为 props 中的属性添加默认值。
+在 `attrs` 方法中为 props 中的属性添加默认值。
 
 04-learn-react-css\src\05-CSS-IN-JS\variables.js
 

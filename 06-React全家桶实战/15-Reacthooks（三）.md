@@ -1,10 +1,10 @@
 # useMemo Hook
 
-useMemo 实际的目的也是为了进行性能优化。
+`useMemo` 实际的目的也是为了进行性能优化。
 
 如何进行性能的优化呢？
 
-- `useMemo` 返回的也是一个 memorized（记忆的）值；这个 memorized 针对的是回调函数的返回值。
+- useMemo 返回的也是一个 memorized（记忆的）值；这个 memorized 针对的是回调函数的返回值。
 - 在依赖不变的情况下，多次定义的时候，返回的值是相同的；
 
 09-learn-reacthooks\src\08-useMemo的使用\App.jsx
@@ -69,7 +69,7 @@ useRef 返回一个 ref 对象，该对象在组件的整个生命周期保持�
 
 最常用的 ref 是两种用法：
 
-- 用法一：引入 DOM（或者组件，但是需要是 class 组件）元素（类组件中使用 `createRef` API 来完成）；
+- 用法一：引用 DOM（或者组件，但是需要是 class 组件）元素（类组件中使用 `createRef` API 来完成）；
 - 用法二：保存一个数据，这个对象在整个生命周期中可以保存不变；
 
 ## 案例一：引用 DOM
