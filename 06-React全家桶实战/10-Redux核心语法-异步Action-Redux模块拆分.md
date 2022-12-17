@@ -1,4 +1,4 @@
-# react-redux 库的使用
+# react-redux 库的使用（官方提供）
 
 ## 案例一
 
@@ -86,7 +86,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(About)
 
 - 需要强调的是，redux 和 react 没有直接的关系，你完全可以在 React, Angular, Ember, jQuery, 或者 vanilla JavaScript 中使用 Redux。
 - 尽管这样说，redux 依然是和 React 库结合的更好，因为他们是通过 state 函数来描述界面的状态，Redux 可以发射状态的更新，让他们作出响应。
-- redux 官方帮助我们提供了 react-redux 的库，可以直接在项目中使用，来帮助我们省去 redux 与 react 的结合使用，主要提供了2个 API，如 `connect` 和 `Provier`。和几个 Hook，如 `useSelector`、`useDispatch` 和 `useStore`（后续介绍）并且实现的逻辑会更加的严谨和高效。
+- redux **官方**帮助我们提供了 react-redux 的库，可以直接在项目中使用，来帮助我们省去 redux 与 react 的结合使用，主要提供了2个 API，如 `connect` 和 `Provier`。和几个 Hook，如 `useSelector`、`useDispatch` 和 `useStore`（后续介绍）并且实现的逻辑会更加的严谨和高效。
 
 # 组件中的异步操作
 
@@ -428,9 +428,9 @@ export default store
 # reducer 拆分
 
 为什么要拆分 reducer：
-- 当前这个 reducer 既有处理 counter 的代码，又有处理 home 页面的数据；
+- 当前这个 reducer 既有处理 counter 的代码，又有处理 home 页面的状态；
 - 后续 counter 相关的状态或 home 相关的状态会进一步变得更加复杂；
-- 我们也会继续添加其他的相关状态，比如购物车、分类、歌单等等；
+- 我们也会继续添加其他模块的相关状态，比如购物车、分类、歌单等等；
 - 如果将所有的状态都放到一个 reducer 中进行管理，随着项目的日趋庞大，必然会造成代码臃肿、难以维护。
 
 因此，我们需要对 reducer 进行拆分：
@@ -469,14 +469,8 @@ export const chnageRecommendsAction = recommends => ({
 })
 
 export const fetchHomeMultidataAction = () => {
-	/**
-	 * 如果是一个普通的 action，需要在此处返回一个 action 对象
-	 * 但是，对象中不能直接拿到从服务器请求的异步数据
-	 */
-
-	// 如果返回一个函数，那么 redux 是不支持的，需要使用中间件。在中间件的加持下，dispatch 该函数后，该函数会自动执行。
+  
 	return function (dispatch, getState) {
-		// 实现异步操作，网络请求。
 		axios.get("http://123.207.32.32:8000/home/multidata").then(res => {
 			const banners = res.data.data.banner.list
       const recommends = res.data.data.recommend.list
@@ -612,7 +606,7 @@ import { addAction, subAction } from '../store/counter';
 
 export class About extends PureComponent {
 	render() {
-		const { counter } = this.props
+		const { counter, banners, recommends } = this.props
 		return (
 			<div>
 				<h2>About Page: {counter}</h2>
@@ -621,7 +615,7 @@ export class About extends PureComponent {
 				<h2>banners</h2>
 				<ul>
 					{
-						this.props.banners.map((item, index) => (
+            banners.map((item, index) => (
 							<li key={index}>{item.title}</li>
 						))
 					}
@@ -629,7 +623,7 @@ export class About extends PureComponent {
 				<h2>recommends</h2>
 				<ul>
 					{
-						this.props.recommends.map((item, index) => (
+            recommends.map((item, index) => (
 							<li key={index}>{item.title}</li>
 						))
 					}

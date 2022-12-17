@@ -58,7 +58,7 @@ Vue 阶段性案例练习，房源展示。网络请求模拟。见 `demo-projec
 - 这样做最大的优点就是前后端责任清晰，后端专注于数据上，前端专注于交互和可视化上； 
 - 并且当移动端 iOS / Android 出现后，后端不需要进行任何处理，依然使用之前的一套 API 即可；
 
-> 目前比较少的网站采用这种模式开发；
+目前比较少的网站采用这种模式开发；
 
 ## 前端路由，单页面富应用（SPA）
 
@@ -119,7 +119,7 @@ URL 的 hash 理解，2点：
 
 ## 使用 HTML5 的 history
 
-HTML5 中 history 的6种方法改变 URL 而不刷新
+HTML5 中 history 的 6 种方法改变 URL 而不刷新：
 
 - `replaceState`: 替换原来的路径（不会留下记录）。
 - `pushState`: 使用新的路径（压栈操作）。
@@ -139,6 +139,7 @@ HTML5 中 history 的6种方法改变 URL 而不刷新
 
 <script>
   const contentEl = document.querySelector('.content')
+  
   const changeContent = () => {
     switch(location.pathname) {
       case '/home':
@@ -151,6 +152,7 @@ HTML5 中 history 的6种方法改变 URL 而不刷新
         contentEl.innerHTML = 'default'
     }
   }
+  
   const aEls = document.getElementsByTagName('a')
   for(const aEl of aEls) {
     aEl.addEventListener('click', e => {
@@ -191,8 +193,8 @@ npm install vue-router
 2. 通过 `createRouter` 函数创建路由对象，并且传入 routes 和 history 模式； 
 	1. 配置路由映射: 组件和路径映射关系的 routes 数组； 
 	2. 创建基于 hash 或者 history 的模式；
-3. 使用 app 注册路由对象（use方法）；
-4. 路由使用: 通过 `<router-link>` / 编程式导航 进行路由跳转，通过 `<router-view>` 展示路由对应的组件；
+3. 使用 app 注册路由对象（`use` 方法）；
+4. 通过 `<router-link>` / 编程式导航 进行路由跳转，通过 `<router-view>` 展示路由对应的组件；
 
 基本使用。
 
@@ -269,8 +271,8 @@ router-link 有哪些属性？
 
 - `to`：可传字符串，如`/home`、对象，如 `{ path: '/home', query: { name: 'zzt', age: 18 } }`
 - `replace`：会调用 `router.replace()`，而不是 `router.push()`
-- `active-class`：路由激活后应用于 \<a\> 的 class，默认是 `router-link-active`
-- `exact-active-class`：与嵌套路由有关，路由精准激活时，应用于 \<a\> 的 class,，默认是 `router-link-exact-active`
+- `active-class`：路由激活后应用于 \<a\> 的 class，默认是 "router-link-active"
+- `exact-active-class`：与嵌套路由有关，路由精准激活时，应用于 \<a\> 的 class,，默认是 "router-link-exact-active"
 - `custom`：表示自定义元素，否则内容外会包裹 \<a\>
 
 ```vue
@@ -322,7 +324,7 @@ dist
 
 ## 路由的 name 和 meta 属性。
 
-name：路由记录独一无二的名称，可通过名字来做跳转-（很少用），一般用于：
+name：路由记录独一无二的名称，可通过名字来做跳转（很少用），一般用于：
 - **动态添加路由**中的二级子路由添加，需要使用 name 来指定一级路由（后续学习）。
 - 删除添加的路由。
 
@@ -512,7 +514,7 @@ Home.vue
 </template>
 ```
 
-## 路由的编程式导航（使用代码做页面跳转）。
+## 路由的编程式导航（使用代码做页面跳转）
 
 ### 使用场景：
 
