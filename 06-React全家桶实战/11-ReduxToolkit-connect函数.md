@@ -22,7 +22,7 @@ Redux Toolkit 的核心 API 主要是如下几个：
   - 默认包含了 redux-thunk 中间件，
   - 默认启用了 Redux DevTools Extension。
 - `createSlice`：接收【切片名称】、【初始状态值】、【包含 reducer 函数的对象】，并自动生成切片 reducer，并带有相应的 actions。
-- `createAsyncThunk`: 接收一个动作类型字符串和一个返回承诺的函数，并生成一个拥有 pending / fulfilled / rejected 状态的承诺，基于该承诺分派动作类型的 thunk
+- `createAsyncThunk`: 接收一个动作类型字符串和一个返回承诺的函数，并生成一个拥有 pending / fulfilled / rejected 状态的承诺，基于该承诺分派动作类型的 thunk。
 
 # Redux Toolkit 基本使用
 
@@ -410,7 +410,7 @@ export default homeSlice.reducer
 
 所以在前面我们经常会进行浅拷贝来完成某些操作，但是浅拷贝事实上也是存在问题的： 
 - 比如过大的对象，进行浅拷贝也会造成性能的浪费； 
-- 比如浅拷贝后的对象，在深层改变时，依然会对之前的对象产生影响；
+- 比如浅拷贝后的对象，在深层属性改变时，依然会对之前的对象产生影响；
 
 事实上 Redux Toolkit 底层使用了 `immerjs` 库来保证数据的不可变性
 
@@ -437,6 +437,7 @@ import { StoreContext } from './StoreContext'
 export function connect(mapStateToProps, mapDispatchToProps) {
 	// 返回一个高阶组件
 	return function (OriginCpn) {
+    
 		return class extends PureComponent {
 			static contextType = StoreContext // 就是 store
 
@@ -444,14 +445,17 @@ export function connect(mapStateToProps, mapDispatchToProps) {
 				super(props)
 				this.state = mapStateToProps(context.getState())
 			}
+    
 			componentDidMount() {
 				this.unSubscripbe = this.context.subscriibe(() => {
 					this.setState(mapStateToProps(this.context.getState()))
 				})
 			}
+    
 			componentWillUnmount() {
 				this.unSubscripbe()
 			}
+    
 			render() {
 				const stateObj = mapStateToProps(this.context.getState())
 				const dispatchObj = mapDispatchToProps(this.context.dispatch)

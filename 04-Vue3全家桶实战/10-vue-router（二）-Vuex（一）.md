@@ -8,7 +8,9 @@
   
 - 移动端 IOS / Android
 
-- H5 产品端，如小程序端。通常为用户端。
+- H5 产品端，如小程序端。
+  
+  - 通常为用户端。
   
   > H5 通常指产品端，而非 HTML5 这项技术。
   >
@@ -18,8 +20,6 @@
 
 - PC 端网站，
   - 如客服端，产品经理端等等。往往有更高的权限。
-
----
 
 # vue-router 补充
 
@@ -47,6 +47,7 @@ vue-router 4 删除了 router-linke 上 `tag` 属性，使用插槽的方式来�
 增强写法，结合作用域插槽 `v-slot` 如何使用。
 
 使用 `v-slot` （独占默认插槽语法），来获取作用域插槽内部传递的对象 slotProps，对象中有以下属性：
+
 - `href`：解析后的 url，如 "/home".
 - `route`：解析后的规范化 route 对象，里面有 params，query，meta 等属性。
 - `navigate`：触发导航的函数。
@@ -66,6 +67,7 @@ App.vue
 	<router-link to="/about">关于</router-link>
 	<router-view></router-view>
 </template>
+
 <style scoped>
 .active {
 	color: green;
@@ -105,8 +107,8 @@ App.vue
 
 router-view 使用 `v-slot` 来获取作用域插槽内部传递的对象，对象中有以下属性：
 
-- Component：要渲染的组件的名称。
-- route：解析出的标准化路由对象。里面有 params，query，meta 等属性。
+- `Component`：要渲染的组件的名称。
+- `route`：解析出的标准化路由对象。里面有 params，query，meta 等属性。
 
 > 不能通过 router-view 拿到组件实例对象，它只能起到占位的作用。
 
@@ -118,7 +120,7 @@ router-view 使用 `v-slot` 来获取作用域插槽内部传递的对象，对�
 
 ### 系统实现角色权限管理的 3 种方案。
 
-后台权限设计的思想之一：RBAC ( role based access control ) 基于访问权限控制的角色管理。
+后台权限设计的思想之一：**RBAC** ( role based access control ) 基于访问权限控制的角色管理。
 
 - 后端维护用户表，权限表和关系表。
 
@@ -147,11 +149,13 @@ const router = createRouter({
   ],
 	history: createWebHistory()
 })
+
 // 动态添加一级路由
 router.addRoute({
 	path: '/category',
 	component: () => import('../pages/Category.vue')
 })
+
 // 动态添加二级路由，第一个参数是上级路由的 name
 router.addRoute('home', {
 	path: 'moment', // 要么写完整路径‘/home/moment’，要么写成‘moment’
@@ -162,35 +166,38 @@ export default router
 
 ## 动态删除路由：
 
-- 添加一个 name 相同的路由做替换。
+有三种方式：
 
-  ```javascript
-  router.addRoute({ path: '/category', name: 'category', component: Category })
-  router.addRoute({ path: '/other', name: 'category', component: Other }) // 使用 /other 替换 /category
-  ```
+方式一：添加一个 name 相同的路由做替换。
 
-- 通过 `removeRoute` 的方法，传入路由的 `name`。
+```javascript
+router.addRoute({ path: '/category', name: 'category', component: Category })
+router.addRoute({ path: '/other', name: 'category', component: Other }) // 使用 /other 替换 /category
+```
 
-  ```javascript
-  router.addRoute({ path: '/category', name: 'category', component: Category })
-  router.removeRoute('category')
-  ```
+方式二：通过 `removeRoute` 的方法，传入路由的 `name`。
 
-- 通过 `addRoute` 方法的返回函数回调。
+```javascript
+router.addRoute({ path: '/category', name: 'category', component: Category })
+router.removeRoute('category')
+```
 
-  ```javascript
-  const removeCategoryRoute = router.addRoute({
-  	path: '/category',
-  	name: 'category',
-  	component: Category
-  })
-  removeCategoryRoute()
-  ```
+方式三：通过 `addRoute` 方法的返回函数回调。
+
+```javascript
+const removeCategoryRoute = router.addRoute({
+	path: '/category',
+	name: 'category',
+	component: Category
+})
+removeCategoryRoute()
+```
 
 ## 路由的其他方法
 
-- `router.hasRoute(name)`：检查路由是否存在。
-- `router.getRoutes()`：获取一个包含所有路由的记录数组。
+`router.hasRoute(name)`：检查路由是否存在。
+
+`router.getRoutes()`：获取一个包含所有路由的记录数组。
 
 # 导航守卫
 
@@ -212,7 +219,7 @@ export default router
 - `false`；取消当前导航。
 - `undefined`：进行默认导航。
 - 一个 string 类型的路径，如 `'/login'`。
-- 一个对象，其中包含 path, query, params，如 `{ path: '/login/123', query: { name: 123 } }`，
+- 一个对象，其中包含 `path`, `query`, `params`，如 `{ path: '/login/123', query: { name: 123 } }`，
 
 ## 基本使用
 
@@ -411,7 +418,7 @@ function logoutClick() {
 什么是状态管理中的 view，state，action
 
 - view：组件 template 模块渲染成 DOM。
-- state：组件中 data，setup 返回的数据。
+- state：组件中的 data，setup 返回的数据。
 - action：组件中产生的修改 `state` 的事件。
 
 <img src="NodeAssets/状态管理中的state-view-actions.jpg" style="zoom:80%;" />
@@ -427,8 +434,6 @@ Vuex 的状态管理模式：
 <img src="NodeAssets/Vuex的状态管理.jpg" alt="Vuex的状态管理" style="zoom:80%;" />
 
 > vue devtool 的使用场景之一：对组件或者 Vuex 进行调试。
-
----
 
 ## 使用步骤
 
@@ -536,7 +541,7 @@ Vuex 单一状态树的优势 1 点。
 
 #### 直接获取
 
-template 中取 state，VOA 直接展示，结合计算属性。
+template 中取 state，直接展示，结合计算属性。
 
 src / store / index.js
 
@@ -741,8 +746,6 @@ export default {
 }
 </script>
 ```
-
----
 
 ## Vuex 核心二 getters
 
@@ -1214,6 +1217,7 @@ template 中直接提交 commit mutations，VCA 结合 methods，
 		<button @click="handleDecrement">-10</button>
 	</div>
 </template>
+
 <script>
 import { useStore } from 'vuex'
   
@@ -1240,6 +1244,7 @@ App.vue
 		<button @click="decrement({ num: 10 })">-1</button>
 	</div>
 </template>
+
 <script>
 import { useStore, mapMutations } from 'vuex'
   
