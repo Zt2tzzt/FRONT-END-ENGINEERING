@@ -262,13 +262,13 @@ export default {
 
 什么是 modules？
 
-- modules 是用于分割 store 的模块，每个模块拥有自己的 state，mutations，actions，getters，modules（嵌套子模块）
+- modules 是用于分割 store 的模块，每个模块拥有自己的 state，getters，mutations，actions，modules（嵌套子模块）。
 
-## 使用场景，
+## 使用场景
 
 Vuex 中使用单一状态树，所有状态集中在一个对象显得比较臃肿，使用 modules 对不同模块的状态进行管理。
 
-使用 modules 后，四个核心怎么获取
+使用 modules 后，四个核心怎么获取：
 * `store.state.moduleName.stateName`
 * `store.getters['moduleName/getterName']`
 * `store.commit('moduleName/mutationName')`
@@ -647,10 +647,13 @@ nextTick 的基本使用。
 
 # 认识 pinia
 
-- Pinia（发音为/piːnjʌ/，如英语中的“peenya”）是最接近 piña（西班牙语中的菠萝）的词；
-- Pinia 开始于大概2019年，最初是作为一个实验为 Vue 重新设计状态管理，让它用起来像组合式API（Composition API）。
-- 从那时到现在，最初的设计原则依然是相同的，并且目前同时兼容 Vue2、Vue3，也并不要求你使用 Composition API；
-- Pinia 本质上依然是一个状态管理的库，用于跨组件、页面进行状态共享（这点和 Vuex、Redux 一样）；
+Pinia（发音为/piːnjʌ/，如英语中的“peenya”）是最接近 piña（西班牙语中的菠萝）的词；
+
+Pinia 开始于大概2019年，最初是作为一个实验为 Vue 重新设计状态管理，让它用起来像组合式API（Composition API）。
+
+从那时到现在，最初的设计原则依然是相同的，并且目前同时兼容 Vue2、Vue3，也并不要求你使用 Composition API；
+
+Pinia 本质上依然是一个状态管理的库，用于跨组件、页面进行状态共享（这点和 Vuex、Redux 一样）；
 
 # Pinia 与 Vuex 的区别（面试）
 
@@ -699,18 +702,23 @@ app.mount('#app')
 
 ## 认识 Pinia 中的 Store 实例
 
-- Pinia 中一个 store 是一个实体，它持有能够绑定到组件树的状态和业务逻辑，也就是保存了全局的状态；
-- 它有点像始终存在，并且每个人都可以读取和写入的组件；
-- 允许在应用程序中定义任意数量的 store 来管理不同模块的状态；
-- 一个 store 有三个核心概念：
-	- state、getters、actions；这些概念等同于组件的 data、computed、methods；
-	- 一旦 store 被实例化，就可以直接在 store 上访问 state、getters 和 actions 中定义的任何属性；
+Pinia 中一个 store 是一个实体，它持有能够绑定到组件树的状态和业务逻辑，也就是保存了全局的状态；
+
+它有点像始终存在，并且每个人都可以读取和写入的组件；
+
+允许在应用程序中定义任意数量的 store 来管理不同模块的状态；
+
+一个 store 有三个核心概念：
+- state、getters、actions；这些概念等同于组件的 data、computed、methods；
+- 一旦 store 被实例化，就可以直接在 store 上访问 state、getters 和 actions 中定义的任何属性；
 
 ## 定义一个 Store
 
-- 我们需要知道创建 store 的函数是使用 `defineStore()` 定义的；
-- 并且它需要一个唯一名称 `name`，作为第一个参数传递；这个 name，也称为 id，是必要的，Pinia 使用它来将 store 连接到 devtools。
-- 返回的函数，统一使用 `useXxx ` 作为命名方案，这是约定的规范；
+创建 store 的函数是使用 `defineStore()` 定义的；
+
+它需要一个唯一名称 `name`，作为第一个参数传递；这个 name，也称为 id，是必要的，Pinia 使用它来将 store 连接到 devtools。
+
+返回的函数，统一使用 `useXxx ` 作为命名方案，这是约定的规范；
 
 src / store / home.js
 
@@ -733,9 +741,11 @@ export default useHome
 
 ## 使用定义的 store
 
-- Store 在它被使用之前是不会创建的，我们可以通过调用之前导出的 useXxx 函数来获取并使用 Store：
-- 注意 Store 获取到后不能被解构，否则会失去响应式：
-	- 为了从 Store 中提取属性同时保持其响应式，需要使用 Pinia 库提供的 `storeToRefs()`，或 Vue 提供的 `toRefs()` API。
+Store 在它被使用之前是不会创建的，我们可以通过调用之前导出的 useXxx 函数来获取并使用 Store：
+
+注意 Store 获取到后不能被解构，否则会失去响应式：
+
+- 为了从 Store 中提取属性同时保持其响应式，需要使用 Pinia 库提供的 `storeToRefs()`，或 Vue 提供的 `toRefs()` API。
 
 src / components / Home.vue
 
@@ -769,8 +779,9 @@ src / components / Home.vue
 
 ## 认识 state
 
-- state 是 store 的核心部分，因为 store 是用来帮助我们管理状态的。
-- 在 Pinia 中，状态被定义为返回初始状态的函数；
+state 是 store 的核心部分，因为 store 是用来帮助我们管理状态的。
+
+在 Pinia 中，状态被定义为返回初始状态的函数；
 
 ## 定义 state
 
@@ -792,8 +803,9 @@ export default useHome
 
 ## 读取和写入
 
-- 默认情况下，可以通过 store 实例访问状态来直接读取和写入状态
-- 还可通过 `$patch()` 同时应用多个更改。
+默认情况下，可以通过 store 实例访问状态来直接读取和写入状态
+
+还可通过 `$patch()` 同时应用多个更改。
 
 Home.vue
 
@@ -899,9 +911,11 @@ Home.vue
 
 ## 认识 Getters
 
-- Getters 相当于 Store 的计算属性：
-- 它们可以用 defineStore() 中的 `getters` 属性定义；
-- getters 中可以定义接收一个 state 作为参数的函数；
+Getters 相当于 Store 的计算属性：
+
+可以用 defineStore() 中的 `getters` 属性定义；
+
+getters 中可以定义接收一个 state 作为参数的函数；
 
 ## 定义 Getters
 
@@ -962,9 +976,11 @@ export default useCounter
 
 ## 认识 Actions
 
-- Actions 相当于组件中的 methods。可以使用 `defineStore()` 中的 `actions` 属性定义，并且它们非常适合定义业务逻辑；
-- 和 getters 一样，在 action 中可以通过 `this` 访问整个 store 实例的所有操作；
-- Actions 中是支持异步操作的，通过返回一个 Promise 告知使用者异步操作执行状态。
+Actions 相当于组件中的 methods。可以使用 `defineStore()` 中的 `actions` 属性定义，并且它们非常适合定义业务逻辑；
+
+和 getters 一样，在 action 中可以通过 `this` 访问整个 store 实例的所有操作；
+
+Actions 中是支持异步操作的，通过返回一个 Promise 告知使用者异步操作执行状态。
 
 
 ## 定义 actiuons
@@ -1032,7 +1048,7 @@ axios 名称的由来，个人理解：
 
 1. 原生 ajax 操作步骤过多，需要自行封装，才能保持代码的简洁性。
 2. 原生某些功能不具备，如请求拦截，响应拦截。
-3. JS 代码运行环境可能不同，浏览器 / Node，造成发送网络请求的方式也不同 fetch -> http
+3. JS 代码运行环境可能不同（浏览器 / Node），造成发送网络请求的方式也不同 （fetch / http 模块）
 
 ## 功能特点。
 
@@ -1069,10 +1085,12 @@ axios.request({
 }).then(res => {
   console.log("res:", res.data)
 })
+
 // 2.发送 get 请求
 axios.get(`http://123.207.32.32:9001/lyric?id=500665346`).then(res => {
   console.log("res:", res.data.lrc)
 })
+
 axios.get("http://123.207.32.32:9001/lyric", {
   params: {
     id: 500665346
@@ -1080,6 +1098,7 @@ axios.get("http://123.207.32.32:9001/lyric", {
 }).then(res => {
   console.log("res:", res.data.lrc)
 })
+
 // 3.发送 post 请求
 axios.post("http://123.207.32.32:1888/02_param/postjson", {
   name: "zzt",
@@ -1087,6 +1106,7 @@ axios.post("http://123.207.32.32:1888/02_param/postjson", {
 }).then(res => {
   console.log("res", res.data)
 })
+
 axios.post("http://123.207.32.32:1888/02_param/postjson", {
   data: {
     name: "zzt",
