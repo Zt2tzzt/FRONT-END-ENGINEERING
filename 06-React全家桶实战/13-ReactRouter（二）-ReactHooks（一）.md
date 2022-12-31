@@ -188,7 +188,7 @@ export class HomeSongMenu extends PureComponent {
 export default withRouter(HomeSongMenu)
 ```
 
-跳转进入 Detail 页面，接收传入的参数。
+在跳转进入的 Detail 页面中，接收传入的参数。
 
 08-learn-reactrouter\src\pages\Detail.jsx
 
@@ -523,13 +523,12 @@ class 组件可以在状态改变时重新执行 `render` 函数以及生命周�
 
 
 复杂组件变得难以理解：
-- 随着业务的增多，我们的 class 组件会变得越来越复杂；比如 componentDidMount 中，可能就会包含大量的逻辑代码：像是网络请求、一些事件的监听（还需要在 componentWillUnmount 中移除）；
+- 随着业务的增多，我们的 class 组件会变得越来越复杂；比如 `componentDidMount` 中，可能就会包含大量的逻辑代码：像是网络请求、一些事件的监听（还需要在 `componentWillUnmount` 中移除）；
 - 而对于这样的 class 实际上非常难以拆分：因为它们的逻辑往往混在一起，强行拆分反而会造成过度设计，增加代码的复杂度；
 
-组件复用状态很难：
-- 在前面为了一些状态的复用我们需要通过高阶组件；
-- 像我们之前学习的 react-redux 中 `connect` 或者 react-router 中的 `withRouter`，这些高阶组件设计的目的就是为了状态的复用；
-- 或者类似于 Context 中的 `Provider`、`Consumer` 来共享一些状态，但是多次使用 Consumer 时，我们的代码就会存在很多嵌套；
+组件复用状态很难，在前面为了一些状态的复用我们需要通过高阶组件；
+- 比如 react-redux 中 `connect` 或者 react-router 中的 `withRouter`，这些高阶组件设计的目的就是为了状态的复用；
+- 又比如 Context 中的 `Provider`、`Consumer` 来共享一些状态，而且多次使用 Consumer 时，我们的代码就会存在很多嵌套；
 - 这些代码让我们不管是编写和设计上来说，都变得非常困难；
 
 难以理解的 class：
@@ -547,7 +546,6 @@ Hook 的使用场景：
 - Hook 只能在函数组件中使用，不能在类组件，以及函数组件之外的地方使用；除非是自定义 Hook 函数，即以“use”开头的函数。
 - 如果是一个旧的项目，你并不需要直接将所有的代码重构为 Hooks，因为它完全向下兼容，你可以渐进式的来使用它；
 
-在我们继续之前，请记住 Hook 是完全可选的：你无需重构任何已有代码，就可以在原有项目中使用 Hook。它是 100% 向后兼容的：Hook 不包含任何破坏性改动。
 ## 计数器案例
 
 使用计数器案例对比函数式组件结合 Hooks 和类组件的实现方式：
@@ -687,9 +685,9 @@ export default memo(CounterHook)
 ```
 
 > FAQ：为什么叫 useState 而不叫 createState? 
-> - “create” 可能不是很准确，因为 state 只在组件首次渲染的时候被创建。 
-> - 在下一次重新渲染时，useState 返回给我们当前的 state。 
-> - 如果每次都创建新的变量，它就不是 “state”了。
-> - 这也是 Hook 的名字总是以 use 开头的一个原因。
+> 1. “create” 可能不是很准确，因为 state 只在组件首次渲染的时候被创建。
+> 2. 在下一次重新渲染时，useState 返回给我们当前的 state。
+> 3. 如果每次都创建新的变量，它就不是 “state”了。
+> 4. 这也是 Hook 的名字总是以 use 开头的一个原因。
 
 
