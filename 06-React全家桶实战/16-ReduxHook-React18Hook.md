@@ -397,7 +397,7 @@ export default App
 
 官方解释：`useDeferredValue` 接收一个值，并返回该值的新副本，该副本将推迟到更紧急地更新之后。
 
-在明白了 useTransition 之后，我们就会发现 useDeferredValue 的作用是一样的效果，可以让我们的更新延迟。
+在明白了 `useTransition` 之后，我们就会发现 useDeferredValue 的作用是一样的效果，可以让我们的更新延迟。
 
 09-learn-reacthooks\src\15-useTransition和useDeferredValue\02-useDeferredValue的使用.jsx
 

@@ -208,6 +208,7 @@ export default App
 # useLayoutEffect Hook
 
 `useLayoutEffect` 看起来和 `useEffect` 非常的相似，事实上他们也只有一点区别而已： 
+
 - useEffect 会在渲染的内容更新到 DOM 上后执行，不会阻塞 DOM 的更新；
 - useLayoutEffect 会在渲染的内容更新到 DOM 上之前执行，会阻塞 DOM 的更新；
 
@@ -505,7 +506,7 @@ import { useState, useEffect } from 'react';
 
 function useLocalStorage(key) {
 	// 1. 从 localStprage 中获取数据
-	// useState 第一个参数，可以传入一个函数，该函数会被立即执行，返回值作为初始值。
+	// useState 第一个参数，可以传入一个函数，该函数会被立即执行，返回值作为状态管理的初始值。
 	const [data, setData] = useState(() => {
 		const item = localStorage.getItem(key)
 		return item ? JSON.parse(item) : ''
