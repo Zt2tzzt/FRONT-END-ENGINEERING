@@ -396,7 +396,7 @@ export default {
 }
 ```
 
-HelloFrog.js（使用  VCA setup option）
+HelloFrog.js（使用 VCA setup option）
 
 ```jsx
 export default {
