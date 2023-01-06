@@ -13,7 +13,7 @@ APP 函数：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/ref
 
    - 执行对应的业务逻辑，比如在某个生命周期函数中进行登录操作或者请求网络数据；
 
-2. 因为 app 实例只有一个，并且是全局共享的（单例对象），所以我们可以将一些共享数据放在这里（仅限非响应式的数据，如 token，用户信息等等）；
+2. 因为 app 实例只有一个，并且是全局共享的（单例对象），所以我们可以将一些共享数据放在这里（仅限**非响应式**的数据，如 token，用户信息等等）；
 
 ## 案例演示：
 
@@ -280,7 +280,7 @@ index.wxml
   type="primary"
   bindtap="getUserInfo"
 >
-  用户信息2
+  获取用户信息2
 </button>
 <!-- 现在获取用户的手机号 -->
 <button
@@ -311,7 +311,7 @@ Page({
 })
 ```
 
-> 早期小程序很多 API 不持支 Promise 风格，现在新的 API 可支持。
+> 早期小程序很多 API 不持支 Promise 风格，现在新的 API 大部分支持。
 
 # view 组件
 
@@ -389,7 +389,7 @@ Page({
 
 # scroll-viwe 组件
 
-scroll-view 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html)
+scroll-view 组件：[官方文档·](https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html)
 
 - scroll-view 可以实现局部滚动；
 - scroll-view 组件实现滚动的前提：

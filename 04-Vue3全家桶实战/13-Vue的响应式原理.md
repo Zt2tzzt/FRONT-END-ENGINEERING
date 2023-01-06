@@ -223,7 +223,7 @@ obj.name = "james"
 		* 同一个对象的多个属性的 dep 对象是存放一个 map 对象中
 		* 多个对象的 map 对象, 会被存放到一个 objMap（WeakMap 类型） 的对象中
   2.依赖收集: 当执行 get 函数, 自动的添加 fn 函数
- */
+*/
 class Depend {
   constructor() {
     this.reactiveFns = []

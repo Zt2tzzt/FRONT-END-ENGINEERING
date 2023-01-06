@@ -222,7 +222,7 @@ Page({
 - image <-> img
 - block <-> template
 
-APP 中称为控件，其中就包含控件 webview
+APP 中称为控件，其中就包含控件 `webview`
 
 # 理解小程序中的 MVVM 架构
 
