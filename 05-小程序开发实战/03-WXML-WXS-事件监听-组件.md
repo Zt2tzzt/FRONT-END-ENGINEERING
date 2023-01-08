@@ -217,7 +217,7 @@ index.html
 	function formatPrice(price) {
   	return "¥" + price
   }
-  // 必须导出后，才能被其他地方调用: 必须使用 CommonJS 导出
+  // 必须导出后，才能被其他地方调用: 必须使用 CommonJS 导出，只能使用 es5 的语法。
   module.exports = {
     formatPrice: formatPrice
   }
@@ -275,7 +275,7 @@ function calcPrice(books) {
 	// es5 中可以写高阶函数，不能写箭头函数
 	return (
 		'¥' +
-		books.reduce(function (accumulator, item) {
+		books.reduce(function(accumulator, item) {
 			return accumulator + item.price
 		}, 0)
 	)
@@ -419,7 +419,7 @@ index.wxml
 
 组件共有的事件类型，[官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html#%E4%BA%8B%E4%BB%B6%E5%88%86%E7%B1%BB)
 
-某些组件会有自己特有的事件类型，具体查看对应的文档
+某些组件会有自己特有的事件类型，具体查看对应的文档：
 
 - 比如 input 有 `bindinput` / `bindblur` / `bindfocus` 等
 - 比如 scroll-view 有 `bindscrolltoupper` / `bindscrolltolower` 等
@@ -695,7 +695,7 @@ Page({
 
 ## 引用自定义组件
 
-- 除了在页面引用自定义组件，自定义组件也是可以引用自定义组件，引用方法：json 文件中使用 `usingComponents` 字段）。
+- 除了在页面引用自定义组件，自定义组件也是可以引用自定义组件，引用方法：json 文件中使用 `usingComponents` 字段。
 - 自定义组件和页面所在项目根目录名，不能以“wx-”为前缀，否则会报错。
 - 如果在 `app.json` 的 `usingComponents` 声明某个组件，那么所有页面和组件可以直接使用该组件（全局注册，很少用）。
 
