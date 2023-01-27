@@ -1,91 +1,95 @@
-# 认识 React？
+# 一、React 是什么？
 
-相信每个做开发的人对 React 都或多或少有一些印象；
+## 1.官方的解释
 
-这里我们来看一下官方对它的解释：用于**构建用户界面的 JavaScript 库**；
+官方对它的解释：用于**构建用户界面的 JavaScript 库**；
 
-React 在前端处于什么地位？react 官网。
+## 2.前端框架的发展
 
-- 目前对于前端开发来说，几乎很少直接使用原生的 JavaScript 来开发应用程序，而是选择一个 JavaScript 库（框架）。
-	- 在过去的很长时间内，jQuery 是被使用最多的 JavaScript 库；
-	- 在过去的一份调查中显示，全球前10,000个访问最高的网站中，有65%使用了 jQuery，是早期最受欢迎的 JavaScript 库；
-	- 但是，目前已经处于淘汰的边缘了；
+目前前端开发，几乎不直接使用原生的 JavaScript 来开发应用程序，而是选择一个 JS 库 / 框架。
 
-- 而无论是国内外，最流行的其实是三大框架：Vue、React、Angular。
+- 在过去很长时间，jQuery 是被使用最多的 JS 库；目前已经处于淘汰的边缘了；
 
-  <img src="NodeAssets/React在前端的地位.jpg" alt="React在前端的地位" style="zoom:80%;" />
+现在，而无论是国内外，最流行的其实是三大框架：Vue、React、Angular。
 
-React 与其它框架的关系。
+<img src="NodeAssets/React在前端的地位.jpg" alt="React在前端的地位" style="zoom:80%;" />
 
-- React 由 Facebook 来更新和维护，它是大量优秀程序员的思想结晶：
-	- React 的流行不仅仅局限于普通开发工程师对它的认可；
-	- 其它流行的框架或多或少也借鉴 React 的思想；
+## 3.React 与其它框架关系
+
+React 由 Facebook 更新和维护，它是大量优秀程序员的思想结晶：
+
+React 不仅仅局限开发者对它的认可；其它流行的框架或多或少也借鉴 React 的思想；
+
 - Vue.js 框架设计之初，有很多的灵感来自 Angular 和 React。
-	- 包括 Vue3 很多新的特性，也是借鉴和学习了 React；
-	- 比如 React Hooks 是开创性的新功能（也是我们学习的重点）；
-	- Vue Composition API 学习了 React Hooks 的思想；
-- Flutter 的很多灵感都来自 React，这是来自官网的一段话：
-	- 事实上 Flutter 中的 Widget – Element – RenderObject；
-	- 对应 React 的就是 JSX – 虚拟DOM – 真实DOM；
-- 所以 React 可以说是前端的先驱者，它总是会引领整个前端的潮流。
+  - 比如 React Hooks 是开创性的思想，Vue Composition API 借鉴了 React Hooks 的思想；
 
- Vue 和 React 如何选择？
+- Flutter 的很多灵感都来自 React：
+  - 官网描述：Flutter 中的 “Widget”，“Element”，“RenderObject”；分别对应 React 的 “JSX”，“虚拟 DOM”，“真实 DOM”；
 
-- 首先，React 和 Vue 是前端开发人员必须掌握的两个框架。
-- 下面的观点是一个目前比较普遍的共识，没有贬低任何框架的意思。
-  - 大中型公司选择 React 会较多，灵活和稳定；
-  - 中小型公司选择 Vue 会较多，易上手和代码统一；
+React 是前端的先驱者，它引领整个前端的潮流。
+
+## 4.Vue 和 React 选择？
+
+首先，React 和 Vue 是前端开发人员必须掌握的两个框架。
+
+下面的观点是一个目前比较普遍的共识：
+- 大中型公司选择 React 会较多，灵活和稳定；
+- 中小型公司选择 Vue 会较多，易上手和代码统一；
 
 <img src="NodeAssets/Vue和React在中大型公司中的应用.jpg" alt="Vue和React在中大型公司中的应用" style="zoom:80%;" />
 
 
-# 如何学习一个新技术栈（如 React）。
+# 二、新技术栈学习方法
 
 <img src="NodeAssets/如何学习一个新技术栈.jpg" alt="如何学习一个新技术栈" style="zoom:80%;" />
 
 
 
+# 三、React 适用人群
+
 学习 React 要具备那些基础？（什么人适合学习）
 
-- 需要掌握前端的核心开发语言：HTML、CSS、JavaScript。
-- React 本身对 JavaScript 的要求相对会更高一些，所以也需要掌握一些高级的 JavaScript 语法，比如 ES6 以上的语法、this 绑定规则等等；
+- 前端基础知识掌握牢固（HTML、CSS、JavaScript）。
+- 高级的 JavaScript 语法掌握牢固。
+  - 比如 ES6 以上的语法、this 绑定规则等等；
 
 
-# React 有哪些技术特点？
+# 四、React 技术特点
 
-## 声明式编程：
+## 1.声明式编程
 
-- 声明式编程是目前整个大前端开发的模式：Vue、React、Flutter、SwiftUI；
-- 它允许我们只需要维护自己的状态，当状态改变时，React 可以根据最新的状态去渲染我们的 UI 界面；
+声明式编程，目前是整个大前端，流行的开发的模式。
+
+- 比如 Vue、React、Flutter、SwiftUI；
+
+声明式编程允许我们只维护状态，当它改变时，根据最新的状态去渲染 UI 界面；
 
 <img src="NodeAssets/声明时编程的模式.jpg" alt="声明时编程的模式" style="zoom:80%;" />
 
-## 组件化开发：
+## 2.组件化开发
 
-- 组件化开发页面目前前端的流行趋势，我们会将复杂的界面拆分成一个个小的组件；
+组件化开发，是目前前端的流行趋势，我们会将复杂的界面拆分成一个个小的组件；
 
 <img src="NodeAssets/组件化开发模式.jpg" alt="组件化开发模式" style="zoom:80%;" />
 
-- 多平台适配：
-	- 2013年，React 发布之初主要是开发 Web 页面；
-	- 2015年，Facebook 推出了 ReactNative，用于开发移动端跨平台；（虽然目前 Flutter 非常火爆，但是还是有很多公司在使用 ReactNative）；
-	- 2017年，Facebook 推出 ReactVR，用于开发虚拟现实 Web 应用程序；（VR 也会是一个火爆的应用场景）；
+## 3.多平台适配
 
-	<img src="NodeAssets/React多平台视频.jpg" alt="React多平台视频" style="zoom:100%;" />
+2013 年，React 发布之初，主要是开发 Web 页面；
+
+2015 年，Facebook 推出了 ReactNative，用于开发移动端跨平台；
+
+- 虽然目前 Flutter 非常火爆，但是还是有很多公司在使用 ReactNative；
+
+2017 年，Facebook 推出 ReactVR 用于开发虚拟现实 Web 应用程序；
+
+- VR 未来也许会是一个火爆的应用场景。
+
+<img src="NodeAssets/React多平台视频.jpg" alt="React多平台视频" style="zoom:100%;" />
 
 
-# hello World
+# 五、React 初体验（一）
 
-React 的基本使用
-
-- React 16 和 18 在渲染根对象 root 时有哪些区别？
-- 在界面上通过 React 显示一个 Hello World
-	- 注意：这里我们编写 React 代码的 script 标签上，必须添加 `type="text/babel"`，作用是可以让 babel 解析 jsx 的语法。
-- `ReactDOM.createRoot` 函数：用于创建一个 React 根，之后渲染的内容会包含在这个根中。
-	- 参数：将渲染的内容，挂载到哪一个 HTML 元素上，这里我们已经提前定义了一个 id 为 root 的 div
-- `root.render` 函数:
-	- 参数：要渲染的根组件
-- 我们可以通过 `{}` 语法来引入外部的变量或者表达式
+在界面上通过 React 显示一个 Hello World
 
 ```jsx
 <body>
@@ -97,11 +101,12 @@ React 的基本使用
   <!-- babel -->
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
+  <!-- 必须添加 `type="text/babel"`，作用是可以让 babel 解析 jsx 的语法 -->
 	<script type="text/babel">
-		// React 18 之前 ReactDOM.render
-		// ReactDOM.render(<h2>Hello world</h2>, document.querySelector('#root'))
+    // React 18 之前的写法 *
+		ReactDOM.render(<h2>Hello world</h2>, document.querySelector('#root'))
 
-		// REact18 之后
+    // React 18 之后的写法
 		const root = ReactDOM.createRoot(document.querySelector('#root'))
 		root.render(<h2>Hello World</h2>)
 
@@ -109,49 +114,65 @@ React 的基本使用
 </body>
 ```
 
-# React 的开发依赖有哪些？
+`ReactDOM.createRoot`：创建一个 React 根，渲染的内容，会被挂载到这个根中。
 
-开发 React 必须依赖三个库：
-- `react`：包含 react 所必须的核心代码。
-- `react-dom`：react 渲染在不同平台所需要的核心代码。
-- `babel`：将 jsx 转换成 React 代码的工具。
+`root.render`：渲染根组件。
 
-对于 Vue 来说，我们只是依赖一个 vue.js 文件即可，但是 react 居然要依赖三个包。
-- 其实呢，这三个库是各司其职的，目的就是让每一个库只单纯做自己的事情;
-- 在 React 的 0.14 版本之前是没有 react-dom 这个概念的，所有功能都包含在 react 里；
-
-为什么要进行拆分呢？原因就是 react-native。
-- react 包中包含了 react web 和 react-native 所共同拥有的核心代码。
-- react-dom 针对 web 和 native 所完成的事情不同：
-	- web 端：react-dom 会将 jsx 最终渲染成真实的 DOM，显示在浏览器中。
-	- native 端：react-dom 会将 jsx 最终渲染成原生的控件（比如 Android 中的 Button，iOS 中的 UIButton）。
+通过 `{}` 语法来引入外部的变量或者表达式
 
 
-## 什么是 babel
 
-Babel 是一个工具链，最早用于在旧浏览器或环境中将 ES6+ 代码转成向后兼容的版本。
+# 六、React 的开发依赖
 
-现在主要用于语法转换，源代码转换等。
+Vue 只依赖一个 vue.js 文件即可；
 
-Babel 本质上是一个编译器。
+React 必须依赖三个库。这三个库各司其职。
 
-babel 与 react 的关系是怎样的？
-
-- 默认情况下开发 React 其实可以不使用 babel。
-- 但是前提是我们自己使用 `React.createElement` 来编写源代码，它编写的代码非常的繁琐，可读性差。
-- 那么我们就可以直接编写 jsx（JavaScript XML）的语法，并且让 babel 帮助我们编译成 React.createElement。
-
-## 依赖的引入方式
+依赖的引入方式：
 
 - 方式一：直接 CDN 引入。
+
 - 方式二：下载后，作为本地依赖引入。
+
 - 方式三：通过 npm 管理（后续脚手架再使用）。
 
-# Hello react
+## 1.react
 
-实现 Hello react 的案例，创建根的做法，
+包含 react 所必须的核心代码。
 
-- 将文本定义成变量，并在 jsx 中引用。jsx 中对标识符的引用，都是用 {}
+## 2.react-dom
+
+渲染在不同平台所需要的核心代码。
+
+早期没有 react-dom 库，所有功能都包含在 react 库里；
+
+在 React 0.14 版本之后，加入了 react-native 的功能，需要引入 react-dom 依赖：针对 web 端和 native 端完成不同的渲染任务：
+
+- web 端：react-dom 会将 jsx 最终渲染成真实的 DOM，显示在浏览器中。
+- native 端：react-dom 会将 jsx 最终渲染成原生的控件（比如 Android 中的 `Button`，iOS 中的 `UIButton`）。
+
+## 3.babel
+
+将 jsx 转换成 `React.createElement` 编写的源代码。
+
+> Babel 是一个工具链，最早用于在旧浏览器或环境中将 ES6+ 代码转成向后兼容的版本。
+>
+> 现在主要用于语法转换，源代码转换等。
+>
+> Babel 本质上是一个编译器。
+
+babel 与 react 的关系：
+
+- 不使用 babel，需要使用 `React.createElement` 来编写代码，非常的繁琐，可读性差。
+- 使用 babel，可直接编写 jsx（JavaScript XML）代码；babel 会将 jsx 编译成 `React.createElement` 形式的源码。
+
+
+
+# 七、React 初体验（二）
+
+实现案例，点击按钮，修改文本，理解 react 创建根的做法，
+
+- 将文本定义成变量，并在 jsx 中引用。jsx 中对标识符的引用，都是用 `{}`
 - jsx 中实现事件的监听，监听按钮的点击。
 - React 在默认情况下，不会进行重新渲染。
 
@@ -171,14 +192,13 @@ babel 与 react 的关系是怎样的？
 		// 1.将文本定义成变量
 		let msg = 'Hello world'
 
-		// 2.监听按钮的点击
+		// 2.定义按钮点击执行的函数
 		function onbtnClick() {
 			msg = 'Hello React'
 			render()
 		}
 
-		// 3.封装一个渲染函数，并调用一次。
-		render()
+		// 3.封装一个渲染函数，并调用一次。		
 		function render() {
 			// 第一个括号表示 render 方法执行，第二个括号表示 jsx 代码块整体
 			root.render((
@@ -188,21 +208,24 @@ babel 与 react 的关系是怎样的？
 				</div>
 			))
 		}
+		render()
 	</script>
 </body>
 ```
 
-# React 的组件化开发
+# 八、React 组件化开发
 
-以上案例中，整个逻辑其实可以看做一个整体，那么我们就可以将其封装成一个组件：
+以上案例中，整个逻辑其实可以看做一个整体，将其封装成一个组件：
 
-- 我们知道 `root.render` 参数是一个 HTML 元素或者一个组件；
-- 所以我们可以先将之前的业务逻辑封装到一个组件中，然后传入到 `root.render` 函数中的第一个参数；
+- 我们知道 `root.render` 参数，是一个 HTML 元素或者一个组件；
+- 所以可以将业务逻辑封装到一个组件中，然后作为参数，传入到 `root.render` 中；
 
-在 React 中，封装一个组件有两种方式，**类组件**和**函数式组件**。这里我们先使用类组件。
+在 React 中，封装一个组件有两种方式，**类组件**和**函数式组件**。先使用类组件。
 
-1. 定义一个类（类名首字母必须大写，因为组件的名称是必须大写的，小写会被认为是 HTML 元素），继承自 `React.Component` 
-2. 实现当前组件的 render 函数，render 当中返回的 jsx 内容，就是之后 React 会帮助我们渲染的内容
+1. 定义一个类；
+   - 类名首字母必须大写，组件的名称是必须大写的，否则会被认为是 HTML 元素
+   - 继承自 `React.Component` 
+2. 实现组件的 `render` 函数，返回的 jsx 内容，就是 React 会渲染的内容。
 
 ```jsx
 <body>
@@ -253,41 +276,40 @@ babel 与 react 的关系是怎样的？
 ```
 
 
-## 组件化的数据依赖处理。
-
-组件化问题一：数据在哪里定义？ 
+## 1.状态定义
 
 在组件中的数据，我们可以分成两类： 
 - 参与界面更新的数据：当数据变化时，需要更新组件渲染的内容； 
 - 不参与界面更新的数据：当数据变化时，不需要更新组建渲染的内容；
 
-参与界面更新的数据我们也可以称之为是**参与数据流**，这个数据是定义在当前对象的 `state` 中 
-- 我们可以在构造函数中进行初始化 `this.state = {定义的数据}`
-- 当我们的数据发生变化时，我们可以调用 `this.setState` 来更新数据，并且通知 React 进行 update 操作；
-- 在进行 update 操作时，就会重新调用 render 函数，并且使用最新的数据，来渲染界面。
+参与界面更新的数据称之为是**参与数据流**，这个数据是定义在当前对象的 `state` 中 
+- 在构造函数中进行初始化 `this.state = {...}`
+- 当数据发生变化时，调用 `this.setState` ，该方法是从 `React.Component` 继承过来的，会做两件事：
+  - 更新 `this.state` 中的状态值；
+  - 通知 React 进行 update 操作；改操作会调用 `render` 函数，使用最新的状态，来渲染界面。
 
-## 组件化的事件绑定处理。
+## 2.事件绑定处理
 
-组件化问题二：事件绑定中的 this 
+在类中定义一个实例方法，将这个方法，绑定到元素的 `onClick` 事件上，这个方法中的 `this` 默认情况下指向 `undefined`
 
-- 在类中直接定义一个函数，并且将这个函数绑定到元素的 onClick 事件上，当前这个函数的 this 指向的是谁呢？
+1. 原生的 DOM 操作中，监听点击，监听函数中的 `this` 指向节点对象（比如 button 对象）； 
+3. React 中的代码，并非直接渲染成真实的 DOM，我们所使用 JSX 编写的 `<button>` 只是一个语法糖，它的本质是 React 的 Element 对象； 
+3. React 在执行 React 的 Element 对象上绑定的函数时，并没有为它绑定 `this`；所以默认情况下就是一个 `undefined`；
+   1. ES6 中使用 class，里面的实例方法，默认开启**严格模式**；React 项目中，引用的 babel 库，其中也会开启**严格模式**。
+   2. 而在严格模式下，`this` 的默认就是 `undefined`。
+   3. jsx 代码会被 babel 编译为一段 js 代码，这段代码运行在**严格模式**中，因此，在 jsx 中引用类的实例方法，方法中的 `this` 默认绑定的是 `undefined`。
 
-默认情况下是 undefined 
-1. 很奇怪，居然是 undefined？
-2. 我们知道在原生的 DOM 操作中，监听点击，监听函数中的 this 其实是节点对象（比如说是 button 对象）； 
-3. 而 React 并不是直接渲染成真实的 DOM，我们所使用 JSX 编写的 button 只是一个语法糖，它的本质是 React 的 Element 对象； 
-4. 那么在这里发生监听的时候，react 在执行函数时并没有绑定 this，默认情况下就是一个 undefined；为什么呢？
-5. ES6 中使用 class，里面的实例方法默认开启严格模式；我们引用的 babel 库，其中也会开启严格模式。而在严格模式下，默认绑定会绑定 undefined。
-6. jsx 代码会被 babel 编译为一段 js 代码，所以在 jsx 中引用类的实例方法，方法中的 this 默认绑定的是 undefined。
-7. `setState` 方法是继承过来的。`this.setState` 做了两件事：
-	1. 将 state 中 message 值修改掉；
-	2. 自动重新执行 render 函数。
+综上所述，在绑定事件处理的函数中，想要使用当前组件实例对象，即 `this`，需要在绑定事件处理函数前，给该函数绑定 `this`：
 
-我们在绑定事件处理的函数中，可能想要使用当前对象，比如执行 `this.setState` 函数，就必须拿到作为当前对象的 this 
-- 我们就需要在传入函数时，给这个函数直接绑定 this
-- 类似于下面的写法：`<button onClick={ this.changeText.bind(this) }>改变文本</button>`
+```jsx
+<button onClick={ this.changeText.bind(this) }>改变文本</button>
+```
 
-# 电影列表案例实现
+
+
+# 九、React 初体验（三）
+
+## 1.电影列表案例
 
 ```jsx
 <body>
@@ -327,7 +349,7 @@ babel 与 react 的关系是怎样的？
 </body>
 ```
 
-# 计数器案例的实现
+## 2.计数器案例的
 
 ```jsx
 <body>
@@ -384,34 +406,37 @@ babel 与 react 的关系是怎样的？
 
 为了方便编写 Demo，生成 VSCode 的 react 渐进式代码片段。
 
-# 认识 JSX
+# 十、JSX 是什么？
 
-什么是 jsx？
+JSX 是一种 JavaScript 的语法扩展（javaScript extension）;
 
-- JSX 是一种 JavaScript 的语法扩展（extension），也在很多地方称之为 JavaScript XML，因为看起就是一段 XML 语法； 
-- 它用于描述我们的 UI 界面，并且其完全可以和 JavaScript 融合在一起使用；
-- 它不同于 Vue 中的模块语法，你不需要专门学习模块语法中的一些指令（比如 v-for、v-if、v-else、v-bind）；
+JSX 也在很多地方称之为 JavaScript XML，因为看起就是一段 XML 语法； 
+
+它用于描述我们的 UI 界面，并且其完全可以和 JavaScript 融合在一起使用；
+
+它不同于 Vue 中的模块语法，你不需要专门学习模块语法中的一些指令（比如 `v-for`、`v-if`、`v-else`、`v-bind`）；
+
+# 十一、React 为什么用 jsx？（面试）
+
+React 认为渲染逻辑本质上与其他 UI 逻辑存在内在耦合：
+- 比如 UI 需要绑定事件；
+- 比如 UI 中需要展示数据状态；
+- 比如在某些状态发生改变时，又需要改变 UI；
+
+渲染逻辑与UI 逻辑之间是密不可分，所以 React 旋转选择用 jsx 将它们组合到了一起，这就是组件（Component）； 
+
+# 十二、jsx 书写规范
+
+JSX 的顶层只能有一个根元素，所以一般在最外层包裹一个 `<div>` ,或者 `Fragment`；
+
+jsx 通常包裹在 `()` 中，为进行换行书写，方便阅读。
+
+JSX 中的标签可以是单标签，也可以是双标签；单标签必须以 `/>` 结尾（HTML 中单标签元素可省略）。
 
 
-为什么 React 选择了 jsx？（面试）
+# 十三、jsx 使用
 
-- React 认为渲染逻辑本质上与其他 UI 逻辑存在内在耦合：
-	- 比如 UI 需要绑定事件；
-	- 比如 UI 中需要展示数据状态；
-	- 比如在某些状态发生改变时，又需要改变 UI；
-- 他们之间是密不可分，所以 React 没有将标记分离到不同的文件中，而是将它们组合到了一起，这个地方就是组件（Component）； 
-
-# jsx 的书写规范
-
-- JSX 的顶层只能有一个根元素，所以我们很多时候会在外层包裹一个 div 元素（或者使用后面我们学习的 Fragment）； 
-- 为了方便阅读，我们通常在 jsx 的外层包裹一个小括号 ()，jsx 也可以进行换行书写； 
-- JSX 中的标签可以是单标签，也可以是双标签；
-  - 如果是单标签，必须以 `/>` 结尾（html 中单标签元素可省略，jsx 中不行）；
-
-
-# jsx 的使用
-
-## 注释的写法。
+## 1.注释的写法
 
 ```jsx
 const divEl = (
@@ -422,18 +447,18 @@ const divEl = (
 )
 ```
 
-## 嵌入变量作为子元素
+## 2.嵌入变量作为子元素
 
-- 情况一：当变量是 Number、String、Array 类型时，可以直接显示 。
-- 情况二：当变量是 null、undefined、Boolean 类型时，内容为空；
-	- 如果希望可以显示 null、undefined、Boolean，那么需要转成字符串； 
-	- 转换的方式有很多，比如 `toString` 方法、和空字符串拼接，`String(变量)` 等方式；
-- 情况三：Object 对象类型不能作为**子元素**（not valid as a React child）在 JSX 语法中引用。
+情况一：当变量是 `Number`、`String`、`Array` 类型时，可以直接显示 。
 
-## 嵌入表达式。
+情况二：当变量是 `null`、`undefined`、`Boolean` 类型时，内容为空；
+- 如需显示，要转成字符串； 比如 1.`toString` 方法；2.和空字符串拼接；3.`String(变量)` 等方式；
 
-- 运算表达式，如三元运算表达式。
-- 执行一个函数。
+情况三：Object 对象类型不能作为**子元素**在 JSX 语法中引用。
+
+## 3.嵌入表达式
+
+运算表达式，如三元运算表达式；执行一个函数。
 
 > react 中没有计算属性，完全在 jsx 中处理。
 
@@ -469,13 +494,11 @@ const divEl = (
 			}
 
 			render() {
-				// 插入标识符
-				const { msg, counter } = this.state
+				const { msg, counter, movies } = this.state
 				const { aaa, bbb, ccc } = this.state
 				const { friend } = this.state
-
-				// 对内容进行运算后显示
-				const { firstname, lastname, age, movies } = this.state
+				const { firstname, lastname, age } = this.state
+        
 				const fullName = firstname + lastname
 				const liEls = movies.map(item => <li> { item } </li>)
 				
@@ -498,6 +521,7 @@ const divEl = (
 						{ /* 插入计算结果 */ }
 						<h2>{ fullName }</h2>
 						<ul>{ liEls }</ul>
+                                   
 						{ /* 插入表达式 */ }
 						<h2>{ age >= 18 ? '成年人' : '未成年人'  }</h2>
 
@@ -519,10 +543,11 @@ const divEl = (
 </body>
 ```
 
-## 属性绑定
+## 3.元素属性绑定
 
-- 动态绑定 class 通常有3种方式
--	动态绑定 style （内联样式）有很多方式？先了解1种基本方式。
+动态绑定 class 通常有3种方式
+
+动态绑定 style （内联样式）有很多方式？先了解 1 种基本方式。
 
 ```jsx
 <body>
