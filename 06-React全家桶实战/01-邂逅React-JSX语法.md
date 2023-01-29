@@ -288,7 +288,7 @@ babel 与 react 的关系：
   - 更新 `this.state` 中的状态值；
   - 通知 React 进行 update 操作；改操作会调用 `render` 函数，使用最新的状态，来渲染界面。
 
-## 2.事件绑定处理
+## 2.事件绑定中的 this 指向
 
 在类中定义一个实例方法，将这个方法，绑定到元素的 `onClick` 事件上，这个方法中的 `this` 默认情况下指向 `undefined`
 
