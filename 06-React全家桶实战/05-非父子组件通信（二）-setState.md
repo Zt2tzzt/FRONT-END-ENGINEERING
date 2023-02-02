@@ -1,6 +1,6 @@
-# 非父子组件通信
+# 一、非父子组件通信
 
-## EventBus
+## 1.EventBus
 
 03-learn-component\src\10-非父子组件通信-EventBus\utils\event-bus.js
 
@@ -77,27 +77,29 @@ export class HomeBanner extends Component {
 export default HomeBanner
 ```
 
-# Vue 和 React 数据管理和渲染流程的对比
+# 二、Vue 和 React 渲染流程对比
 
 Vue 的渲染流程：
 
-- template -> compiler 模块编译 -> render 函数（返回 createVNode （h） 函数） -> VNode ( -> 渲染器 patch / 挂载 -> 真实 DOM -> 显示在页面上)
+- template -> compiler 模块编译 -> render 函数（返回 createVNode（h）函数） -> VNode ( -> 渲染器 patch / 挂载 -> 真实 DOM -> 显示在页面上)
 
 React 的渲染流程：
 
 - render -> React.createElement -> 虚拟 DOM -> diff 算法 -> 真实 DOM -> 显示在页面上
 
-# 为什么 React 中要使用 setState（面试）？
+# 三、React 中的 setState（面试）
 
-- 开发中我们并不能直接通过修改 state 的值来让界面发生更新；
-- React 并没有实现类似于 Vue2 中的 `Object.defineProperty` 或者 Vue3 中的 `Proxy` 的方式来监听数据的变化；
-- 我们必须通过 setState 来告知 React 数据已经发生了变化；
+开发中我们并不能直接通过修改 `state` 的值来让界面发生更新；
 
-> 组件中并没有实现 setState 的方法，它是从 Component 中继承过来的。
->
-> setState 源码位置 packages/react/src/ReactBaseClasses.js
+React 并没有实现类似于 Vue2 中的 `Object.defineProperty` 或者 Vue3 中的 `Proxy` 的方式来监听数据的变化；
 
-# setState 的3种用法
+必须通过 `setState` 来告知 React 数据已经发生了变化；
+
+组件中并没有实现 `setState` 的方法，它是从 `Component` 中继承过来的。
+
+> `setState` 源码位置 packages/react/src/ReactBaseClasses.js
+
+## 1.setState 用法（3种）
 
 03-learn-component\src\11-setState的使用\App.jsx
 
@@ -117,8 +119,8 @@ export class App extends Component {
 
 		return (
 			<div>
-				<h2>msg: { msg }</h2>
-				<button onClick={ e => this.changeText() }>修改文本</button>
+				<h2>msg: {msg}</h2>
+				<button onClick={e => this.changeText()}>修改文本</button>
 			</div>
 		)
 	}
@@ -157,33 +159,37 @@ export class App extends Component {
 export default App
 ```
 
-# 如何可以获取到更新后的值呢？
+## 2.更新后的值获取（总结）
 
-- 方式一：setState 的回调
-	- setState 接受两个参数：第二个参数是一个回调函数，这个回调函数会在更新后执行；
-	- 格式如下：`setState(partialState, callback)`
-	
-- 方式二：在生命周期函数获取：
+方式一：`setState` 的回调
+- `setState` 接受两个参数：第二个参数是一个回调函数，这个回调函数会在更新后执行；
+- 格式如下：`setState(partialState, callback)`
 
-  ```jsx
-  componentDidUpdate() {
-    console.log(this.state.msg)
-  }
-  ```
+方式二：在生命周期函数获取：
+
+```jsx
+componentDidUpdate() {
+  console.log(this.state.msg)
+}
+```
 
 
-# setState 为什么要设计成异步的
+## 3.setState 设计成异步的原因
 
 [React 成员，Redux 的作者 Dan Abramov 的回答](https://github.com/facebook/react/issues/11527#issuecomment-360199710%C3%AF%C2%BC%C5%82)，可总结为：
 
-setState 设计为异步，可以显著的提升性能；
+`setState` 设计为异步，可以显著的提升性能；
 
-- 如果 setstate 同步更新了 state，并立即执行 render 函数，那么 render 函数可能会被频繁调用，界面频繁重新渲染，这样效率无疑是很低的；
-- 如果 setstate 同步更新了 state，但是不立即执行 render 函数，那么 state 和 props 不能保持同步；在开发中父子组件进行调试时，会产生很多的问题；
+- 如果 `setstate` 同步更新了 `state`，并立即执行 `render` 函数，那么 `render` 函数可能会被频繁调用，界面频繁重新渲染，这样效率无疑是很低的；
+- 如果 `setstate` 同步更新了 `state`，但是不立即（异步）执行 `render` 函数，那么 `state` 和子组件中的 `props` 不能保持同步；在开发中父子组件进行调试时，会产生很多的问题；
 
-所以最好的办法应该是收集到多个 setState 操作后，进行批处理，做批量更新（React 中会将每次 setState 操作放入一个队列中，以便进行批处理）。
+所以最好的办法应该是收集到多个 `setState` 操作后，进行批处理，做批量更新
 
-# 验证 setState 是异步的，且 render 只执行了一次。
+React 中会将每次 `setState` 操作放入一个队列中，以便进行批处理。
+
+## 4.验证 setState 执行过程
+
+验证 `setState` 是异步的，且多次调用 `setState` 后，`render` 只执行了一次。
 
 03-learn-component\src\11-setState的使用\02-验证setState是异步的.jsx
 
@@ -218,7 +224,7 @@ export class app extends Component {
 export default app
 ```
 
-# 验证 setState 的合并过程。
+## 5.验证 setState 合并过程
 
 03-learn-component\src\11-setState的使用\03-验证setState的合并过程.jsx
 
@@ -253,14 +259,14 @@ export class app extends Component {
 export default app
 ```
 
-# setState 一定是异步的吗（面试）？
+## 6.setState 一定是异步的吗？（面试）
 
-React18 后，所有情况都是异步的。
+React 18 后，所有情况都是异步的。
 
-React18 前，分两种情况。
+React 18 前，分两种情况。
 
-- 在组件生命周期或 React 合成事件中，setState 是异步； 
-- 在 setTimeout 或者原生 dom 事件中，setState 是同步；
+- 在组件生命周期或 React 合成事件中，`setState` 是异步； 
+- 在 `setTimeout` 或者原生 DOM 事件中，`setState` 是同步；
 
 ```jsx
 import React, { Component } from 'react'
@@ -279,8 +285,8 @@ export class App extends Component {
 
 	componentDidMount() {
 		const btnEl = document.querySelector('.btn')
-		// 在 react18 之前, 原生 DOM 事件监听 中 setState 是同步操作
-		// 在 react18 之后, 原生 DOM 事件监听 中 setState 是异步操作(批处理)
+		// 在 react 18 之前, 原生 DOM 事件监听 中 setState 是同步操作
+		// 在 react 18 之后, 原生 DOM 事件监听 中 setState 是异步操作(批处理)
 		btnEl.addEventListener('click', () => {
 			this.setState({ message: '你好吗？银河李' })
       console.log('message:', this.state.message)
@@ -314,7 +320,7 @@ export class App extends Component {
 export default App
 ```
 
-# 如何手动的将 setState 改为同步的。
+## 7.手动将 setState 改为同步
 
 使用 `flushSync`  API
 
@@ -350,7 +356,7 @@ export class App extends Component {
 	changeText() {
 		flushSync(() => {
 			this.setState({ message: '你好啊, 李银河' })
-		})n
+		})
 		console.log('message:', this.state.message) // 你好啊，李银河
 	}
 }
