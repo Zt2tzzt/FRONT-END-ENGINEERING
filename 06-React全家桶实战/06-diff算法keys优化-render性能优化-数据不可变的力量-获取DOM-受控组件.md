@@ -1,62 +1,93 @@
-# React 的更新机制，更新流程。
+# 一、React 渲染流程
 
-我们在前面已经学习 React 的渲染流程：
+```mermaid
+graph LR
+A[JSX] -->B[虚拟 DOM] --> C[真实 DOM]
+```
 
-- JSX -> 虚拟 DOM -> 真实 DOM
+# 二、React 更新流程
 
-那么 React 的更新流程呢？
+```mermaid
+graph LR
+A[props/state 改变 ] -->B[render 函数重新执行]
+    B --> C[产生新的 DOM Tree ]
+    C --> D[新旧 DOM 进行 diff]
+    D --> E[计算出差异进行更新]
+    E --> F[更新到正式 DOM]
+```
 
-- props / state 改变 -> render 函数重新执行 -> 产生新的 DOM Tree -> 新旧 DOM 进行 diff -> 计算出差异进行更新 -> 更新到正式 DOM。
+# 三、React 组件更新优化
 
-# React 中的 diff 算法
-
-React 在 props 或 state 发生改变时，会调用 React 的 render 方法，会创建一颗不同的 DOM 树。
+React 在组件中的 `props` 或 `state` 发生改变时，会调用 组件的 `render` 方法，创建一颗不同的 DOM 树。
 
 React 需要基于这两颗不同的 DOM 树之间的差别来判断如何有效的更新 UI：
-- 如果一棵树参考另外一棵树进行**完全比较更新**，那么即使是最先进的算法，该算法的复杂程度也为 O(n²），其中 n 是树中元素的数量；
+
+## 1.diff 方案设计
+
+如果一棵树参考另外一棵树进行**完全比较更新**，那么即使是最先进的算法，该算法的复杂程度也为 `O(n²）`，其中 `n` 是树中元素的数量；
+
 - 如果在 React 中使用了该算法，那么展示 1000 个元素所需要执行的计算量将在十亿的量级范围；
 - 这个开销太过昂贵了，React 的更新性能会变得非常低效；
 
-于是，React 对这个算法进行了优化，将其优化成了 O(n)，如何优化的呢？
+于是，React 对这个算法进行了优化，将其优化成了 `O(n)`，如何优化的呢？
+
 - 同层节点之间相互比较，不会跨节点比较；
 - 不同类型的节点，产生不同的树结构；
-- 开发中，可以通过 key 来指定哪些节点在不同的渲染下保持稳定（与 Vue 中的 diff 算法原理类似）；
+- 开发中，可以通过 `key` 来指定哪些节点在不同的渲染下保持稳定（与 Vue 中的 diff 算法原理类似）；
 
-## 列表渲染中 Keys 的优化
+## 2.列表渲染 Key 优化
 
-在遍历列表时，总是会提示一个警告，让我们加入一个 key 属性：React 是如何使用 keys 进行优化的？
+在遍历列表时，总是会提示一个警告，需要加入一个 `key` 属性。
 
-情况一：更新列表时，在最后位置插入数据：
+### 1.key 何时有效
 
-- 这种情况，有无 key 意义并不大。
+什么情况下，`key` 属性起到了性能优化的作用？
 
-情况二：更新列表时，在列表**非末尾**的地方插入数据。
+情况一：更新列表时，在最后位置插入数据：这种情况，有无 `key` 意义并不大。
 
-- 假设列表中的元素是 li，在没有 key 的情况下，插入到 li 后面的所有元素都需要进行修改；
+情况二：更新列表时，在列表**非末尾**的地方插入数据。假设列表中的元素是 `<li>`，在没有 `key` 的情况下，插入到 `<li>` 后面的所有元素都需要进行修改；
 
------
+### 2.key 如何优化
 
+React 是如何使用 `key` 进行优化的？
 
-使用 key 进行优化：
-- 当子元素（这里的 li）拥有 key 时，React 使用 key 来匹配原有树上的子元素以及最新树上的子元素：
-- 匹配到的子元素只需进行位移，不需要进行任何的修改；
-- 没匹配到的元素在相应的位置插入即可。
+当子元素（这里的 `<li>`）拥有 `key` 时，React 使用 `key` 来匹配原有树上的子元素以及最新树上的子元素：
 
-key 的注意事项：
+匹配到的子元素只需进行位移，不需要进行任何的修改；
 
-- key 应该是唯一的；
-- key 不要使用随机数（随机数在下一次 render 时，会重新生成一个数字）；
-- 使用 index 作为 key，对性能是没有优化的；
+没匹配到的元素在相应的位置插入即可。
 
-# render 函数性能优化
+### 3.key 的特点
 
-为什么要进行性能优化？
+`key` 应该是唯一的；
 
-- 我们使用的普通组件（React.component），在执行 setState 操作时，会执行组件本身的 render 方法和子组件中的 render 方法，进行 diff 算法以及页面的刷新；
-- 如果我们给 state 中的状态，setState 一个相同的值，仍然会调用组件本身和所有子组件的 render 方法，进行 diff 算法以及页面的刷新，这无疑是多余的操作。
-- 或者我们给组件 state 中部分状态设值了新的值，而某些子组件不依赖这部分状态，这些子组件中的 render 方法仍然会执行，并进行 diff 算法更新页面。
+- 所以 `key` 不要使用随机数（随机数在下一次 `render` 时，会重新生成一个数字）；
 
-案例演示：
+`key` 应该是与元素绑定的。
+
+- 所以使用 `index` 作为 `key`，对性能是没有优化的；
+
+# 四、render 函数性能优化
+
+## 1.性能优化原因
+
+普通的组件（`React.component`），在执行 `setState` 操作时，
+
+- 会执行组件本身的 `render` 方法
+- 会执行所有子组件中的 `render` 方法，
+- 进行 diff 算法以及页面的刷新；
+
+如果给组件 `state` 中的状态，`setState` 一个**相同的值**，同样也会进行上述操作，这无疑是多余的。
+
+- 会执行组件本身的 `render` 方法
+- 会执行所有子组件中的 `render` 方法，
+- 进行 diff 算法；
+
+如果给组件 `state` 中部分状态 `setState` 一个新值，而某些子组件**不依赖这部分状态**，同样也会进行上述操作，这无疑是多余的。
+
+- 会执行组件本身的 `render` 方法
+- 会执行所有子组件中的 `render` 方法，
+- 进行 diff 算法；
 
 03-learn-component\src\12-render函数的优化\App.jsx
 
@@ -65,6 +96,7 @@ import React, { Component } from 'react'
 import Home from './Home';
 
 export class App extends Component {
+  
 	constructor() {
 		super()
 		this.state = {
@@ -72,12 +104,13 @@ export class App extends Component {
       counter: 0 // 子组件 Home 对该状态没有依赖。
 		}
 	}
+  
 	render() {
-		console.log('App render'); // 点击任意按钮，执行了一次
+		console.log('App render'); // 点击任意按钮，都会执行一次
 		const { msg, counter } = this.state
 		return (
 			<div>
-				<h2>App: { msg }-{ counter }</h2>
+				<h2>App: {msg}-{counter}</h2>
 				<button onClick={e => this.changetext()}>修改文本</button>
 				<button onClick={e => this.changenumber()}>counter+1</button>
 				<Home />
@@ -88,9 +121,11 @@ export class App extends Component {
 	changetext() {
 		this.setState({ msg: 'Hello World' }) // 设置一个相同的值
 	}
+  
   changenumber() {
     this.setState({ counter: this.state.counter + 1 })
   }
+  
 }
 
 export default App
@@ -104,7 +139,7 @@ import React, { Component } from 'react'
 export class Home extends Component {
 
 	render() {
-		console.log('Home render'); // 点击 App 中的任意按钮，执行了一次
+		console.log('Home render'); // 点击 App 中的任意按钮，都会执行一次
 		const { msg } = this.props
 		return (
 			<div>
@@ -112,14 +147,15 @@ export class Home extends Component {
 			</div>
 		)
 	}
+  
 }
 
 export default Home
 ```
 
-## SCU 优化
+## 2.SCU 优化
 
-React 给我们提供了一个生命周期方法 `shouldComponentUpdate`（简称为 SCU），这个方法接收参数，并且需要有返回值：
+React 提供了一个生命周期方法 `shouldComponentUpdate`（简称为 SCU），该方法接收参数，并且需要有返回值：
 
 该方法有两个参数：
 
