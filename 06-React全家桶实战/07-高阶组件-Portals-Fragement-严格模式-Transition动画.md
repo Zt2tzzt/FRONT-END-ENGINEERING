@@ -1,17 +1,22 @@
-# React 高阶组件
+# 一、高阶组件
 
-什么是高阶函数？
+## 1.是什么？
 
-- 接收一个函数作为参数输入，或者返回一个函数作为输出，称为高阶函数。
-- 常见的高阶函数有 filter，map，reduce 等等。
+> 【回顾】高阶函数是什么？
+>
+> 一个函数接收另一个函数作为参数输入，或者返回一个函数作为输出，称为高阶函数。
+>
+> 常见的高阶函数有 `filter`，`map`，`reduce` 等等。
 
-什么是高阶组件？
 
-- 高阶组件的英文是 Higher-Order Components，简称为 HOC；
-- 官方的定义：高阶组件是参数为组件，返回值为新组件的函数，本质上还是函数；
-- 用于对需要增强的组件进行拦截。对渲染过程做劫持。
 
-## 基本使用
+**高阶组件（Higher-Order Components）**，简称为 **HOC**；
+
+官方的定义：高阶组件是参数为组件，返回值为新组件的函数，本质上还是函数；
+
+用于对需要增强的组件进行拦截。对渲染过程做劫持。
+
+## 2.基本使用
 
 ```jsx
 import React, { PureComponent } from 'react'
@@ -57,7 +62,9 @@ export class App extends PureComponent {
 export default App
 ```
 
-## 应用一 props 增强
+## 3.案例理解
+
+### 1.props 增强
 
 03-learn-component\src\16-React高阶组件\hoc\enhanced_props.jsx
 
@@ -140,12 +147,12 @@ export default App
 总结：高阶组件并不是 React API 的一部分，它是基于 React 的组合特性而形成的**设计模式**；
 
 > 高阶组件在一些 React 第三方库中非常常见：
-> - 比如 redux 中的 connect；（后续会讲到）
-> - 比如 react-router 中的 withRouter；（后续会讲到，自行封装）
+> - 比如 *redux* 中的 `connect`；（后续会介绍到）
+> - 比如 *react-router* 中的 `withRouter`；（后续会介绍，自行封装）
 
-## 应用二 Context 共享
+### 2.Context 共享
 
-使用的是 props 劫持：
+使用的是 `props` 劫持：
 
 03-learn-component\src\16-React高阶组件\context\theme-context.js
 
@@ -211,7 +218,7 @@ export default class App extends PureComponent {
 }
 ```
 
-## 登录鉴权
+### 3.登录鉴权
 
 03-learn-component\src\16-React高阶组件\hoc\loginAuth.jsx
 
@@ -262,7 +269,7 @@ export class App extends PureComponent {
 
 	loginClick() {
 		localStorage.setItem('token', 'zzt')
-		// forceUpdate API - 强制调用 render 方法，刷星页面，不建议使用，刷新页面最好还是通过 state 来进行控制
+		// forceUpdate API - 强制调用 render 方法，刷星页面，不建议使用，刷新页面最好还是通过 setState 来进行控制
 		this.forceUpdate()
 	}
 }
@@ -270,7 +277,7 @@ export class App extends PureComponent {
 export default App
 ```
 
-## 测量页面渲染时间
+### 4.测量页面渲染时间
 
 使用的是生命周期劫持：
 
@@ -280,7 +287,9 @@ export default App
 import React, { PureComponent } from 'react'
 
 function LogRenderTime(OriginCpn) {
+  
 	return class extends PureComponent {
+    
 		// 这个生命周期已经被废弃，不建议使用
 		UNSAFE_componentWillMount() {
 			this.beginTime = Date.now()
@@ -352,36 +361,46 @@ export class App extends PureComponent {
 export default App
 ```
 
-# 高阶函数的意义
+## 4.缺陷
 
-我们会发现利用高阶组件可以针对某些 React 代码进行更加优雅的处理。
+由以上案例可知，利用高阶组件可以针对某些 React 代码进行更加优雅的处理。
 
-其实早期的 React 有提供组件之间的一种复用方式是 mixin，目前已经不再建议使用：
+### 1.Mixin 的缺陷
 
-- Mixin 可能会相互依赖，相互耦合，不利于代码维护；
-- 不同的 Mixin 中的方法可能会相互冲突；
-- Mixin 非常多时，组件处理起来会比较麻烦，甚至还要为其做相关处理，这样会给代码造成滚雪球式的复杂性；
+其实早期的 React 有提供组件之间的一种复用方式是 *Mixin*，目前已经不再建议使用：
 
-当然，HOC 也有自己的一些缺陷：
+*Mixin* 可能会相互依赖，相互耦合，不利于代码维护；
 
-- HOC 需要在原组件上进行包裹或者嵌套，如果大量使用 HOC，将会产生非常多的嵌套，这让调试变得非常困难；
-- HOC 可以劫持 props，在不遵守约定的情况下也可能造成冲突；
+不同的 *Mixin* 中的方法可能会相互冲突；
 
-后面我们会介绍 Hooks，Hooks 的出现，是开创性的，它解决了很多 React 之前的存在的问题。
+*Mixin* 非常多时，组件处理起来会比较麻烦，甚至还要为其做相关处理，这样会给代码造成滚雪球式的复杂性；
 
-- 比如 this 指向问题、比如 HOC 的嵌套复杂度问题等等；
+### 2.HOC 缺陷
 
-结合高阶组件的概念，理解之前的函数式组件中的 ref 转发。
+当然，*HOC* 也有自己的一些缺陷：
 
-# Portals 的使用。
+*HOC* 需要在原组件上进行包裹或者嵌套，如果大量使用 *HOC*，将会产生非常多的嵌套，这让调试变得非常困难；
 
-通常来讲，当你从组件的 render 方法返回一个元素时，该元素将被挂载到 DOM 节点中离其最近的父节点：
+*HOC* 可以劫持 `props`，多人开发时，如果不遵守约定的规范，也可能造成冲突；
 
-某些情况下，我们希望渲染的内容独立于父组件，甚至是独立于当前挂载到的 DOM 元素中（默认都是挂载到 id 为 root 的 DOM 元素上的）。
+### 3.Hooks 的引入
 
-Portal 提供了一种将子节点渲染到存在于父组件以外的 DOM 节点的优秀的方案：
-- 第一个参数（child）是任何可渲染的 React 子元素，例如一个元素，字符串或 fragment；
-- 第二个参数（container）是一个 DOM 元素；
+后面会介绍 *Hooks*，*Hooks* 的出现，是开创性的，它解决了很多 React 之前的存在的问题。
+
+比如 `this` 指向问题、比如 *HOC* 的嵌套复杂度问题等等；
+
+结合高阶组件的概念，理解之前的函数式组件中的 `ref` 转发。
+
+# 二、Portals
+
+从组件的 `render` 方法返回一个元素时，该元素将被挂载到 DOM 节点中离其最近的父节点：
+
+某些情况下，希望渲染的内容独立于父组件，甚至是独立于当前挂载到的 DOM 元素中（默认是挂载到 `id` 为 `root` 的 DOM 元素上的）。
+
+`createPortal` 提供了一种将子节点渲染到父组件以外的 DOM 节点的优秀的方案：
+
+- 参数一（child）是任何可渲染的 React 子元素，例如一个元素，字符串或 `fragment`；
+- 参数二（container）是一个 DOM 元素；
 
 
 03-learn-component\src\17-React的Portals\Modal.jsx
@@ -436,17 +455,13 @@ export default App
 </body>
 ```
 
-# Fragment 的使用
+# 三、Fragment
 
-在之前的开发中，我们总是在一个组件中返回内容时包裹一个 div 元素：
+在之前的开发中，编写的组件，总是返回一个被 `<div>` 元素包裹的内容，如果不渲染这样一个 `<div>` 应该使用 `Fragment`；
 
-我们有时希望可以不渲染这样一个 div 应该如何操作呢？
-- 使用 Fragment；
-- Fragment 允许你将子列表分组，而无需向 DOM 添加额外节点；
+`Fragment` 允许将子列表分组，而无需向 DOM 添加额外节点；
 
-React 还提供了 Fragment 的短语法（语法糖写法）：
-- 它看起来像空标签 `<>` `</>`；
-- 但是，如果我们需要在 Fragment 中添加 key，那么就不能使用短语法
+`Fragment` 的短语法（语法糖写法）：它看起来像空标签 `<>` `</>`，但是，如果需要在 `Fragment` 上添加 `key`，就不能使用短语法。
 
 03-learn-component\src\18-React的fragment写法\App.jsx
 
@@ -487,32 +502,41 @@ export class App extends PureComponent {
 export default App
 ```
 
-# StricteMode 严格模式
+# 四、StricteMode
 
-StrictMode 是一个用来突出显示应用程序中潜在问题的工具：
+## 1.是什么？
 
-- 与 Fragment 一样，StrictMode 不会渲染任何可见的 UI；
-- 它为其后代元素触发额外的检查和警告；
-- 严格模式检查仅在开发模式下运行；它们不会影响生产构建；
+`StrictMode` 是一个用来突出显示应用程序中潜在问题的工具：
 
-严格模式检查什么？
+与 `Fragment` 一样，`StrictMode` 不会渲染任何可见的 UI；
 
-- 一、识别不安全的生命周期：
-- 二、使用过时的 ref API。
-- 三、检查意外的副作用。
+它为其后代元素触发额外的检查和警告；
 
-	- 这个组件的 constructor 等生命周期会被调用两次；
-	- 这是严格模式下故意进行的操作，让你来查看在这里写的一些逻辑代码被调用多次时，是否会产生一些副作用；React18 之后，且安装了 DevTools 时，第二次中的打印会显示半灰色。
-	- 在生产环境中，是不会被调用两次的；
+严格模式检查仅在开发模式下运行；它们不会影响生产构建；
 
-- 四、检查使用废弃的 `findDOMNode` 方法。
-  - 在之前的 React API 中，可以通过 `findDOMNode` 来获取 DOM，不过已经不推荐使用了，
-  - 一些第三方库，比如 `Ant-Design`，`react-transition-group` 中还在使用这种 API。
-    - 消除警告的3种方式：1.关闭严格模式；2.修改库的源码（不推荐）；3.某些库提供了使用 ref 的方式进行替换（见下方 CSSTransition 案例）
+## 2.检测什么？
 
-- 五、检测过时的用于共享的 context API。
+识别不安全的生命周期：
 
-	- 早期的 Context 是通过 static 属性声明 Context 对象属性，通过 getChildContext 返回 Context 对象等方式来使用 Context 的；目前这种方式已经不推荐使用，
+使用过时的 ref API。
+
+检查意外的副作用。
+- 组件的 `constructor` 等生命周期会被调用两次；
+- 这是严格模式下故意进行的操作，方便查看编写的逻辑代码调用多次时，是否会产生一些副作用；
+  - React 18 之后，且安装了 *DevTools* 时，第二次中的打印会显示半灰色。
+- 生产环境中，没有该效果；
+
+检查使用废弃的 `findDOMNode` 方法。
+- React 早期 API 中，通过 `findDOMNode` 来获取 DOM，现在不推荐使用了，
+- 一些第三方库，如 *Ant-Design*，*react-transition-group*，中还在使用这种 API。
+- 消除警告的3种方式：
+  - 关闭严格模式；
+  - 修改库的源码（不推荐）；
+  - 某些库提供了使用 `ref` 的方式进行替换（见下方 `CSSTransition` 案例）
+
+检测过时的用于共享的 `Context` API。
+- 早期的 `Context` 是通过组件的 `static` 属性声明其对象属性的；
+- 通过 `getChildContext` 返回 `Context` 对象等方式，来使用共享数据的；现在这种方式不推荐使用，
 
 03-learn-component\src\19-React的严格模式\page\Profile.jsx
 
@@ -520,6 +544,7 @@ StrictMode 是一个用来突出显示应用程序中潜在问题的工具：
 import React, { PureComponent } from 'react'
 
 export class Profile extends PureComponent {
+  
 	UNSAFE_componentWillMount() {
 		console.log('UNSAFE_componentWillMount'); // 会打印两次
 	}
@@ -562,63 +587,59 @@ export class App extends PureComponent {
 export default App
 ```
 
-# react-transition-group
+# 五、react-transition-group
 
-在开发中，我们想要给一个组件的显示和消失添加某种过渡动画，可以很好的增加用户体验。 
+给一个组件的显示和消失添加过渡动画，可以很好的增加用户体验。 
 
-当然，我们可以通过原生的 CSS 来实现这些过渡动画，但是 React 社区为我们提供了 `react-transition-group` 用来完成过渡动画。 
+可以通过原生的 CSS 来实现这些过渡动画，
 
-React 曾为开发者提供过动画插件 `react-addons-css-transition-group`，后由社区维护，形成了现在的 `react-transition-group`。
-- 这个库可以帮助我们方便的实现组件的入场和离场动画，使用时需要进行额外的安装：
-- 与 Vue 中的 Transition 内置组件一样，本质上也是在合适的时机添加编写好的样式。
+同时，React 社区也提供了 *react-transition-group* 库用来完成过渡动画。 
 
-`react-transition-group` 本身非常小，不会为我们应用程序增加过多的负担。
+- React 曾为开发者提供过动画插件 *react-addons-css-transition-group*，后由社区维护，形成了现在的 *react-transition-group*。
+- 这个库本身非常小，不会为我们应用程序增加过多的负担。
 
-## 安装
+- 这个库可以方便的实现组件的入场和离场动画，使用时需要额外安装：
+- 与 Vue 中的 `<Transition>` 内置组件一样，本质上也是在合适的时机添加编写好的样式。
+
+## 1.安装
 
 ```shell
 # npm
 npm install react-transition-group
 ```
 
-## 主要组件
+主要组件有以下组件
 
-`Transition`
+## 1.Transition
 
-- 该组件是一个和平台无关的组件（不一定要结合 CSS）； 
-- 在前端开发中，我们一般是结合 CSS 来完成样式，所以比较常用的是 CSSTransition；
+该组件是一个和平台无关的组件（不一定要结合 CSS）； 
 
-`CSSTransition`
+在前端开发中，我们一般是结合 CSS 来完成样式，所以比较常用的是 `CSSTransition`；
 
-- 在前端开发中，通常使用 CSSTransition 来完成过渡动画效果。
+## 2.CSSTransition
 
-`SwitchTransition`
+`CSSTransition` 是基于 `Transition` 组件构建的：
 
-- 两个组件显示和隐藏切换时，使用该组件。
+执行过程中，有三个状态：`appear`、`enter`、`exit`；对应需要定义的 CSS 样式：
 
-`TransitionGroup`
+- 开始状态：对应的类是 `-appear`、`-enter`、`-exit`； 
+- 执行动画：对应的类是 `-appear-active`、`-enter-active`、`-exit-active`； 
+- 执行结束：对应的类是 `-appear-done`、`-enter-done`、`exit-done`；
 
-- 将多个动画组件包裹在其中，一般用于列表中元素的动画；
+`CSSTransition` 组件常见对应的属性： 
 
-## CSSTransition
-
-CSSTransition 是基于 Transition 组件构建的：执行过程中，有三个状态：`appear`、`enter`、`exit`；对应需要定义对应的 CSS 样式：
-- 第一类，开始状态：对应的类是 `-appear`、`-enter`、`-exit`； 
-- 第二类：执行动画：对应的类是 `-appear-active`、`-enter-active`、`-exit-active`； 
-- 第三类：执行结束：对应的类是 `-appear-done`、`-enter-done`、`exit-done`；
-
-CSSTransition 组件常见对应的属性： 
-- `in`：触发进入或者退出状态 如果添加了 `unmountOnExit={true}`，那么该组件会在执行退出动画结束后被移除掉； 
-	- 当 `in` 为 `true` 时，触发进入状态，会添加 `-enter`、`-enter-acitve` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
-	- 当 `in` 为 `false` 时，触发退出状态，会添加 `-exit`、`-exit-active` 的 class 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
+- `in`：触发进入或者退出状态:
+	- `in` 为 `true` 时，触发进入状态，会添加 class：`-enter`、`-enter-acitve` 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
+	- `in` 为 `false` 时，触发退出状态，会添加 class: `-exit`、`-exit-active` 开始执行动画，当动画执行结束后，会移除两个 class，并且添加 `-enter-done` 的 class；
 - `classNames`：动画 class 的名称 ：
 	- 决定了在编写 css 时，对应的 class 名称：比如当 `classNames="card"` 时，对应的类名为：`card-enter`、`card-enter-active`、`card-enter-done`；
 - `timeout`：过渡动画的时间，最好与样式中的时间保持一致（**必须添加**，否则没有动画效果）。
-- `appear`：是否在初次进入添加动画（需要和 `in` 同时为 `true`）
+- `appear`：是否在初次进入时，添加动画（需要和 `in` 同时为 `true`）
 - `unmountOnExit`：退出后卸载组件。
 - [其他属性参考官方文档](https://reactcommunity.org/react-transition-group/transition)
 
-CSSTransition 对应的钩子函数：主要为了检测动画的执行过程，来完成一些 JavaScript 的操作 
+`CSSTransition` 对应的钩子函数：主要为了检测动画的执行过程，来完成一些 JavaScript 的操作 
+
 - `onEnter`：在进入动画之前被触发； 
 - `onEntering`：在应用进入动画时被触发；
 - `onEntered`：在应用进入动画结束后被触发；
@@ -626,7 +647,7 @@ CSSTransition 对应的钩子函数：主要为了检测动画的执行过程，
 - `onExiting`：在应用离开动画时被触发。
 - `onExited`：在应用离开动画结束后被触发。
 
-### 实现淡入淡出动画
+### 1.淡入淡出动画
 
 03-learn-component\src\20-React的动画实现\01-CSSTransition动画\App.jsx
 
@@ -705,21 +726,23 @@ export default App
 	transition: opacity 2s ease;
 }
 ```
-## SwitchTransition
+## 3.SwitchTransition
 
-SwitchTransition 可以完成两个组件之间切换的炫酷动画：
-- 比如我们有一个按钮需要在 on 和 off 之间切换，我们希望看到 on 先从左侧退出，off 再从右侧进入； 
-- 这个动画在 vue 中被称之为 vue transition modes；react-transition-group 中使用 SwitchTransition 来实现该动画；
+`SwitchTransition` 用于完成组件之间切换的动画：
 
-SwitchTransition 中主要有一个属性：`mode`，有两个值
+- 比如有点击按，组件从左侧退出，再次点击，组件从右侧进入； 
+- 这个动画在 vue 中被称之为 *Vue Transition modes*；
+
+`SwitchTransition` 中主要有一个属性：`mode`，有两个值
+
 - `in-out`：表示新组件先进入，旧组件再移除； 
 - `out-in`：表示旧组件先移除，新组建再进入；
 
-如何使用 SwitchTransition 呢？
-- SwitchTransition 组件里面要有 CSSTransition 或者 Transition 组件，不能直接包裹你想要切换的组件； 
-- SwitchTransition 里面的 CSSTransition 或 Transition 组件不再像以前那样接受 `in` 属性来判断元素是何种状态，取而代之的是 `key` 属性；
+如何使用 `SwitchTransition` 呢？
+- `SwitchTransition` 组件里面要有 `CSSTransition` 或者 `Transition` 组件，不能直接包裹你想要切换的组件； 
+- `SwitchTransition` 里面的 `CSSTransition` 或 `Transition` 组件不再像以前那样接受 `in` 属性来判断元素是何种状态，取而代之的是 `key` 属性；
 
-### 实现按钮切换动画
+### 1.按钮切换动画
 
 03-learn-component\src\20-React的动画实现\02-SwitchTransition\App.jsx
 
@@ -782,11 +805,13 @@ export default App
 }
 ```
 
-## TransitionGroup
+## 4.TransitionGroup
 
-当我们对列表中的元素添加动画时，需要将这些 CSSTransition 放入到一个 TransitionGroup 中来完成动画：
+将多个动画组件包裹在其中，一般用于列表中元素的动画；
 
-### 实现列表中添加书籍
+需要将一些 `CSSTransition` 放入到一个 `TransitionGroup` 中来完成动画：
+
+### 1.列表中添加书籍
 
 03-learn-component\src\20-React的动画实现\03-TransitionGroup\App.jsx
 
