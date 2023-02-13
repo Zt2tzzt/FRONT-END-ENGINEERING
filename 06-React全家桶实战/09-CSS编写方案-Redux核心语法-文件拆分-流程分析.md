@@ -6,7 +6,13 @@ const obj = {
 }
 ```
 
-# styled 高级特性-实现继承
+# 一、方案三：CSS IN JS
+
+## 1.使用：
+
+### 1.继承
+
+styled 高级特性-实现继承
 
 04-learn-react-css\src\05-CSS-IN-JS\Home\style.js
 
@@ -43,33 +49,33 @@ export default Home
 ```
 
 
-# vue 中添加 class 的方式，
+# 二、vue 添加 class
 
 vue 中添加 class 是一件非常简单的事情：
 
-- 可以传入一个对象：
+可以传入一个对象：
 
-  ```vue
-  <div class="static" v-bind:class="{active: isActive, 'text-danger': hasError}"></div>
-  ```
+```vue
+<div class="static" v-bind:class="{active: isActive, 'text-danger': hasError}"></div>
+```
 
-- 你也可以传入一个数组：
+可以传入一个数组：
 
-  ```vue
-	<div class="static" v-bind:class="['active', 'text-danger']"></div>
-  ```
+```vue
+<div class="static" v-bind:class="['active', 'text-danger']"></div>
+```
 
-- 甚至是对象和数组混合使用：
+甚至是对象和数组混合使用：
 
-  ```vue
-  <div class="static" v-bind:class="[{active: isActive}, 'text-danger']"></div>
-  ```
+```vue
+<div class="static" v-bind:class="[{active: isActive}, 'text-danger']"></div>
+```
 
-# React 中添加 class 的方式
+# 三、React 添加 class
 
-## 普通方式
+## 1.一般做法
 
-React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaScript 代码一样，通过一些逻辑来动态添加某些 class：
+JSX 有者足够多的灵活性，可以像编写 JavaScript 代码一样，通过一些逻辑来动态添加某些 class：
 
 ```jsx
 <div>
@@ -78,9 +84,7 @@ React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaS
 </div>
 ```
 
-## 使用 classnames 库
-
-也可以借助于一个第三方的库 `classnames` 来动态添加样式。
+## 2.classnames 库
 
 1. 安装 classnames；
 
@@ -116,47 +120,67 @@ React 在 JSX 给了我们开发者足够多的灵活性，可以像编写 JavaS
    export default App
    ```
 
-# 回顾 JS 中的纯函数
+# 四、Redux 介绍
+
+## 1.JS 纯函数（回顾）
 
 在程序设计中，若一个函数符合以下条件，那么这个函数被称为纯函数： 
 
 
-- 确定的输入，一定会产生确定的输出； 
-- 函数在执行过程中，不能产生副作用；诸如触发事件，使输出设备输出，或更改输出值以外的值。
+- 确定的输入，一定会产生确定的输出；
+- 函数在执行过程中，不能产生副作用；
 
-# React 中纯函数概念的应用
+  - 诸如触发事件，使输出设备输出，或更改输出值以外的值。
+
+## 2.React 中的纯函数
 
 在 react 开发中纯函数是被多次提及的，
 
-- React 中就要求我们无论是函数还是 class 声明一个组件，这个组件都必须像纯函数一样，保护它们的 props 不被修改： 
-- redux 中有一个 reducer 的概念，也是要求必须是一个纯函数；
+React 中就要求我们，无论是函数还是 class 声明一个组件，这个组件都必须像纯函数一样，保护它们的 `props` 不被修改： 
 
-所以掌握纯函数对于理解很多框架的设计是非常有帮助的；
+*redux* 中有一个 ”reducer“ 的概念，也是要求必须是一个纯函数；
 
-# 为什么需要使用 Redux
+## 3.作用 & 是什么
 
-JavaScript 开发的应用程序，已经变得越来越复杂了： 
-- JavaScript 需要管理的状态越来越多，越来越复杂； 
-- 这些状态包括服务器返回的数据、缓存数据、用户操作产生的数据等等，也包括一些 UI 的状态，比如某些元素是否被选中，是否显示加载动效，当前分页；
+前端应用程序，越来越复杂，需要管理的状态越来越多，包括：
 
-管理不断变化的 state 是非常困难的： 
-- 状态之间相互会存在依赖，一个状态的变化会引起另一个状态的变化，View 页面也有可能会引起状态的变化； 
+- 服务器返回的数据；
+- 缓存数据；
+- 用户交互产生的数据；
+- UI 的状态，
+  - 比如元素是否被选中，是否显示加载动效，当前分页；
+
+React 在视图层解决了 DOM 的渲染过程，
+
+- 包括在组件中定义自己的 `state`，
+- 组件之间的通信通过 `props` 进行传递；
+- 使用 Context 进行数据之间的共享； 
+
+但是整个应用程序的 State，依然是留给我们自己来管理：
+
+管理不断变化的状态（state）是非常困难的： 
+
+- 状态之间相互会存在依赖；
+- 一个状态的变化会引起另一个状态的变化；
+- View 页面也有可能会引起状态的变化； 
 - 当应用程序复杂时，state 在什么时候，因为什么原因而发生了变化，发生了怎么样的变化，会变得非常难以控制和追踪；
 
-React 是在视图层帮助我们解决了 DOM 的渲染过程，但是 State 依然是留给我们自己来管理： 
-- 无论是组件定义自己的 state，还是组件之间的通信通过 props 进行传递；也包括通过 Context 进行数据之间的共享； 
-- React 主要负责帮助我们管理视图，state 如何维护最终还是我们自己来决定；
+Redux 是一个用于管理 State 的容器：提供了可预测的状态管理；
 
-Redux 就是一个帮助我们管理 State 的容器：Redux 是 JavaScript 的状态容器，提供了可预测的状态管理；
+Redux 除了和 React 一起使用之外，它也可以和其他框架一起来使用（比如 Vue），
 
-- Redux 除了和 React 一起使用之外，它也可以和其他框架一起来使用（比如 Vue），并且它非常小（包括依赖在内，只有2kb）
+Redux 本身非常小（包括依赖在内，只有2kb）
 
-# Redux 的核心理念 state
+# 五、Redux 核心概念
 
-Redux 的核心理念非常简单。比如我们有一个朋友列表需要管理： 
+## 4.state
 
-- 如果我们没有定义统一的规范来操作这段数据，那么整个数据的变化就是无法跟踪的； 
+用于跟踪 state 的变化。
+
+案例理解：有一个朋友列表需要管理，如果没有定义统一的规范来操作这段数据，那么整个数据的变化就是无法跟踪的； 
+
 - 比如页面的某处通过 `products.push` 的方式增加了一条数据； 
+
 - 比如另一个页面通过 `products[0].age = 25` 修改了一条数据；
 
 整个应用程序错综复杂，当出现 bug 时，很难跟踪到底哪里发生的变化；
@@ -171,16 +195,16 @@ const initialState = {
 }
 ```
 
-# Redux 的核心理念 action
+## 5.action
 
-Redux 要求我们通过 action 来更新数据： 
-- 所有数据的变化，必须通过派发（dispatch）action 来更新； 
-- action 是一个普通的 JavaScript 对象，用来描述这次更新的 `type` 和 `content`；
+Redux 中所有 state 的变化，必须通过派发（dispatch）action 来更新； 
 
-比如下面就是几个更新 friends 的 action： 
-- 强制使用 action 的好处是可以清晰的知道数据到底发生了什么样的变化，所有的数据变化都是可跟追、可预测的； 
-- 当然，目前我们的 action 是固定的对象；
-- 真实应用中，我们会通过函数来定义，返回一个 action；
+action 是一个普通的 JavaScript 对象，用来描述这次更新的 `type` 和 `content`；
+
+下面是几个更新 `friends` 的 action： 
+- 强制使用 action 的好处，是所有的数据变化都是可跟追、可预测的； 
+- 目前的 action 是固定的对象；
+- 真实应用中，会通过函数来返回一个 action；
 
 ```js
 const action1 = { type: 'ADD_FRIEND', info: {name: 'curry', age: 39 } }
@@ -188,25 +212,21 @@ const action2 = { type: 'INC_AGE', index: 1 }
 const action3 = { type: 'CHANGE_NAME', payload: {newName: 'ZeT1an', index: 0} }
 ```
 
-# Redux 的核心理念 reducer
-
-reducer 将 state 和 action 联系在一起。
+## 6.reducer
 
 reducer 是一个纯函数；
 
-reducer 做的事情就是将传入的 state 和 action 结合起来生成一个新的 state；
+reducer 将传入的 state 和 action 结合起来生成一个新的 state；
 
-# Redux 的使用初体验
+# 六、Redux 使用
 
-安装 redux
+安装 *redux*
 
 ```shell
 npm i redux
 ```
 
-基本使用
-
-## 创建 store
+## 1.store 创建
 
 05-learn-redux\src\store\index.js
 

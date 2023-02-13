@@ -1,49 +1,63 @@
-# 组件化的天下，对编写 CSS 的要求
+# 一、React 中编写 CSS 的要求
 
-整个前端已经是组件化的天下，而 CSS 的设计就不是为组件化而生的；所以在目前组件化的框架中，在寻找一种合适的 CSS 解决方案。这个方案应该符合以下条件：
+整个前端已经是组件化的天下，而 CSS 的设计就不是为组件化而生的；
 
-- 可以编写局部 css：具备自己的作用域，不会随意污染其他组件内的元素；
-- 可以编写动态的 css：可以获取当前组件的一些状态（state），根据状态的变化改变 css 样式；
+所以在目前组件化的框架中，在寻找一种合适的 CSS 解决方案。这个方案应该符合以下条件：
+
+- 可以编写局部 css（具备自己的作用域，不会随意污染其他组件内的元素）。
+- 可以编写动态的 css（可以获取当前组件的一些状态（state），根据状态的变化改变 css 样式）；
 - 支持所有的 css 特性：伪类、动画、媒体查询等；
 - 编写起来简洁方便、最好符合一贯的 css 风格特点；
 
-# Vue 中的 CSS
+# 二、Vue 中的 CSS
 
 在编写 CSS 的规范性上，Vue 做的要好于 React：
 
-- Vue 通过在 .vue 文件中编写 `<style><style>` 标签来编写自己的样式；
+- Vue 通过在 .vue 文件中编写 `<style>` 标签来编写自己的样式；
 - 通过是否添加 `scoped` 属性来决定编写的样式是全局有效还是局部有效；
 - 通过 `lang` 属性来设置你喜欢的预处理器，如 less、sass 等。
 - 通过内联样式风格的方式来根据最新状态设置和改变 css；
 
-Vue 在 CSS 上虽然不能称之为完美，但是已经足够简洁、自然、方便了，至少统一的样式风格不会出现多个开发人员、多个项目采用不一样的样式风格。
-
-# React 中的 CSS
+# 三、React 中的 CSS
 
 事实上，css 一直是 React 的痛点，也是被很多开发者吐槽、诟病的一个点。
 
-相比而言，React 官方并没有给出在 React 中统一的样式风格（**React 官方对 CSS 编写方式没有明确的态度**）：
+相比而言，React 官方对 CSS 编写方式没有明确的态度。
 
-- 由此，从普通的 css，到 css modules，再到 css in js，有几十种不同的解决方案，上百个不同的库；
-- 大家都在寻找最好的或者说最适合自己的 CSS 方案，但是到目前为止也没有统一的方案；
+因此在 React 项目中，出现了诸多不同的 CSS 编写方式，比如：
+
+- 从普通的 css，
+- css modules，
+- css in js，
+
+有几十种不同的解决方案，上百个不同的库；
+
+大家都在寻找最好的或者说最适合自己的 CSS 方案，但是到目前为止也没有统一的方案；
 
 
-# 内联样式的写法
+# 四、React 的内联样式
 
-内联样式是官方文档中有在用的一种 css 样式的写法：
-- style 接收一个采用小驼峰命名属性的 JavaScript 对象，而不是 CSS 字符串；
+内联样式是官方文档中有在用的一种 css 别写方式。
 
-内联样式的优点:
-- 样式之间不会有冲突。
-- 可以动态获取当前 state 中的状态。
+## 1.写法
 
-内联样式的缺点：
-- 写法上都需要使用驼峰标识。
-- 某些样式没有提示。
-- 大量的样式, 代码混乱。
-- 某些样式无法编写(比如伪类、伪元素)。
+JSX 上的 `style` 属性，接收一个采用小驼峰命名的 JavaScript 对象，而不是 CSS 字符串；
 
-官方依然是希望内联样式和普通的 css 来结合编写；
+## 2.优点:
+
+样式之间不会有冲突。
+
+可以动态获取当前 state 中的状态。
+
+## 3.缺点：
+
+写法上需要使用驼峰标识。与普通 CSS 写法不同。
+
+编写 CSS 时没有提示。
+
+大量的样式, 被嵌入在逻辑代码中，混乱阅读性差。
+
+某些样式无法编写(比如伪类、伪元素)。
 
 04-learn-react-css\src\01-内联样式css\App.jsx
 
@@ -76,15 +90,19 @@ export class App extends PureComponent {
 export default App
 ```
 
-# 普通的 CSS 写法。
+# 五、方案一：普通 CSS
 
-普通的 css 我们通常会编写到一个单独的文件，之后再进行引入。这样的编写方式和普通的网页开发中编写方式是一致的：
+## 1.写法：
 
-- 如果我们按照普通的网页标准去编写，那么也不会有太大的问题；
-- 但是组件化开发中我们总是希望组件是一个独立的模块，即便是样式也只是在自己内部生效，不会相互影响；
-- 但是当引用普通的 css 样式，它会被应用于全局的 css，样式之间会相互影响；
+通常编写到一个单独的 .css/.less/... 文件中，再进行引入。
 
-这种编写方式最大的问题是样式之间会相互层叠掉；
+## 2.优点
+
+与传统的 CSS 编写方式无异。容易上手。
+
+## 3.缺点
+
+当引用普通的 css 样式，它会被应用于全局的 css，样式之间会相互影响；me没有局部的作用域。
 
 04-learn-react-css\src\02-普通的CSS写法\App.jsx
 
@@ -120,22 +138,114 @@ export default App
 }
 ```
 
-# CSS Moudules 的写法。
+## 4.less 支持：
 
-css modules 并不是 React 特有的解决方案，而是所有使用了类似于 webpack 配置的环境下都可以使用的。
+React 项目添加 less 支持
 
-- 如果在其他项目中使用它，那么我们需要自己来进行配置，比如配置 webpack.config.js 中的 `modules: true` 等。
+方案一：使用 `npm run eject`，在弹出的配置文件中进行修改。
 
-- React 的脚手架已经内置了 css modules 的配置：
-- .css/.less/.scss 等样式文件都需要修改成 `.module.css`、`.module.less`、`.module.scss` 等；之后就可以引用并且进行使用了；
+方案二：使用 `craco`（create-react-app config）
 
-css modules 确实解决了局部作用域的问题，也是很多人喜欢在 React 中使用的一种方案。但是这种方案也有自己的缺陷：
+### 1.craco 使用步骤
 
-- 引用的类名，不能使用连接符，如 `.home-title`，在 JavaScript 中是不识别的；
-- 所有的 className 都必须使用 `{style.className}` 的形式来编写，比较麻烦；
-- 不能动态修改样式，依然需要使用内联样式的方式动态修改；
+1. 安装 *craco*
 
-如果你觉得上面的缺陷还算OK，那么你在开发中完全可以选择使用 css modules 来编写，并且也是在 React 中很受欢迎的一种方式。
+   ```shell
+   npm i @craco/craco -D # 生产时依赖
+   ```
+
+2. 修改 react 项目 `package.json` 中的启动配置。
+
+   ```json
+   {
+     "scripts": {
+       "start": "craco start",
+       "build": "craco build",
+       "test": "craco test",
+       "eject": "react-scripts eject"
+     },
+   }
+   ```
+
+3. 安装 *craco-less*
+
+   ```shell
+   npm i craco-less -D
+   ```
+
+4. 配置 `craco.config.js` 文件
+
+   04-learn-react-css\craco.config.js
+
+   ```js
+   const CracoLessPlugin = require('craco-less');
+
+   module.exports = {
+     plugins: [
+       {
+         plugin: CracoLessPlugin,
+         /* options: {
+           lessLoaderOptions: {
+             lessOptions: {
+               modifyVars: { '@primary-color': '#1DA57A' },
+               javascriptEnabled: true,
+             },
+           },
+         }, */
+       },
+     ],
+   };
+   ```
+
+### 2.项目中使用 less
+
+04-learn-react-css\src\04-less编写方式\App.jsx
+
+```jsx
+import React, { PureComponent } from 'react'
+import './App.less'
+
+export class App extends PureComponent {
+	render() {
+		return (
+			<div className="app">
+				<div className="section">
+					<h2 className="title">我是标题</h2>
+					<p className='content'>我是内容，哈哈哈哈</p>
+				</div>
+			</div>
+		)
+	}
+}
+
+export default App
+```
+
+# 六、方案二：CSS Moudules
+
+css modules 并不是 React 项目特有的解决方案，而是所有使用了类似于 webpack 配置的环境下都可以使用的。
+
+## 1.写法
+
+React 的脚手架内置了 css modules 的配置：
+
+非 React 项目，可能需要配置 `webpack.config.js` 中的 `modules: true` 等。
+
+编写的样式文件后缀需要修改成 `.module.css`、`.module.less`、`.module.scss` 等；
+
+之后就可以引用并且进行使用了；
+
+## 2.优点
+
+解决了局部作用域的问题。
+
+## 3.缺点
+
+所有的 `className` 都必须使用 `{styleModule.className}` 的形式来编写，比较麻烦；
+
+引用的类名，不能使用连接符，如 `.home-title`，在 JavaScript 中是不识别的；
+
+不能动态修改样式，依然需要使用内联样式的方式动态修改；
 
 04-learn-react-css\src\03-CSS-Module\App.jsx
 
@@ -170,92 +280,7 @@ export default App
 }
 ```
 
-# 为 React 项目添加 less 支持：
 
-## 两种方案：
-
-- 方案一：使用 `npm run eject`，在弹出的配置文件中进行修改。
-- 方案二：使用 `craco`（create-react-app config）
-
-> React 2个 UI 库使用 CSS 的方式
->
-> - Material UI：CSS in JS
-> - Ant-Desigh：CSS in JS
-
-## 如何使用 craco
-
-1. 安装 craco
-
-   ```shell
-   npm i @craco/craco -D # 生产时依赖
-   ```
-
-2. 修改 react 项目 package.json 中的启动配置。
-
-   ```json
-   {
-     "scripts": {
-       "start": "craco start",
-       "build": "craco build",
-       "test": "craco test",
-       "eject": "react-scripts eject"
-     },
-   }
-   ```
-
-3. 安装 craco-less
-
-   ```shell
-   npm i craco-less -D
-   ```
-
-4. 配置 craco.config.js 文件
-
-   04-learn-react-css\craco.config.js
-
-   ```js
-   const CracoLessPlugin = require('craco-less');
-
-   module.exports = {
-     plugins: [
-       {
-         plugin: CracoLessPlugin,
-         /* options: {
-           lessLoaderOptions: {
-             lessOptions: {
-               modifyVars: { '@primary-color': '#1DA57A' },
-               javascriptEnabled: true,
-             },
-           },
-         }, */
-       },
-     ],
-   };
-   ```
-
-## 在项目中使用 less
-
-04-learn-react-css\src\04-less编写方式\App.jsx
-
-```jsx
-import React, { PureComponent } from 'react'
-import './App.less'
-
-export class App extends PureComponent {
-	render() {
-		return (
-			<div className="app">
-				<div className="section">
-					<h2 className="title">我是标题</h2>
-					<p className='content'>我是内容，哈哈哈哈</p>
-				</div>
-			</div>
-		)
-	}
-}
-
-export default App
-```
 
 04-learn-react-css\src\04-less编写方式\App.less
 
@@ -277,47 +302,53 @@ export default App
 }
 ```
 
-# CSS in JS 的写法
+# 七、方案三：CSS in JS
 
-官方文档也有提到过 CSS in JS 这种方案：
-- 这是指一种模式，其中 CSS 由 JavaScript 生成而不是在外部 css 文件中定义；
-- 注意此功能并不是 React 的一部分，而是由第三方库提供；**React 对样式如何定义并没有明确态度**；
+官方文档有提到过 CSS in JS 方案：又被人称之为 All in JS
 
-在传统的前端开发中，我们通常会将结构（HTML）、样式（CSS）、逻辑（JavaScript）进行分离。
-- 但是在前面的学习中，我们就提到过，React 的思想中认为逻辑本身和 UI 是无法分离的，所以才会有了 JSX 的语法。而样式也是属于 UI 的一部分；
-- 事实上 CSS-in-JS 的模式就是一种将样式（CSS）也写入到 JavaScript 中的方式，并且可以方便的使用 JS 中的状态；
-- 这种写法又被人称之为 All in JS；
+这是指一种模式，其中 CSS 由 JavaScript 生成而不是在外部 css 文件中定义；
 
-当然，这种开发的方式也受到了很多的批评：
+此功能需要由第三方库提供。
 
-- [Stop using CSS in JavaScript for web development](https://hackernoon.com/stop-using-css-in-javascript-for-web-development-fa32fb873dcc)
+> React 2个 UI 库使用 CSS 的方式
+>
+> - Material UI：CSS in JS
+> - Ant-Desigh：CSS in JS
 
-## 认识 styled-components
+## 1.优点：
 
-批评声音虽然有，但是在我们看来很多优秀的 CSS-in-JS 的库依然非常强大、方便：
-- CSS-in-JS 通过 JavaScript 来为 CSS 赋予一些能力，包括类似于 CSS 预处理器一样的样式嵌套、函数定义、逻辑复用、动态修改状态等等；
-- 虽然 CSS 预处理器也具备某些能力，但是**获取动态状态**依然是一个不好处理的点；
-- 所以，目前可以说 CSS-in-JS 是 React 编写 CSS 最为受欢迎的一种解决方案；
+有局部作用域。
 
-目前比较流行的 CSS-in-JS 的库有哪些呢？
+可以动态编写样式。
+
+兼容传统 CSS 写法和 less 这样的预处理器的写法。
+
+## 2.缺点：
+
+这种开发的方式也受到了一些批评：
+
+[Stop using CSS in JavaScript for web development](https://hackernoon.com/stop-using-css-in-javascript-for-web-development-fa32fb873dcc)
+
+## 3.使用
+
+目前比较常见的 CSS-in-JS 的库有：
+
 - `styled-components`
 - `emotion`
 - `glamorous`
 
-目前可以说 `styled-components` 依然是社区最流行的 CSS-in-JS 库。
+而 `styled-components` 是目前社区最流行的 CSS-in-JS 库。
 
-## 使用 styled-components
+### 1.styled-components 配置
 
-1. 安装 `styled-components`：
+1.安装 `styled-components`：
 
  ```shell
  npm install styled-components
  ```
-> 回顾标签模板字符串的用法。
+2.安装 *VSCode-style-component* 插件，在编辑器中使代码高亮。
 
-2. 安装 `VSCode-style-component` 插件，使代码高亮。
-
-### 基本使用。
+### 2.在项目中使用
 
 04-learn-react-css\src\05-CSS-IN-JS\style.js
 
@@ -354,24 +385,21 @@ export class App extends PureComponent {
 export default App
 ```
 
-styled-components 的本质是通过函数的调用，最终创建出一个组件：
+### 3.原理分析
 
-- 这个组件会被自动添加上一个不重复的 class；
-- styled-components 会给该这个 class 添加相关的样式；
+*styled-components* 的本质是通过函数的调用，最终创建出一个组件：
 
-另外，它支持类似于 CSS 预处理器一样的样式嵌套：
-- 支持直接子代选择器或后代选择器嵌套编写；
-- 可以通过 `&` 符号获取当前元素；
-- 支持伪类选择器、伪元素等；
+这个组件会被自动添加上一个不重复的 `class`；
 
-### props、attrs 属性的使用
+*styled-components* 会给该这个 `class` 添加相关的样式；
 
-`props` 可以被传递给 styled 组件
+### 4.props、attrs 属性
 
-- 获取 props 需要通过 `${}` 传入一个插值函数，props 会作为该函数的参数；
-- 这种方式可以有效的解决动态样式的问题；
+在 JSX 中通过 styled 组件的 attribute 传入 `props` 。
 
-在 `attrs` 方法中为 props 中的属性添加默认值。
+在 CSS IN JS 的模板字符串中通过 `${}` 传入一个插值函数，`props` 会作为该函数的参数传入；
+
+还可在 `attrs` 方法中为 `props` 中的属性添加默认值。
 
 04-learn-react-css\src\05-CSS-IN-JS\variables.js
 
@@ -458,7 +486,9 @@ export class App extends PureComponent {
 export default App
 ```
 
-### styled 高级特性-设置主题
+### 4.设置主题
+
+*styled-components* 高级特性-设置主题
 
 04-learn-react-css\src\index.js
 
