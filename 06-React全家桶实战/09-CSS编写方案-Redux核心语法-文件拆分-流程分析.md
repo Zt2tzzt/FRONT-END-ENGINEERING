@@ -12,7 +12,7 @@ const obj = {
 
 ### 1.继承
 
-styled 高级特性-实现继承
+styled-components 高级特性-实现继承
 
 04-learn-react-css\src\05-CSS-IN-JS\Home\style.js
 
@@ -226,7 +226,7 @@ reducer 将传入的 state 和 action 结合起来生成一个新的 state；
 npm i redux
 ```
 
-## 1.store 创建
+## 1.state 初始化（store 创建）
 
 05-learn-redux\src\store\index.js
 
@@ -252,7 +252,7 @@ const store = createStore(reducer)
 module.exports = store
 ```
 
-## 获取 store 中的数据
+## 2.state 获取
 
 05-learn-redux\src\01-使用store中的数据.js
 
@@ -263,7 +263,7 @@ const store = require('./store')
 console.log(store.getState()); // { name: 'zzt', age: 18 }
 ```
 
-## 修改 store 中的数据
+## 3.state 修改
 
 05-learn-redux\src\store\index.js
 
@@ -323,7 +323,7 @@ store.dispatch(levelAction)
 console.log(store.getState());
 ```
 
-## 订阅 store 中的数据
+## 4.store 订阅
 
 05-learn-redux\src\store\index.js
 
@@ -371,7 +371,7 @@ store.dispatch({ type: 'add_level', count: 10 })
 unSubscribe() // 取消订阅
 ```
 
-## 动态生成 actions
+## 5.actions 动态生成
 
 05-learn-redux\src\04-动态生成actions.js
 
@@ -397,9 +397,9 @@ store.dispatch(changeLevelAction(10))
 unSubscribe() // 取消订阅
 ```
 
-## 规范目录结构
+## 6.目录结构规范化
 
-### 抽取常量（constancs.js）
+### 1.常量抽取（constancs.js）
 
 05-learn-redux\src\store\constans.js
 
@@ -413,7 +413,7 @@ module.exports = {
 }
 ```
 
-### 抽取 actions 构造器（actionCreators.js）
+### 2.actions 构造器抽取（actionCreators.js）
 
 05-learn-redux\src\store\actionCreators.js
 
@@ -435,7 +435,7 @@ module.exports = {
 }
 ```
 
-### 抽取 reducer（reducer.js）
+### 3.reducer 抽取（reducer.js）
 
 避免 reducer 中的逻辑越来越多，造成代码混乱
 
@@ -463,7 +463,7 @@ function reducer(state = initialState, action) {
 module.exports = reducer
 ```
 
-### 创建 store，并导出（index.js）
+### 4.store 创建和导出（index.js）
 
 05-learn-redux\src\store\index.js
 
@@ -476,7 +476,7 @@ const store = createStore(reducer)
 module.exports = store
 ```
 
-### 使用 store
+### 5.store 使用
 
 05-learn-redux\src\04-动态生成actions.js
 
@@ -494,13 +494,15 @@ store.dispatch(changeLevelAction(10))
 unSubscribe() // 取消订阅
 ```
 
-## 规范目录优化总结
+### 6.总结
 
-1. actionCreators 和 reducer 函数中使用字符串常量是一致的, 所以将常量抽取到一个独立 `constants.js` 的文件中。
-2. 将派发的 action 生成过程放到一个 actionCreators 函数中。将定义的所有 actionCreators 的函数, 放到一个独立的文件中: `actionCreators.js`。
-4. 将 reducer 和初始状态 (initialState) 放到一个独立的 `reducer.js` 文件中, 而不是在 index.js
+actionCreators 和 reducer 函数中使用字符串常量是一致的, 所以将常量抽取到一个独立 `constants.js` 的文件中。
 
-# 理解 Redux 的使用流程图解。
+action 生成过程放到一个 actionCreators 函数中。并将它们放到一个独立的文件中: `actionCreators.js`。
+
+reducer 和初始状态 (initialState) 放到一个独立的 `reducer.js` 文件中,。
+
+# 七、Redux 流程图解
 
 Redux 使用流程
 
@@ -512,46 +514,50 @@ Redux 使用流程官方图解
 
 
 
-# 总结 Redux 的三大原则
+# 八、Redux 三大原则
 
-一、单一数据源 
-- 整个应用程序的 state 被存储在一颗 object tree 中，并且这个 object tree 只存储在一个 store 中：
-- Redux 并没有强制让我们不能创建多个 Store，但是那样做并不利于数据的维护； 
-- 单一的数据源可以让整个应用程序的 state 变得方便维护、追踪、修改（概念类似于 Vuex）；
+1.单一数据源 
 
-二、State 是只读的 
-- 唯一修改 State 的方法一定是触发 action。
+整个应用程序的 state 被存储在一颗 object tree 中，并且这个 object tree 只存储在一个 store 中：
 
-- 这样就确保了 View 或网络请求都不能直接修改 state，它们只能通过 action 来描述自己想要如何修改 state； 
+并非强制不能创建多个 Store，而是说这样做并不利于数据的维护； 
 
-- 这样可以保证所有的修改都被集中化处理，并且按照严格的顺序来执行，所以不需要担心 race condition（竟态）的问题；
+单一的数据源可以让整个应用程序的 state 变得方便维护、追踪、修改（概念类似于 Vuex）；
 
-  > 竟态：操作系统中的概念：两个进程操作同一块内存，如果不能确定先后顺序，那么会使得最终的结果不确定。
-  >
-  > 经过 reducer 进行 state 修改，能够明确调用顺序，不会造成竟态。
+2.State 是只读的 
 
-三、使用纯函数来执行修改 
+修改 State 的唯一方法是派发 action。
 
-- 但是所有的 reducer 都应该是纯函数，不能产生任何的副作用；
+这样确保了视图层或网络请求都不能直接修改 state，只能通过 action 来描述自己想要如何修改 state； 
 
-通过 reducer 将旧 state 和 actions 联系在一起，并且返回一个新的 State：随着应用程序的复杂度增加，我们可以将 reducer 拆分成多个小的 reducers，分别操作不同 state tree 的一部分；
+这样可以保证所有的修改都被集中化处理，并且按照严格的顺序来执行，所以不需要担心 race condition（竟态）的问题；
 
-# node 中对 ES6 模块的支持。
+> 【竟态】：操作系统中的概念，两个进程操作同一块内存，如果不能确定先后顺序，那么会使得最终的结果不确定。
 
-从 node v13.2.0 开始，node 才对 ES6 模块化提供了支持： 
+3.使用纯函数来执行修改 
+
+所有的 reducer 都应该是纯函数，不能产生任何的副作用；
+
+总结：
+
+通过 reducer 将旧 state 和派发的 actions 联系在一起，并返回一个新的 State：
+
+随着应用程序的复杂度增加，我们可以将 reducers 拆分成多个小的 reducer，分别操作不同 state tree 的一部分；
+
+# 九、node 中的 ESModule 支持。
 
 node v13.2.0 之前，需要进行如下操作： 
-- 在 package.json 中添加属性：`"type": "module"`； 
+- 在 `package.json` 中添加属性：`"type": "module"`； 
 - 在执行命令中添加如下选项：`node --experimental-modules src/index.js`;
 
 node v13.2.0 之后，只需要进行如下操作： 
 
-- 在 package.json 中添加属性： `"type": "module"`；
+- 在 `package.json` 中添加属性： `"type": "module"`；
 
-> 注意：在 node 中使用 ESMoudule，导入文件时，需要跟上 `.js` 后缀名；
+> 【注意】：在 node 中使用 ESMoudule，导入文件时，需要跟上 `.js` 后缀名；
 
 
-# Redux 结合 React 初体验
+# 十、React 使用 Redux
 
 06-react-redux\src\store\constancs.js
 
