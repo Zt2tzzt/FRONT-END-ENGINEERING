@@ -1,21 +1,24 @@
-# react-redux 库的使用（官方提供）
+# 一、react-redux 库
 
-## 案例一
+*react-redux* 库由官方提供。
+
+## 1.案例
 
 重构上节中 Redux 与 React 中的代码，去除重复代码。
 
-1. 安装 react-redux 库。
+1. 安装 *react-redux* 库。
 
    ```shell
    npm i react-redux
    ```
 
-2. 使用 react-redux 库中的 Provider 组件，为 <App /> 提供 store。
+2. 使用 *react-redux* 库中的 `<Provider>` 组件，为 `<App />` 提供 store。
 
-3. 在需要使用 store 的组件中，使用 `connect` 函数返回一个高阶组件。再将原组件传入高阶组件中，并对 state 和 dispatch 进行解耦。
+3. 在需要使用 store 的组件中，使用 `connect` 函数返回一个高阶组件。再将原组件传入高阶组件中。
 
+4. 并对 `state` 和 `dispatch` 进行解耦。
 
-总结：connect 是高阶函数，返回一个高阶组件。
+> `connect` 是高阶函数，返回一个高阶组件。
 
 06-react-redux\src\index.js
 
@@ -27,6 +30,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
@@ -44,8 +48,10 @@ import { connect } from 'react-redux';
 import { addAction, subAction } from '../store/actionCreators';
 
 export class About extends PureComponent {
+  
 	render() {
 		const { counter } = this.props
+    
 		return (
 			<div>
 				<h2>About Page: {counter}</h2>
@@ -82,29 +88,39 @@ const mapDispatchToProps = dispatch => ({
 export default connect(mapStateToProps, mapDispatchToProps)(About)
 ```
 
-总结 react-redux 的使用：
+总结 *react-redux* 的使用：
 
-- 需要强调的是，redux 和 react 没有直接的关系，你完全可以在 React, Angular, Ember, jQuery, 或者 vanilla JavaScript 中使用 Redux。
-- 尽管这样说，redux 依然是和 React 库结合的更好，因为他们是通过 state 函数来描述界面的状态，Redux 可以发射状态的更新，让他们作出响应。
-- redux **官方**帮助我们提供了 react-redux 的库，可以直接在项目中使用，来帮助我们省去 redux 与 react 的结合使用，主要提供了2个 API，如 `connect` 和 `Provier`。和几个 Hook，如 `useSelector`、`useDispatch` 和 `useStore`（后续介绍）并且实现的逻辑会更加的严谨和高效。
+- 需要强调的是，*Redux* 和 *React* 没有直接的关系，
+  - 完全可以在 *React*, *Angular*, *Ember*, *jQuery*, 或者 vanilla JavaScript 中使用 Redux。
+- 尽管这样说，*redux* 依然是和 *React* 库结合的更好，
+  - 都通过 `state` 来描述状态，
+  - *Redux* 可以派发状态的更新，让他们作出响应。
+- *Redux* **官方**提供了 *react-redux* 库，更好地让 *Redux* 与 *React* 的结合使用。
+  - 主要提供两两个 API，`connect` 和 `Provier`。
+  - 和几个 Hook，`useSelector`、`useDispatch` 和 `useStore`（后续介绍）等等。
+  - 并且实现的逻辑会更加的严谨和高效。
 
-# 组件中的异步操作
+# 二、组件中的异步操作
 
-在之前简单的案例中，redux 中保存的 counter 是一个本地定义的数据。
-- 我们可以直接通过同步的操作来 dispatch action，state 就会被立即更新。
-- 但是真实开发中，redux 中保存的很多数据可能来自服务器，我们需要进行异步的请求，再将数据保存到 redux 中。
+在之前简单的案例中，Redux 中保存的 `counter` 是一个本地定义的数据。
+- 可以直接通过同步的操作来 dispatch action，`state` 就会被立即更新。
+- 但是真实开发中，Redux 中保存的很多数据可能来自服务器，我们需要进行异步的请求，再将数据保存到 Redux 中。
 
-在之前学习网络请求的时候我们讲过，网络请求可以在 class 组件的 `componentDidMount` 中发送，所以我们可以有这样的结构：
+我们知道，网络请求可以在 class 组件的 `componentDidMount` 中发送，所以我们可以有这样的结构：
 
 <img src="NodeAssets/组件中的异步操作.jpg" alt="组件中的异步操作" style="zoom:150%;" />
 
 现在完成如下案例操作：
-- 在 Category 组件中请求 banners 和 recommends 的数据；
-- 在 About 组件中展示 banners 和 recommends 的数据；
+- 在 Category 组件中请求 `banners` 和 `recommends` 的数据；
+- 在 About 组件中展示 `banners` 和 `recommends` 的数据；
 
-## 案例一
+## 1.案例
 
-在 Category 中请求数据，通过 Redux，共享给 About。发送网络请求的代码先在 Category 中编写。
+在 Category 中请求数据；
+
+通过 Redux，共享给 About；
+
+发送网络请求的代码在 Category 中编写。
 
 06-react-redux\src\store\constancs.js
 
@@ -209,19 +225,15 @@ export class About extends PureComponent {
 			<div>
 				<h2>banners</h2>
 				<ul>
-					{
-						this.props.banners.map((item, index) => (
-							<li key={index}>{item.title}</li>
-						))
-					}
+					{this.props.banners.map((item, index) => (
+            <li key={index}>{item.title}</li>
+          ))}
 				</ul>
 				<h2>recommends</h2>
 				<ul>
-					{
-						this.props.recommends.map((item, index) => (
-							<li key={index}>{item.title}</li>
-						))
-					}
+					{this.props.recommends.map((item, index) => (
+            <li key={index}>{item.title}</li>
+          ))}
 				</ul>
 			</div>
 		)
@@ -237,26 +249,37 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(About)
 ```
 
-# Redux 中的异步操作
+# 三、Redux 中的异步操作
 
-上面的代码有一个缺陷：
-- 我们必须将网络请求的异步代码放到组件的生命周期中来完成；
-- 事实上，网络请求到的数据也属于我们状态管理的一部分，更好的一种方式应该是将其也交给 redux 来管理；
+上面的代码有缺陷：
+
+必须将网络请求的异步代码放到组件的生命周期中来完成；
+
+事实上，网络请求到的数据也属于项目状态管理的一部分，更好的一种方式应该是将其交给 *Redux* 来管理；
 
 <img src="NodeAssets/Redux中的异步操作.jpg" alt="Redux中的异步操作" style="zoom:150%;" />
 
-但是在 redux 中如何可以进行异步的操作呢？
-- 答案就是使用中间件（Middleware）；
-- 学习过 Express 或 Koa 框架的开发者对中间件的概念一定不陌生；
-- 在这类框架中，Middleware 可以帮助我们在请求和响应之间嵌入一些操作的代码，比如 cookie 解析、日志记录、文件压缩等操作。
+Redux 中如何可以进行异步的操作呢？
 
-## 案例一
+答案就是使用中间件（Middleware）；
 
-将发送网络请求，获取数据的代码，抽取到 Redux 中的 actionCreator 中。
+学习过 Express 或 Koa 框架的开发者对中间件的概念一定不陌生；
 
-正常境况下，dispatch 只能派发一个对象作为 action，如果需要派发一个函数，必须要对 store 进行增强，比如使用中间件 `redux-thunk`。
+在这类框架中，Middleware 可以在请求和响应之间嵌入一些逻辑处理的代码，
 
-使用中间件增强后，派发一个函数作为 action，在这个函数中发送网络请求。最终还是要在作为函数的 action 中派发一个对象 action。
+- 比如 cookie 解析、日志记录、文件压缩等操作。
+
+## 1.案例
+
+将发送网络请求，获取数据的代码，抽取到 *Redux* 中的 actionCreator 中。
+
+正常境况下，dispatch 只能派发一个对象作为 action，如果需要派发一个函数，必须要对 store 进行增强；
+
+- 比如使用中间件 `redux-thunk`。
+
+使用中间件增强后，派发一个函数作为 action，在这个函数中发送网络请求。
+
+最终还是要在作为函数的 action 中派发一个对象 action。
 
 06-react-redux\src\store\actionCreators.js
 
@@ -341,60 +364,38 @@ export default connect(mapStateToProps, mapDispatchToProps)(Category)
 ```
 
 
-## 什么是中间件？
+## 2.redux-thunk 使用总结
 
-redux 引入了中间件（Middleware）的概念：
-- 这个中间件的目的是在 dispatch 的 action 和最终达到的 reducer 之间，扩展一些自己的代码；
-- 比如日志记录、调用异步接口、添加代码调试功能等等；
-
-我们现在要做的事情就是发送异步的网络请求，所以我们可以添加对应的中间件：
-
-- 官方推荐使用 `redux-thunk`；
-
-redux-thunk 是如何做到让我们可以发送异步的请求呢？
-- 我们知道，默认情况下的 dispatch，action 需要是一个 JavaScript 的对象；
-- redux-thunk 可以让 store 派发一个函数类型的 action。
-- 该函数会被调用，并且会传给这个函数两个参数，分别是： `dispatch` 函数和，`getState` 函数；
-	- `dispatch` 函数用于我们之后再次派发对象类型的 action；
-	- `getState` 函数考虑到我们之后的一些操作需要依赖原来的状态，用于让我们可以获取之前的一些状态；
-
-
-## 总结如何使用 redux-thunk
-
-1. 安装 redux-thunk
+1. 安装 *redux-thunk*
 
    ```shell
    npm i redux-thunk
    ```
 
-2. 在创建 store 时传入应用了 middleware 的 enhance 函数：
-	- 通过 `applyMiddleware` 来结合多个 Middleware, 返回一个 enhancer；
-	- 将 enhancer 作为第二个参数传入到 createStore 中；
+2. 在创建 store 时传入应用了 middleware 的 `enhance` 函数：
+3. 通过 `applyMiddleware` 来结合多个 Middleware, 返回一个 `enhancer`；
+4. 将 `enhancer` 作为第二个参数传入到 `createStore` 中；
 
-	```js
-	import { createStore, applyMiddleware } from 'redux';
-	import reducer from './reducer';
-	import thunk from 'redux-thunk';
+   ```js
+   import { createStore, applyMiddleware } from 'redux';
+   import reducer from './reducer';
+   import thunk from 'redux-thunk';
+   
+   const enhancer = applyMiddleware(thunk)
+   const store = createStore(reducer, enhancer)
+   export default store
+   ```
 
-	const enhancer = applyMiddleware(thunk)
-	const store = createStore(reducer, enhancer)
-	export default store
-	```
+5. 定义返回一个函数的 action：
 
-3. 定义返回一个函数的 action：
+   注意：这里不是返回一个对象了，而是一个函数；
 
-   - 注意：这里不是返回一个对象了，而是一个函数；
-   - 该函数在 dispatch 之后会被立即执行；
+   该函数在 dispatch 之后会被立即执行；
 
    ```jsx
    export const fetchHomeMultidataAction = () => {
-     /**
-      * 如果是一个普通的 action，需要在此处返回一个 action 对象
-      * 但是，对象中不能直接拿到从服务器请求的异步数据
-      */
-     // 如果返回一个函数，那么 redux 是不支持的，需要使用中间件。在中间件的加持下，dispatch 该函数后，该函数会自动执行。
+     
      return function (dispatch, getState) {
-       // 实现异步操作，网络请求。
        axios.get("http://123.207.32.32:8000/home/multidata").then(res => {
          const banners = res.data.data.banner.list
          const recommends = res.data.data.recommend.list
@@ -405,12 +406,32 @@ redux-thunk 是如何做到让我们可以发送异步的请求呢？
      }
    }
    ```
-# React Developer Tools 和 Redux DevTools
 
-安装2个工具（浏览器插件） `React Developer Tools` 和 `Redux DevTools`
+# 四、中间件是什么
 
-- 使用代码开启 Redux DevTools，
-- 仅在开发环境中开启，生产环境需要关闭。
+*Redux* 引入了中间件（Middleware）的概念：
+
+这个中间件的目的是在 dispatch 的 action 和最终达到的 reducer 之间，扩展一些自己的代码；
+
+比如日志记录、调用异步接口、添加代码调试功能等等；
+
+如果要发送异步的网络请求，也可以添加对应的中间件：官方推荐使用 `redux-thunk`；
+
+*redux-thunk* 是如何做到让我们可以发送异步请求的？
+
+- 默认情况下的 dispatch，action 需要是一个 JavaScript 的对象；
+- redux-thunk 可以让 store 派发一个函数类型的 action。
+- 该函数会被调用，并且会传给这个函数两个参数，分别是： `dispatch` 函数和，`getState` 函数；
+	- `dispatch` 函数用于再次派发对象类型的 action；
+	- `getState` 函数用于获取 store 中的状态；
+
+# 五、浏览器插件
+
+安装2个工具（浏览器插件）*React Developer Tools* 和 *Redux DevTools*
+
+使用代码开启 *Redux DevTools*，
+
+仅在开发环境中开启，生产环境需要关闭。
 
 ```js
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -425,12 +446,12 @@ const store = createStore(reducer, composeEnhancers(enhancer))
 export default store
 ```
 
-# reducer 拆分
+# 六、reducer 拆分
 
 为什么要拆分 reducer：
-- 当前这个 reducer 既有处理 counter 的代码，又有处理 home 页面的状态；
+- 当前这个 reducer 既有处理 counter 模块的状态，又有处理 home 模块的状态；
 - 后续 counter 相关的状态或 home 相关的状态会进一步变得更加复杂；
-- 我们也会继续添加其他模块的相关状态，比如购物车、分类、歌单等等；
+- 同时也会继续添加其他模块的相关状态，比如购物车、分类、歌单等等；
 - 如果将所有的状态都放到一个 reducer 中进行管理，随着项目的日趋庞大，必然会造成代码臃肿、难以维护。
 
 因此，我们需要对 reducer 进行拆分：
@@ -441,9 +462,9 @@ export default store
 
 <img src="NodeAssets/reducer拆分后的目录结构.jpg" alt="reducer拆分后的目录结构" style="zoom:67%;" />
 
-## 将 reducer 进行拆分
+## 1.模块拆分
 
-home 模块
+home 模块拆分为例：
 
 06-react-redux\src\store\home\constancs.js
 
@@ -515,6 +536,8 @@ export default reducer
 export * from './actionCreators'
 ```
 
+## 2.模块合并
+
 合并 home 模块 和 conuter 模块
 
 06-react-redux\src\store\index.js
@@ -548,7 +571,9 @@ const store = createStore(reducer, composeEnhancers(enhancer))
 export default store
 ```
 
-## 获取 state 数据时，需要加入模块名
+## 3.模块使用
+
+获取 `state` 数据时，需要加入模块名
 
 06-react-redux\src\App.jsx
 
@@ -562,6 +587,7 @@ import About from './page/About'
 import Category from './page/Category'
 
 export class App extends PureComponent {
+  
   constructor() {
     super()
     this.state = {
@@ -661,12 +687,12 @@ const mapDispatchToProps = dispatch => ({
 export default connect(mapStateToProps, mapDispatchToProps)(About)
 ```
 
-# combineReducers 函数
+# 七、combineReducers 函数
 
-事实上，redux 给我们提供了一个 `combineReducers` 函数可以方便的让我们对多个 reducer 进行合并： 
+事实上，*Redux* 给我们提供了一个 `combineReducers` 函数，可以方便的让我们对多个 reducer 进行合并： 
 
-那么 combineReducers 是如何实现的呢？ 
-- 事实上，它也是将我们传入的 reducers 合并到一个对象中，最终返回一个 combination 的函数（相当于我们之前的 reducer 函数了）；
-- 在执行 combination 函数的过程中，它会通过判断前后返回的数据是否相同来决定返回之前的 state 还是新的 state；
-- 新的 state 会触发订阅者（subscribe）发生对应的刷新，而旧的 state 可以有效的阻止订阅者发生刷新；
+那么 `combineReducers` 是如何实现的呢？ 
+- 事实上，它也是将我们传入的 reducers 合并到一个对象中，最终返回一个 `combination` 的函数（相当于我们之前的 reducer 函数了）；
+- 在执行 `combination` 函数的过程中，它会通过判断前后返回的数据是否相同来决定返回之前的 `state` 还是新的 `state`；
+- 新的 `state` 会触发订阅者（`subscribe`）发生对应的刷新，而旧的 `state` 可以有效的阻止订阅者发生刷新；
 
