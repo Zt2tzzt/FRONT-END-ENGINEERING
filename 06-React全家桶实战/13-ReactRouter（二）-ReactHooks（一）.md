@@ -1,10 +1,10 @@
-# React Router
+# 一、react-router
 
-## 代码实现跳转
+## 1.路由跳转（命令式）
 
 在类组件中，使用代码实现路由跳转，封装高阶组件。
 
-封装一个 Home Song Menu 页面
+创建一个 `<HomeSongMenu>` 页面
 
 08-learn-reactrouter\src\pages\HomeSongMenu.jsx
 
@@ -24,7 +24,7 @@ export class HomeSongMenu extends PureComponent {
 export default HomeSongMenu
 ```
 
-在 App 中注册路由
+在 App 中注册路由 `<HomeSongMenu>` 页面的路由。
 
 08-learn-reactrouter\src\App.jsx
 
@@ -46,6 +46,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function withRouter(WrapperComponent) {
+  
 	return function (props) {
 		const navigate = useNavigate()
 		const router = { navigate }
@@ -57,7 +58,7 @@ function withRouter(WrapperComponent) {
 export default withRouter
 ```
 
-在 Home 中，跳转到 Home Song menu
+在 `<Home>` 中，跳转到 `<HomeSongmenu>`
 
 08-learn-reactrouter\src\pages\Home.jsx
 
@@ -92,7 +93,7 @@ export class Home extends PureComponent {
 export default withRouter(Home)
 ```
 
-## useNavigate Hook 使用总结
+## 2.useNavigate Hook
 
 `useNavigate` 返回的函数 `navigate`，可传入那些参数？
 
@@ -106,13 +107,13 @@ navigate('/home', {replacement: false, state: ''})
 navigate(-1)
 ```
 
-## 路由跳转传递参数
+## 3.路由跳转传递参数
 
 传递参数有两种方式。
 
-### 方式一：动态路由
+### 1.动态路由
 
-首先在 App 中注册一个动态路由。
+首先在 `<App>` 中注册一个动态路由，映射到 `<Detail>` 页面中。
 
 08-learn-reactrouter\src\App.jsx
 
@@ -145,7 +146,7 @@ function withRouter(WrapperComponent) {
 export default withRouter
 ```
 
-在 Home Song Menu 中进行跳转
+在 `<HomeSongMenu>` 中进行跳转。
 
 08-learn-reactrouter\src\pages\HomeSongMenu.jsx
 
@@ -212,9 +213,9 @@ export class Detail extends PureComponent {
 export default withRouter(Detail)
 ```
 
-### 方式二：查询字符串（search）
+### 2.查询字符串
 
-在 App 中注册路由，为了方便，这里直接在 Link 的 to 属性上拼接查询字符串。
+在 `<App>` 中注册路由，为了方便，这里直接在 `<Link>` 的 `to` 属性上拼接查询字符串。
 
 08-learn-reactrouter\src\App.jsx
 
@@ -242,7 +243,7 @@ export default withRouter(Detail)
 // ...
 ```
 
-增强 withRouter 的功能。使用 `useLoacation` 或 `useSearchParams` Hook 获取查询字符串。
+增强 `withRouter` 的功能。使用 `useLoacation` 或 `useSearchParams` Hook 获取查询字符串。
 
 08-learn-reactrouter\src\hoc\withRouter.jsx
 
@@ -276,7 +277,7 @@ function withRouter(WrapperComponent) {
 export default withRouter
 ```
 
-跳转到 User 中，接收传递的参数。
+跳转到 `<User>` 中，接收传递的参数。
 
 08-learn-reactrouter\src\pages\User.jsx
 
@@ -300,15 +301,15 @@ export class User extends PureComponent {
 export default withRouter(User)
 ```
 
-## 路由的配置文件
+## 4.路由的配置文件
 
 
-目前我们所有的路由定义都是直接使用 `Route` 组件，并且添加属性来完成的。
+上述所有的路由定义，都是直接使用 `<Route>` 组件，并且添加属性来完成的。
 
-但是这样的方式会让路由变得非常混乱，我们希望将所有的路由配置放到一个地方进行集中管理，如一个单独的配置文件中：
+这样的方式，会让路由变得非常混乱，我们希望将所有的路由配置放到一个地方进行集中管理，如一个单独的配置文件中：
 
-- 在 Router 5.x 及以前的版本，需要借助于 `react-router-config` 库来完成；
-- 在 Router 6.x 中，已为我们提供 `useRoutes` Hook 来完成相关的配置；
+- 在 *React Router 5.x* 及以前的版本，需要借助于 *react-router-config* 库来完成；
+- 在 *React Router 6.x* 中，已为我们提供 `useRoutes` Hook 来完成相关的配置；
 
 08-learn-reactrouter\src\App.jsx
 
@@ -423,7 +424,7 @@ const routes = [
 export default routes
 ```
 
-### 异步加载组件
+### 1.异步组件加载
 
 在路由的配置文件中，配置组件的懒加载
 
@@ -451,7 +452,7 @@ const routes = [
 export default routes
 ```
 
-使用异步加载，别忘了在顶层使用 `Suspense` 组件包裹。
+使用异步加载，别忘了在顶层使用 `<Suspense>` 组件包裹。
 
 08-learn-reactrouter\src\index.js
 
@@ -473,9 +474,9 @@ root.render(
 );
 ```
 
-# React Hooks
+# 二、React Hooks
 
-## 函数式组件的缺陷
+## 1.函数式组件的缺陷
 
 函数式组件存在的最大缺陷，结合案例分析.
 
@@ -506,49 +507,52 @@ function App() {
 export default App
 ```
 
-## 类组件相对于函数式组件的优势
+## 2.类组件相的优势
 
-class 组件可以定义自己的 state，用来保存组件自己内部的状态；
+类组件相对于函数式组件有哪些优势？
+
+可以定义自己的 `state`，用来保存组件自己内部的状态；
 
 - 函数式组件不可以，因为函数每次调用都会产生新的临时变量；
 
-class 组件有自己的生命周期，我们可以在对应的生命周期中完成自己的逻辑；比如在 `componentDidMount` 中发送网络请求，并且该生命周期函数只会执行一次；
-- 如果在函数中发送网络请求，意味着每次重新渲染都会重新发送一次网络请求；
+有自己的生命周期，可以在对应的生命周期中完成特定的逻辑；如在 `componentDidMount` 中发送网络请求，并且该生命周期函数只会执行一次；
+- 函数式组件没有生命周期，如果在函数式组件中发送网络请求，意味着每次组件重新渲染都会重新发送一次网络请求；
 
-class 组件可以在状态改变时重新执行 `render` 函数以及生命周期函数 `componentDidUpdate` 等；
+可以在状态改变时重新执行 `render` 函数以及生命周期函数 `componentDidUpdate` 等；
 
 - 函数式组件在重新渲染时，整个函数都会被执行，似乎没有什么地方可以只让它们调用一次；
 
-## 类组件的缺陷
+## 3.类组件的缺陷
 
 
 复杂组件变得难以理解：
-- 随着业务的增多，我们的 class 组件会变得越来越复杂；比如 `componentDidMount` 中，可能就会包含大量的逻辑代码：像是网络请求、一些事件的监听（还需要在 `componentWillUnmount` 中移除）；
-- 而对于这样的 class 实际上非常难以拆分：因为它们的逻辑往往混在一起，强行拆分反而会造成过度设计，增加代码的复杂度；
+- 随着业务的增多，类组件会变得越来越复杂；
+  - 比如 `componentDidMount` 中，可能就会包含大量的逻辑代码：像是网络请求、一些事件的监听（还需要在 `componentWillUnmount` 中移除）；
+- 对于这样的类组件，实际上非常难以拆分：因为它们的逻辑往往混在一起，强行拆分反而会造成过度设计，增加代码的复杂度；
 
-组件复用状态很难，在前面为了一些状态的复用我们需要通过高阶组件；
-- 比如 react-redux 中 `connect` 或者 react-router 中的 `withRouter`，这些高阶组件设计的目的就是为了状态的复用；
-- 又比如 Context 中的 `Provider`、`Consumer` 来共享一些状态，而且多次使用 Consumer 时，我们的代码就会存在很多嵌套；
+组件复用状态很麻烦，需要通过高阶组件完成；
+- 比如 *react-redux* 中 `connect` 或者 *react-router* 中的 `withRouter`，这些高阶组件设计的目的就是为了状态的复用；
+- 比如 Context 中的 `<Provider>`、`<Consumer>` 来共享一些状态，而且多次使用 `<Consumer>` 时，代码会存在很多嵌套；
 - 这些代码让我们不管是编写和设计上来说，都变得非常困难；
 
-难以理解的 class：
+难以理解：
 - 很多人发现学习 ES6 的 class 是学习 React 的一个障碍。
-- 比如在 class 中，我们必须搞清楚 this 的指向到底是谁，所以需要花很多的精力去学习 this；
-- 虽然我认为前端开发人员必须掌握 this，但是依然处理起来非常麻烦；
+- 比如在 class 中，我们必须搞清楚 `this` 的指向到底是什么，对于初学者难以理解。
 
 
-## Hooks 的出现
+## 6.Hooks 是什么？
 
-Hook 是 **React 16.8** 的新增特性，它可以让我们在不编写 class 的情况下使用类组件的特性。可以延伸出非常多的用法。
+Hook 是 **React 16.8** 的新增特性，它可以让我们在函数组件中，使用类组件的特性。可以延伸出非常多的用法。
 
 Hook 的使用场景：
-- Hook 的出现基本可以代替我们之前所有使用 class 组件的地方；
-- Hook 只能在函数组件中使用，不能在类组件，以及函数组件之外的地方使用；除非是自定义 Hook 函数，即以“use”开头的函数。
-- 如果是一个旧的项目，你并不需要直接将所有的代码重构为 Hooks，因为它完全向下兼容，你可以渐进式的来使用它；
+- Hook 的出现基本可以代替我们之前所有使用类组件的地方；
+- Hook 只能在函数组件中使用，不能在类组件，以及函数组件之外的地方使用；
+  - 除非是自定义 Hook 函数，即以“`use`”开头的函数。
+- 如果是一个旧的项目，你并不需要直接将所有的代码重构为 Hooks，因为它完全向下兼容，可以渐进式的来使用它；
 
-## 计数器案例
+## 7.计数器案例
 
-使用计数器案例对比函数式组件结合 Hooks 和类组件的实现方式：
+通过计数器案例，对比函数式组件结合 Hooks，和类组件的实现方式：
 
 09-learn-reacthooks\src\02-计数器案例对比\App.jsx
 
@@ -569,6 +573,8 @@ const App = memo(() => {
 
 export default App
 ```
+
+### 1.类组件实现
 
 使用类组件实现计数器。
 
@@ -612,7 +618,9 @@ export class CounterClass extends PureComponent {
 export default CounterClass
 ```
 
-使用函数式组件结合 Hooks
+### 2.函数式组件实现
+
+使用函数式组件结合 Hooks，实现计数器。
 
 09-learn-reacthooks\src\02-计数器案例对比\CounterHook.jsx
 
@@ -634,28 +642,29 @@ const CounterHook = memo(() => {
 export default CounterHook
 ```
 
-## useState 的使用
+## 8.useState Hook
 
-`useState` 来自 react，需要从 react 中导入；
+`useState` Hook，需要从 `react` 中导入；
 
-它是一个 hook；帮助我们定义一个 state 变量，它与 class 里面的 `this.state` 提供的功能完全相同。
+- 它帮助我们定义一个 `state` 状态，与类组件中的 `this.state` 提供的功能完全相同。
+- 一般来说，在函数退出后变量就会”消失”，而 `state` 中的变量会被 React 保留。
 
-一般来说，在函数退出后变量就会”消失”，而 state 中的变量会被 React 保留。
+参数：接受唯一一个参数，表示初始化值，如果不设置，默认为 `undefined`；
 
-- 参数：接受唯一一个参数，表示初始化值，如果不设置，默认为 undefined；
-- 返回值：数组，包含两个元素；可以通过数组的解构进行使用，非常方便。
-	- 元素一：当前状态的值（第一此调用为初始化值）；
-	- 元素二：设置状态值的函数；
+返回值：数组，包含两个元素；可以通过数组的解构进行使用，非常方便。
+- 元素一：当前状态的值（第一此调用为初始化值）；
+- 元素二：设置状态值的函数；
 
-在上述案例中，点击 button 按钮后，会做两件事情：
+在上述案例中，点击 `<button>` 按钮后，会做两件事情：
 1. 调用 `setCount`，设置一个新的值；
 2. 组件重新渲染，并且根据新的值返回 DOM 结构；
 
-Hook 就是 JavaScript 函数，这个函数可以帮助你钩入（hook into）React State 以及生命周期等特性；
+React Hook 就是 JavaScript 函数，这个函数可以钩入（hook into）React State 以及生命周期等特性；
 
-使用 React Hooks 两个规则：
-- 只能在函数最外层调用 Hook。不要在循环、条件判断或者子函数中调用。
-- 只能在 React 的函数式组件中调用 Hook。不要在其他普通 JavaScript 函数中调用，除非是在自定义 Hook 函数中调用，即以“use”开头的函数。
+React Hooks 使用两个规则：
+- 只能在函数式组件中使用。不要在其他普通 JavaScript 函数中调用，
+  - 除非是在自定义 Hook 函数中调用，即以“`use`”开头的函数。
+- 只能在函数组件的**最外层**调用 Hook。不要在循环、条件判断或者子函数中调用。
 
 ```jsx
 import { memo, useState } from "react";
@@ -684,10 +693,10 @@ function CounterHook(props) {
 export default memo(CounterHook)
 ```
 
-> FAQ：为什么叫 useState 而不叫 createState? 
+> FAQ：为什么叫 `useState` 而不叫 `createState`? 
 > 1. “create” 可能不是很准确，因为 state 只在组件首次渲染的时候被创建。
-> 2. 在下一次重新渲染时，useState 返回给我们当前的 state。
+> 2. 在下一次重新渲染时，`useState` 返回给我们当前的 `state`。
 > 3. 如果每次都创建新的变量，它就不是 “state”了。
-> 4. 这也是 Hook 的名字总是以 use 开头的一个原因。
+> 4. 这也是 Hook 的名字总是以 `use` 开头的一个原因。
 
 
