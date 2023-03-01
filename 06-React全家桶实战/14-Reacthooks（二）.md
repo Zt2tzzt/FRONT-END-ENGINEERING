@@ -1,6 +1,6 @@
-# useEffect Hook
+# 一、useEffect Hook
 
-## 认识 Effect Hook。
+## 1.是什么？
 
 在编程中，Effect 通常表示副作用。
 
@@ -8,9 +8,11 @@
 
 所以对于完成这些功能的 Hook 被称之为 Effect Hook；
 
-## counter 改变更新 title 案例
+## 2.类组件和 Hook 对比
 
-需求：页面的 title 总是显示 counter 的数字，
+现有案例，需求如下：
+
+需求：页面的 title 总是显示 `counter` 的数字，
 
 使用 class 组件实现：
 
@@ -80,20 +82,22 @@ const App = memo(() => {
 export default App
 ```
 
-## useEffect 的副作用执行时机
+## 3.副作用执行时机
 
-- 通过 `useEffect` 的 Hook，可以告诉 React 需要在渲染后执行某些操作；
-- `useEffect` 要求我们传入一个回调函数，在 React 执行完更新 DOM 操作之后，就会回调这个函数；
-- 默认情况下，无论是**第一次渲染**之后，还是**每次更新**之后，都会执行这个回调函数；
+通过 `useEffect` 的 Hook，可以告诉 React 需要在渲染后执行某些操作；
 
-## 清除 Effect 的使用。
+`useEffect` 要求我们传入一个回调函数，在 React 执行完更新 DOM 操作之后，就会回调这个函数；
 
-在 class 组件的编写过程中，某些副作用的代码，我们需要在 `componentWillUnmount` 中进行清除：
+默认情况下，无论是**第一次渲染**之后，还是**每次更新**之后，都会执行这个回调函数；
+
+## 4.清除副作用执行时机
+
+在类组件的编写过程中，某些副作用的代码，我们需要在 `componentWillUnmount` 中进行清除：
 - 比如我们之前的事件总线、Redux 中手动调用 subscribe；都需要在 componentWillUnmount 进行卸载、取消订阅；
 
 Effect Hook 通过什么方式来模拟 `componentWillUnmount` 呢？
 - `useEffect` 传入的回调函数本身可以有一个返回值，这个返回值是另外一个回调函数：
-- `type EffectCallback = () => (void | (() => void | undefined));`
+  - `type EffectCallback = () => (void | (() => void | undefined));`
 - 这样做可以将添加和移除订阅的逻辑放在一起；它们都属于 effect 的一部分；
 
 清除 Effect 的执行时机：
@@ -129,12 +133,12 @@ const App = memo(() => {
 export default App
 ```
 
-## 使用多个 useEffect
+## 5.多个副作用使用
 
-使用 Hook 的其中一个目的就是解决 class 中生命周期经常将很多的逻辑放在一起的问题：
+使用 Hook 的其中一个目的，就是解决类组件中，生命周期经常将很多的逻辑放在一起的问题：
 - 比如网络请求、事件监听、DOM 操作，这些往往都会放在 `componentDidMount` 中；
 
-使用 Effect Hook，我们可以将它们分离到不同的 useEffect 中：
+使用 Effect Hook，我们可以将它们分离到不同的 `useEffect` 中：
 -  React 将按照 effect 声明的顺序依次调用组件中的每一个 effect；
 
 09-learn-reacthooks\src\04-useEffect的使用\App.jsx
@@ -176,15 +180,18 @@ const App = memo(() => {
 export default App
 ```
 
-## Effect 的性能优化
+## 6.性能优化
 
-默认情况下，`useEffect` 的回调函数会在每次渲染（更新）时都重新执行，但是这会导致两个问题：
-- 问题一：某些代码我们只是希望执行一次即可，类似于 `componentDidMount` 和 `componentWillUnmount` 中完成的事情；（比如网络请求、订阅和取消订阅）；
+默认情况下，`useEffect` 的回调函数会在每次渲染/更新时重新执行，但是这会导致两个问题：
+- 问题一：某些代码执行一次即可，类似于 `componentDidMount` 和 `componentWillUnmount` 中的操作；（比如网络请求、订阅和取消订阅）；
 - 问题二：多次执行也会导致一定的性能消耗；
 
-我们如何决定 `useEffect` 在什么时候应该执行和什么时候不应该执行呢？useEffect 实际上可以传入两个参数：
+我们如何决定 `useEffect` 在什么时候应该执行和什么时候不应该执行呢？
+
+`useEffect` 实际上可以传入两个参数：
+
 - 参数一：执行的回调函数；
-- 参数二：一个数组，数组中存放了 useEffect 中的回调函数重新执行所依赖的 state。
+- 参数二：一个数组，数组中存放了 `useEffect` 中的回调函数重新执行所依赖的 state。
 
 09-learn-reacthooks\src\04-useEffect的使用\App.jsx
 
@@ -242,15 +249,15 @@ export default App
 ```
 > `useEffect` 用来执行副作用，可以模拟生命周期，但比生命周期更强大。
 
-# useContext Hook
+# 二、useContext Hook
 
 在之前的开发中，我们要在组件中使用共享的 Context 有两种方式：
-- 类组件可以通过类名. `contextType = MyContext` 方式，在类中获取 context；
-- 多个 Context 或者在函数式组件中需要通过 `<MyContext.Consumer>` 方式共享 context；
+- 类组件可以通过  `[类名].contextType = MyContext` 方式，在类中获取 `context`；
+- 类组件中需要使用多个 Context，或者在函数式组件中使用 Content，都需要通过 `<MyContext.Consumer>` 方式共享 `context`；
 
 多个 Context 共享时的方式会存在大量的嵌套：
 
-Context Hook 允许我们通过 Hook 来直接获取某个 Context 的值；
+Context Hook 可以解决这个问题，它通过 Hook 来直接获取某个 Context 的值；
 
 09-learn-reacthooks\src\05-useContext的使用\content\index.js
 
@@ -307,11 +314,11 @@ const App = memo(() => {
 export default App
 ```
 
-# useReducer Hook（了解，用的很少）
+# 三、useReducer Hook（用的少）
 
-很多人看到 `useReducer` 的第一反应应该是 redux 的某个替代品，其实不然。 `useReducer` 仅仅是 `useState` 的一种替代方案：
+`useReducer` 并非是 redux 的某个替代品，仅仅是 `useState` 的一种替代方案：
 
-- 在某些场景下，如果 state 的处理逻辑比较复杂，我们可以通过 useReducer 来对其进行拆分；
+- 在某些场景下，如果 state 的处理逻辑比较复杂，我们可以通过 `useReducer` 来对其进行拆分；
 - 或者这次修改的 state 需要依赖之前的 state 时，也可以使用；
 
 现在有一个计数器案例：
@@ -387,7 +394,7 @@ export default App
 ```
 
 
-# useCallback Hook
+# 四、useCallback Hook
 
 思考下面的这个案例，应该如何优化？
 
@@ -419,14 +426,17 @@ const App = memo(() => {
 export default App
 ```
 
-useCallback 实际的目的是为了进行性能的优化（到底是优化哪一方面的性能？见下文分析）。
+## 1.是什么？
 
-如何进行性能的优化呢？
+`useCallback` 实际的目的是为了进行性能的优化（到底是优化哪一方面的性能？见下文分析）。
 
-- useCallback 会返回一个函数的 memoized（记忆） 值；
-- 在依赖的状态（传入的第二个参数（数组）中的元素）不变的情况下，多次定义的时候，返回的值是相同的；
+`useCallback` 会返回一个函数的 memoized（记忆） 值；
 
-如果我们想要在函数的定义层面做优化，让函数只定义一次，很难做到。尝试使用 useCallback 解决。
+在依赖的状态（传入的第二个参数（数组）中的元素）不变的情况下，多次定义的时候，返回的值是相同的；
+
+## 2.使用场景分析
+
+如果想要在函数的定义层面做优化，让函数只定义一次，很难做到。尝试使用 `useCallback` 解决。
 
 ```jsx
 import React, { memo, useState, useCallback } from 'react'
@@ -455,7 +465,9 @@ const App = memo(() => {
 export default App
 ```
 
-什么是 useCallback 形成的“闭包陷阱”
+## 3.闭包陷阱
+
+什么是 `useCallback` 形成的“闭包陷阱”
 
 ```jsx
 import React, { memo, useState, useCallback } from 'react'
@@ -491,10 +503,10 @@ const App = memo(() => {
 export default App
 ```
 
-## useCallback 的真正用途
+## 4.正确用法
 
 经过以上案例的探索，得出结论，`useCallback` 的真正用途：
-- 是当需要给子组件传递函数时，对该函数使用 useCallback；将返回的 memorized 传递给子组件，
+- 是当需要给子组件传递函数时，对该函数使用 `useCallback`；将返回的 memorized 传递给子组件，
 - 避免与子组件无关联的状态改变后，子组件发生重新渲染的情况，以节省性能开支。
 
 ```jsx
@@ -503,6 +515,7 @@ import React, { memo, useState, useCallback } from 'react'
 const ZtButton = memo((props) => {
 	console.log('zt button 被渲染');
 	const { increment } = props
+  
 	return (
 		<div>
 			<button onClick={increment}>ZtButton +1</button>
@@ -533,16 +546,20 @@ const App = memo(() => {
 export default App
 ```
 
-## 最终优化
+## 5.性能优化（useRef Hook）
 
 目前看来，上述案例中，
 
-- 与子组件不相关的状态 msg 改变，useCallback 返回的 memorize 不会改变。
-- 而当状态 count 改变时，memorized 就会改变。
+- 与子组件不相关的状态 `msg` 改变，`useCallback` 返回的 memorize 不会改变。
+- 而当状态 `count` 改变时，memorized 就会改变。
 
-因为案例中，ZtButton 不依赖 count 状态，那么有没有一种办法，使得 count 改变后，memorized 仍不变，而只改变 memorized 使用的匿名函数中，引用的上层作用域状态值（count），以解除“闭包陷阱”？
+因为案例中，`<ZtButton>` 不依赖 `count` 状态。
 
-- 使用 `useRef` Hook 做优化
+那么有没有一种办法，使得 `count` 改变后，memorized 仍不变，
+
+而只改变 memorized 使用的匿名函数中，引用的上层作用域状态值，即 `count`，以解除“闭包陷阱”？
+
+使用 `useRef` Hook 做优化
 
 ```jsx
 import React, { memo, useState, useCallback, useRef } from 'react'
@@ -550,6 +567,7 @@ import React, { memo, useState, useCallback, useRef } from 'react'
 const ZtButton = memo((props) => {
 	console.log('zt button 被渲染');
 	const { increment } = props
+  
 	return (
 		<div>
 			<button onClick={increment}>ZtButton +1</button>

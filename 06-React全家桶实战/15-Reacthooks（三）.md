@@ -1,11 +1,10 @@
-# useMemo Hook
+# 一、useMemo Hook
 
 `useMemo` 实际的目的也是为了进行性能优化。
 
-如何进行性能的优化呢？
+`useMemo` 返回的也是一个 memorized（记忆的）值；这个 memorized 针对的是回调函数的返回值。
 
-- useMemo 返回的也是一个 memorized（记忆的）值；这个 memorized 针对的是回调函数的返回值。
-- 在依赖不变的情况下，多次定义的时候，返回的值是相同的；
+在依赖不变的情况下，多次定义的时候，返回的值是相同的；
 
 09-learn-reacthooks\src\08-useMemo的使用\App.jsx
 
@@ -63,16 +62,16 @@ const App = memo(() => {
 export default App
 ```
 
-# useRef Hook
+# 二、useRef Hook
 
-useRef 返回一个 ref 对象，该对象在组件的整个生命周期保持不变。
+`useRef` 返回一个 ref 对象，该对象在组件的整个生命周期保持不变。
 
 最常用的 ref 是两种用法：
 
-- 用法一：引用 DOM（或者组件，但是需要是 class 组件）元素（类组件中使用 `createRef` API 来完成）；
-- 用法二：保存一个数据，这个对象在整个生命周期中可以保存不变；
+- 用法一：引用 DOM（或者类组件）元素（类组件中使用 `createRef` API 来完成）；
+- 用法二：保存一个数据；
 
-## 案例一：引用 DOM
+## 1.引用 DOM
 
 09-learn-reacthooks\src\09-useRef的使用\App.jsx
 
@@ -100,9 +99,9 @@ const App = memo(() => {
 export default App
 ```
 
-## 案例二：使用 ref 保存值，
+## 2.保存数据
 
-回顾 useCallback 优化案例，解除闭包陷阱。
+[回顾 useCallback 优化案例](./14-Reacthooks（二）.md/#5性能优化（useRef Hook）)，解除闭包陷阱。
 
 09-learn-reacthooks\src\09-useRef的使用\App.jsx
 
@@ -138,20 +137,21 @@ const App = memo(() => {
 export default App
 ```
 
-# useImperativeHandle Hook（了解）
+# 三、useImperativeHandle Hook
 
 `useImperativeHandle` 有什么用？我们先来回顾一下 `ref` 和 `forwardRef` 结合使用：
 
-- 通过 forwardRef 可以将 ref 转发到函数式子组件；
-- 子组件拿到父组件中创建的 ref，绑定到自己的某一个元素中；
+- 通过 `forwardRef` 可以将 `ref` 转发到函数式子组件；
+- 子组件拿到父组件中创建的 `ref`，绑定到自己的某一个元素中；
 
-`forwardRef` 的做法本身没有什么问题，但是我们是将子组件的 DOM 直接暴露给了父组件：
-- 直接暴露给父组件带来的问题是权限的不可控；
-- 父组件可以拿到 DOM 后进行任意的操作；
-- 如果我们希望在父组件中，拿到子组件中的 input 元素，只对它进行 focus 操作，除此之外不希望父组件有其它的操作权限呢？
+`forwardRef` 的做法本身没有什么问题，但是将子组件的 DOM 直接暴露给了父组件，可能存在以下问题：
+
+- 权限的不可控；父组件可以拿到 DOM 后进行任意的操作；
+
+如果希望在父组件中，拿到子组件中的 `<input>` 元素，只对它进行 `focus` 操作，除此之外不希望父组件有其它的操作权限呢？
 
 通过 `useImperativeHandle` 可以只暴露固定的操作：
-- 通过 `useImperativeHandle` 的 Hook，将传入的 ref 和 useImperativeHandle 第二个参数返回的对象绑定到了一起；
+- 通过 `useImperativeHandle`，将传入的 `ref` 和 `useImperativeHandle` 第二个参数返回的对象绑定到了一起；
 - 所以在父组件中，使用 `inputRef.current` 时，实际上使用的是上述返回的对象；
 - 比如下方案例，在父组件中只能进行 `focus` 操作和 `setValue` 操作；
 
@@ -205,12 +205,13 @@ export default App
 
 开发中很少用，常使用于第三方库中用于限制用户的操作权限。
 
-# useLayoutEffect Hook
+# 四、useLayoutEffect Hook
 
 `useLayoutEffect` 看起来和 `useEffect` 非常的相似，事实上他们也只有一点区别而已： 
 
-- useEffect 会在渲染的内容更新到 DOM 上后执行，不会阻塞 DOM 的更新；
-- useLayoutEffect 会在渲染的内容更新到 DOM 上之前执行，会阻塞 DOM 的更新；
+`useEffect` 会在渲染的内容更新到 DOM 上后执行，不会阻塞 DOM 的更新；
+
+`useLayoutEffect` 会在渲染的内容更新到 DOM 上之前执行，会阻塞 DOM 的更新；
 
 <img src="NodeAssets/useEffect和useLayoutEffect的对比.jpg" alt="useEffect和useLayoutEffect的对比" style="zoom:150%;" />
 
@@ -286,13 +287,13 @@ const App = memo(() => {
 export default App
 ```
 
-# 自定义 Hook 的使用
+# 五、自定义 Hook
 
 自定义 Hook 本质上只是一种函数代码逻辑的抽取，严格意义上来说，它本身并不算 React 的特性。
 
-自定义 Hook 名命的规范：必须以“use”开头。否则在其中不能使用 React Hook。
+自定义 Hook 名命的规范：必须以“`use`”开头。否则在其中不能使用 React Hook。
 
-## 案例一：组件渲染打印日志
+## 1.组件渲染打印日志
 
 实现组件渲染，打印日志的案例。
 
@@ -338,7 +339,7 @@ const App = memo(() => {
 export default App
 ```
 
-## 案例二：封装 useContext
+## 2.封装 useContext
 
 创建 Context
 
@@ -431,7 +432,7 @@ const App = memo(() => {
 export default App
 ```
 
-## 案例三：获取滚动位置
+## 3.获取滚动位置
 
 封装 Hook
 
@@ -495,7 +496,7 @@ const App = memo(() => {
 export default App
 ```
 
-## 案例四 LocalStorage 数据存储
+## 4.LocalStorage 数据存储
 
 封装 Hook
 
