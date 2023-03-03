@@ -1,13 +1,16 @@
-# Redux Hook
+# 一、Redux Hook
 
-## 回顾 react-redux 的普通用法
+## 1.react-redux 普通用法（回顾）
 
-在之前的 redux 开发中，为了让 react 和 redux 结合起来，我们使用了 react-redux 中的 `connect`：
-- 但是这种方式本质上在使用高阶函数返回的高阶组件；
-- 并且必须编写：mapStateToProps 和 mapDispatchToProps 映射的函数；
+在之前的 redux 开发中，为了让 react 和 redux 结合起来，我们使用了 *react-redux* 中的 `connect`：
 
+这种方式本质上在使用高阶函数返回的高阶组件；
 
-创建 actions 和 reducer
+并且必须编写：`mapStateToProps` 和 `mapDispatchToProps` 映射的函数；
+
+使用步骤如下：
+
+1.创建 slice（其中包含 actions 和 reducer）
 
 09-learn-reacthooks\src\13-redux中的hooks\store\features\counter.js
 
@@ -38,7 +41,7 @@ export const { addNumberAction, subNumberAction, changeMsgAction } = counterSlic
 export default counterSlice.reducer
 ```
 
-创建 store
+2.创建 store
 
 09-learn-reacthooks\src\13-redux中的hooks\store\index.js
 
@@ -55,7 +58,9 @@ const store = configureStore({
 export default store
 ```
 
-提供 store
+3.提供 store
+
+09-learn-reacthooks\src\index.js
 
 ```jsx
 import React from 'react'
@@ -74,7 +79,7 @@ root.render(
 )
 ```
 
-使用 store
+4.使用 store
 
 09-learn-reacthooks\src\13-redux中的hooks\App.jsx
 
@@ -118,9 +123,9 @@ const mapDispatchToProps = dispatch => ({
 export default connect(mapStateToProps, mapDispatchToProps)(App)
 ```
 
-## react-redux 的 Hook 的使用
+## 2.react-redux Hook 使用
 
-在 Redux7.1 开始，提供了 Hook 的方式，我们再也不需要编写 connect 以及对应的映射函数了。
+在 Redux7.1 开始，提供了 Hook 的方式，再也不需要编写 `connect` 以及对应的映射函数了。
 
 其中包括了 `useSelector`、`useDispatch` 和 `useStore` 3个 Hook。
 
@@ -131,7 +136,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 `useDispatch` 非常简单，就是直接获取 dispatch 函数，之后在组件中直接使用即可；
 
-我们还可以通过 `useStore` 来获取当前的 store 对象（很少用，不推荐这么做）；
+`useStore` 用来获取当前的 `store` 对象（很少用，不推荐这么做）；
 
 09-learn-reacthooks\src\13-redux中的hooks\App-hooks.jsx
 
@@ -169,16 +174,16 @@ const App = memo((props) => {
 export default App
 ```
 
-### useSelector 性能优化
+## 3.性能优化
 
 `useSelector` 默认会比较我们返回的两个对象是否相等；
 
 - 如何比较呢？ `const refEquality = (a, b) => a === b`；
-- 也就是我们必须返回两个完全相等的对象才可以不引起重新渲染；
+- 也就是必须返回两个完全相等的对象，才可以不引起组件的重新渲染；
 
-我们需要让 useSelector 返回的值进行浅层比较，这么做，与组件无关的状态被改变，就不会引起组件的重新渲染；
+让 `useSelector` 返回的值进行浅层比较，这么做，与组件无关的状态被改变，就不会引起组件的重新渲染；
 
-在 useSelector 传入第二个参数，进行性能优化。
+在 `useSelector` 传入第二个参数，进行性能优化。
 
 09-learn-reacthooks\src\13-redux中的hooks\App.jsx
 
@@ -201,7 +206,7 @@ const Home = memo(props => {
 
   /**
    * Home 组件与 msg 状态关联，与 count 状态无关
-   * useSelector 中如果不传入 shallowEqual， 当 store 中的 count 改变时，会打印。意味着与组件不相关的状态改变，组件也重新渲染了。
+   * useSelector 中如果不传入 shallowEqual， 当 store 中的 count 改变时，会打印。意味着与组件不相关的状态改变，函数组件被重新执行了。
    */
 	console.log('Home render')
 
@@ -229,7 +234,7 @@ const App = memo((props) => {
 
   /**
    * App 组件与 count 状态关联，与 msg 状态无关
-   * useSelector 中如果不传入 shallowEqual， 当 store 中的 msg 改变时，会打印。意味着与组件不相关的状态改变，组件也重新渲染了。
+   * useSelector 中如果不传入 shallowEqual， 当 store 中的 msg 改变时，会打印。意味着与组件不相关的状态改变，函数组件也重新执行了。
    */
 	console.log('App render');
 
@@ -247,77 +252,84 @@ const App = memo((props) => {
 export default App
 ```
 
-# 了解服务端渲染的概念
+# 二、服务端渲染概念（了解）
 
-## 单页面富应用（SPA）的2个缺陷
+## 1.SPA 两个缺陷
 
 单页面富应用（SPA）存在的2个缺陷（反之是 SSR 的2个优势）：
 
 因为浏览器渲染页面的流程是：域名 -> dns 服务器 -> ip 地址 -> 访问服务器获取静态资源 `index.html`；
 
-然而，SPA 项目中的 index.html，通常没有实质的内容。这样造成了2个缺陷：
+然而，SPA 项目中的 `index.html`，通常没有实质的内容。这样造成了2个缺陷：
 
 - 缺陷一：首屏加载速度慢（首屏加载过程中，阻塞操作过多）。
 
-	- 加载 index.html 文件之后，还需要下载打包后的 js 文件（如 bundle.js），
+	- 加载 `index.html` 文件之后，还需要下载打包后的 js 文件（如 bundle.js），
 	- 再执行 JS 文件中的代码，发送网络请求，获取页面相关数据，
 	- 再重新渲染，
 
 - 缺陷二：不利于 SEO 优化。
 
-	- 搜索引擎的爬虫，通常只爬取一个网站的 index.html 中的内容，存入到数据库中。
-	- 而 SPA 项目的 index.html 通常没有实质内容，
+	- 搜索引擎的爬虫，通常只爬取一个网站的 `index.html` 中的内容，存入到数据库中。
+	- 而 SPA 项目的 `index.html` 通常没有实质内容，
 	- 造成搜索引擎收录的排名靠后。
 
-## 什么是 SSR
+## 2.SSR 是什么？
 
-- SSR（Server Side Rendering，服务端渲染），指的是页面在服务器端已经生成了完整的 HTML 页面结构，不需要浏览器执行 JS 代码来创建页面结构了；
-- 对应的是 CSR（Client Side Rendering，客户端渲染），我们开发的 SPA 页面通常依赖的就是客户端渲染；
+**SSR（Server Side Rendering，服务端渲染）**，指的是页面在服务器端已经生成了完整的 HTML 页面结构，不需要浏览器执行 JS 代码来创建页面结构了；
 
-## 如何实现 SSR
+对应的是 **CSR（Client Side Rendering，客户端渲染）**，我们开发的 SPA 页面通常依赖的就是客户端渲染；
 
-- 早期的服务端渲染包括 PHP、JSP、ASP 等方式，但是在目前前后端分离的开发模式下，前端开发人员不太可能再去学习 PHP、JSP 等技术来开发网页；
-- 不过我们可以借助于 Node 来帮助我们执行 JavaScript 代码，提前完成页面的渲染；
-- 目前服务于主流框架的服务端渲染框架有
-	- `Nuxt` - Vue 的服务端渲染框架。
-	- `Nest` - React 的服务端渲染框架。
+## 3.SSR 实现原理
+
+早期的服务端渲染包括 PHP、JSP、ASP 等方式，但是在目前前后端分离的开发模式下，前端开发人员不太可能再去学习 PHP、JSP 等技术来开发网页；
+
+而是借助于 Node 来执行 JavaScript 代码，提前完成页面的渲染；
+
+目前服务于主流前端框架的服务端渲染框架有
+- `Nuxt` - Vue 的服务端渲染框架。
+- `Nest` - React 的服务端渲染框架。
 
 <img src="NodeAssets/服务端渲染流程.jpg" alt="服务端渲染流程1" style="zoom:80%;" />
 
-## 什么是 SSR 同构应用？
+## 4.SSR 同构应用是什么？
 
 什么是同构？ (概念最早由 Angular 2.X 中提出）
-- 一套代码既可以在服务端运行又可以在客户端运行，这就是同构应用。
+- 一套代码既可以在服务端运行，又可以在客户端运行，这就是同构应用。
 
 同构是一种 SSR 的形态，是现代 SSR 的一种表现形式。
 - 当用户发出请求时，先在服务器通过 SSR 渲染出首页的内容。
 - 但是对应的代码同样可以在客户端被执行。
 
-在客户端也需要执行 JS 的目的是实现用户在客户端的交互，包括事件绑定等等 DOM 操作的逻辑。以及实现其他页面切换时也可以在客户端被渲染；
+在客户端也需要执行 JS 的目的是实现用户在客户端的交互，
+
+- 包括事件绑定等等 DOM 操作的逻辑；
+- 以及实现其他页面切换时也可以在客户端被渲染；
 
 <img src="NodeAssets/SSR同构应用1.jpg" alt="SSR同构应用11" style="zoom:150%;" />
 
 <img src="NodeAssets/SSR同构应用2.jpg" alt="SSR同构应用12" style="zoom:100%;" />
 
-## 什么是 Hydration？
+## 6.Hydration 什么是 ？
 
 [vite-plugin-ssr 插件的官方文档](https://vite-plugin-ssr.com/hydration#page-content)解释的很好：
 
 1. 在进行 SSR 时，我们的页面会呈现为 HTML。
-2. 但仅 HTML 不足以使页面具有交互性。
-	- 例如，没有 JavaScript 的页面，也就没有事件处理程序来响应用户操作，比如点击按钮。
-3. 除了在 Node.js 中生成 HTML 结构之外，为了使我们的页面具有交互性，我们的 UI 框架（Vue/React/...）还在浏览器中加载 JS 和呈现页面。
+2. 而 HTML 不足以使页面具有交互性。
+	- 例如，没有 JavaScript 的页面，也就没有事件处理来响应用户交互，比如点击按钮。
+3. 除了在 Node.js 中生成 HTML 结构之外，为了使页面具有交互性，UI 框架（Vue/React/...）还在浏览器中加载 JS 和呈现页面。
 	- 它创建页面的内部表示，然后将内部表示映射到我们在 Node.js 中呈现的 HTML 的 DOM 元素中。
 4. 这个过程称为 hydration。
 
-# React18 Hook
+# 三、React 18 Hook
 
-## useId Hook
+## 1.useId Hook
 
-useId 是一个用于生成横跨服务端和客户端的稳定的唯一 ID 的同时避免 hydration 不匹配的 hook。
+`useId` 用于生成横跨服务端、客户端的稳定且唯一的 ID ，同时避免 hydration 不匹配。
 
-- useId 是用于 react 的同构应用开发的，前端的 SPA 页面并不需要使用它；
-- useId 可以保证应用程序在客户端和服务器端生成唯一的 ID，这样可以有效的避免通过一些手段生成的 id 不一致，造成 hydration mismatch；
+`useId` 是用于 react 的同构应用开发的，前端的 SPA 页面并不需要使用它；
+
+`useId` 可以保证应用程序在客户端和服务器端生成唯一的 ID，这样可以有效的避免通过某些手段生成的 id 不一致，造成 hydration mismatch；
 
 09-learn-reacthooks\src\14-useId的使用\App.jsx
 
@@ -343,9 +355,9 @@ const App = memo(() => {
 export default App
 ```
 
-## useTransition 的使用。
+## 2.useTransition Hook
 
-官方解释：返回一个状态值，表示过渡任务的等待状态，以及一个启动该过渡任务的函数。
+官方解释：`useTransition` 返回一个状态值，表示过渡任务的等待状态，以及一个启动该过渡任务的函数。
 
 直白的说，`useTransition` 其实在告诉 react 对于某部分任务的更新优先级较低，可以稍后进行更新。
 
@@ -393,11 +405,11 @@ const App = memo(() => {
 export default App
 ```
 
-## useDeferredValue 的使用。
+## 3.useDeferredValue Hook
 
 官方解释：`useDeferredValue` 接收一个值，并返回该值的新副本，该副本将推迟到更紧急地更新之后。
 
-在明白了 `useTransition` 之后，我们就会发现 useDeferredValue 的作用是一样的效果，可以让我们的更新延迟。
+在明白了 `useTransition` 之后，就会发现 `useDeferredValue` 的作用是一样的效果，可以让更新延迟。
 
 09-learn-reacthooks\src\15-useTransition和useDeferredValue\02-useDeferredValue的使用.jsx
 
