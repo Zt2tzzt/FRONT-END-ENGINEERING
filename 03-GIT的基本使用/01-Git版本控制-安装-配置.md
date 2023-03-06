@@ -119,6 +119,8 @@ git 的配置分类，
 ```shell
 git config --global user.name "[username]" #名称
 git config --global user.email "[emailaddress]" #邮箱
+
+git config --global core.autocrlf true # windows 环境下推荐配置，git 提交时，换行符转为 lf
 ```
 
 查找不同级别的配置文件，确认已配置的信息。
