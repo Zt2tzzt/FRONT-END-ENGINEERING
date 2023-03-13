@@ -142,6 +142,14 @@ git config --global alias.ci commit
 git config --global alias.st status
 ```
 
+比如，在 Windows 电脑上，推荐如下设置。
+
+表示推送到 git 服务器上的代码自动将换行符 CRLF 转为 LF，拉取下来的代码自动将换行符 LF 转为 CRLF。
+
+```shell
+git config --global core.autocrlf true
+```
+
 # 初始化 Git 仓库
 
 我们需要 Git 来管理源代码，那么我们本地也需要有一个 Git 仓库。git 获取仓库的2种方式。
