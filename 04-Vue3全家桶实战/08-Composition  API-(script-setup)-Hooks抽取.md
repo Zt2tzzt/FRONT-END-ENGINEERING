@@ -4,7 +4,7 @@
 
 - 为 **Object / Array 等引用类型**数据提供响应式的特性。
 
-reactive API 响应式原理介绍，3点：
+reactive API 响应式原理介绍，3 点：
 
 1. 使用 `reactive` 函数处理后的数据，数据再次使用时会进行依赖收集。
 2. 当数据改变时，所有收集的依赖，进行对应的响应式操作（比如更新界面）。
@@ -14,24 +14,24 @@ reactive API 的基本使用：
 
 ```vue
 <script>
-  import { reactive } from 'vue'
-  
-  export default {
-    setup() {
-      // 定义响应式数据
-      const account = reactive({
-        username: "zzt",
-        password: "123456"
-      })
-      function changeAccount() {
-        account.username = "kobe"
-      }
-      return {
-        account,
-        changeAccount
-      }
+import { reactive } from 'vue'
+
+export default {
+  setup() {
+    // 定义响应式数据
+    const account = reactive({
+      username: 'zzt',
+      password: '123456'
+    })
+    function changeAccount() {
+      account.username = 'kobe'
+    }
+    return {
+      account,
+      changeAccount
     }
   }
+}
 </script>
 <template>
   <div>
@@ -40,8 +40,7 @@ reactive API 的基本使用：
     <button @click="changeAccount">修改账号</button>
   </div>
 </template>
-<style scoped>
-</style>
+<style scoped></style>
 ```
 
 # ref API
@@ -69,24 +68,24 @@ ref API 的基本使用：
 
 ```vue
 <script>
-  import { reactive, ref } from 'vue'
-  
-  export default {
-    setup() {
-      // ref 函数: 定义简单类型的数据(也可以定义复杂类型的数据)，为 counter 定义响应式数据
-      const counter = ref(0)
-      function increment() {
-        counter.value++
-      }
-      // 将 ref 对象，放入到对象中，在 template 中使用时，最初是浅层解包，现已可以做到不完全的深层解包（见 template）。
-      const info = { counter }
-      return {
-        counter,
-        increment,
-        info
-      }
+import { reactive, ref } from 'vue'
+
+export default {
+  setup() {
+    // ref 函数: 定义简单类型的数据(也可以定义复杂类型的数据)，为 counter 定义响应式数据
+    const counter = ref(0)
+    function increment() {
+      counter.value++
+    }
+    // 将 ref 对象，放入到对象中，在 template 中使用时，最初是浅层解包，现已可以做到不完全的深层解包（见 template）。
+    const info = { counter }
+    return {
+      counter,
+      increment,
+      info
     }
   }
+}
 </script>
 <template>
   <div>
@@ -95,17 +94,19 @@ ref API 的基本使用：
     <button @click="increment">+1</button>
     <button @click="counter++">+1</button>
     <!-- 不完全的深层解包 -->
-    <h2>当前计数: {{ info.counter }}</h2><!-- 使用的时候不需要写.value -->
-    <button @click="info.counter.value++">+1</button><!-- 修改的时候需要写.value（很少这么用） -->
+    <h2>当前计数: {{ info.counter }}</h2>
+    <!-- 使用的时候不需要写.value -->
+    <button @click="info.counter.value++">+1</button
+    ><!-- 修改的时候需要写.value（很少这么用） -->
   </div>
 </template>
-<style scoped>
-</style>
+<style scoped></style>
 ```
 
 # reactive, ref 如何选择
 
 满足以下两个条件，推荐用 reactive：
+
 - 本地产生的数据，比如本地定义的用户名，密码。
 - 多个数据之间是有联系的，聚合的数据。
 
@@ -139,7 +140,7 @@ readonly API 结合普通对象和响应式对象的使用：
 <script>
   import { reactive, readonly } from 'vue'
   import ShowInfo from './ShowInfo.vue'
-  
+
   export default {
     components: {
       ShowInfo
@@ -174,22 +175,22 @@ readonly API 结合普通对象和响应式对象的使用：
 
 ```vue
 <script>
-  export default {
-    props: {
-      // readonly数据
-      roInfo: {
-        type: Object,
-        default: () => ({})
-      }
-    },
-    emits: ["changeRoInfoName"],
-    setup(props, context) {
-      function roInfoBtnClick() {
-        context.emit("changeRoInfoName", "james")
-      }
-      return { roInfoBtnClick }
+export default {
+  props: {
+    // readonly数据
+    roInfo: {
+      type: Object,
+      default: () => ({})
     }
+  },
+  emits: ['changeRoInfoName'],
+  setup(props, context) {
+    function roInfoBtnClick() {
+      context.emit('changeRoInfoName', 'james')
+    }
+    return { roInfoBtnClick }
   }
+}
 </script>
 
 <template>
@@ -197,7 +198,8 @@ readonly API 结合普通对象和响应式对象的使用：
     <!-- 使用 readonly 的数据 -->
     <h2>ShowInfo: {{ roInfo }}</h2>
     <!-- <button @click="roInfo.name = 'james'">ShowInfo 按钮</button> 直接修改父组件中传过来的 readonly 对象，代码就会无效(报警告) -->
-    <button @click="roInfoBtnClick">roInfo按钮</button> <!-- 正确的做法 -->
+    <button @click="roInfoBtnClick">roInfo按钮</button>
+    <!-- 正确的做法 -->
   </div>
 </template>
 ```
@@ -266,18 +268,18 @@ shallowRef 和 triggerRef 的结合使用案例实现。
 
 ```vue
 <script>
-import { shallowRef, triggerRef } from "vue";
-  
+import { shallowRef, triggerRef } from 'vue'
+
 export default {
   setup() {
-    const shallowInfo = shallowRef({ name: "zzt" });
+    const shallowInfo = shallowRef({ name: 'zzt' })
     const changeInfo = () => {
-      shallowInfo.value.name = "Lingard";
-      triggerRef(shallowInfo); // 手动触发 shallowRef 的副作用，执行 shallowInfo 对象深层的响应式。
-    };
-    return { shallowInfo, changeInfo, };
-  },
-};
+      shallowInfo.value.name = 'Lingard'
+      triggerRef(shallowInfo) // 手动触发 shallowRef 的副作用，执行 shallowInfo 对象深层的响应式。
+    }
+    return { shallowInfo, changeInfo }
+  }
+}
 </script>
 
 <template>
@@ -292,14 +294,14 @@ App.vue
 
 ```vue
 <script>
-import useDebounceRef from "./hook/useDebounceRef";
-  
+import useDebounceRef from './hook/useDebounceRef'
+
 export default {
   setup() {
-    const message = useDebounceRef("Hello World");
-    return { message };
-  },
-};
+    const message = useDebounceRef('Hello World')
+    return { message }
+  }
+}
 </script>
 
 <template>
@@ -327,7 +329,7 @@ export default function (value, delay = 300) {
         timer = setTimeout(() => {
           value = newValue
           trigger() // 触发响应式
-        }, delay);
+        }, delay)
       }
     }
   })
@@ -341,13 +343,13 @@ export default function (value, delay = 300) {
 1. 首先，setup 被调用之前，data, computed, methods 等选项都没有被解析。
 2. 本质上，setup 函数**调用时未绑定 this**，所以它的 this 没有指向组件实例 Instance，而是 undefined。
 
-setup 函数的执行过程在阅读源码的过程中，代码是按照如下顺序执行的： 
+setup 函数的执行过程在阅读源码的过程中，代码是按照如下顺序执行的：
 
-1. 调用 createComponentInstance 创建组件实例； 
+1. 调用 createComponentInstance 创建组件实例；
 2. 调用 setupComponent 初始化 component 内部的操作；
-5. 调用 setupStatefulComponent 初始化有状态的组件；
-3. 在 setupStatefulComponent 取出了 setup 函数； 
-4. 通过 callWithErrorHandling 的函数执行 setup；
+3. 调用 setupStatefulComponent 初始化有状态的组件；
+4. 在 setupStatefulComponent 取出了 setup 函数；
+5. 通过 callWithErrorHandling 的函数执行 setup；
 
   <img src="NodeAssets/setup函数执行.jpg" alt="setup函数执行" style="zoom:80%;" />
 
@@ -361,67 +363,67 @@ setup 中实现计算属性 API 是 `computed`，基本使用：
 
 - 接受一个 `getter` 函数，并为 getter 函数返回的值，返回一个**不可写的** ref 对象。
 
-   ```vue
-   <script>
-   import { ref, computed } from "vue";
-     
-   export default {
-     setup() {
-       const firstName = ref("Jesse");
-       const lastName = ref("Lingard");
-       // 1. 用法一：传入一个 getter 函数，computed 的返回值是一个 ref 对象
-       const fullName = computed(() => firstName.value + ' ' + lastName.value)
-       return { fullName };
-     },
-   };
-   </script>
-   
-   <template>
+  ```vue
+  <script>
+  import { ref, computed } from 'vue'
+
+  export default {
+    setup() {
+      const firstName = ref('Jesse')
+      const lastName = ref('Lingard')
+      // 1. 用法一：传入一个 getter 函数，computed 的返回值是一个 ref 对象
+      const fullName = computed(() => firstName.value + ' ' + lastName.value)
+      return { fullName }
+    }
+  }
+  </script>
+
+  <template>
     <h2>{{ fullName }}</h2>
-   </template>
-   ```
-   
+  </template>
+  ```
+
 - 接受一个具有 `get` 和 `set` 方法的对象，返回一个可变的（可读写）ref 对象。
 
-   ```Vue
-   <script>
-   import { ref, computed } from "vue";
-     
-   export default {
-     setup() {
-       const firstName = ref("Jesse");
-       const lastName = ref("Lingard");
-       // 用法二：传入一个对象，对象包含 getter/setter
-       const fullName = computed({
-         get: () => firstName.value + " " + lastName.value,
-         set: (newValue) => {
-           const names = newValue.split(" ");
-           firstName.value = names[0];
-           lastName.value = names[1];
-         },
-       });
-       const changeName = () => {
-         fullName.value = "Zhu Zetian";
-       };
-       return { fullName, changeName };
-     },
-   };
-   </script>
-   
-   <template>
-    <h2>{{ fullName }}</h2>
-    <button @click="changeName">设置fullname</button>
-   </template>
-   ```
+  ```Vue
+  <script>
+  import { ref, computed } from "vue";
 
-setup 中侦听器提供了2种 API ：
+  export default {
+    setup() {
+      const firstName = ref("Jesse");
+      const lastName = ref("Lingard");
+      // 用法二：传入一个对象，对象包含 getter/setter
+      const fullName = computed({
+        get: () => firstName.value + " " + lastName.value,
+        set: (newValue) => {
+          const names = newValue.split(" ");
+          firstName.value = names[0];
+          lastName.value = names[1];
+        },
+      });
+      const changeName = () => {
+        fullName.value = "Zhu Zetian";
+      };
+      return { fullName, changeName };
+    },
+  };
+  </script>
+
+  <template>
+   <h2>{{ fullName }}</h2>
+   <button @click="changeName">设置fullname</button>
+  </template>
+  ```
+
+setup 中侦听器提供了 2 种 API ：
 
 - `watchEffect` - 用于自动收集响应式数据依赖。
 - `watch` - 手动指定侦听的数据源。
 
 # watchEffect API
 
-2个特点：
+2 个特点：
 
 1. 传入的函数会被立即执行一次，在执行过程中收集依赖。
 2. 当收集的依赖发生变化时，侦听函数会再次执行。
@@ -430,27 +432,27 @@ setup 中侦听器提供了2种 API ：
 
 ```vue
 <script>
-  import { ref, watchEffect } from 'vue';
-  
-  export default {
-    setup() {
-      const name = ref("zzt");
-      const age = ref(18);
-      // watchEffect: 自动收集响应式的依赖
-      watchEffect(() => {
-        console.log("name:", name.value, "age:", age.value);
-      });
-      const changeName = () => name.value = "kobe"
-      const changeAge = () => age.value++
-      return { name, age, changeName, changeAge }
-    }
+import { ref, watchEffect } from 'vue'
+
+export default {
+  setup() {
+    const name = ref('zzt')
+    const age = ref(18)
+    // watchEffect: 自动收集响应式的依赖
+    watchEffect(() => {
+      console.log('name:', name.value, 'age:', age.value)
+    })
+    const changeName = () => (name.value = 'kobe')
+    const changeAge = () => age.value++
+    return { name, age, changeName, changeAge }
   }
+}
 </script>
 
 <template>
-	<h2>{{name}}-{{age}}</h2>
-	<button @click="changeName">修改name</button>
-	<button @click="changeAge">修改age</button>
+  <h2>{{ name }}-{{ age }}</h2>
+  <button @click="changeName">修改name</button>
+  <button @click="changeAge">修改age</button>
 </template>
 ```
 
@@ -458,11 +460,12 @@ setup 中侦听器提供了2种 API ：
 
 ```javascript
 const stopWatch = watchEffect(() => {
-  console.log("name:", name.value, "age:", age.value);
-});
+  console.log('name:', name.value, 'age:', age.value)
+})
 const changeAge = () => {
   age.value++
-  if (age.value > 20) { // age 大于20，停止侦听。
+  if (age.value > 20) {
+    // age 大于20，停止侦听。
     stopWatch()
   }
 }
@@ -481,18 +484,18 @@ const changeAge = () => {
 3. 可在该回调函数中执行一些清理工作。
 
 ```javascript
-const name = ref("zzt");
-const age = ref(18);
+const name = ref('zzt')
+const age = ref(18)
 watchEffect(onInvalidate => {
   const timer = setTimeout(() => {
-    console.log("网络请求成功~");
+    console.log('网络请求成功~')
   }, 2000)
   // 在这个函数中清除额外的副作用
   onInvalidate(() => {
-    clearTimeout(timer);
+    clearTimeout(timer)
   })
-  console.log("name:", name.value, "age:", age.value);
-});
+  console.log('name:', name.value, 'age:', age.value)
+})
 ```
 
 # watch API
@@ -510,48 +513,54 @@ watchEffect(onInvalidate => {
 
 ## 侦听单个数据源
 
-watch 侦听单个数据源，可传2种类型：
+watch 侦听单个数据源，可传 2 种类型：
 
 - 一个 `getter` 函数，该函数返回值必须要引用响应式对象（如 reactive 或 ref 对象）。
 - 一个响应式对象，`reactive` 或者 `ref` 对象（常用）
 
-watch 侦听单个数据源，`newVal` 和 `oldVal` 拿到普通值和响应式对象的4种情况。侦听 Reactive 对象后获取普通对象。
+watch 侦听单个数据源，`newVal` 和 `oldVal` 拿到普通值和响应式对象的 4 种情况。侦听 Reactive 对象后获取普通对象。
 
 - 侦听一个 reactive 对象，newVal 和 oldVal 是响应式对象（Proxy）。
 
-   ```javascript
-   const info = reactive({ name: "zzt", age: 18 });
-   watch(info, (newVal, oldVal) => {
-     // newVal 和 oldVal 拿到的是响应式对象（Proxy）
-   })
-   ```
+  ```javascript
+  const info = reactive({ name: 'zzt', age: 18 })
+  watch(info, (newVal, oldVal) => {
+    // newVal 和 oldVal 拿到的是响应式对象（Proxy）
+  })
+  ```
 
 - 侦听一个 reactive 对象中的某一属性，newVal 和 oldVal 拿到的是值本身。
 
-   ```javascript
-   const info = reactive({ name: "zzt", age: 18 });
-   watch(() => info.name, (newVal, oldVal) => {
-     // newVal 和 oldVal 拿到的是值本身
-   })
-   ```
+  ```javascript
+  const info = reactive({ name: 'zzt', age: 18 })
+  watch(
+    () => info.name,
+    (newVal, oldVal) => {
+      // newVal 和 oldVal 拿到的是值本身
+    }
+  )
+  ```
 
 - 侦听一个 ref 对象，newVal 和 oldVal 拿到的是值本身。
 
-   ```javascript
-   const name = ref('zzt');
-   watch(name, (newVal, oldVal) => {
-     // newVal 和 oldVal 拿到的是值本身
-   })
-   ```
+  ```javascript
+  const name = ref('zzt')
+  watch(name, (newVal, oldVal) => {
+    // newVal 和 oldVal 拿到的是值本身
+  })
+  ```
 
 - 侦听一个展开复制后 reactive 对象，newVal 和 oldVal 拿到的是对象本身，而不是响应式对象（Proxy）
 
-   ```javascript
-   const info = reactive({name: "zzt", age: 18});
-   watch(() => ({...info}), (newVal, oldVal) => {
-     // newVal 和 oldVal 拿到的是对象的浅层拷贝（非响应式的对象）
-   })
-   ```
+  ```javascript
+  const info = reactive({ name: 'zzt', age: 18 })
+  watch(
+    () => ({ ...info }),
+    (newVal, oldVal) => {
+      // newVal 和 oldVal 拿到的是对象的浅层拷贝（非响应式的对象）
+    }
+  )
+  ```
 
 > - 针对 reactive 对象默认会深度侦听。
 > - 监听普通对象，或者 Proxy 转的普通对象时，要做深度监听的配置。
@@ -561,13 +570,16 @@ watch 侦听单个数据源，`newVal` 和 `oldVal` 拿到普通值和响应式�
 watch 侦听多个数据源，传入一个数组，对应的 newVal 和 oldVal 可做**数组解构**：
 
 ```javascript
-const info = reactive({ name: "zzt", age: 18 });
+const info = reactive({ name: 'zzt', age: 18 })
 const players = reactive(['Lingard', 'Ronaldo', 'DeBruyne', 'Vardy'])
 const name = ref('zzt')
-watch([info, () => [...players], name], ([newInfo, newPlayer, newName], [oldInfo, oldPlayer, oldName]) => {
-  // newInfo, oldInfo 拿到的是响应式对象，
-  // newPlayer, oldPlayer, newName, oldName 拿到的是非响应式的值。
-})
+watch(
+  [info, () => [...players], name],
+  ([newInfo, newPlayer, newName], [oldInfo, oldPlayer, oldName]) => {
+    // newInfo, oldInfo 拿到的是响应式对象，
+    // newPlayer, oldPlayer, newName, oldName 拿到的是非响应式的值。
+  }
+)
 ```
 
 ## 深度监听
@@ -576,17 +588,17 @@ watch 传入 **reactive 对象**默认能深度侦听
 
 ```javascript
 const info = reactive({
-  name: "zzt",
+  name: 'zzt',
   friend: {
     name: 'lingard'
   }
-});
+})
 watch(info, (newVal, oldVal) => {
   // info 默认能做深度监听。
   console.log('监听到 info 中的值改变')
 })
 const changeData = () => {
-  info.friend.name = "james";
+  info.friend.name = 'james'
 }
 ```
 
@@ -594,19 +606,23 @@ watch 传入的 get 函数返回一个响应式对象的展开复制，即一个
 
 ```javascript
 const info = reactive({
-  name: "zzt",
+  name: 'zzt',
   friend: {
     name: 'lingard'
   }
-});
-watch(() => ({...info}), (newVal, oldVal) => {
-  // info 的浅层拷贝不能做深度监听。需要配置
-}, {
-  deep: true, // 深度监听
-  immediate: true // 立即执行
 })
+watch(
+  () => ({ ...info }),
+  (newVal, oldVal) => {
+    // info 的浅层拷贝不能做深度监听。需要配置
+  },
+  {
+    deep: true, // 深度监听
+    immediate: true // 立即执行
+  }
+)
 const changeData = () => {
-  info.friend.name = "james";
+  info.friend.name = 'james'
 }
 ```
 
@@ -620,47 +636,50 @@ const changeData = () => {
 
    ```vue
    <script>
-     import { ref, onMounted } from 'vue'
-     
-     export default {
-       setup() {
-         const titleRef = ref(null)
-         onMounted(() => {
-           console.log(titleRef.value)
-         })
-         return { titleRef }
-       }
+   import { ref, onMounted } from 'vue'
+
+   export default {
+     setup() {
+       const titleRef = ref(null)
+       onMounted(() => {
+         console.log(titleRef.value)
+       })
+       return { titleRef }
      }
+   }
    </script>
-   
+
    <template>
      <h2 ref="titleRef">我是标题</h2>
    </template>
    ```
-   
-3. 也可以使用 `watcheffect` 通过 titleRef 来拿元素，会发现副作用执行了2次，第一次 titleRef 为 null，第二次为元素本身。这是因为：
+
+3. 也可以使用 `watcheffect` 通过 titleRef 来拿元素，会发现副作用执行了 2 次，第一次 titleRef 为 null，第二次为元素本身。这是因为：
 
    1. setup 函数在执行时，watchEffect 会立即执行副作用函数，这个时候 DOM 并没有挂载，所以获取 null
    2. 当 DOM 挂载时，会给 titleRef 的 ref 对象赋新的值，副作用函数再次执行，获取对应的元素。
 
    ```javascript
-   const titleRef = ref(null);
+   const titleRef = ref(null)
    watchEffect(() => {
-     console.log(titleRef.value);
+     console.log(titleRef.value)
    })
    ```
 
 4. 如果希望在第一次就拿到元素本身，需要改变副作用函数的执行时机。
 
    ```javascript
-   const titleRef = ref(null);
-   watchEffect(() => {
-     console.log(titleRef.value);
-   }, {
-     flush: 'post' // 设置副作用函数的执行时机，默认值 pre，还可接收 sync，低效，谨慎使用。
-   })
+   const titleRef = ref(null)
+   watchEffect(
+     () => {
+       console.log(titleRef.value)
+     },
+     {
+       flush: 'post' // 设置副作用函数的执行时机，默认值 pre，还可接收 sync，低效，谨慎使用。
+     }
+   )
    ```
-   
+
    > 调整 watchEffect 的执行时机，一般就用于取模版中元素或组件实例对象的场景。
 
 # setup 生命周期
@@ -708,12 +727,12 @@ export default {
 
 ```vue
 <script>
-import { ref, readonly, provide } from "@vue/runtime-core"
-import Home from "./Home.vue"
-  
+import { ref, readonly, provide } from '@vue/runtime-core'
+import Home from './Home.vue'
+
 export default {
   components: { Home },
-  setup () {
+  setup() {
     let name = ref('zzt')
     let counter = ref(100)
     // provide 可传两个参数：prop1：属性名称，prop2：属性值
@@ -737,7 +756,7 @@ export default {
 ```vue
 <script>
 import { inject } from 'vue'
-  
+
 export default {
   setup() {
     // inject 可传2个参数，prop1：属性名，prop2：默认值。
@@ -769,13 +788,13 @@ export default {
 ```vue
 <script>
 import useTitle from './hooks/useTitle.js'
-  
+
 export default {
   setup() {
     const titleRef = useTitle('zzt')
     setTimeout(() => {
       titleRef.value = 'Lingard'
-    }, 3000);
+    }, 3000)
   }
 }
 </script>
@@ -788,11 +807,15 @@ import { ref, watch } from 'vue'
 
 export default function (title = '默认的title') {
   const titleRef = ref(title)
-  watch(titleRef, newValue => {
-    document.title = newValue
-  }, { 
-    immediate: true
-  })
+  watch(
+    titleRef,
+    newValue => {
+      document.title = newValue
+    },
+    {
+      immediate: true
+    }
+  )
   return titleRef
 }
 ```
@@ -804,7 +827,7 @@ export default function (title = '默认的title') {
 ```vue
 <script>
 import useScrollPosition from './hooks/useScrollPosition.js'
-  
+
 export default {
   setup() {
     return { ...useScrollPosition() }
@@ -858,11 +881,11 @@ export default function () {
 ```vue
 <script>
 import useMousePosition from './hooks/useMousePosition.js'
-  
+
 export default {
   setup() {
-    return{ ...useMousePosition() }
-  }  
+    return { ...useMousePosition() }
+  }
 }
 </script>
 
@@ -905,11 +928,11 @@ export default function () {
 ```vue
 <script>
 import useLocalStorage from './hooks/useLocalStorage.js'
-  
+
 export default {
   setup() {
     const data = useLocalStorage('info')
-    const changeData = () => data.value = '呵呵呵呵'
+    const changeData = () => (data.value = '呵呵呵呵')
     return { data, changeData }
   }
 }
@@ -939,14 +962,14 @@ export default function (key, value) {
 
 `<script setup>` 是在单文件组件 (SFC) 中使用 Composition API 的编译时语法糖，当同时使用 SFC 与 Composition API 时推荐该语法。 有什么好处？
 
-- 更少的样板内容，更简洁的代码； 
-- 能够使用纯 Typescript 声明 prop 和抛出事件； 
+- 更少的样板内容，更简洁的代码；
+- 能够使用纯 Typescript 声明 prop 和抛出事件；
 - 更好的运行时性能；(将 script 代码与 template 中的引用放在同一作用域中，不需要通过组件实例 Instance)
 - 更好的 IDE 类型推断性能；
 
-`<script setup>` 里面的代码会被编译成组件 setup() 函数的内容： 
+`<script setup>` 里面的代码会被编译成组件 setup() 函数的内容：
 
->  这意味着，与普通的 \<script\> 只在组件被首次引入的时候执行一次不同；\<script setup\> 中的代码会在每次组件实例被创建的时候执行。
+> 这意味着，与普通的 \<script\> 只在组件被首次引入的时候执行一次不同；\<script setup\> 中的代码会在每次组件实例被创建的时候执行。
 
 基本用法
 
@@ -964,13 +987,13 @@ export default function (key, value) {
 ```vue
 <script setup>
 // defineProps，defineEmits 只能用于 <script setup>，不需要导入。
-const props  = defineProps({
+const props = defineProps({
   message: {
     type: String,
     default: '哈哈哈'
   }
 })
-console.log('---message---', props.message);
+console.log('---message---', props.message)
 const emit = defineEmits(['increment', 'decrement'])
 const clickbtn = () => emit('increment', 1000000)
 </script>
@@ -991,7 +1014,7 @@ const clickbtn = () => emit('increment', 1000000)
 ```vue
 <script setup>
 function foo() {
-  console.log("foo function")
+  console.log('foo function')
 }
 defineExpose({
   foo
@@ -1005,7 +1028,7 @@ defineExpose({
 <script setup>
 import { onMounted } from 'vue'
 import Hoem from './Home.vue'
-  
+
 const homeRef = ref(null)
 onMounted(() => {
   homeRef.value.foo()
@@ -1013,7 +1036,6 @@ onMounted(() => {
 </script>
 
 <template>
-	<home ref="homeRef"></home>
+  <home ref="homeRef"></home>
 </template>
 ```
-

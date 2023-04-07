@@ -1,13 +1,12 @@
 <script setup>
-import { ref } from 'vue';
-import RoomArea from './components/RoomArea.vue';
+import { ref } from 'vue'
+import RoomArea from './components/RoomArea.vue'
 
 const hightScore = ref({})
 // 1.模拟网络请求获取数据
 setTimeout(() => {
-  import('./data/high_score.json').then(res => hightScore.value = res.default)
-}, 300);
-
+  import('./data/high_score.json').then(res => (hightScore.value = res.default))
+}, 300)
 </script>
 
 <template>

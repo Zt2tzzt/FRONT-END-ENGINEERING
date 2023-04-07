@@ -57,7 +57,7 @@ git pull
 
 - 找不到远程仓库对应的分支，
 
-3个解决方法。
+3 个解决方法。
 
 - 方法一：为本地分支指明要推送的远程分支：
 
@@ -87,7 +87,6 @@ git pull
     git config push default.current
     git push # 在远程仓库创建了 master 分支，并将本地仓库的 master 分支提交到了该分支
     ```
-    
 
 - 方法三： 在本地切换一个新分支，并跟踪远程的同名分支。
 
@@ -137,9 +136,9 @@ git pull
       git push
       # git push -u origin main 将本地当前分支推送到远程 main 分支，并设置上游分支
       ```
-      
+
     - 写法二
-    
+
       ```shell
       git checkout main # 原理参考上文【推送代码到远程仓库遇到的2个问题】
       git push
@@ -260,10 +259,12 @@ git checkout newbranch
 Git 的本地默认分支 maser 分支理解。
 
 Git 的分支，其实本质上仅仅是指向提交对象的可变指针。
+
 - Git 的默认分支名字是 master，在多次提交操作之后，你其实已经有一个指向最后那个提交对象的 master 分支；
 - master 分支的指针会在每次提交时自动移动；
 
 Git 的 master 分支并不是一个特殊分支。
+
 - 它与其它分支完全没有区别；
 - 之所以几乎每一个仓库都有 master 分支，是因为 git init 命令默认创建它，并且大多数人都懒得去改动它；
 
@@ -439,7 +440,7 @@ git push origin --delete dev
 
 ## 认识 Git rebase？
 
-在 Git 中整合来自不同分支的修改主要有两种方法：merge 以及 rebase。 
+在 Git 中整合来自不同分支的修改主要有两种方法：merge 以及 rebase。
 
 <img src="NodeAssets/merge和rebase的用法.jpg" alt="merge和rebase的用法" style="zoom:150%;" />
 
@@ -448,26 +449,28 @@ git checkout experiment # 切换到 experiment 分支上
 git rebase master
 ```
 
-什么是 rebase 呢？ 
+什么是 rebase 呢？
 
-- 在上面的图例中，你可以提取在 C4 中引入的补丁和修改，然后在 C3 的基础上应用一次； 
-- 在 Git 中，这种操作就叫做变基（rebase）； 
+- 在上面的图例中，你可以提取在 C4 中引入的补丁和修改，然后在 C3 的基础上应用一次；
+- 在 Git 中，这种操作就叫做变基（rebase）；
 
 ## Git rebase 原理
 
-你可以使用 rebase 命令将提交到某一分支上的**所有修改**都移至另一分支上，就好像“重新播放”一样； 
+你可以使用 rebase 命令将提交到某一分支上的**所有修改**都移至另一分支上，就好像“重新播放”一样；
 
-rebase 这个单词如何理解呢？ 
+rebase 这个单词如何理解呢？
+
 - 我们可以将其理解成改变当前分支的 base；
 - 比如在分支 experiment 上执行 rebase master，那么可以改变 experiment 的 base 为 master
 
-rebase 是如何工作的呢？ 
-- 它的原理是首先找到这两个分支（即当前分支 experiment、变基操作的目标基底分支 master）的最近共同祖先 C2； 
-- 然后对比当前分支相对于该祖先的历次提交，提取相应的修改并存为临时文件； 
-- 然后将当前分支指向目标基底 C3； 
+rebase 是如何工作的呢？
+
+- 它的原理是首先找到这两个分支（即当前分支 experiment、变基操作的目标基底分支 master）的最近共同祖先 C2；
+- 然后对比当前分支相对于该祖先的历次提交，提取相应的修改并存为临时文件；
+- 然后将当前分支指向目标基底 C3；
 - 最后以此将之前另存为临时文件的修改依序应用；
 
-别忘了，最后一步，再次执行 master上的合并操作，将 master 分支指针指向 experiment
+别忘了，最后一步，再次执行 master 上的合并操作，将 master 分支指针指向 experiment
 
 ```shell
 git checkout master
@@ -477,8 +480,10 @@ git merge experiment
 <img src="NodeAssets/rebase后主分支合并.jpg" alt="rebase后主分支合并" style="zoom:50%;" />
 
 ## rebase 和 merge 在开发中的选择。
-事实上，rebase 和 merge 是对 Git 历史的不同处理方法： 
-- merge 用于记录 git 的所有历史，那么分支的历史错综复杂，也全部记录下来； 
+
+事实上，rebase 和 merge 是对 Git 历史的不同处理方法：
+
+- merge 用于记录 git 的所有历史，那么分支的历史错综复杂，也全部记录下来；
 - rebase 用于简化历史记录，将两个分支的历史简化，整个历史更加简洁；
 
 了解了 rebase 的底层原理，就可以根据自己的特定场景选择 merge 或者 rebase。

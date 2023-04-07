@@ -4,12 +4,12 @@
     "module": "esnext", // 采用 es 模块化规范。
     "baseUrl": "./", // 路径基于当前项目目录下。
     "moduleResolution": "node", // 模块的查找顺序，按照 node 的顺序查找。
-    "paths": { // 指定路径别名。
-      "@/*": [
-        "src/*"
-      ]
+    "paths": {
+      // 指定路径别名。
+      "@/*": ["src/*"]
     },
-    "lib": [ // 准备用到哪些语法。
+    "lib": [
+      // 准备用到哪些语法。
       "esnext",
       "dom",
       "dom.iterable",

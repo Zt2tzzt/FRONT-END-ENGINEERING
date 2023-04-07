@@ -44,8 +44,7 @@ Page({
 index.wxml
 
 ```html
-<tab-control class="tab-control" />
-<button bindtap="onExecTCMethod">调用TC方法</button>
+<tab-control class="tab-control" /> <button bindtap="onExecTCMethod">调用TC方法</button>
 ```
 
 ## Component 的插槽
@@ -54,7 +53,7 @@ slot 翻译为插槽：
 
 - 在生活中很多地方都有插槽，电脑的 USB 插槽，插板当中的电源插槽。
 - 插槽的目的是让我们原来的设备具备更多的扩展性。
-- 比如电脑的 USB 我们可以插入U盘、硬盘、手机、音响、键盘、鼠标等等。
+- 比如电脑的 USB 我们可以插入 U 盘、硬盘、手机、音响、键盘、鼠标等等。
 
 组件的插槽：
 
@@ -219,7 +218,7 @@ components \ c-behavior \ c-behavior.wxml
 
 ## Component 的生命周期
 
- [官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/lifetimes.html)
+[官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/lifetimes.html)
 
 - 组件的生命周期，指的是组件自身的一些函数，这些函数在特殊的时间点或遇到一些特殊的框架事件时被自动触发。
 - 其中，最重要的生命周期是 `created`、`attached`、`detached` ，包含一个组件实例生命流程的最主要时间点。
@@ -256,7 +255,7 @@ Component({
     hide: function () {
       // 页面被隐藏
     },
-    resize: function(size) {
+    resize: function (size) {
       // 页面尺寸变化
     }
   }
@@ -694,7 +693,7 @@ Page({
   onLoad() {
     const eventChannel = this.getOpenerEventChannel()
     // 监听 sendDataToOpenPage 事件，获取上一页面通过 eventChannel 传送到当前页面的数据
-    eventChannel.on('sendDataToOpenPage', function(data) {
+    eventChannel.on('sendDataToOpenPage', function (data) {
       console.log(data)
     })
   }
@@ -817,56 +816,60 @@ Page({
     * @Author: ZeT1an
     * @return {Promise} 返回封装的请求，wx.checkSession 支持 Promise 风格
     */
-   export const checkSession = () => new Promise(resolve => {
-     wx.checkSession({
-       success() {
-        resolve(true)
-       },
-       fail() {
-        resolve(false)
-       }
+   export const checkSession = () =>
+     new Promise(resolve => {
+       wx.checkSession({
+         success() {
+           resolve(true)
+         },
+         fail() {
+           resolve(false)
+         }
+       })
      })
-   })
-   
+
    /**
     * @description: 此函数用于发送请求，获取后端对 token 的校验结果
     * @Author: ZeT1an
     * @param {String} token 用户 token
     * @return {*} 返回封装的请求
     */
-   export const checkToken = token => ztRequest.post({
-     url: '/path',
-     header: { token }
-   })
+   export const checkToken = token =>
+     ztRequest.post({
+       url: '/path',
+       header: { token }
+     })
 
    /**
     * @description: 此函数用于，调用微信 api，获取用户登录 code
     * @Author: ZeT1an
     * @return {Promise} 返回封装的请求
     */
-   export const getCode = () => new Promise((resolve, reject) => {
-     wx.login({
-       timeout: 1000,
-       success: res => {
-         const code = res.code
-         resolve(code)
-       },
-       fail: reject
+   export const getCode = () =>
+     new Promise((resolve, reject) => {
+       wx.login({
+         timeout: 1000,
+         success: res => {
+           const code = res.code
+           resolve(code)
+         },
+         fail: reject
+       })
      })
-   })
-   
+
    /**
     * @description: 此函数用于发送请求，获取后端返回的 token
     * @Author: ZeT1an
     * @param {String} code 用户 code
     * @return {Promise} 返回封装的请求
     */
-    export const getToken = code => ztRequest.post({
-      url: '/login',
-      header: { code }
-    })
+   export const getToken = code =>
+     ztRequest.post({
+       url: '/login',
+       header: { code }
+     })
    ```
-   
+
 2. 一般在 app.js 中进行静默登录操作：
 
    app.js

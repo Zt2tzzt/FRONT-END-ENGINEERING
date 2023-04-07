@@ -1,11 +1,11 @@
-#  认识 VNode
+# 认识 VNode
 
 什么是 VNode
 
 - VNode 全称是 Virtual Node，也就是虚拟节点。
 - 无论组件还是元素，在 Vue 中表现出来的都是 VNode。
 - VNode 本质是一个 JavaScript 对象。
-- 渲染过程：template -> VNode -> 真实DOM
+- 渲染过程：template -> VNode -> 真实 DOM
 
 <img src="NodeAssets/HTML元素渲染出VNode.jpg" alt="HTML元素渲染出VNode" style="zoom:80%;" />
 
@@ -20,9 +20,9 @@
 
 <img src="NodeAssets/Vue中HTML元素的渲染过程.jpg" alt="Vue中HTML元素的渲染过程" style="zoom:80%;" />
 
------
+---
 
-# 插入F案例，理解 Diff 算法
+# 插入 F 案例，理解 Diff 算法
 
 根据插入 F 的案例，理解 v-for 有无 key 的 diff 算法。
 
@@ -34,9 +34,9 @@
     </ul>
     <button @click="insert">插入f</button>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
-  
+
   <script>
     const app = {
       data() {
@@ -54,54 +54,58 @@
   </script>
 </body>
 ```
+
 有无 key 分别使用的方法（源码位置：packages -> runtime-core -> src -> renderer.ts）
 
-- 没 key，使用 `patchUnKeyedChildren` 方法。3步
-	1. 取到旧 VNodes 和新 VNodes，比较两者长度，取小的那个遍历。
-	2. 遍历时，依次将旧 VNode 与新 VNode 做 patch 操作，有不同的元素则更新，
-	3. 遍历完后，旧 VNodes 中元素比较多，则卸载多余的元素。新 VNodes 比较多，则更新多余元素。
-	
-	<img src="NodeAssets/diff算法没key的过程.jpg" alt="diff算法没key的过程" style="zoom:80%;" />
-- 有 key，使用 `patchKeyedChildren` 方法。5步
-	1. while 循环从头比较新旧 VNodes 节点元素的 type（tag）和 key，遇到相同节点就继续，遇到不同节点就跳出循环。
-	
-	   <img src="NodeAssets/diff算法有key的过程1.jpg" alt="diff算法有key的过程1" style="zoom:80%;" />
-	
-	2. while 循环从末尾比较新旧 VNodes 节点元素的 type（tag）和 key，遇到相同节点就继续，遇到不同节点就跳出循环。
-	
-	   <img src="NodeAssets/diff算法有key的过程2.jpg" alt="diff算法有key的过程2" style="zoom:80%;" />
-	
-	3. 如果新 VNode 更多，使用 null 与新 VNode 做 patch 操作（相当于挂载新 VNode）。
-	
-	   <img src="NodeAssets/diff算法有key的过程3.jpg" alt="diff算法有key的过程3" style="zoom:80%;" />
-	
-	4. 如果旧 VNode 更多，则使用 unmount 方法卸载旧 VNode 。
-	
-	   <img src="NodeAssets/diff算法有key的过程4.jpg" alt="diff算法有key的过程4" style="zoom:80%;" />
-	
-	5. 如果中间存在无序的 VNode 位置序列，会使用 key 建立索引，尽量用旧 VNode 匹配新 VNode ，没匹配到的旧 VNode 则卸载，没匹配到的新 VNode 则新增。
-	
-	   <img src="NodeAssets/diff算法有key的过程5.jpg" alt="diff算法有key的过程5" style="zoom:80%;" />
+- 没 key，使用 `patchUnKeyedChildren` 方法。3 步
+
+  1.  取到旧 VNodes 和新 VNodes，比较两者长度，取小的那个遍历。
+  2.  遍历时，依次将旧 VNode 与新 VNode 做 patch 操作，有不同的元素则更新，
+  3.  遍历完后，旧 VNodes 中元素比较多，则卸载多余的元素。新 VNodes 比较多，则更新多余元素。
+
+  <img src="NodeAssets/diff算法没key的过程.jpg" alt="diff算法没key的过程" style="zoom:80%;" />
+
+- 有 key，使用 `patchKeyedChildren` 方法。5 步
+
+  1.  while 循环从头比较新旧 VNodes 节点元素的 type（tag）和 key，遇到相同节点就继续，遇到不同节点就跳出循环。
+
+      <img src="NodeAssets/diff算法有key的过程1.jpg" alt="diff算法有key的过程1" style="zoom:80%;" />
+
+  2.  while 循环从末尾比较新旧 VNodes 节点元素的 type（tag）和 key，遇到相同节点就继续，遇到不同节点就跳出循环。
+
+      <img src="NodeAssets/diff算法有key的过程2.jpg" alt="diff算法有key的过程2" style="zoom:80%;" />
+
+  3.  如果新 VNode 更多，使用 null 与新 VNode 做 patch 操作（相当于挂载新 VNode）。
+
+      <img src="NodeAssets/diff算法有key的过程3.jpg" alt="diff算法有key的过程3" style="zoom:80%;" />
+
+  4.  如果旧 VNode 更多，则使用 unmount 方法卸载旧 VNode 。
+
+      <img src="NodeAssets/diff算法有key的过程4.jpg" alt="diff算法有key的过程4" style="zoom:80%;" />
+
+  5.  如果中间存在无序的 VNode 位置序列，会使用 key 建立索引，尽量用旧 VNode 匹配新 VNode ，没匹配到的旧 VNode 则卸载，没匹配到的新 VNode 则新增。
+
+      <img src="NodeAssets/diff算法有key的过程5.jpg" alt="diff算法有key的过程5" style="zoom:80%;" />
 
 # 计算属性 computed
 
 复杂 data 的处理场景。
 
-- 在某些情况，我们可能需要对数据进行一些转化后再显示，或者需要将多个数据结合起来进行显示； 
-	- 比如我们需要对多个 data 数据进行运算；使用三元运算符来决定结果；数据进行某种转化后显示； 
-	- 在模板中使用表达式，可以非常方便的实现，但是设计它们的初衷是用于简单的运算； 
-	- 在模板中放入太多的逻辑会让模板过重和难以维护； 
-	- 并且如果多个地方都使用到，那么会有大量重复的代码；
-- 我们有没有什么方法可以将逻辑抽离出去呢？ 
-	- 可以，其中一种方式就是将逻辑抽取到一个 method 中，放到 methods 的 options 中； 
-	- 但是，这种做法有一个直观的弊端，就是所有的 data 使用过程都会变成一个方法的调用；
-	- 另外一种方式就是使用计算属性 computed；
+- 在某些情况，我们可能需要对数据进行一些转化后再显示，或者需要将多个数据结合起来进行显示；
+  - 比如我们需要对多个 data 数据进行运算；使用三元运算符来决定结果；数据进行某种转化后显示；
+  - 在模板中使用表达式，可以非常方便的实现，但是设计它们的初衷是用于简单的运算；
+  - 在模板中放入太多的逻辑会让模板过重和难以维护；
+  - 并且如果多个地方都使用到，那么会有大量重复的代码；
+- 我们有没有什么方法可以将逻辑抽离出去呢？
+  - 可以，其中一种方式就是将逻辑抽取到一个 method 中，放到 methods 的 options 中；
+  - 但是，这种做法有一个直观的弊端，就是所有的 data 使用过程都会变成一个方法的调用；
+  - 另外一种方式就是使用计算属性 computed；
 
 什么是计算属性 computed？
 
-- 官方并没有给出直接的概念解释；而是说：对于任何**包含响应式数**据的复杂逻辑，你都应该使用计算属性； 
+- 官方并没有给出直接的概念解释；而是说：对于任何**包含响应式数**据的复杂逻辑，你都应该使用计算属性；
 - 计算属性将被混入到组件实例中
-	- 所有 getter 和 setter 的 this 上下文自动地绑定为组件实例；
+  - 所有 getter 和 setter 的 this 上下文自动地绑定为组件实例；
 
 ## 计算属性的基本用法（语法糖写法）
 
@@ -112,9 +116,9 @@
     <h2>{{ result }}</h2>
     <h2>{{ reverseMessage }}</h2>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
-  
+
   <script>
     const app = {
       data() {
@@ -142,7 +146,7 @@
 </body>
 ```
 
------
+---
 
 计算属性 computed 与 methods 的区别？
 
@@ -163,7 +167,7 @@
 
 ## 计算属性的完整写法，setter 和 getter
 
-- 计算属性在大多数情况下，只需要一个 getter 方法即可，所以我们会将计算属性直接写成一个函数。 
+- 计算属性在大多数情况下，只需要一个 getter 方法即可，所以我们会将计算属性直接写成一个函数。
 - 但是，如果我们确实想设置计算属性的值呢？ 这个时候我们也可以给计算属性设置一个 setter 的方法；
 
 ```html
@@ -172,9 +176,9 @@
     <button @click="changeFullname">修改fullname</button>
     <h2>{{ fullname }}</h2>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
-  
+
   <script>
     const app = {
       data() {
@@ -226,26 +230,27 @@
     <h2>{{message}}</h2>
     <button @click="changeMessage">修改message</button>
   </div>
-  
+
   <script src="../lib/vue.js"></script>
-  
+
   <script>
     const app = Vue.createApp({
       data() {
         return {
-          message: "Hello Vue",
-          info: { name: "zzt", age: 18 }
+          message: 'Hello Vue',
+          info: { name: 'zzt', age: 18 }
         }
       },
       methods: {
         changeMessage() {
-          this.message = "你好啊, 李银河!"
-          this.info = { name: "kobe" }
+          this.message = '你好啊, 李银河!'
+          this.info = { name: 'kobe' }
         }
       },
       watch: {
-        message(newVal, oldVal) { // 默认有两个参数: newVal, oldVal
-          console.log("message数据发生了变化:", newVal, oldVal)
+        message(newVal, oldVal) {
+          // 默认有两个参数: newVal, oldVal
+          console.log('message数据发生了变化:', newVal, oldVal)
         },
         info(newVal, oldVal) {
           // 如果是对象类型, 那么拿到的是代理对象 proxy
@@ -253,21 +258,21 @@
         }
       }
     })
-    app.mount("#app")
+    app.mount('#app')
   </script>
 </body>
 ```
 
-## proxy 对象转原始对象的方法2种
+## proxy 对象转原始对象的方法 2 种
 
 ```js
 const app = {
-	watch: {
-		info(newVal, oldVal) {
-			console.log({ ...newVal }) // 方法一，利用对象的展开语法，浅拷贝。
-			console.log(Vue.toRaw(newVal)) // 方法二，利用 Vue 提供的方法。
-		}
-	}
+  watch: {
+    info(newVal, oldVal) {
+      console.log({ ...newVal }) // 方法一，利用对象的展开语法，浅拷贝。
+      console.log(Vue.toRaw(newVal)) // 方法二，利用 Vue 提供的方法。
+    }
+  }
 }
 ```
 
@@ -286,9 +291,9 @@ watch 中的监听默认不是深度监听。
     <button @click="changeInfoName">改变Info.name</button>
     <button @click="changeInfoPremierName">改变Info.premier.name</button>
   </div>
-    
+
   <script src="https://unpkg.com/vue@next"></script>
-  
+
   <script>
     const app = {
       data() {
@@ -312,12 +317,12 @@ watch 中的监听默认不是深度监听。
         'info.premier.name': function (newVal, oldVal) {
           console.log('newVal.premier.name', newVal, 'oldVal.premier.name', oldVal)
         },
-				// watch 的3种写法，分别为 info 设值了3个监听器
+    // watch 的3种写法，分别为 info 设值了3个监听器
         info: [
           // 1.引用 methods 中的方法作为侦听函数
           'handle1',
           // 2.基本用法
-          function(newVal, oldVal) { 
+          function(newVal, oldVal) {
             console.log('handle2 triggered');
           },
           // 3.配置选项用法
@@ -358,29 +363,33 @@ watch 中的监听默认不是深度监听。
     <h2>{{message}}</h2>
     <button @click="changeMessage">修改message</button>
   </div>
-  
+
   <script src="../lib/vue.js"></script>
-  
+
   <script>
     const app = Vue.createApp({
       data() {
         return {
-          message: "Hello Vue"
+          message: 'Hello Vue'
         }
       },
       methods: {
         changeMessage() {
-          this.message = "你好啊, 李银河!"
+          this.message = '你好啊, 李银河!'
         }
       },
       // 生命周期回调函数: 当前的组件被创建时自动执行，一般在该函数中, 会进行网络请求，ajax/fetch/axios
       created() {
-        this.$watch("message", (newValue, oldValue) => {
-          console.log("message数据变化:", newValue, oldValue)
-        }, { deep: true })
+        this.$watch(
+          'message',
+          (newValue, oldValue) => {
+            console.log('message数据变化:', newValue, oldValue)
+          },
+          { deep: true }
+        )
       }
     })
-    app.mount("#app")
+    app.mount('#app')
   </script>
 </body>
 ```
@@ -389,9 +398,9 @@ watch 中的监听默认不是深度监听。
 
 书籍购物车综合案例理解。
 
-1. 在界面上以表格的形式，显示一些书籍的数据； 
-2. 在底部显示书籍的总价格； 
-3. 点击+或者-可以增加或减少书籍数量（如果为1，那么不能继续-）；
+1. 在界面上以表格的形式，显示一些书籍的数据；
+2. 在底部显示书籍的总价格；
+3. 点击+或者-可以增加或减少书籍数量（如果为 1，那么不能继续-）；
 4. 点击移除按钮，可以将书籍移除（当所有的书籍移除完毕时，显示：购物车为空~）；
 5. 点击某一行书籍，改变颜色，其它行颜色不变。
 
@@ -401,118 +410,121 @@ const books = [
     id: 1,
     name: '《算法导论》',
     date: '2006-9',
-    price: 85.00,
+    price: 85.0,
     count: 1
-  },
-	// ...
+  }
+  // ...
 ]
 ```
 
 ```html
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    table {
-      border-collapse: collapse;
-      /* text-align: center; */
-    }
-    thead {
-      background-color: #f5f5f5;
-    }
-    th, td {
-      border: 1px solid #aaa;
-      padding: 8px 16px;
-    }
-    .active {
-      background-color: skyblue;
-    }
-  </style>
-</head>
-<body>
-  <div id="app">
-    <!-- 1.搭建界面内容 -->
-    <template v-if="books.length">
-      <table>
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>书籍名称</th>
-            <th>出版日期</th>
-            <th>价格</th>
-            <th>购买数量</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in books" 
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        /* text-align: center; */
+      }
+      thead {
+        background-color: #f5f5f5;
+      }
+      th,
+      td {
+        border: 1px solid #aaa;
+        padding: 8px 16px;
+      }
+      .active {
+        background-color: skyblue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 1.搭建界面内容 -->
+      <template v-if="books.length">
+        <table>
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>书籍名称</th>
+              <th>出版日期</th>
+              <th>价格</th>
+              <th>购买数量</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(item, index) in books"
               :key="item.id"
               @click="rowClick(index)"
-              :class="{ active: index === currentIndex }">
-            <td>{{ index + 1 }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.date }}</td>
-            <td>{{ formatPrice(item.price) }}</td>
-            <td>
-              <button :disabled="item.count <= 1" @click="decrement(index, item)">-</button>
-              {{ item.count }}
-              <button @click="increment(index, item)">+</button>
-            </td>
-            <td>
-              <button @click="removeBook(index)">移除</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <h2>总价: {{ formatPrice(totalPrice) }}</h2>
-    </template>
-    <template v-else>
-      <h1>购物车为空, 请添加喜欢的书籍~</h1>
-      <p>商场中有大量的IT类的书籍, 请选择添加学习, 注意保护好自己的头发!</p>
-    </template>
-  </div>
-  <script src="../lib/vue.js"></script>
-  <script src="./data/data.js"></script>
-  <script>
-    const app = Vue.createApp({
-      data() {
-        return {
-          books: books,
-          currentIndex: 0
+              :class="{ active: index === currentIndex }"
+            >
+              <td>{{ index + 1 }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ formatPrice(item.price) }}</td>
+              <td>
+                <button :disabled="item.count <= 1" @click="decrement(index, item)">-</button>
+                {{ item.count }}
+                <button @click="increment(index, item)">+</button>
+              </td>
+              <td>
+                <button @click="removeBook(index)">移除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>总价: {{ formatPrice(totalPrice) }}</h2>
+      </template>
+      <template v-else>
+        <h1>购物车为空, 请添加喜欢的书籍~</h1>
+        <p>商场中有大量的IT类的书籍, 请选择添加学习, 注意保护好自己的头发!</p>
+      </template>
+    </div>
+    <script src="../lib/vue.js"></script>
+    <script src="./data/data.js"></script>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            books: books,
+            currentIndex: 0
+          }
+        },
+        computed: {
+          totalPrice() {
+            return this.books.reduce((accumulator, currentItem) => accumulator + currentItem.price * currentItem.count, 0)
+          }
+        },
+        methods: {
+          formatPrice(price) {
+            return "¥" + price
+          },
+          decrement(index, item)
+            // 两种方式都可以
+            // this.books[index].count--
+            item.count--
+          },
+          increment(index, item) {
+            // 两种方式都可以
+            // this.books[index].count++
+            item.count++
+          },
+          removeBook(index) {
+            this.books.splice(index, 1)
+          },
+          rowClick(index) {
+            this.currentIndex = index
+          }
         }
-      },
-      computed: {
-        totalPrice() {
-          return this.books.reduce((accumulator, currentItem) => accumulator + currentItem.price * currentItem.count, 0)
-        }
-      },
-      methods: {
-        formatPrice(price) {
-          return "¥" + price
-        },
-        decrement(index, item) 
-          // 两种方式都可以
-          // this.books[index].count--
-          item.count--
-        },
-        increment(index, item) {
-          // 两种方式都可以
-          // this.books[index].count++
-          item.count++
-        },
-        removeBook(index) {
-          this.books.splice(index, 1)
-        },
-        rowClick(index) {
-          this.currentIndex = index
-        }
-      }
-    })
-    app.mount("#app")
-  </script>
-</body>
+      })
+      app.mount("#app")
+    </script>
+  </body>
 </html>
 ```

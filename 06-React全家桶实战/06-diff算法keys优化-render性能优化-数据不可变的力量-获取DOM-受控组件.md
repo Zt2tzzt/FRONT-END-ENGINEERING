@@ -89,65 +89,63 @@ React 是如何使用 `key` 进行优化的？
 - 会执行所有子组件中的 `render` 方法，
 - 进行 diff 算法；
 
-03-learn-component\src\12-render函数的优化\App.jsx
+03-learn-component\src\12-render 函数的优化\App.jsx
 
 ```jsx
 import React, { Component } from 'react'
-import Home from './Home';
+import Home from './Home'
 
 export class App extends Component {
-  
-	constructor() {
-		super()
-		this.state = {
-			msg: 'Hello World',
+  constructor() {
+    super()
+    this.state = {
+      msg: 'Hello World',
       counter: 0 // 子组件 Home 对该状态没有依赖。
-		}
-	}
-  
-	render() {
-		console.log('App render'); // 点击任意按钮，都会执行一次
-		const { msg, counter } = this.state
-		return (
-			<div>
-				<h2>App: {msg}-{counter}</h2>
-				<button onClick={e => this.changetext()}>修改文本</button>
-				<button onClick={e => this.changenumber()}>counter+1</button>
-				<Home />
-			</div>
-		)
-	}
+    }
+  }
 
-	changetext() {
-		this.setState({ msg: 'Hello World' }) // 设置一个相同的值
-	}
-  
+  render() {
+    console.log('App render') // 点击任意按钮，都会执行一次
+    const { msg, counter } = this.state
+    return (
+      <div>
+        <h2>
+          App: {msg}-{counter}
+        </h2>
+        <button onClick={e => this.changetext()}>修改文本</button>
+        <button onClick={e => this.changenumber()}>counter+1</button>
+        <Home />
+      </div>
+    )
+  }
+
+  changetext() {
+    this.setState({ msg: 'Hello World' }) // 设置一个相同的值
+  }
+
   changenumber() {
     this.setState({ counter: this.state.counter + 1 })
   }
-  
 }
 
 export default App
 ```
 
-03-learn-component\src\12-render函数的优化\Home.jsx
+03-learn-component\src\12-render 函数的优化\Home.jsx
 
 ```jsx
 import React, { Component } from 'react'
 
 export class Home extends Component {
-
-	render() {
-		console.log('Home render'); // 点击 App 中的任意按钮，都会执行一次
-		const { msg } = this.props
-		return (
-			<div>
-				<h2>Home：{ msg }</h2>
-			</div>
-		)
-	}
-  
+  render() {
+    console.log('Home render') // 点击 App 中的任意按钮，都会执行一次
+    const { msg } = this.props
+    return (
+      <div>
+        <h2>Home：{msg}</h2>
+      </div>
+    )
+  }
 }
 
 export default Home
@@ -155,7 +153,7 @@ export default Home
 
 ## 2.SCU 优化
 
-React 提供了一个生命周期方法 `shouldComponentUpdate`（简称为 *SCU*）：
+React 提供了一个生命周期方法 `shouldComponentUpdate`（简称为 _SCU_）：
 
 该方法有两个参数：
 
@@ -169,72 +167,73 @@ React 提供了一个生命周期方法 `shouldComponentUpdate`（简称为 *SCU
 
 默认返回的是 `true`，也就是说，只要 `state` 发生改变，就会调用 `render` 方法，
 
-为了避免这种情况，我们在 *SCU* 中对依赖的 `state` 进行优化：
+为了避免这种情况，我们在 _SCU_ 中对依赖的 `state` 进行优化：
 
-03-learn-component\src\12-render函数的优化\App.jsx
+03-learn-component\src\12-render 函数的优化\App.jsx
 
 ```jsx
 import React, { Component } from 'react'
-import Home from './Home';
+import Home from './Home'
 
 export class App extends Component {
-	constructor() {
-		super()
-		this.state = {
-			msg: 'Hello World',
-			counter: 0
-		}
-	}
+  constructor() {
+    super()
+    this.state = {
+      msg: 'Hello World',
+      counter: 0
+    }
+  }
 
-	shouldComponentUpdate(newProps, newState) {
-		return this.state.msg !== newState.msg || this.state.counter !== newState.counter
-	}
+  shouldComponentUpdate(newProps, newState) {
+    return this.state.msg !== newState.msg || this.state.counter !== newState.counter
+  }
 
-	render() {
-		console.log('App render');
-		const { msg, counter } = this.state
-		return (
-			<div>
-				<h2>App: {msg}-{counter}</h2>
-				<button onClick={e => this.changetext()}>修改文本</button>
-				<button onClick={e => this.changeCouter()}>counter+1</button>
-				<Home />
-			</div>
-		)
-	}
+  render() {
+    console.log('App render')
+    const { msg, counter } = this.state
+    return (
+      <div>
+        <h2>
+          App: {msg}-{counter}
+        </h2>
+        <button onClick={e => this.changetext()}>修改文本</button>
+        <button onClick={e => this.changeCouter()}>counter+1</button>
+        <Home />
+      </div>
+    )
+  }
 
-	changetext() {
-		this.setState({ msg: 'Hello World' })
-	}
-	changeCouter() {
-		this.setState({ counter: this.state.counter + 1})
-	}
+  changetext() {
+    this.setState({ msg: 'Hello World' })
+  }
+  changeCouter() {
+    this.setState({ counter: this.state.counter + 1 })
+  }
 }
 
 export default App
 ```
 
-03-learn-component\src\12-render函数的优化\Home.jsx
+03-learn-component\src\12-render 函数的优化\Home.jsx
 
 ```jsx
 import React, { Component } from 'react'
 
 export class Home extends Component {
+  shouldComponentUpdate(newProps, newState) {
+    return this.props.msg !== newProps.msg
+  }
 
-	shouldComponentUpdate(newProps, newState) {
-		return this.props.msg !== newProps.msg
-	}
+  render() {
+    console.log('Home render')
+    const { msg } = this.props
 
-	render() {
-		console.log('Home render');
-		const { msg } = this.props
-    
-		return (
-			<div>
-				<h2>Home：{msg}</h2>
-			</div>
-		)
-	}
+    return (
+      <div>
+        <h2>Home：{msg}</h2>
+      </div>
+    )
+  }
 }
 
 export default Home
@@ -250,62 +249,63 @@ export default Home
 
 事实上 React 已经考虑到了这一点，将类组件继承自 `PureComponent`，就能实现这样的效果。
 
-03-learn-component\src\12-render函数的优化\App.jsx
+03-learn-component\src\12-render 函数的优化\App.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
-import Home from './Home';
+import Home from './Home'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			msg: 'Hello World',
-			counter: 0
-		}
-	}
+  constructor() {
+    super()
+    this.state = {
+      msg: 'Hello World',
+      counter: 0
+    }
+  }
 
-	render() {
-		console.log('App render');
-		const { msg, counter } = this.state
-    
-		return (
-			<div>
-				<h2>App: {msg}-{counter}</h2>
-				<button onClick={e => this.changetext()}>修改文本</button>
-				<button onClick={e => this.changeCouter()}>counter+1</button>
-				<Home />
-			</div>
-		)
-	}
+  render() {
+    console.log('App render')
+    const { msg, counter } = this.state
 
-	changetext() {
-		this.setState({ msg: 'Hello World' })
-	}
-	changeCouter() {
-		this.setState({ counter: this.state.counter + 1})
-	}
+    return (
+      <div>
+        <h2>
+          App: {msg}-{counter}
+        </h2>
+        <button onClick={e => this.changetext()}>修改文本</button>
+        <button onClick={e => this.changeCouter()}>counter+1</button>
+        <Home />
+      </div>
+    )
+  }
+
+  changetext() {
+    this.setState({ msg: 'Hello World' })
+  }
+  changeCouter() {
+    this.setState({ counter: this.state.counter + 1 })
+  }
 }
 
 export default App
 ```
 
-03-learn-component\src\12-render函数的优化\Home.jsx
+03-learn-component\src\12-render 函数的优化\Home.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
 
 export class Home extends PureComponent {
-
-	render() {
-		console.log('Home render');
-		const { msg } = this.props
-		return (
-			<div>
-				<h2>Home：{ msg }</h2>
-			</div>
-		)
-	}
+  render() {
+    console.log('Home render')
+    const { msg } = this.props
+    return (
+      <div>
+        <h2>Home：{msg}</h2>
+      </div>
+    )
+  }
 }
 
 export default Home
@@ -327,17 +327,15 @@ export default Home
 
 我们需要使用一个高阶组件 `memo`
 
-03-learn-component\src\12-render函数的优化\Profile.jsx
+03-learn-component\src\12-render 函数的优化\Profile.jsx
 
 ```jsx
 import React, { memo } from 'react'
 
-const Profile = memo((props) => {
-	console.log('profile render');
-  
-	return (
-		<h2>Profile： {props.msg}</h2>
-	)
+const Profile = memo(props => {
+  console.log('profile render')
+
+  return <h2>Profile： {props.msg}</h2>
 })
 
 export default Profile
@@ -352,6 +350,7 @@ export default Profile
 - 界面会正常更新。因为只要执行了 `setState` 函数，就会调用 `render` 方法。
 
 情况二：在 `PureComponent` 中：
+
 - 在渲染时会使用 `shallowEqual` 方法进行浅层比较，当发现 `state` 中属性的引用地址没有改变，则不会调用 `render` 方法，页面也就不会刷新。
 - 所以在 `PureComponent` 中，修改 `state` 中引用类型数据中的深层引用值时，要使用类似于浅拷贝的方式修改，目的是改变 `state` 属性的引用地址。
 
@@ -361,64 +360,62 @@ export default Profile
 import React, { PureComponent } from 'react'
 
 export class App extends PureComponent {
-  
-	constructor()  {
-		super()
-		this.state = {
-			books: [
-				{ name: '你不知道的JavaScript', price: 99, count: 1 },
-				{ name: 'JavaScript高级程序设计', price: 88, count: 2 },
-				{ name: 'React高级设计', price: 78, count: 2 },
-				{ name: 'Vue高级设计', price: 99, count: 3 }
-			],
-		}
-	}
-  
-	render() {
-		const { books } = this.state
-		return (
-			<div>
-				<h2>数据列表</h2>
-				<ul>
-					{
-						books.map((item, index) => (
-							<li key={index}>
-								<span>name: {item.name}-price: {item.price}-count: {item.count}</span>
-								<button onClick={e => this.addBookCount(index)}>+1</button>
-							</li>
-						))
-					}
-				</ul>
-				<button onClick={e => this.addNewBook()}>添加新书籍</button>
-			</div>
-		)
-	}
+  constructor() {
+    super()
+    this.state = {
+      books: [
+        { name: '你不知道的JavaScript', price: 99, count: 1 },
+        { name: 'JavaScript高级程序设计', price: 88, count: 2 },
+        { name: 'React高级设计', price: 78, count: 2 },
+        { name: 'Vue高级设计', price: 99, count: 3 }
+      ]
+    }
+  }
 
-	addBookCount(index) {
-		const books = [...this.state.books] // 浅拷贝
-		books[index].count++
-		this.setState({ books: books })
-	}
+  render() {
+    const { books } = this.state
+    return (
+      <div>
+        <h2>数据列表</h2>
+        <ul>
+          {books.map((item, index) => (
+            <li key={index}>
+              <span>
+                name: {item.name}-price: {item.price}-count: {item.count}
+              </span>
+              <button onClick={e => this.addBookCount(index)}>+1</button>
+            </li>
+          ))}
+        </ul>
+        <button onClick={e => this.addNewBook()}>添加新书籍</button>
+      </div>
+    )
+  }
 
-	addNewBook() {
+  addBookCount(index) {
+    const books = [...this.state.books] // 浅拷贝
+    books[index].count++
+    this.setState({ books: books })
+  }
 
-		const newBook ={ name: 'Angular高级设计', price: 88, count: 1 }
-		/**
-		 * 方式一：直接修改原有的 state，重新设值一遍，错误的做法。
-		 * 	这种方式在 PureComponent 中不能引起页面的渲染（即调用 render 函数）
-		 * 	原因是 this.state.books 的引用地址没有改变。
-		 */
-		this.state.books.push(newBook)
-		this.setState({ books: this.state.books })
+  addNewBook() {
+    const newBook = { name: 'Angular高级设计', price: 88, count: 1 }
+    /**
+     * 方式一：直接修改原有的 state，重新设值一遍，错误的做法。
+     * 	这种方式在 PureComponent 中不能引起页面的渲染（即调用 render 函数）
+     * 	原因是 this.state.books 的引用地址没有改变。
+     */
+    this.state.books.push(newBook)
+    this.setState({ books: this.state.books })
 
-		/**
-		 * 方式二：复制一份 books，在新的 books 中修改，设值新的 books
-		 */
-		//const books = [...this.state.books]
-		//books.push(newBook)
+    /**
+     * 方式二：复制一份 books，在新的 books 中修改，设值新的 books
+     */
+    //const books = [...this.state.books]
+    //books.push(newBook)
     const books = this.state.books.concat([newBook])
-		this.setState({ books })
-	}
+    this.setState({ books })
+  }
 }
 
 export default App
@@ -441,49 +438,49 @@ export default App
 - 使用时通过 `this.refs.[传入的字符串]`，获取对应的 DOM 元素；
 
 方式二：传入对象（官方推荐）
+
 - 对象是通过 `React.createRef()` 创建的；
 - 使用时通过对象中的 `current` 属性获取 DOM 元素；
 
 方式三：传入一个函数
+
 - 该函数会在 DOM 被挂载时进行回调，这个函数会传入 DOM 元素对象。
 
-03-learn-component\src\14-ref获取DOM和组件\01_ref获取DOM.jsx
+03-learn-component\src\14-ref 获取 DOM 和组件\01_ref 获取 DOM.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
 import { createRef } from 'react'
 
 export class App extends PureComponent {
-  
-	constructor() {
-		super()
-		this.titleRef = createRef()
-		this.titleEl = null
-	}
+  constructor() {
+    super()
+    this.titleRef = createRef()
+    this.titleEl = null
+  }
 
-	render() {
-    
-		return (
-			<div>
-				{/* 方式一：在 React 元素上绑定一个 ref 字符串 */}
-				<h2 ref="zzt">Hello World</h2>
-        
-				{/* 方式二：提前创建好 ref 对象,使用 createRef() API，将创建出来的对象绑定到元素 */}
-				<h2 ref={this.titleRef}>你好啊，李银河</h2>
-        
-				{/* 方式三：传入一个回调函数。在对应的元素被渲染之后，回调函数被执行，并且将元素传入 */}
-				<h2 ref={el => this.titleEl = el}>你好啊，师姐</h2>
-        
-				<button onClick={e => this.getNativeDOM()}>获取DOM</button>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        {/* 方式一：在 React 元素上绑定一个 ref 字符串 */}
+        <h2 ref='zzt'>Hello World</h2>
 
-	getNativeDOM() {
-		console.log(this.refs.zzt);
-		console.log(this.titleRef.current)
-		console.log(this.titleEl);
-	}
+        {/* 方式二：提前创建好 ref 对象,使用 createRef() API，将创建出来的对象绑定到元素 */}
+        <h2 ref={this.titleRef}>你好啊，李银河</h2>
+
+        {/* 方式三：传入一个回调函数。在对应的元素被渲染之后，回调函数被执行，并且将元素传入 */}
+        <h2 ref={el => (this.titleEl = el)}>你好啊，师姐</h2>
+
+        <button onClick={e => this.getNativeDOM()}>获取DOM</button>
+      </div>
+    )
+  }
+
+  getNativeDOM() {
+    console.log(this.refs.zzt)
+    console.log(this.titleRef.current)
+    console.log(this.titleEl)
+  }
 }
 
 export default App
@@ -505,38 +502,36 @@ import React, { PureComponent } from 'react'
 import { createRef } from 'react'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.hwRef = createRef()
-		this.hwEl = null
-	}
-	render() {
-		return (
-			<div>
-				<HelloWorld ref={this.hwRef} />
-				<HelloWorld ref={el => this.hwEl = el} />
-				<button onClick={e => this.getComponent()}>获取组件实例</button>
-			</div>
-		)
-	}
+  constructor() {
+    super()
+    this.hwRef = createRef()
+    this.hwEl = null
+  }
+  render() {
+    return (
+      <div>
+        <HelloWorld ref={this.hwRef} />
+        <HelloWorld ref={el => (this.hwEl = el)} />
+        <button onClick={e => this.getComponent()}>获取组件实例</button>
+      </div>
+    )
+  }
 
-	getComponent() {
-		console.log(this.hwRef.current);
-		this.hwRef.current.test()
-	}
+  getComponent() {
+    console.log(this.hwRef.current)
+    this.hwRef.current.test()
+  }
 }
 
 export default App
 
 export class HelloWorld extends PureComponent {
-	test() {
-		console.log('test------');
-	}
-	render() {
-		return (
-			<div>HelloWorld</div>
-		)
-	}
+  test() {
+    console.log('test------')
+  }
+  render() {
+    return <div>HelloWorld</div>
+  }
 }
 ```
 
@@ -547,7 +542,7 @@ export class HelloWorld extends PureComponent {
 - 但是某些时候，我们可能想要获取函数式组件中的某个 DOM 元素；
 - 这个时候我们可以通过 `React.forwardRef ` 对 `ref` 进行转发（后面会介绍 hooks 中使用 ref）。
 
-03-learn-component\src\14-ref获取DOM和组件\03-ref获取函数组件的DOM.jsx
+03-learn-component\src\14-ref 获取 DOM 和组件\03-ref 获取函数组件的 DOM.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
@@ -555,31 +550,31 @@ import { forwardRef } from 'react'
 import { createRef } from 'react'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.hwRef = createRef()
-	}
-	render() {
-		return (
-			<div>
-				<HelloWorld ref={ this.hwRef } />
-				<button onClick={ e => this.getComponent() }>获取组件实例</button>
-			</div>
-		)
-	}
+  constructor() {
+    super()
+    this.hwRef = createRef()
+  }
+  render() {
+    return (
+      <div>
+        <HelloWorld ref={this.hwRef} />
+        <button onClick={e => this.getComponent()}>获取组件实例</button>
+      </div>
+    )
+  }
 
-	getComponent() {
-		console.log(this.hwRef.current);
-	}
+  getComponent() {
+    console.log(this.hwRef.current)
+  }
 }
 
 export default App
 
 export const HelloWorld = forwardRef((props, ref) => (
-	<div>
-		<h1 ref={ref}>Hello World</h1>
-		<p>呵呵呵</p>
-	</div>
+  <div>
+    <h1 ref={ref}>Hello World</h1>
+    <p>呵呵呵</p>
+  </div>
 ))
 ```
 
@@ -599,33 +594,33 @@ export const HelloWorld = forwardRef((props, ref) => (
 import React, { PureComponent } from 'react'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			username: 'zzt'
-		}
-	}
+  constructor() {
+    super()
+    this.state = {
+      username: 'zzt'
+    }
+  }
 
-	render() {
-		const { username } = this.state
-    
-		return (
-			<div>
-				{/* React 中没有双向绑定，受控组件必须绑定事件处理函数，将 value 更新到 state，否则在浏览器中的设值无效 */}
-				<input type="text" value={username} onInput={e => this.onInputChange(e)} />
-        
-				{/* 非受控组件 */}
-				<input type="text" />
-        
-				<h2>username: {username}</h2>
-			</div>
-		)
-	}
+  render() {
+    const { username } = this.state
 
-	onInputChange(e) {
-		console.log('input value:', e.target.value)
-		this.setState({ username: e.target.value })
-	}
+    return (
+      <div>
+        {/* React 中没有双向绑定，受控组件必须绑定事件处理函数，将 value 更新到 state，否则在浏览器中的设值无效 */}
+        <input type='text' value={username} onInput={e => this.onInputChange(e)} />
+
+        {/* 非受控组件 */}
+        <input type='text' />
+
+        <h2>username: {username}</h2>
+      </div>
+    )
+  }
+
+  onInputChange(e) {
+    console.log('input value:', e.target.value)
+    this.setState({ username: e.target.value })
+  }
 }
 
 export default App
@@ -638,52 +633,52 @@ export default App
 > - 这种方式向 `action` 中的地址发送网络请求改变 `url`，并会**造成浏览器页面刷新**。
 > - 现在已很少使用表单提交与服务器沟通，通常是监听提交按钮的点击，再以 `ajax` 网络请求的方式向服务器发送数据。
 
-03-learn-component\src\15-受控和非受控组件\02-自己提交form的表单.jsx
+03-learn-component\src\15-受控和非受控组件\02-自己提交 form 的表单.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			username: ''
-		}
-	}
-  
-	render() {
-		const { username } = this.state
-    
-		return (
-			<div>
-				<form onSubmit={e => this.onSubmitClick(e)}>
-					{/* 1.用户名 */}
-					<label htmlFor="username">
-						<input
-							id="username"
-							type="text"
-							name="username"
-							value={username}
-							onInput={e => this.onUsernameInput(e)}
-						/>
-					</label>
-					<button type="submit">注册</button>
-				</form>
-			</div>
-		)
-	}
+  constructor() {
+    super()
+    this.state = {
+      username: ''
+    }
+  }
 
-	onSubmitClick(e) {
-		// 1.阻止默认的行为
-		e.preventDefault()
-		// 2.获取到所有的表单数据，对数据进行组织
-		console.log('username:', this.state.username)
-		// 3.使用 ajax 发送网络请求，将数据传送给服务器
-		// ...
-	}
-	onUsernameInput(e) {
-		this.setState({ username: e.target.value })
-	}
+  render() {
+    const { username } = this.state
+
+    return (
+      <div>
+        <form onSubmit={e => this.onSubmitClick(e)}>
+          {/* 1.用户名 */}
+          <label htmlFor='username'>
+            <input
+              id='username'
+              type='text'
+              name='username'
+              value={username}
+              onInput={e => this.onUsernameInput(e)}
+            />
+          </label>
+          <button type='submit'>注册</button>
+        </form>
+      </div>
+    )
+  }
+
+  onSubmitClick(e) {
+    // 1.阻止默认的行为
+    e.preventDefault()
+    // 2.获取到所有的表单数据，对数据进行组织
+    console.log('username:', this.state.username)
+    // 3.使用 ajax 发送网络请求，将数据传送给服务器
+    // ...
+  }
+  onUsernameInput(e) {
+    this.setState({ username: e.target.value })
+  }
 }
 
 export default App
@@ -762,40 +757,39 @@ checkbox 单选，多选。
 import React, { PureComponent } from 'react'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			isAgree: false,
-			hobbies: [
-				{ value: 'sing', text: '唱', isChecked: false },
-				{ value: 'dance', text: '跳', isChecked: false },
-				{ value: 'rap', text: 'rap', isChecked: false }
-			]
-		}
-	}
-	render() {
-		const { isAgree, hobbies } = this.state
-		return (
-			<div>
-        
-				{/* checkbox 单选 */}
-				<label htmlFor="agree">
-					<input
-						type="checkbox"
-						id="agree"
-						checked={isAgree}
-						onChange={e => this.onAgreeChange(e)}
-					/>
-					同意协议
-				</label>
-        
-				{/* checkbox 多选 */}
-				<div>
-					您的爱好：
-					{hobbies.map((item, index) => (
+  constructor() {
+    super()
+    this.state = {
+      isAgree: false,
+      hobbies: [
+        { value: 'sing', text: '唱', isChecked: false },
+        { value: 'dance', text: '跳', isChecked: false },
+        { value: 'rap', text: 'rap', isChecked: false }
+      ]
+    }
+  }
+  render() {
+    const { isAgree, hobbies } = this.state
+    return (
+      <div>
+        {/* checkbox 单选 */}
+        <label htmlFor='agree'>
+          <input
+            type='checkbox'
+            id='agree'
+            checked={isAgree}
+            onChange={e => this.onAgreeChange(e)}
+          />
+          同意协议
+        </label>
+
+        {/* checkbox 多选 */}
+        <div>
+          您的爱好：
+          {hobbies.map((item, index) => (
             <label htmlFor={item.value} key={item.value}>
               <input
-                type="checkbox"
+                type='checkbox'
                 id={item.value}
                 checked={item.isChecked}
                 onChange={e => this.onHobbiesChange(e, index)}
@@ -803,20 +797,19 @@ export class App extends PureComponent {
               <span>{item.text}</span>
             </label>
           ))}
-				</div>
-        
-			</div>
-		)
-	}
-	onAgreeChange(e) {
-		// checkbox 单选，取 checked 属性
-		this.setState({ isAgree: e.target.checked })
-	}
-	onHobbiesChange(e, index) {
-		const hobbies = [...this.state.hobbies]
-		hobbies[index].isChecked = e.target.checked
-		this.setState({ hobbies })
-	}
+        </div>
+      </div>
+    )
+  }
+  onAgreeChange(e) {
+    // checkbox 单选，取 checked 属性
+    this.setState({ isAgree: e.target.checked })
+  }
+  onHobbiesChange(e, index) {
+    const hobbies = [...this.state.hobbies]
+    hobbies[index].isChecked = e.target.checked
+    this.setState({ hobbies })
+  }
 }
 
 export default App
@@ -828,44 +821,42 @@ select 单选，多选。
 import React, { PureComponent } from 'react'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			gender: '',
-			fruits: ['orange']
-		}
-	}
-	render() {
-		const { fruits, gender } = this.state
-		return (
-			<div>
-        
-				{/* select 单选处理 */}
-				<select value={gender} onChange={e => this.onGenderChange(e)}>
-					<option value="male">男</option>
-					<option value="female">女</option>
-				</select>
-        
-				{/* select 多选处理 */}
-				<select value={fruits} onChange={e => this.onFruitChange(e)} multiple>
-					<option value="apple">苹果</option>
-					<option value="banana">香蕉</option>
-					<option value="orange">橘子</option>
-				</select>
-        
-			</div>
-		)
-	}
+  constructor() {
+    super()
+    this.state = {
+      gender: '',
+      fruits: ['orange']
+    }
+  }
+  render() {
+    const { fruits, gender } = this.state
+    return (
+      <div>
+        {/* select 单选处理 */}
+        <select value={gender} onChange={e => this.onGenderChange(e)}>
+          <option value='male'>男</option>
+          <option value='female'>女</option>
+        </select>
 
-	onGenderChange(e) {
-		this.setState({ gender: e.target.value })
-	}
+        {/* select 多选处理 */}
+        <select value={fruits} onChange={e => this.onFruitChange(e)} multiple>
+          <option value='apple'>苹果</option>
+          <option value='banana'>香蕉</option>
+          <option value='orange'>橘子</option>
+        </select>
+      </div>
+    )
+  }
 
-	onFruitChange(e) {
-		// Array.from(iterable, mapHandler)
-		const fruits = Array.from(e.target.selectedOptions, item => item.value)
-		this.setState({ fruits })
-	}
+  onGenderChange(e) {
+    this.setState({ gender: e.target.value })
+  }
+
+  onFruitChange(e) {
+    // Array.from(iterable, mapHandler)
+    const fruits = Array.from(e.target.selectedOptions, item => item.value)
+    this.setState({ fruits })
+  }
 }
 
 export default App
@@ -892,49 +883,44 @@ import React, { PureComponent } from 'react'
 import { createRef } from 'react'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			intro: '哈哈哈'
-		}
-		this.introRef = createRef()
-	}
+  constructor() {
+    super()
+    this.state = {
+      intro: '哈哈哈'
+    }
+    this.introRef = createRef()
+  }
 
-	componentDidMount() {
-		this.introRef.current.addEventListener('input', e => {
-			console.log('intro value:', e.currentTarget.value);
-		})
-	}
+  componentDidMount() {
+    this.introRef.current.addEventListener('input', e => {
+      console.log('intro value:', e.currentTarget.value)
+    })
+  }
 
-	render() {
-		const { intro } = this.state
-    
-		return (
-			<div>
-				<form onSubmit={e => this.onSubmitChange(e)}>
-					<label htmlFor="intro">
-						<input
-							type="text"
-							id="intro"
-							defaultValue={intro}
-							ref={this.introRef}
-						/>介绍
-					</label>
-					<button type='submit'>注册</button>
-				</form>
-			</div>
-		)
-	}
+  render() {
+    const { intro } = this.state
 
-	onSubmitChange(e) {
-		// 1.组织默认的行为
-		e.preventDefault()
-		// 2.获取到到所有表单数据，对数据进行组织。
-		console.log('intro value:', this.introRef.current.value);
-		// 3.发送 ajax 网络请求，将数据传递给服务器
-	}
+    return (
+      <div>
+        <form onSubmit={e => this.onSubmitChange(e)}>
+          <label htmlFor='intro'>
+            <input type='text' id='intro' defaultValue={intro} ref={this.introRef} />
+            介绍
+          </label>
+          <button type='submit'>注册</button>
+        </form>
+      </div>
+    )
+  }
+
+  onSubmitChange(e) {
+    // 1.组织默认的行为
+    e.preventDefault()
+    // 2.获取到到所有表单数据，对数据进行组织。
+    console.log('intro value:', this.introRef.current.value)
+    // 3.发送 ajax 网络请求，将数据传递给服务器
+  }
 }
 
 export default App
 ```
-

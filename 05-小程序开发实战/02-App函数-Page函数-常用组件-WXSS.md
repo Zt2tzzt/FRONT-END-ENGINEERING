@@ -9,6 +9,7 @@ APP 函数：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/ref
 注册 app 时，我们通常会做些什么？
 
 1. 监听生命周期函数，
+
    - 判断小程序的进入场景。
 
    - 执行对应的业务逻辑，比如在某个生命周期函数中进行登录操作或者请求网络数据；
@@ -24,11 +25,11 @@ app.js
 ```js
 App({
   onLaunch(options) {
-    console.log("scene code:", options.scene);
+    console.log('scene code:', options.scene)
   },
   onShow(options) {
-    console.log("scene code:", options.scene);
-  },
+    console.log('scene code:', options.scene)
+  }
 })
 ```
 
@@ -47,20 +48,20 @@ app.js
 App({
   // globalData 是自己定义的属性名，用于共享数据，数据不是响应式的, 这里共享的数据通常是一些固定的数据
   globalData: {
-    token: "",
+    token: '',
     userInfo: {}
   },
   onLaunch(options) {
     // 1.从本地获取保存到 storage 中的 token / userInfo
-    const token = wx.getStorageSync("token")
-    const userInfo = wx.getStorageSync("userInfo")
+    const token = wx.getStorageSync('token')
+    const userInfo = wx.getStorageSync('userInfo')
     // 2.先模拟进行登录操作(判断逻辑)，真实登录操作在后续章节中讲解。
     if (!token || !userInfo) {
       // 发送网络请求, 优先请求一些必要的数据
-      wx.request({ url: 'url'})
+      wx.request({ url: 'url' })
       // 将登录成功的数据, 保存到 storage
-      wx.setStorageSync("token", "kobetoken")
-      wx.setStorageSync("userInfo", { nickname: "kobe", level: 100 })
+      wx.setStorageSync('token', 'kobetoken')
+      wx.setStorageSync('userInfo', { nickname: 'kobe', level: 100 })
       // 3.将获取到数据保存到 globalData 中
       this.globalData.token = token
       this.globalData.userInfo = userInfo
@@ -117,12 +118,12 @@ Page({
     banners: [],
     recommends: [],
     counter: 100,
-    btns: ["red", "blue", "green", "orange"]
+    btns: ['red', 'blue', 'green', 'orange']
   },
   onLoad() {
     // 发送网络请求，请求轮播图数据。
     wx.request({
-      url: "http://123.207.32.32:8000/home/multidata",
+      url: 'http://123.207.32.32:8000/home/multidata',
       success: res => {
         const data = res.data.data
         const banners = data.banner.list
@@ -134,32 +135,32 @@ Page({
 
   // 处理自定义事件：绑定 wxml 中产生事件后的回调函数
   onBtnClick(event) {
-    console.log("btn click:", event.target.dataset.color);
+    console.log('btn click:', event.target.dataset.color)
   },
 
   // 处理原生事件：绑定下拉刷新/达到底部/页面滚动
   onPullDownRefresh() {
-    console.log("onPullDownRefresh");
+    console.log('onPullDownRefresh')
   },
   onReachBottom() {
-    console.log("onReachBottom");
+    console.log('onReachBottom')
   },
   onPageScroll(event) {
-    console.log("onPageScroll:", event);
+    console.log('onPageScroll:', event)
   },
 
   // 生命周期函数:
   onShow() {
-    console.log("onShow");
+    console.log('onShow')
   },
   onReady() {
-    console.log("onReady");
+    console.log('onReady')
   },
   onHide() {
-    console.log("onHide");
+    console.log('onHide')
   },
   onUnload() {
-    console.log("onUnload");
+    console.log('onUnload')
   }
 })
 ```
@@ -210,8 +211,6 @@ index.wxml
 
 <img src="NodeAssets/Page页面的生命周期.jpg" alt="Page页面的生命周期" style="zoom:150%;" />
 
-
-
 # text 组件
 
 text 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/component/text.html)
@@ -221,7 +220,7 @@ text 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/co
 - `user-select` 属性决定文本内容是否可以让用户选中。
 - `space` 有三个取值(了解)。
 - `decode` 是否解码(了解)，默认不解码，即展示原字符。
-	- decode 可以解析的有 `&nbsp;` `&lt;` `&gt;` `&amp;` `&apos;` `&ensp;` `&emsp;`
+  - decode 可以解析的有 `&nbsp;` `&lt;` `&gt;` `&amp;` `&apos;` `&ensp;` `&emsp;`
 
 index.wxml
 
@@ -266,29 +265,13 @@ index.wxml
 <!-- 2.open-type 属性 -->
 <button open-type="contact" size="mini" type="primary">打开客服会话</button>
 <!-- 早期获取用户信息做法 -->
-<button
-  size="mini"
-  type="primary"
-  open-type="getUserInfo"
-  bindgetuserinfo="getUserInfo"
->
+<button size="mini" type="primary" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
   获取用户信息
 </button>
 <!-- 现在获取用户信息做法 -->
-<button
-  size="mini"
-  type="primary"
-  bindtap="getUserInfo"
->
-  获取用户信息2
-</button>
+<button size="mini" type="primary" bindtap="getUserInfo">获取用户信息2</button>
 <!-- 现在获取用户的手机号 -->
-<button
-  size="mini"
-  type="primary"
-  open-type="getPhoneNumber"
-  bindgetphonenumber="getPhoneNumber"
->
+<button size="mini" type="primary" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
   手机号码
 </button>
 ```
@@ -300,14 +283,14 @@ Page({
   getUserInfo() {
     // 调用 API, 获取用户的信息
     wx.getUserProfile({
-      desc: '请求获取您的头像和昵称',
+      desc: '请求获取您的头像和昵称'
     }).then(res => {
-      console.log(res);
+      console.log(res)
     })
   },
   getPhoneNumber(event) {
-    console.log(event.detail.code);
-  },
+    console.log(event.detail.code)
+  }
 })
 ```
 
@@ -322,8 +305,7 @@ view 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/co
 index.wxml
 
 ```html
-<view bindtap="onViewClick" hover-class="active">我是view组件</view>
-<view>哈哈哈</view>
+<view bindtap="onViewClick" hover-class="active">我是view组件</view> <view>哈哈哈</view>
 ```
 
 index.wxss
@@ -352,36 +334,37 @@ index.wxml
 
 ```html
 <!-- 根目录: “/” 表示项目根目录 -->
-<!-- 1.图片的基本使用 --> <!-- image 元素宽度和高度: 320x240 -->
+<!-- 1.图片的基本使用 -->
+<!-- image 元素宽度和高度: 320x240 -->
 <image src="/assets/zznh.png" />
 <image src="https://pic3.zhimg.com/v2-9be23000490896a1bfc1df70df50ae32_b.jpg" />
 
 <!-- 2.图片重要的属性: mode -->
-<image src="/assets/zznh.png" mode="aspectFit"/>
+<image src="/assets/zznh.png" mode="aspectFit" />
 <!-- image 基本都是设置 widthFix -->
-<image src="/assets/zznh.png" mode="widthFix"/>
-<image src="/assets/zznh.png" mode="heightFix"/>
+<image src="/assets/zznh.png" mode="widthFix" />
+<image src="/assets/zznh.png" mode="heightFix" />
 
 <!-- 3.选择本地图片: 将本地图片使用 image 展示出来 -->
 <button bindtap="onChooseImage">选择图片</button>
-<image class="img" src="{{ chooseImageUrl }}" mode="widthFix"/>
+<image class="img" src="{{ chooseImageUrl }}" mode="widthFix" />
 ```
 
 index.js
 
 ```js
 Page({
-	data: {
-    chooseImageUrl: "",
-	},
-	onChooseImage() {
-		wx.chooseMedia({
-			mediaType: "image"
-		}).then(res => {
-			const imagePath = res.tempFiles[0].tempFilePath
-			this.setData({ chooseImageUrl: imagePath })
-		})
-	},
+  data: {
+    chooseImageUrl: ''
+  },
+  onChooseImage() {
+    wx.chooseMedia({
+      mediaType: 'image'
+    }).then(res => {
+      const imagePath = res.tempFiles[0].tempFilePath
+      this.setData({ chooseImageUrl: imagePath })
+    })
+  }
 })
 ```
 
@@ -393,9 +376,9 @@ scroll-view 组件：[官方文档·](https://developers.weixin.qq.com/miniprogr
 
 - scroll-view 可以实现局部滚动；
 - scroll-view 组件实现滚动的前提：
-	- 有固定高度/宽度，
-	- 内容大于固定高度/宽度。
-	- 设置了朝哪个方向滚动（添加 `scroll-x` 或者 `scroll-y` 属性）。
+  - 有固定高度/宽度，
+  - 内容大于固定高度/宽度。
+  - 设置了朝哪个方向滚动（添加 `scroll-x` 或者 `scroll-y` 属性）。
 - scroll-view 如果要开启 flex 布局，需要添加属性 `enable-flex`;
 
 index.wxml
@@ -409,11 +392,7 @@ index.wxml
 </scroll-view>
 
 <!-- 左右滚动(x轴) -->
-<scroll-view
-  class="container scroll-x"
-  scroll-x
-  enable-flex
->
+<scroll-view class="container scroll-x" scroll-x enable-flex>
   <block wx:for="{{ viewColors }}" wx:key="*this">
     <view class="item" style="background: {{ item }};">{{ item }}</view>
   </block>
@@ -439,21 +418,21 @@ index.js
 ```js
 Page({
   data: {
-    viewColors: ["red", "blue", "green", "skyblue", "purple", "yellow"]
-	},
-	// 监听 scroll-view 滚动
+    viewColors: ['red', 'blue', 'green', 'skyblue', 'purple', 'yellow']
+  },
+  // 监听 scroll-view 滚动
   onScrollToUpper() {
-    console.log("滚动到最顶部/左边");
+    console.log('滚动到最顶部/左边')
   },
   onScrollToLower() {
-    console.log("滚到到最底部/右边");
+    console.log('滚到到最底部/右边')
   },
-	// 可滚动区域的宽度 = scrollLeft + 组件的宽度；
+  // 可滚动区域的宽度 = scrollLeft + 组件的宽度；
   // 同理，可滚动区域的高度 = scrollTop + 组件的高度；
   onScroll(event) {
-    console.log("scrollview 发生了滚动:", event.detail);
+    console.log('scrollview 发生了滚动:', event.detail)
     // deltalX > 0，表示向左滚动，反之向右滚动。deltalY 同理
-		/* detail: {
+    /* detail: {
 			deltaX: -5.7318878173828125
 			deltaY: 0
 			scrollHeight: 170
@@ -476,7 +455,7 @@ Page({
 index.html
 
 ```html
-<input type="text" model:value="{{ msg }}"/>
+<input type="text" model:value="{{ msg }}" />
 ```
 
 index.js
@@ -491,7 +470,7 @@ Page({
 
 # WXSS 编写样式
 
-小程序样式的3种形式：行内样式、页面样式、全局样式。
+小程序样式的 3 种形式：行内样式、页面样式、全局样式。
 
 优先级：行内样式 > 页面样式 > 全局样式。权重图：
 
@@ -502,9 +481,9 @@ Page({
 WXSS 扩展的单位 rpx，用于做自适应。
 
 - 尺寸单位
-	- rpx（responsive pixel）: 可以根据屏幕宽度进行自适应，规定屏幕宽为 750rpx。
-	- 如在 iPhone6 上，屏幕宽度为 375px，共有 750 个物理像素，则 750rpx = 375px = 750物理像素，1rpx = 0.5px = 1物理像素。
-- 建议：开发微信小程序时设计师用 iPhone6 作为视觉稿的标准（宽度375px）。
+  - rpx（responsive pixel）: 可以根据屏幕宽度进行自适应，规定屏幕宽为 750rpx。
+  - 如在 iPhone6 上，屏幕宽度为 375px，共有 750 个物理像素，则 750rpx = 375px = 750 物理像素，1rpx = 0.5px = 1 物理像素。
+- 建议：开发微信小程序时设计师用 iPhone6 作为视觉稿的标准（宽度 375px）。
 
 行内样式
 
@@ -531,8 +510,7 @@ WXSS 扩展的单位 rpx，用于做自适应。
 
 ```css
 page {
-	background-color: #fafafa;
-	box-sizing: border-box;
+  background-color: #fafafa;
+  box-sizing: border-box;
 }
 ```
-

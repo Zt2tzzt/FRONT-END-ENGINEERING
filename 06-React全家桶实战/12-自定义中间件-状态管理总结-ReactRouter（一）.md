@@ -12,18 +12,17 @@
 
 ```js
 function log(store) {
+  const next = store.dispatch
 
-	const next = store.dispatch
+  function logAndDispatch(action) {
+    console.log('当前派发的 action：', action)
+    // 真正派发的代码：使用之前的 dispatch 进行派发
+    next(action)
+    console.log('派发之后的结果：', store.getState())
+  }
 
-	function logAndDispatch(action) {
-		console.log('当前派发的 action：', action)
-		// 真正派发的代码：使用之前的 dispatch 进行派发
-		next(action)
-		console.log('派发之后的结果：', store.getState())
-	}
-
-	// monkey patch: 猴补丁：篡改现有的代码，对整体的执行逻辑进行修改
-	store.dispatch = logAndDispatch
+  // monkey patch: 猴补丁：篡改现有的代码，对整体的执行逻辑进行修改
+  store.dispatch = logAndDispatch
 }
 
 export default log
@@ -37,18 +36,18 @@ export default log
 
 ```js
 function thunk(store) {
-	const next = store.dispatch
+  const next = store.dispatch
 
-	function disptachThunk(action) {
+  function disptachThunk(action) {
     // 考虑到用户可能会派发多次函数，所以需要进行判断，并做递归操作。
-		if (typeof action === 'function') {
-			action(store.dispatch, store.getState)
-		} else {
-			next(action)
-		}
-	}
+    if (typeof action === 'function') {
+      action(store.dispatch, store.getState)
+    } else {
+      next(action)
+    }
+  }
 
-	store.dispatch = disptachThunk
+  store.dispatch = disptachThunk
 }
 
 export default thunk
@@ -64,7 +63,7 @@ export default thunk
 
 ```js
 function applyMiddleware(store, ...fns) {
-	fns.forEach(fn => fn(store))
+  fns.forEach(fn => fn(store))
 }
 
 export default applyMiddleware
@@ -73,15 +72,11 @@ export default applyMiddleware
 06-react-redux\src\store\middleware\index.js
 
 ```js
-import log from './log';
-import thunk from './thunk';
-import applyMiddleware from './applyMiddleware';
+import log from './log'
+import thunk from './thunk'
+import applyMiddleware from './applyMiddleware'
 
-export {
-	log,
-	thunk,
-	applyMiddleware
-}
+export { log, thunk, applyMiddleware }
 ```
 
 ## 4.使用自定义中间件
@@ -94,14 +89,14 @@ export {
 // import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import { createStore, combineReducers, compose } from 'redux'
 import { log, thunk, applyMiddleware } from './middleware'
-import counterReducer from './counter';
-import homeReducer from './home';
+import counterReducer from './counter'
+import homeReducer from './home'
 // import thunk from 'redux-thunk';
 
 // 将两个 reducer 合并在一起
 const reducer = combineReducers({
-	counter: counterReducer,
-	home: homeReducer
+  counter: counterReducer,
+  home: homeReducer
 })
 
 //const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace: true}) || compose; // 开发环境
@@ -133,7 +128,7 @@ React 中有哪些状态管理方式？如何选择？
 
 - 方式一：组件中自己的 `state` 管理；
 - 方式二：`Context` 数据的共享状态；
-- 方式三：*Redux* 管理应用状态；
+- 方式三：_Redux_ 管理应用状态；
 
 如何选择呢？
 
@@ -166,26 +161,25 @@ React 中有哪些状态管理方式？如何选择？
 - URL hash；
 - HTML5 的 history。
 
-
-# 四、react-router 
+# 四、react-router
 
 目前前端流行的三大框架, 都有自己的路由实现:
 
-- Angular 的 *ngRouter*
-- React 的 *react-router*
-- Vue 的 *vue-router*
+- Angular 的 _ngRouter_
+- React 的 _react-router_
+- Vue 的 _vue-router_
 
-*react-router* 是**由社区维护**的库，而非官方，但被官方所承认。
+_react-router_ 是**由社区维护**的库，而非官方，但被官方所承认。
 
-*react-router* 在最近两年版本更新的较快，并且在最新的 *React Router 6.x* 版本中发生了较大的变化。
+_react-router_ 在最近两年版本更新的较快，并且在最新的 _React Router 6.x_ 版本中发生了较大的变化。
 
-目前 *React Router 6.x* 已经非常稳定，我们可以放心的使用；
+目前 _React Router 6.x_ 已经非常稳定，我们可以放心的使用；
 
 ## 1.安装
 
-安装时，我们选择 *react-router-dom*；
+安装时，我们选择 _react-router-dom_；
 
-因为 *react-router* 是一个宽泛的概念，其中会包含一些 *react-native* 的内容，web 开发并不需要；
+因为 _react-router_ 是一个宽泛的概念，其中会包含一些 _react-native_ 的内容，web 开发并不需要；
 
 ```shell
 npm install react-router-dom
@@ -205,20 +199,20 @@ react-router 最主要的 API 是给我们提供的一些组件：
 08-learn-reactrouter\src\index.js
 
 ```jsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { BrowserRouter, HashRouter } from 'react-router-dom';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+import App from './App'
+import { BrowserRouter, HashRouter } from 'react-router-dom'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <HashRouter>
       <App />
     </HashRouter>
   </React.StrictMode>
-);
+)
 ```
 
 ## 3.路由映射的配置
@@ -229,34 +223,34 @@ root.render(
 
 使用 `<Routes>` 组件：包裹所有的 `<Route>` 组件，在其中匹配一个路由
 
-- *React Router 5.x* 使用的是 `<Switch>` 组件，且允许 `<Switch>` 单独存在，
-- *React Router 6.x* 使用`<Route>` 组件，必须放入 `<Routes>` 里
+- _React Router 5.x_ 使用的是 `<Switch>` 组件，且允许 `<Switch>` 单独存在，
+- _React Router 6.x_ 使用`<Route>` 组件，必须放入 `<Routes>` 里
 
 `<Route>` 组件用于路径的匹配，有以下属性；
 
 - `path` 属性：用于设置匹配到的路径；
 - `element` 属性：设置匹配到的路径，对应渲染的组件；
-  - *React Router 5.x* 使用的是 `component` 属性；
+  - _React Router 5.x_ 使用的是 `component` 属性；
 - ~~`exact`~~ 精准匹配，只有精准匹配到完全一致的路径，才会渲染对应的组件；
-  - *React Router 6.x* 不再支持该属性；
+  - _React Router 6.x_ 不再支持该属性；
 
 08-learn-reactrouter\src\App.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
 import About from './pages/About'
 
 export class App extends PureComponent {
   render() {
     return (
       <div>
-        <div className="header">
+        <div className='header'>
           header
           <hr />
         </div>
-        <div className="content">
+        <div className='content'>
           {/* 映射关系，path => component */}
           <Routes>
             <Route path='/' element={<Home />} />
@@ -264,7 +258,7 @@ export class App extends PureComponent {
             <Route path='/about' element={<About />} />
           </Routes>
         </div>
-        <div className="footer">
+        <div className='footer'>
           <hr />
           footer
         </div>
@@ -293,24 +287,24 @@ export default App
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
+import { Routes, Route, Link } from 'react-router-dom'
+import Home from './pages/Home'
 import About from './pages/About'
 
 export class App extends PureComponent {
   render() {
     return (
       <div>
-        <div className="header">
+        <div className='header'>
           <span>header</span>
-          <div className="nav">
+          <div className='nav'>
             <Link to='/home'>首页</Link>
             <Link to='/about'>关于</Link>
           </div>
           header
           <hr />
         </div>
-        <div className="content">
+        <div className='content'>
           {/* 映射关系，path => component */}
           <Routes>
             <Route path='/' element={<Home />} />
@@ -318,7 +312,7 @@ export class App extends PureComponent {
             <Route path='/about' element={<About />} />
           </Routes>
         </div>
-        <div className="footer">
+        <div className='footer'>
           <hr />
           footer
         </div>
@@ -347,29 +341,37 @@ export default App
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { Routes, Route, NavLink } from 'react-router-dom';
-import Home from './pages/Home';
+import { Routes, Route, NavLink } from 'react-router-dom'
+import Home from './pages/Home'
 import About from './pages/About'
 
 export class App extends PureComponent {
   render() {
     return (
       <div>
-        <div className="header">
+        <div className='header'>
           <span>header</span>
-          <div className="nav">
+          <div className='nav'>
             {/* 这么写，渲染出的 a 标签上永远都会有 color: red 这样的样式 */}
-            <NavLink to='/home' style={() => ({color: 'red'})}>首页</NavLink>
+            <NavLink to='/home' style={() => ({ color: 'red' })}>
+              首页
+            </NavLink>
             {/* 正确写法，引用的函数不需要绑定 this，因为没有使用 this */}
-            <NavLink to='/about' style={this.getStyle}>关于</NavLink>
+            <NavLink to='/about' style={this.getStyle}>
+              关于
+            </NavLink>
 
-            <NavLink to='/home' className={this.getClassName1}>首页</NavLink>
-            <NavLink to='/about' className={this.getClassName2}>关于</NavLink>
+            <NavLink to='/home' className={this.getClassName1}>
+              首页
+            </NavLink>
+            <NavLink to='/about' className={this.getClassName2}>
+              关于
+            </NavLink>
           </div>
           header
           <hr />
         </div>
-        <div className="content">
+        <div className='content'>
           {/* 映射关系，path => component */}
           <Routes>
             <Route path='/' element={<Home />} />
@@ -377,7 +379,7 @@ export class App extends PureComponent {
             <Route path='/about' element={<About />} />
           </Routes>
         </div>
-        <div className="footer">
+        <div className='footer'>
           <hr />
           footer
         </div>
@@ -386,13 +388,13 @@ export class App extends PureComponent {
   }
 
   getStyle({ isActive }) {
-    return {color: isActive ? 'red' : ''}
+    return { color: isActive ? 'red' : '' }
   }
   getClassName1({ isActive }) {
     return isActive ? 'line-active' : ''
   }
   getClassName2({ isActive }) {
-    return isActive ? 'abc-active': ''
+    return isActive ? 'abc-active' : ''
   }
 }
 
@@ -409,7 +411,7 @@ export default App
 
 当这个组件出现时，就会执行跳转到 `to` 属性对应的路径中；
 
-- *React Router 5.x* 用的是 `<Redirect>` 组件：
+- _React Router 5.x_ 用的是 `<Redirect>` 组件：
 
 #### 1.案例一
 
@@ -422,27 +424,27 @@ import React, { PureComponent } from 'react'
 import { Navigate } from 'react-router-dom'
 
 export class Login extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			isLogin: false
-		}
-	}
+  constructor() {
+    super()
+    this.state = {
+      isLogin: false
+    }
+  }
 
-	render() {
-		const { isLogin } = this.state
-    
-		return (
-			<div>
-				<h2>Login Page</h2>
-				{!isLogin ? <button onClick={e => this.login()}>登录</button> : <Navigate to='/home' />}
-			</div>
-		)
-	}
+  render() {
+    const { isLogin } = this.state
 
-	login() {
-		this.setState({ isLogin: true })
-	}
+    return (
+      <div>
+        <h2>Login Page</h2>
+        {!isLogin ? <button onClick={e => this.login()}>登录</button> : <Navigate to='/home' />}
+      </div>
+    )
+  }
+
+  login() {
+    this.setState({ isLogin: true })
+  }
 }
 
 export default Login
@@ -454,29 +456,29 @@ export default Login
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
+import { Routes, Route, Link } from 'react-router-dom'
+import Home from './pages/Home'
+import Login from './pages/Login'
 
 export class App extends PureComponent {
   render() {
     return (
       <div>
-        <div className="header">
+        <div className='header'>
           <span>header</span>
-          <div className="nav">
+          <div className='nav'>
             <Link to='/login'>登录</Link>
           </div>
           header
           <hr />
         </div>
-        <div className="content">
+        <div className='content'>
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/home' element={<Home />} />
           </Routes>
         </div>
-        <div className="footer">
+        <div className='footer'>
           <hr />
           footer
         </div>
@@ -496,25 +498,25 @@ export default App
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
+import { Routes, Route, Navigate } from 'react-router-dom'
+import Home from './pages/Home'
 
 export class App extends PureComponent {
   render() {
     return (
       <div>
-        <div className="header">
+        <div className='header'>
           <span>header</span>
           header
           <hr />
         </div>
-        <div className="content">
+        <div className='content'>
           <Routes>
             <Route path='/' element={<Navigate to='/home' />} />
             <Route path='/home' element={<Home />} />
           </Routes>
         </div>
-        <div className="footer">
+        <div className='footer'>
           <hr />
           footer
         </div>
@@ -538,14 +540,14 @@ export default App
 import React, { PureComponent } from 'react'
 
 export class NotFound extends PureComponent {
-	render() {
-		return (
-			<div>
-				<h1>NotFound Page</h1>
-				<p>您进入的路径不存在，请检查之后再操作或联系开发人员</p>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        <h1>NotFound Page</h1>
+        <p>您进入的路径不存在，请检查之后再操作或联系开发人员</p>
+      </div>
+    )
+  }
 }
 
 export default NotFound
@@ -557,27 +559,27 @@ export default NotFound
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
+import { Routes, Route, Navigate } from 'react-router-dom'
+import Home from './pages/Home'
+import NotFound from './pages/NotFound'
 
 export class App extends PureComponent {
   render() {
     return (
       <div>
-        <div className="header">
+        <div className='header'>
           <span>header</span>
           header
           <hr />
         </div>
-        <div className="content">
+        <div className='content'>
           <Routes>
             <Route path='/' element={<Navigate to='/home' />} />
             <Route path='/home' element={<Home />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </div>
-        <div className="footer">
+        <div className='footer'>
           <hr />
           footer
         </div>
@@ -600,7 +602,7 @@ export default App
 - 推荐列表和排行榜列表；
 - 点击不同的链接可以跳转到不同的页面，显示不同的内容；
 
-`<Outlet>` 组件用于在父路由元素中作为子路由的占位元素（相当于 *vue-router* 中的 `<router-view />`）。
+`<Outlet>` 组件用于在父路由元素中作为子路由的占位元素（相当于 _vue-router_ 中的 `<router-view />`）。
 
 08-learn-reactrouter\src\pages\HomeRecommend.jsx
 
@@ -608,20 +610,20 @@ export default App
 import React, { PureComponent } from 'react'
 
 export class HomeRecommend extends PureComponent {
-	render() {
-		return (
-			<div>
-				<h2>Banner</h2>
-				<h2>推荐列表</h2>
-				<ul>
-					<li>歌单数据01</li>
-					<li>歌单数据02</li>
-					<li>歌单数据03</li>
-					<li>歌单数据04</li>
-				</ul>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        <h2>Banner</h2>
+        <h2>推荐列表</h2>
+        <ul>
+          <li>歌单数据01</li>
+          <li>歌单数据02</li>
+          <li>歌单数据03</li>
+          <li>歌单数据04</li>
+        </ul>
+      </div>
+    )
+  }
 }
 
 export default HomeRecommend
@@ -633,21 +635,21 @@ export default HomeRecommend
 import React, { PureComponent } from 'react'
 
 export class HomeRanking extends PureComponent {
-	render() {
-		return (
-			<div>
-				<h2>Ranking Nav</h2>
-				<h2>榜单数据</h2>
-				<ul>
-					<li>歌曲数据1</li>
-					<li>歌曲数据2</li>
-					<li>歌曲数据3</li>
-					<li>歌曲数据4</li>
-					<li>歌曲数据5</li>
-				</ul>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        <h2>Ranking Nav</h2>
+        <h2>榜单数据</h2>
+        <ul>
+          <li>歌曲数据1</li>
+          <li>歌曲数据2</li>
+          <li>歌曲数据3</li>
+          <li>歌曲数据4</li>
+          <li>歌曲数据5</li>
+        </ul>
+      </div>
+    )
+  }
 }
 
 export default HomeRanking
@@ -657,22 +659,22 @@ export default HomeRanking
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
-import HomeRanking from './pages/HomeRanking';
-import HomeRecommend from './pages/HomeRecommend';
-import NotFound from './pages/NotFound';
+import { Routes, Route, Navigate } from 'react-router-dom'
+import Home from './pages/Home'
+import HomeRanking from './pages/HomeRanking'
+import HomeRecommend from './pages/HomeRecommend'
+import NotFound from './pages/NotFound'
 
 export class App extends PureComponent {
   render() {
     return (
       <div>
-        <div className="header">
+        <div className='header'>
           <span>header</span>
           header
           <hr />
         </div>
-        <div className="content">
+        <div className='content'>
           <Routes>
             <Route path='/' element={<Navigate to='/home' />} />
             <Route path='/home' element={<Home />}>
@@ -686,7 +688,7 @@ export class App extends PureComponent {
             <Route path='*' element={<NotFound />} />
           </Routes>
         </div>
-        <div className="footer">
+        <div className='footer'>
           <hr />
           footer
         </div>
@@ -703,23 +705,23 @@ export default App
 ```jsx
 import React, { PureComponent } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import withRouter from '../hoc/withRouter';
+import withRouter from '../hoc/withRouter'
 
 export class Home extends PureComponent {
-	render() {
-		return (
-			<div>
-				<h1>Home Page</h1>
-				<div className="home-nav">
-					<Link to='/home/recommend'>推荐</Link>
-					<Link to='/home/ranking'>排行榜</Link>
-				</div>
+  render() {
+    return (
+      <div>
+        <h1>Home Page</h1>
+        <div className='home-nav'>
+          <Link to='/home/recommend'>推荐</Link>
+          <Link to='/home/ranking'>排行榜</Link>
+        </div>
 
-				{/* 占位组件 */}
-				<Outlet />
-			</div>
-		)
-	}
+        {/* 占位组件 */}
+        <Outlet />
+      </div>
+    )
+  }
 }
 
 export default withRouter(Home)
@@ -729,9 +731,9 @@ export default withRouter(Home)
 
 使用 `useNavigate` Hook
 
-既然使用了 *react-router* 库，就不要用原生的 DOM 操作实现路由的跳转。
+既然使用了 _react-router_ 库，就不要用原生的 DOM 操作实现路由的跳转。
 
-在 *React Router 6.x* 版本之后，命令式的 API 都迁移到了 hooks 的写法：
+在 _React Router 6.x_ 版本之后，命令式的 API 都迁移到了 hooks 的写法：
 
 在代码中，实现命令式的路由跳转，需要通过 `useNavigate` Hook 获取到 `navigate` 函数；
 
@@ -744,9 +746,9 @@ export default withRouter(Home)
 
 ```jsx
 import React from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import Category from './pages/Category';
-import Order from './pages/Order';
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import Category from './pages/Category'
+import Order from './pages/Order'
 
 export function App() {
   // 只能在顶层使用 useNavigate API
@@ -758,21 +760,21 @@ export function App() {
 
   return (
     <div>
-      <div className="header">
+      <div className='header'>
         header
-        <div className="nav">
+        <div className='nav'>
           <button onClick={e => navigateTo('/category')}>分类</button>
           <span onClick={e => navigateTo('/order')}>订单</span>
         </div>
         <hr />
       </div>
-      <div className="content">
+      <div className='content'>
         <Routes>
           <Route path='/category' element={<Category />} />
           <Route path='/order' element={<Order />} />
         </Routes>
       </div>
-      <div className="footer">
+      <div className='footer'>
         <hr />
         footer
       </div>

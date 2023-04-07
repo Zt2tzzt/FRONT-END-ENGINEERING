@@ -1,5 +1,3 @@
-
-
 # 各种资源打包
 
 ## JS 文件打包（使用 Babel）
@@ -45,11 +43,11 @@ Babel 与 PostCSS 一样都支持单独（脱离 webpack）运行，如何单独
 2. 安装快级作用域语法转换插件，并在命令中使用：可将 const 关键字转成 var
 
    ```shell
-npm install @babel/plugin-transform-block-scoping -D
+   npm install @babel/plugin-transform-block-scoping -D
    ```
-   
+
    ```shell
-npx babel demo.js --out-dir dist --plugins=@babel/plugin-transform-block-scoping,babel/plugin-transform-arrow-function
+   npx babel demo.js --out-dir dist --plugins=@babel/plugin-transform-block-scoping,babel/plugin-transform-arrow-function
    ```
 
 插件过多，一个个设置比较麻烦，可以使用预设：
@@ -66,20 +64,20 @@ npx babel demo.js --out-dir dist --plugins=@babel/plugin-transform-block-scoping
 
 > 安装库的方式如 `@babel/core`，表示代码仓库通过 monoRepo 的方式来管理。
 
-------
+---
 
-Babel 编译器的工作流程，3点：对应的步骤，理解原理图。
+Babel 编译器的工作流程，3 点：对应的步骤，理解原理图。
 
 1. 解析阶段（Parsing）
    - 原生代码 -> 词法分析 -> token 数组 -> 语法分析（也称为 Parsing）-> AST
 2. 转换阶段（Transformation）
    - AST -> 遍历 -> 访问 -> 应用插件
 3. 生成阶段（Code Generation）
-   - 应用插件 -> 新的AST -> 目标代码
+   - 应用插件 -> 新的 AST -> 目标代码
 
 <img src="NodeAssets/Babel的执行流程.jpg" alt="Babel的执行流程" style="zoom:150%;" />
 
-------
+---
 
 在 webpack 中使用 babel：
 
@@ -94,11 +92,11 @@ Babel 编译器的工作流程，3点：对应的步骤，理解原理图。
    ```shell
    npm install @babel/plugin-transform-arrow-function @babel/plugin-transform-block-scoping -D
    ```
-   
+
    ```shell
    npm install @babel/preset-env -D
    ```
-   
+
 3. 在`webpoack.config.js`文件中做配置：
 
    ```javascript
@@ -129,16 +127,16 @@ Babel 编译器的工作流程，3点：对应的步骤，理解原理图。
    }
    ```
 
-------
+---
 
-Babel 配置文件的2种命名方式：
+Babel 配置文件的 2 种命名方式：
 
 - babel.config.js（或者.json, .cjs, .mjs）
   - 可以直接用于 MonoRepo 的子包，更加方便。
 - .babelrc.js（或者.babelrc, .js, .cjs, .mjs）
   - 早期使用较多的命名方式，对于配置 MonoRepos 项目比较麻烦。
 
-------
+---
 
 使用单独配置文件配置 babel
 
@@ -146,13 +144,11 @@ Babel 配置文件的2种命名方式：
 
 ```javascript
 module.exports = {
-  presets: [
-    ['@babel/preset-env']
-  ]
+  presets: [['@babel/preset-env']]
 }
 ```
 
-------
+---
 
 ## 对 vue 的文件的打包
 
@@ -165,12 +161,12 @@ Vue 框架源码打包后的两大版本及特点，
 
 - vue(.runtime).global(.prod).js：通过浏览器中的 `<script>` 标签引用，暴露一个全局的 Vue。
 - vue(.runtime).esm-broswer(.prod).js：通过原生 ES 模块导入，如在浏览器中使用 `<script type="module">` 引入。
-- vue(.runtime).esm-bundle.js：webpack / rollup 等构建工具中默认使用该版本，如需解析 template，手动指定**非  runtime** 版本。
+- vue(.runtime).esm-bundle.js：webpack / rollup 等构建工具中默认使用该版本，如需解析 template，手动指定**非 runtime** 版本。
 - vue.cjs(.prod).js：服务器端渲染使用，通过 require() 在 Node.js 中使用。
 
-------
+---
 
-vue 中编写 DOM 元素有3种方式：
+vue 中编写 DOM 元素有 3 种方式：
 
 - 在 HTML 文件中编写 template 模板并引用 vue 框架的方式。
   - 需要通过源码中的 compiler 模块代码来进行编译。
@@ -179,7 +175,7 @@ vue 中编写 DOM 元素有3种方式：
 - render 函数的方式，使用 h 函数来编写渲染的内容。
   - h 函数可以直接返回一个虚拟节点，也就是 VNode 节点。
 
-------
+---
 
 ### 对引用 vue 框架的文件打包
 
@@ -198,22 +194,22 @@ webpack 对 vue 代码打包的步骤：
    ```html
    <!DOCTYPE html>
    <html lang="en">
-   <head>
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Document</title>
-   </head>
-   <body>
-     <div id="app"></div>
-     <template id="my-app">
-       <div>
-         <h2>{{title}}</h2>
-         <p>{{content}}</p>
-       </div>
-     </template>
-     <script src="./dist/main.js"></script>
-   </body>
+     <head>
+       <meta charset="UTF-8" />
+       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+       <title>Document</title>
+     </head>
+     <body>
+       <div id="app"></div>
+       <template id="my-app">
+         <div>
+           <h2>{{title}}</h2>
+           <p>{{content}}</p>
+         </div>
+       </template>
+       <script src="./dist/main.js"></script>
+     </body>
    </html>
    ```
 
@@ -221,7 +217,7 @@ webpack 对 vue 代码打包的步骤：
 
    ```javascript
    import { createApp } from 'vue/dist/vue.esm.bundle.js' /* 手动指定非 runtime 版本 */
-   
+
    createApp({
      template: '#my-app',
      data() {
@@ -237,20 +233,20 @@ webpack 对 vue 代码打包的步骤：
 
    ```javascript
    const { DefinePlugin } = require('webpack')
-   
+
    module.exports = {
      plugins: [
        new DefinePlugin({
          __VUE_OPTIONS_API__: true,
          __VUE_PROD_DEVTOOLS__: false
-       }),
+       })
      ]
    }
    ```
 
    - 从 Vue3 开始，使用 esm-bundler 版本，强烈建议配置两个全局标识（GlobalFeatureFlags）：
-   	- `__VUE_OPTIONS_API__ `：是否需要支持 Options API，默认 true，配置 false 可做 tree-shaking 优化代码。
-   	- `__VUE_PROD_DEVTOOLS__`：是否在生产环境使用 devtool 调试工具，默认为 false。
+     - `__VUE_OPTIONS_API__ `：是否需要支持 Options API，默认 true，配置 false 可做 tree-shaking 优化代码。
+     - `__VUE_PROD_DEVTOOLS__`：是否在生产环境使用 devtool 调试工具，默认为 false。
    - 在 webpack 中使用 DefinePlugin 插件注入。
 
 4. 执行 webpack 打包命令。
@@ -259,7 +255,7 @@ webpack 对 vue 代码打包的步骤：
    npx webpack
    ```
 
-------
+---
 
 ### 对 vue 的 SFC 文件打包
 
@@ -272,7 +268,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
    ```javascript
    import App from './vue/App.vue'
    import { createApp } from 'vue/dist/vue.esm.bundle.js' /* 后续安装 @vue/compiler-sfc，配置 vue-loader-plugin 后，可改为默认引入方式，即 vue */
-   
+
    createApp(App).mount('#app')
    ```
 
@@ -308,14 +304,14 @@ webpack 对 vue 的 SFC 文件打包的步骤：
    ```javascript
    const { VueLoaderPlugin } = require('vue-loader/dist/index')
    const { DefinePlugin } = require('webpack')
-   
+
    module.exports = {
      plugins: [
-       new VueLoaderPlugin,
+       new VueLoaderPlugin(),
        new DefinePlugin({
          __VUE_OPTIONS_API__: true,
          __VUE_PROD_DEVTOOLS__: false
-       }),
+       })
      ]
    }
    ```
@@ -326,7 +322,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
    npx webpack
    ```
 
-------
+---
 
 将 template 放入 SFC 文件后，可改变引入的 Vue 依赖路径为 `vue`，这是因为 @vue/compiler-sfc 已经对 template 做了解析。。
 
@@ -336,7 +332,7 @@ webpack 对 vue 的 SFC 文件打包的步骤：
 import { createApp } from 'vue' // 这样写，表示引入的 runtime 版本，即 vue.runtime.esm-bundle.js。
 ```
 
-------
+---
 
 # resolve 路径解析配置
 
@@ -346,16 +342,16 @@ resolve 有什么用：
 
 - resolve 用于设置模块如何被解析，帮助 webpack 从每个 require / import 语句中，找到需要引入的模块，
 
-- webpack 使用 `enhanced-resolve`  这个库来解析文件路径。
+- webpack 使用 `enhanced-resolve` 这个库来解析文件路径。
 
 resolve 中的 `extensions` 和 `alias`
 
-- `extensions` 是解析到文件时自动添加扩展名： 
-	- 默认值是 ['.wasm', '.mjs', '.js', '.json']； 
-	- 所以如果我们代码中想要添加加载 `.vue` 或者 `.jsx `或者 `.ts` 等文件时，我们必须自己写上扩展名；
-- 另一个非常好用的功能是配置别名 alias： 
-	- 特别是当我们项目的目录结构比较深的时候，或者一个文件的路径可能需要 `../../../` 这种路径片段；
-	- 我们可以给某些常见的路径起一个别名；
+- `extensions` 是解析到文件时自动添加扩展名：
+  - 默认值是 ['.wasm', '.mjs', '.js', '.json']；
+  - 所以如果我们代码中想要添加加载 `.vue` 或者 `.jsx `或者 `.ts` 等文件时，我们必须自己写上扩展名；
+- 另一个非常好用的功能是配置别名 alias：
+  - 特别是当我们项目的目录结构比较深的时候，或者一个文件的路径可能需要 `../../../` 这种路径片段；
+  - 我们可以给某些常见的路径起一个别名；
 
 resolve 怎么配置：
 
@@ -369,42 +365,45 @@ module.exports = {
     modules: ['node_modules'], // 默认值，指定所有目录自动检索。
     mainFiles: ['index'], // 默认值，指定所有文件名自动解析
     extensions: ['.wasm', '.mjs', '.js', '.json', '.vue', '.jxs', 'ts'], // 前4个是默认值。指定所有文件扩展自动解析
-    alias: { // 常用的路径起别名
-      "@": path.resolve(__dirname, "./src"),
-      pages: path.resolve(__dirname, "./src/pages")
+    alias: {
+      // 常用的路径起别名
+      '@': path.resolve(__dirname, './src'),
+      pages: path.resolve(__dirname, './src/pages')
     }
   }
 }
 ```
 
-------
+---
 
-webpack 能解析的3种路径
+webpack 能解析的 3 种路径
 
 - 绝对路径：
-	- 由于已经获得文件的绝对路径，所以不需要要进一步解析。
+  - 由于已经获得文件的绝对路径，所以不需要要进一步解析。
 - 相对路径：
-	- 在这种情况下，使用 `import` 或 `require` 的资源文件所处的目录，被认为是上下文目录； 
-	- 在 import / require 中给定的相对路径，会拼接此上下文路径，来生成模块的绝对路径；
+  - 在这种情况下，使用 `import` 或 `require` 的资源文件所处的目录，被认为是上下文目录；
+  - 在 import / require 中给定的相对路径，会拼接此上下文路径，来生成模块的绝对路径；
 - 模块路径：
-	- 使用 `resolve.modules` 中指定的所有目录检索模块，默认是 `['node_modules']`
-	- 我们可以通过设置别名 `alias` 的方式来替换初始模块路径；
+  - 使用 `resolve.modules` 中指定的所有目录检索模块，默认是 `['node_modules']`
+  - 我们可以通过设置别名 `alias` 的方式来替换初始模块路径；
 
-------
+---
 
 webpack 解析时如何确认是文件还是目录？
 
 1. 当作是一个文件
+
    1. 有扩展名，直接打包文件。
 
    2. 无扩展名，使用 `resolve.extensions` 选项作为文件扩展名解析。
 
 2. 当作是目录
+
    1. 根据 `resolve.mainFiles` 配置选项中指定的文件顺序查找，默认值是['index']
 
    2. 根据 `resolve.extensions` 来解析扩展名。
 
-------
+---
 
 # 插件的使用
 
@@ -417,9 +416,9 @@ plugin 有什么用，它与 loader 的区别。
 
 <img src="NodeAssets/plugin作用图.jpg" alt="plugin作用图" style="zoom:150%;" />
 
-------
+---
 
-## ClearWebpackPlugin 
+## ClearWebpackPlugin
 
 ClearWebpackPlugin 的作用。
 
@@ -432,11 +431,10 @@ ClearWebpackPlugin 的作用。
     output: {
       clear: true
     }
-}
+  }
   ```
-  
 
-使用步骤，2步：
+使用步骤，2 步：
 
 1. 安装插件
 
@@ -448,11 +446,9 @@ ClearWebpackPlugin 的作用。
 
    ```javascript
    const { cleanWebpackPlugin } = require('clean-webpack-plugin')
-   
+
    module.exports = {
-     plugins: [
-       new CleanWebpackPlugin()
-     ]
+     plugins: [new CleanWebpackPlugin()]
    }
    ```
 
@@ -462,7 +458,7 @@ HtmlWebpackPlugin 的作用，
 
 - 对 html 模板文件进行打包处理，并添加到打包目录下，引用打包后的 js 文件。
 
-使用步骤，2步：
+使用步骤，2 步：
 
 1. 安装插件
 
@@ -470,11 +466,11 @@ HtmlWebpackPlugin 的作用，
    npm install html-webpack-plugin -D
    ```
 
-2. 在插件中配置，默认会根据插件中的一个ejs 模板来生成。其中使用 `<%= 变量 %>` 来做数据填充。
+2. 在插件中配置，默认会根据插件中的一个 ejs 模板来生成。其中使用 `<%= 变量 %>` 来做数据填充。
 
    ```javascript
    const HtmlWebpackPlugin = require('html-webpack-plugin')
-   
+
    module.exports = {
      plugin: [
        new HtmlWebpackPlugin({
@@ -485,7 +481,7 @@ HtmlWebpackPlugin 的作用，
    }
    ```
 
-## DefinePlugin 
+## DefinePlugin
 
 DefinePlugin 的作用，它是 webpack 默认提供的插件。
 
@@ -497,7 +493,7 @@ DefinePlugin 的作用，它是 webpack 默认提供的插件。
 ./public/index.html
 
 ```html
-<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+<link rel="icon" href="<%= BASE_URL %>favicon.ico" />
 ```
 
 使用步骤：
@@ -514,13 +510,13 @@ module.exports = {
 }
 ```
 
-## CopyWebpackPlugin 
+## CopyWebpackPlugin
 
 CopyWebpackPlugin 插件的作用：
 
 - 将指定的文件，复制到 dist 文件夹中。
 
-使用步骤，2步：
+使用步骤，2 步：
 
 1. 安装 CopyWebpackPlugin 插件：
 
@@ -532,7 +528,7 @@ CopyWebpackPlugin 插件的作用：
 
    ```javascript
    const CopyWebpackPlugin = require('copy-webpack-plugin')
-   
+
    module.exports = {
      plugins: [
        new CopyWebpackPlugin({
@@ -552,7 +548,7 @@ CopyWebpackPlugin 插件的作用：
    }
    ```
 
-------
+---
 
 在 `webpack-config.js` 文件中配置 node 和 devtool。
 
@@ -579,13 +575,15 @@ devtool：选择一种源映射方式，
 
 为什么要搭建本地服务？
 
-- 目前我们开发的代码，为了运行需要有两个操作： 
-  1. npm run build，编译相关的代码； 
+- 目前我们开发的代码，为了运行需要有两个操作：
+
+  1. npm run build，编译相关的代码；
 
   2. 通过 live server 或者直接通过浏览器，打开 index.html 文件，查看效果；
+
 - 这个过程经常操作会影响我们的开发效率，我们希望可以做到，当文件发生变化时，可以自动的完成编译和展示（刷新页面）；
 
-webpack 中3种自动编译的方式。
+webpack 中 3 种自动编译的方式。
 
 - webpack watch mode
 - webpack-dev-server（常用）
@@ -671,12 +669,12 @@ module.exports = {
 
 ## HMR 配置
 
-什么是 HMR，2点理解
+什么是 HMR，2 点理解
 
 - HMR 全称是 Hot Module Replacement，译为模块热替换。
 - 指在应用程序运行中，替换，添加，删除模块，而无需刷新整个页面。（模块通常指文件）
 
-HMR 的好处，2点：
+HMR 的好处，2 点：
 
 - 不重新加载页面，保留应用程序某些状态不丢失。
 - 只更新变化的内容，节省开发的时间。
@@ -688,7 +686,7 @@ HMR 的好处，2点：
 
    ```javascript
    module.exports = {
-     target: "web", // 最好配置，意思是为 web 环境打包。
+     target: 'web', // 最好配置，意思是为 web 环境打包。
      devServer: {
        hot: true
      }
@@ -699,20 +697,20 @@ HMR 的好处，2点：
 
    ```javascript
    import './js/util.js' // 需要先引入模块。
-   
+
    if (module.hot) {
-     module.hot.accept("./js/util.js", () => {
-       console.log("util更新了")
+     module.hot.accept('./js/util.js', () => {
+       console.log('util更新了')
      })
    }
    ```
 
-在实际开发项目时，是否需要经常手动写 `module.hot.accept` 代码呢？2个例子：
+在实际开发项目时，是否需要经常手动写 `module.hot.accept` 代码呢？2 个例子：
 
 - vue 开发中，vue-loader 支持 vue 组件的 HMR，提供开箱即用的体验。
 - react 开发中，react-refresh（React Hot Loader 已弃用）实时调整 react 组件。
 
-HMR 原理的理解，2方面，。
+HMR 原理的理解，2 方面，。
 
 webpack-dev-server 会创建两个服务：
 
@@ -726,13 +724,13 @@ webpack-dev-server 会创建两个服务：
 
 <img src="NodeAssets/HRM原理图.jpg" alt="HRM原理图" style="zoom:150%;" />
 
-------
+---
 
 理解 Socket 连接和 Http 连接的连接过程。
 
 Socket 连接：也称“长连接”，用于及时通讯（微信，聊天，直播送礼物，进场）
 
-- 经过3次或5次握手，通过心跳包建立连接通道，客户端和服务器可随时互相发送消息。
+- 经过 3 次或 5 次握手，通过心跳包建立连接通道，客户端和服务器可随时互相发送消息。
 
 Http 连接，短链接：
 

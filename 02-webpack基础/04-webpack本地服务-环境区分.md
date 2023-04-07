@@ -6,7 +6,7 @@ devServer 中使用 host 设置主机地址，两个值，区别
 
 - 默认值是 `locahost`：
   - 本质是域名，会被解析为 127.0.0.1，它是回环地址（loop back address），意思是主机自己发送的包，被自己接收。
-  - 正常的数据包经过**应用层-传输层-网络层-数据链路层-物理层**，在回环地址中，数据包在网络层被获取到，不会经过后面2层。
+  - 正常的数据包经过**应用层-传输层-网络层-数据链路层-物理层**，在回环地址中，数据包在网络层被获取到，不会经过后面 2 层。
   - 比如我们监听 127.0.0.1 时，在同一个网段下的主机中，通过 ip 地址是不能访问的;
 - 0.0.0.0：( windows 浏览器解析可能会出错。)
   - 监听 IPV4 上所有的地址，再根据端口找到不同的应用程序。
@@ -20,7 +20,7 @@ module.exports = {
 }
 ```
 
-##  port，open，compress 配置
+## port，open，compress 配置
 
 devServer 中 port，open，compress 等属性的配置，可用的值含义。
 
@@ -44,7 +44,7 @@ module.exports = {
 
 比如一个 api 请求是 `http://localhost:8888` ，但本地启动服务器域名是 `http://localhost:8000`，这个时候浏览器发送网络请求就会出现跨域问题。
 
-跨域问题的解决办法，3点：
+跨域问题的解决办法，3 点：
 
 - 将静态资源和 api 服务器部署在一起。
 - 让服务器关闭跨域。
@@ -65,10 +65,10 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-				target: 'http://localhost:8888', // 代理的目标地址，默认情况下将代理 http://localhost:8888/api 这个路径
-				pathRewrite: {
-					"^/api": '' // 在代理路径中删除掉 /api
-				},
+        target: 'http://localhost:8888', // 代理的目标地址，默认情况下将代理 http://localhost:8888/api 这个路径
+        pathRewrite: {
+          '^/api': '' // 在代理路径中删除掉 /api
+        },
         secure: false, // 在 https 的情况下，仍代理，默认为 true
         changeOrigin: true // 表示是否更新代理后，请求的 headers 中 host 地址，默认 http://localhost:8000 ,会改为 http://localhost:8888
       }
@@ -94,9 +94,9 @@ module.exports = {
    webpack.dev.config.js
 
    ```javascript
-   const { merge } = require('webpack-merge') 
+   const { merge } = require('webpack-merge')
    const commonConfig = require('./webpack.comm.config')
-   
+
    module.exports = merge(commonConfig, {
      // ...
    })
@@ -108,10 +108,10 @@ module.exports = {
 
    ```javascript
    const path = require('path')
-   
+
    module.exports = {
      context: path.resolve(__dirname, './'), // 为入口文件设置相对路径，此时代表 ./config 目录，
-     entry: "../src/index.js" // 默认是 ./src/index.js，即 webpack 运行的目录，即项目根目录
+     entry: '../src/index.js' // 默认是 ./src/index.js，即 webpack 运行的目录，即项目根目录
    }
    ```
 
@@ -123,4 +123,3 @@ module.exports = {
      "serve": "webpack serve --config ./config/webpack.dev.config.js"
    }
    ```
-

@@ -26,7 +26,7 @@ num = 200
 ```js
 // 对象的响应式
 const obj = {
-  name: "zzt",
+  name: 'zzt',
   age: 18
 }
 
@@ -40,19 +40,19 @@ function bar() {
 }
 
 // 修改 obj 对象
-obj.name = "kobe"
+obj.name = 'kobe'
 obj.age = 20
 ```
 
 我们如何区分一个函数需要响应式，还是不需要响应式呢？
 
-1. 这个时候我们封装一个新的函数 `watchFn`； 
+1. 这个时候我们封装一个新的函数 `watchFn`；
 2. 凡是传入到 `watchFn` 的函数，就是需要响应式的，将它们放入到一个数组结构中进行收集；
 3. 其他默认定义的函数都是不需要响应式的。
 
 ```js
 const obj = {
-  name: "zzt",
+  name: 'zzt',
   age: 18
 }
 
@@ -66,7 +66,7 @@ function watchFn(fn) {
 watchFn(function foo() {
   console.log('foo：', obj.name)
   console.log('foo：', obj.age)
-	console.log('foo function')
+  console.log('foo function')
 })
 function bar() {
   const result = 20 + 30
@@ -74,8 +74,8 @@ function bar() {
 }
 
 // 修改 obj 的属性
-console.log("name发生变化-----------------------")
-obj.name = "kobe"
+console.log('name发生变化-----------------------')
+obj.name = 'kobe'
 reactiveFns.forEach(fn => {
   fn()
 })
@@ -83,11 +83,13 @@ reactiveFns.forEach(fn => {
 
 # 响应式依赖收集重构，使用类收集。
 
-目前我们收集的依赖是放到一个数组 `reactiveFns` 中来保存的，但是这里会存在数据管理的问题： 
-- 我们在实际开发中需要监听对象中很多属性的响应式，它们很多属性的变化，都会有对应的响应式函数； 
+目前我们收集的依赖是放到一个数组 `reactiveFns` 中来保存的，但是这里会存在数据管理的问题：
+
+- 我们在实际开发中需要监听对象中很多属性的响应式，它们很多属性的变化，都会有对应的响应式函数；
 - 我们不可能在全局维护一大堆的数组来保存这些响应函数；
 
 所以我们要设计一个类，这个类用于管理**某一个对象的某一个属性**的所有响应式函数：
+
 - 相当于替代了原来的简单 reactiveFns 的数组；
 
 ```js
@@ -108,7 +110,7 @@ class Depend {
 }
 
 const obj = {
-  name: "zzt",
+  name: 'zzt',
   age: 18
 }
 
@@ -120,21 +122,22 @@ function watchFn(fn) {
 }
 
 watchFn(function foo() {
-  console.log("foo:", obj.name)
-  console.log("foo", obj.age)
-  console.log("foo function")
+  console.log('foo:', obj.name)
+  console.log('foo', obj.age)
+  console.log('foo function')
 })
 
 // 修改 obj 的属性
-console.log("name发生变化-----------------------")
-obj.name = "kobe"
+console.log('name发生变化-----------------------')
+obj.name = 'kobe'
 dep.notify()
 ```
 
 # 监听属性的变化，执行响应式代码。
 
-那么我们接下来就可以通过之前学习的方式来监听对象属性的变化： 
-- 方式一：通过 `Object.defineProperty` 的方式（vue2 采用的方式）； 
+那么我们接下来就可以通过之前学习的方式来监听对象属性的变化：
+
+- 方式一：通过 `Object.defineProperty` 的方式（vue2 采用的方式）；
 - 方式二：通过 `new Proxy` 的方式（vue3 采用的方式）；
 
 我们这里先以 `Object.defineProperty` 的方式来监听：
@@ -155,7 +158,7 @@ class Depend {
 }
 
 const obj = {
-  name: "zzt",
+  name: 'zzt',
   age: 18
 }
 
@@ -170,49 +173,48 @@ Object.keys(obj).forEach(key => {
   let value = obj[key]
 
   Object.defineProperty(obj, key, {
-		set: function(newValue) {
-			// 如果在此处使用 `obj[key] = newValue` 会产生递归
+    set: function (newValue) {
+      // 如果在此处使用 `obj[key] = newValue` 会产生递归
       value = newValue
       dep.notify()
     },
-    get: function() {
+    get: function () {
       return value
     }
   })
 })
 
 watchFn(function foo() {
-  console.log("foo:", obj.name)
-  console.log("foo", obj.age)
-  console.log("foo function")
+  console.log('foo:', obj.name)
+  console.log('foo', obj.age)
+  console.log('foo function')
 })
 watchFn(function bar() {
-  console.log("bar:", obj.name + " hello")
-  console.log("bar:", obj.age + 10)
-  console.log("bar function")
+  console.log('bar:', obj.name + ' hello')
+  console.log('bar:', obj.age + 10)
+  console.log('bar function')
 })
 
 // 修改obj的属性
-console.log("name发生变化-----------------------")
-obj.name = "kobe"
+console.log('name发生变化-----------------------')
+obj.name = 'kobe'
 
-console.log("age发生变化-----------------------")
+console.log('age发生变化-----------------------')
 obj.age = 20
 
-console.log("name发生变化-----------------------")
-obj.name = "james"
+console.log('name发生变化-----------------------')
+obj.name = 'james'
 ```
 
 # 自动收集依赖
 
 理解依赖管理的数据结构。
 
-1. 我们目前是创建了一个 Depend 对象，用来管理对于 name 变化需要监听的响应函数： 
+1. 我们目前是创建了一个 Depend 对象，用来管理对于 name 变化需要监听的响应函数：
 2. 但是，前面也提到，在实际开发中我们会有不同的对象，另外会有不同的属性需要管理；
 3. 我们如何可以使用一种数据结构来管理不同对象的不同依赖关系呢？最好的办法是通过 WeakMap 来实现。
 
 <img src="NodeAssets/对象的依赖管理数据结构.jpg" alt="对象的依赖管理数据结构j" style="zoom:80%;" />
-
 
 自动收集依赖
 
@@ -266,7 +268,7 @@ function getDepend(obj, key) {
 }
 
 const obj = {
-  name: "zzt",
+  name: 'zzt',
   age: 18
 }
 
@@ -274,12 +276,12 @@ const obj = {
 Object.keys(obj).forEach(key => {
   let value = obj[key]
   Object.defineProperty(obj, key, {
-    set: function(newValue) {
+    set: function (newValue) {
       value = newValue
       const dep = getDepend(obj, key)
       dep.notify()
     },
-    get: function() {
+    get: function () {
       // 找到对应的 obj 对象的 key 对应的 dep 对象
       const dep = getDepend(obj, key)
       dep.addDepend(reactiveFn)
@@ -291,19 +293,19 @@ Object.keys(obj).forEach(key => {
 // ========================= 业务代码 ========================
 
 watchFn(function foo() {
-  console.log("foo function")
-  console.log("foo:", obj.name)
-  console.log("foo", obj.age)
+  console.log('foo function')
+  console.log('foo:', obj.name)
+  console.log('foo', obj.age)
 })
 watchFn(function bar() {
-  console.log("bar function")
-  console.log("bar:", obj.age + 10)
+  console.log('bar function')
+  console.log('bar:', obj.age + 10)
 })
 
 // 修改obj的属性
-console.log("name发生变化-----------------------")
-obj.name = "kobe"
-console.log("age发生变化-----------------------")
+console.log('name发生变化-----------------------')
+obj.name = 'kobe'
+console.log('age发生变化-----------------------')
 obj.age = 20
 ```
 
@@ -317,14 +319,13 @@ obj.age = 20
 
 解决办法：
 
-1. 不使用数组，而是使用 Set； 
+1. 不使用数组，而是使用 Set；
 2. 添加一个新的方法，用于收集依赖；
-
 
 ```js
 class Depend {
   constructor() {
-    this.reactiveFns = new Set()  // 为保证响应式函数不重复执行，使用 Set 代替数组。
+    this.reactiveFns = new Set() // 为保证响应式函数不重复执行，使用 Set 代替数组。
   }
   depend() {
     if (reactiveFn) {
@@ -367,12 +368,12 @@ function getDepend(obj, key) {
 // 方式二: new Proxy() -> Vue3
 function reactive(obj) {
   const objProxy = new Proxy(obj, {
-    set: function(target, key, newValue, receiver) {
+    set: function (target, key, newValue, receiver) {
       Reflect.set(target, key, newValue, receiver)
       const dep = getDepend(target, key)
       dep.notify()
     },
-    get: function(target, key, receiver) {
+    get: function (target, key, receiver) {
       const dep = getDepend(target, key)
       dep.depend()
       return Reflect.get(target, key, receiver)
@@ -383,36 +384,36 @@ function reactive(obj) {
 
 // ========================= 业务代码 ========================
 
-console.log("=============== obj =================")
+console.log('=============== obj =================')
 const obj = reactive({
-  name: "zzt",
+  name: 'zzt',
   age: 18,
-  address: "深圳市"
+  address: '深圳市'
 })
 
-watchFn(function() {
+watchFn(function () {
   console.log(obj.name)
   console.log(obj.age)
   console.log(obj.age)
 })
 
 // 修改name
-obj.name = "kobe"
+obj.name = 'kobe'
 obj.age = 20
-obj.address = "上海市"
+obj.address = '上海市'
 
-console.log("=============== user =================")
+console.log('=============== user =================')
 const user = reactive({
-  nickname: "abc",
+  nickname: 'abc',
   level: 100
 })
 
-watchFn(function() {
-  console.log("nickname:", user.nickname)
-  console.log("level:", user.level)
+watchFn(function () {
+  console.log('nickname:', user.nickname)
+  console.log('level:', user.level)
 })
 
-user.nickname = "cba"
+user.nickname = 'cba'
 ```
 
 项目开发模式的理解。

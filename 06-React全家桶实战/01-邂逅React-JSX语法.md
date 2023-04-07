@@ -21,6 +21,7 @@ React 由 Facebook 更新和维护，它是大量优秀程序员的思想结晶�
 React 不仅仅局限开发者对它的认可；其它流行的框架或多或少也借鉴 React 的思想；
 
 - Vue.js 框架设计之初，有很多的灵感来自 Angular 和 React。
+
   - 比如 React Hooks 是开创性的思想，Vue Composition API 借鉴了 React Hooks 的思想；
 
 - Flutter 的很多灵感都来自 React：
@@ -33,17 +34,15 @@ React 是前端的先驱者，它引领整个前端的潮流。
 首先，React 和 Vue 是前端开发人员必须掌握的两个框架。
 
 下面的观点是一个目前比较普遍的共识：
+
 - 大中型公司选择 React 会较多，灵活和稳定；
 - 中小型公司选择 Vue 会较多，易上手和代码统一；
 
 <img src="NodeAssets/Vue和React在中大型公司中的应用.jpg" alt="Vue和React在中大型公司中的应用" style="zoom:80%;" />
 
-
 # 二、新技术栈学习方法
 
 <img src="NodeAssets/如何学习一个新技术栈.jpg" alt="如何学习一个新技术栈" style="zoom:80%;" />
-
-
 
 # 三、React 适用人群
 
@@ -52,7 +51,6 @@ React 是前端的先驱者，它引领整个前端的潮流。
 - 前端基础知识掌握牢固（HTML、CSS、JavaScript）。
 - 高级的 JavaScript 语法掌握牢固。
   - 比如 ES6 以上的语法、this 绑定规则等等；
-
 
 # 四、React 技术特点
 
@@ -86,7 +84,6 @@ React 是前端的先驱者，它引领整个前端的潮流。
 
 <img src="NodeAssets/React多平台视频.jpg" alt="React多平台视频" style="zoom:100%;" />
 
-
 # 五、React 初体验（一）
 
 在界面上通过 React 显示一个 Hello World
@@ -119,8 +116,6 @@ React 是前端的先驱者，它引领整个前端的潮流。
 `root.render`：渲染根组件。
 
 通过 `{}` 语法来引入外部的变量或者表达式
-
-
 
 # 六、React 的开发依赖
 
@@ -166,8 +161,6 @@ babel 与 react 的关系：
 - 不使用 babel，需要使用 `React.createElement` 来编写代码，非常的繁琐，可读性差。
 - 使用 babel，可直接编写 jsx（JavaScript XML）代码；babel 会将 jsx 编译成 `React.createElement` 形式的源码。
 
-
-
 # 七、React 初体验（二）
 
 实现案例，点击按钮，修改文本，理解 react 创建根的做法，
@@ -198,7 +191,7 @@ babel 与 react 的关系：
 			render()
 		}
 
-		// 3.封装一个渲染函数，并调用一次。		
+		// 3.封装一个渲染函数，并调用一次。
 		function render() {
 			// 第一个括号表示 render 方法执行，第二个括号表示 jsx 代码块整体
 			root.render((
@@ -224,7 +217,7 @@ babel 与 react 的关系：
 
 1. 定义一个类；
    - 类名首字母必须大写，组件的名称是必须大写的，否则会被认为是 HTML 元素
-   - 继承自 `React.Component` 
+   - 继承自 `React.Component`
 2. 实现组件的 `render` 函数，返回的 jsx 内容，就是 React 会渲染的内容。
 
 ```jsx
@@ -275,14 +268,15 @@ babel 与 react 的关系：
 </body>
 ```
 
-
 ## 1.状态定义
 
-在组件中的数据，我们可以分成两类： 
-- 参与界面更新的数据：当数据变化时，需要更新组件渲染的内容； 
+在组件中的数据，我们可以分成两类：
+
+- 参与界面更新的数据：当数据变化时，需要更新组件渲染的内容；
 - 不参与界面更新的数据：当数据变化时，不需要更新组建渲染的内容；
 
-参与界面更新的数据称之为是**参与数据流**，这个数据是定义在当前对象的 `state` 中 
+参与界面更新的数据称之为是**参与数据流**，这个数据是定义在当前对象的 `state` 中
+
 - 在构造函数中进行初始化 `this.state = {...}`
 - 当数据发生变化时，调用 `this.setState` ，该方法是从 `React.Component` 继承过来的，会做两件事：
   - 更新 `this.state` 中的状态值；
@@ -292,8 +286,8 @@ babel 与 react 的关系：
 
 在类中定义一个实例方法，将这个方法，绑定到元素的 `onClick` 事件上，这个方法中的 `this` 默认情况下指向 `undefined`
 
-1. 原生的 DOM 操作中，监听点击，监听函数中的 `this` 指向节点对象（比如 button 对象）； 
-3. React 中的代码，并非直接渲染成真实的 DOM，我们所使用 JSX 编写的 `<button>` 只是一个语法糖，它的本质是 React 的 Element 对象； 
+1. 原生的 DOM 操作中，监听点击，监听函数中的 `this` 指向节点对象（比如 button 对象）；
+2. React 中的代码，并非直接渲染成真实的 DOM，我们所使用 JSX 编写的 `<button>` 只是一个语法糖，它的本质是 React 的 Element 对象；
 3. React 在执行 React 的 Element 对象上绑定的函数时，并没有为它绑定 `this`；所以默认情况下就是一个 `undefined`；
    1. ES6 中使用 class，里面的实例方法，默认开启**严格模式**；React 项目中，引用的 babel 库，其中也会开启**严格模式**。
    2. 而在严格模式下，`this` 的默认就是 `undefined`。
@@ -302,10 +296,8 @@ babel 与 react 的关系：
 综上所述，在绑定事件处理的函数中，想要使用当前组件实例对象，即 `this`，需要在绑定事件处理函数前，给该函数绑定 `this`：
 
 ```jsx
-<button onClick={ this.changeText.bind(this) }>改变文本</button>
+<button onClick={this.changeText.bind(this)}>改变文本</button>
 ```
-
-
 
 # 九、React 初体验（三）
 
@@ -340,7 +332,7 @@ babel 与 react 的关系：
 				)
 			}
 		}
-		
+
 		// 创建 root
 		const root = ReactDOM.createRoot(document.querySelector('#root'))
 		// 渲染组件
@@ -410,7 +402,7 @@ babel 与 react 的关系：
 
 JSX 是一种 JavaScript 的语法扩展（javaScript extension）;
 
-JSX 也在很多地方称之为 JavaScript XML，因为看起就是一段 XML 语法； 
+JSX 也在很多地方称之为 JavaScript XML，因为看起就是一段 XML 语法；
 
 它用于描述我们的 UI 界面，并且其完全可以和 JavaScript 融合在一起使用；
 
@@ -419,11 +411,12 @@ JSX 也在很多地方称之为 JavaScript XML，因为看起就是一段 XML �
 # 十一、React 为什么用 jsx？（面试）
 
 React 认为渲染逻辑本质上与其他 UI 逻辑存在内在耦合：
+
 - 比如 UI 需要绑定事件；
 - 比如 UI 中需要展示数据状态；
 - 比如在某些状态发生改变时，又需要改变 UI；
 
-渲染逻辑与UI 逻辑之间是密不可分，所以 React 旋转选择用 jsx 将它们组合到了一起，这就是组件（Component）； 
+渲染逻辑与 UI 逻辑之间是密不可分，所以 React 旋转选择用 jsx 将它们组合到了一起，这就是组件（Component）；
 
 # 十二、jsx 书写规范
 
@@ -433,17 +426,16 @@ jsx 通常包裹在 `()` 中，为进行换行书写，方便阅读。
 
 JSX 中的标签可以是单标签，也可以是双标签；单标签必须以 `/>` 结尾（HTML 中单标签元素可省略）。
 
-
 # 十三、jsx 使用
 
 ## 1.注释的写法
 
 ```jsx
 const divEl = (
-	<div>
-		{ /* 我是注释 */ }
-		哈哈哈
-	</div>
+  <div>
+    {/* 我是注释 */}
+    哈哈哈
+  </div>
 )
 ```
 
@@ -452,6 +444,7 @@ const divEl = (
 情况一：当变量是 `Number`、`String`、`Array` 类型时，可以直接显示 。
 
 情况二：当变量是 `null`、`undefined`、`Boolean` 类型时，内容为空；
+
 - 如需显示，要转成字符串； 比如 1.`toString` 方法；2.和空字符串拼接；3.`String(变量)` 等方式；
 
 情况三：Object 对象类型不能作为**子元素**在 JSX 语法中引用。
@@ -498,10 +491,10 @@ const divEl = (
 				const { aaa, bbb, ccc } = this.state
 				const { friend } = this.state
 				const { firstname, lastname, age } = this.state
-        
+
 				const fullName = firstname + lastname
 				const liEls = movies.map(item => <li> { item } </li>)
-				
+
 				return (
 					<div>
 						{ /* 可直接显示出来 */ }
@@ -521,7 +514,7 @@ const divEl = (
 						{ /* 插入计算结果 */ }
 						<h2>{ fullName }</h2>
 						<ul>{ liEls }</ul>
-                                   
+
 						{ /* 插入表达式 */ }
 						<h2>{ age >= 18 ? '成年人' : '未成年人'  }</h2>
 
@@ -545,7 +538,7 @@ const divEl = (
 
 ## 3.元素属性绑定
 
-动态绑定 class 通常有3种方式
+动态绑定 class 通常有 3 种方式
 
 动态绑定 style （内联样式）有很多方式？先了解 1 种基本方式。
 
@@ -585,7 +578,7 @@ const divEl = (
 				return (
 					<div>
 						{ /* 基本属性绑定 */ }
-						<h2 title={ title }>title 属性绑定</h2>	
+						<h2 title={ title }>title 属性绑定</h2>
 						<img src={ imgUrl } />
 
 						{ /* 绑定 class 属性，最好使用 className */ }
@@ -604,5 +597,3 @@ const divEl = (
 	</script>
 </body>
 ```
-
-

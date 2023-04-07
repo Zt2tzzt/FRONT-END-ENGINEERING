@@ -1,18 +1,18 @@
 # 一、react-redux 库
 
-*react-redux* 库由官方提供。
+_react-redux_ 库由官方提供。
 
 ## 1.案例
 
 重构上节中 Redux 与 React 中的代码，去除重复代码。
 
-1. 安装 *react-redux* 库。
+1. 安装 _react-redux_ 库。
 
    ```shell
    npm i react-redux
    ```
 
-2. 使用 *react-redux* 库中的 `<Provider>` 组件，为 `<App />` 提供 store。
+2. 使用 _react-redux_ 库中的 `<Provider>` 组件，为 `<App />` 提供 store。
 
 3. 在需要使用 store 的组件中，使用 `connect` 函数返回一个高阶组件。再将原组件传入高阶组件中。
 
@@ -23,13 +23,13 @@
 06-react-redux\src\index.js
 
 ```jsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
 import { Provider } from 'react-redux'
 import store from './store'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
   <React.StrictMode>
@@ -37,65 +37,64 @@ root.render(
       <App />
     </Provider>
   </React.StrictMode>
-);
+)
 ```
 
 06-react-redux\src\page\About.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux';
-import { addAction, subAction } from '../store/actionCreators';
+import { connect } from 'react-redux'
+import { addAction, subAction } from '../store/actionCreators'
 
 export class About extends PureComponent {
-  
-	render() {
-		const { counter } = this.props
-    
-		return (
-			<div>
-				<h2>About Page: {counter}</h2>
-				<button onClick={e => this.calcNumber(6, true)}>+6</button>
-				<button onClick={e => this.calcNumber(8, false)}>-8</button>
-			</div>
-		)
-	}
+  render() {
+    const { counter } = this.props
 
-	calcNumber(num, isAdd) {
-		if (isAdd) {
-			console.log('加', num)
-			this.props.addNumber(num)
-		} else {
-			console.log('减', num)
-			this.props.subNumber(num)
-		}
-	}
+    return (
+      <div>
+        <h2>About Page: {counter}</h2>
+        <button onClick={e => this.calcNumber(6, true)}>+6</button>
+        <button onClick={e => this.calcNumber(8, false)}>-8</button>
+      </div>
+    )
+  }
+
+  calcNumber(num, isAdd) {
+    if (isAdd) {
+      console.log('加', num)
+      this.props.addNumber(num)
+    } else {
+      console.log('减', num)
+      this.props.subNumber(num)
+    }
+  }
 }
 
 const mapStateToProps = state => ({
-	counter: state.counter
+  counter: state.counter
 })
 const mapDispatchToProps = dispatch => ({
-	addNumber(num) {
-		dispatch(addAction(num))
-	},
-	subNumber(num) {
-		dispatch(subAction(num))
-	}
+  addNumber(num) {
+    dispatch(addAction(num))
+  },
+  subNumber(num) {
+    dispatch(subAction(num))
+  }
 })
 
 // connect 返回值是一个高阶组件
 export default connect(mapStateToProps, mapDispatchToProps)(About)
 ```
 
-总结 *react-redux* 的使用：
+总结 _react-redux_ 的使用：
 
-- 需要强调的是，*Redux* 和 *React* 没有直接的关系，
-  - 完全可以在 *React*, *Angular*, *Ember*, *jQuery*, 或者 vanilla JavaScript 中使用 Redux。
-- 尽管这样说，*redux* 依然是和 *React* 库结合的更好，
+- 需要强调的是，_Redux_ 和 _React_ 没有直接的关系，
+  - 完全可以在 _React_, _Angular_, _Ember_, _jQuery_, 或者 vanilla JavaScript 中使用 Redux。
+- 尽管这样说，_redux_ 依然是和 _React_ 库结合的更好，
   - 都通过 `state` 来描述状态，
-  - *Redux* 可以派发状态的更新，让他们作出响应。
-- *Redux* **官方**提供了 *react-redux* 库，更好地让 *Redux* 与 *React* 的结合使用。
+  - _Redux_ 可以派发状态的更新，让他们作出响应。
+- _Redux_ **官方**提供了 _react-redux_ 库，更好地让 _Redux_ 与 _React_ 的结合使用。
   - 主要提供两两个 API，`connect` 和 `Provier`。
   - 和几个 Hook，`useSelector`、`useDispatch` 和 `useStore`（后续介绍）等等。
   - 并且实现的逻辑会更加的严谨和高效。
@@ -103,6 +102,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(About)
 # 二、组件中的异步操作
 
 在之前简单的案例中，Redux 中保存的 `counter` 是一个本地定义的数据。
+
 - 可以直接通过同步的操作来 dispatch action，`state` 就会被立即更新。
 - 但是真实开发中，Redux 中保存的很多数据可能来自服务器，我们需要进行异步的请求，再将数据保存到 Redux 中。
 
@@ -111,6 +111,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(About)
 <img src="NodeAssets/组件中的异步操作.jpg" alt="组件中的异步操作" style="zoom:150%;" />
 
 现在完成如下案例操作：
+
 - 在 Category 组件中请求 `banners` 和 `recommends` 的数据；
 - 在 About 组件中展示 `banners` 和 `recommends` 的数据；
 
@@ -132,38 +133,38 @@ export const CHANGE_RECOMMENDS = 'change_recomends'
 06-react-redux\src\store\actionCreators.js
 
 ```jsx
-import * as actionType from "./constancs";
+import * as actionType from './constancs'
 
 export const changeBannersAction = banners => ({
-	type: actionType.CHANGE_BANNERS,
-	banners
+  type: actionType.CHANGE_BANNERS,
+  banners
 })
 
 export const chnageRecommendsAction = recommends => ({
-	type: actionType.CHANGE_RECOMMENDS,
-	recommends
+  type: actionType.CHANGE_RECOMMENDS,
+  recommends
 })
 ```
 
 06-react-redux\src\store\reducer.js
 
 ```jsx
-import * as actionType from "./constancs";
+import * as actionType from './constancs'
 
 const initialState = {
-	banners: [],
-	recommends: []
+  banners: [],
+  recommends: []
 }
 
 function reducer(state = initialState, action) {
-	switch (action.type) {
-		case actionType.CHANGE_BANNERS:
-			return { ...state, banners: action.banners }
-		case actionType.CHANGE_RECOMMENDS:
-			return { ...state, recommends: action.recommends }
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case actionType.CHANGE_BANNERS:
+      return { ...state, banners: action.banners }
+    case actionType.CHANGE_RECOMMENDS:
+      return { ...state, recommends: action.recommends }
+    default:
+      return state
+  }
 }
 
 export default reducer
@@ -174,40 +175,39 @@ export default reducer
 ```jsx
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios';
-import { changeBannersAction, chnageRecommendsAction } from '../store/actionCreators';
+import axios from 'axios'
+import { changeBannersAction, chnageRecommendsAction } from '../store/actionCreators'
 
 export class Category extends PureComponent {
+  componentDidMount() {
+    axios.get('http://123.207.32.32:8000/home/multidata').then(res => {
+      const banners = res.data.data.banner.list
+      const recommends = res.data.data.recommend.list
 
-	componentDidMount() {
-		axios.get('http://123.207.32.32:8000/home/multidata').then(res => {
-			const banners = res.data.data.banner.list
-			const recommends = res.data.data.recommend.list
+      this.props.changeBanners(banners)
+      this.props.chnageRecommends(recommends)
+    })
+  }
 
-			this.props.changeBanners(banners)
-			this.props.chnageRecommends(recommends)
-		})
-	}
-
-	render() {
-		return (
-			<div>
-				<h2>Category Page: {this.props.counter}</h2>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        <h2>Category Page: {this.props.counter}</h2>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
-	counter: state.counter,
+  counter: state.counter
 })
 const mapDispatchToProps = dispatch => ({
-	changeBanners(banners) {
-		dispatch(changeBannersAction(banners))
-	},
-	chnageRecommends(recommends) {
-		dispatch(chnageRecommendsAction(recommends))
-	}
+  changeBanners(banners) {
+    dispatch(changeBannersAction(banners))
+  },
+  chnageRecommends(recommends) {
+    dispatch(chnageRecommendsAction(recommends))
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Category)
@@ -217,33 +217,33 @@ export default connect(mapStateToProps, mapDispatchToProps)(Category)
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 export class About extends PureComponent {
-	render() {
-		return (
-			<div>
-				<h2>banners</h2>
-				<ul>
-					{this.props.banners.map((item, index) => (
+  render() {
+    return (
+      <div>
+        <h2>banners</h2>
+        <ul>
+          {this.props.banners.map((item, index) => (
             <li key={index}>{item.title}</li>
           ))}
-				</ul>
-				<h2>recommends</h2>
-				<ul>
-					{this.props.recommends.map((item, index) => (
+        </ul>
+        <h2>recommends</h2>
+        <ul>
+          {this.props.recommends.map((item, index) => (
             <li key={index}>{item.title}</li>
           ))}
-				</ul>
-			</div>
-		)
-	}
+        </ul>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
-	// 获取 category 中共享的状态
-	banners: state.banners,
-	recommends: state.recommends
+  // 获取 category 中共享的状态
+  banners: state.banners,
+  recommends: state.recommends
 })
 
 export default connect(mapStateToProps)(About)
@@ -255,7 +255,7 @@ export default connect(mapStateToProps)(About)
 
 必须将网络请求的异步代码放到组件的生命周期中来完成；
 
-事实上，网络请求到的数据也属于项目状态管理的一部分，更好的一种方式应该是将其交给 *Redux* 来管理；
+事实上，网络请求到的数据也属于项目状态管理的一部分，更好的一种方式应该是将其交给 _Redux_ 来管理；
 
 <img src="NodeAssets/Redux中的异步操作.jpg" alt="Redux中的异步操作" style="zoom:150%;" />
 
@@ -271,7 +271,7 @@ Redux 中如何可以进行异步的操作呢？
 
 ## 1.案例
 
-将发送网络请求，获取数据的代码，抽取到 *Redux* 中的 actionCreator 中。
+将发送网络请求，获取数据的代码，抽取到 _Redux_ 中的 actionCreator 中。
 
 正常境况下，dispatch 只能派发一个对象作为 action，如果需要派发一个函数，必须要对 store 进行增强；
 
@@ -284,45 +284,45 @@ Redux 中如何可以进行异步的操作呢？
 06-react-redux\src\store\actionCreators.js
 
 ```js
-import * as actionType from "./constancs";
-import axios from 'axios';
+import * as actionType from './constancs'
+import axios from 'axios'
 
 export const changeBannersAction = banners => ({
-	type: actionType.CHANGE_BANNERS,
-	banners
+  type: actionType.CHANGE_BANNERS,
+  banners
 })
 
 export const chnageRecommendsAction = recommends => ({
-	type: actionType.CHANGE_RECOMMENDS,
-	recommends
+  type: actionType.CHANGE_RECOMMENDS,
+  recommends
 })
 
 export const fetchHomeMultidataAction = () => {
-	/**
-	 * 如果是一个普通的 action，需要在此处返回一个 action 对象。
-	 * 但是，对象中不能执行逻辑代码，如发送网络请求，拿到从服务器请求的异步数据。
-	 */
+  /**
+   * 如果是一个普通的 action，需要在此处返回一个 action 对象。
+   * 但是，对象中不能执行逻辑代码，如发送网络请求，拿到从服务器请求的异步数据。
+   */
 
-	// 如果返回一个函数，那么 redux 是不支持的，需要使用中间件。在中间件的加持下，dispatch 该函数后，该函数会自动执行。
-	return function (dispatch, getState) {
-		// 实现异步操作，网络请求。
-		axios.get("http://123.207.32.32:8000/home/multidata").then(res => {
-			const banners = res.data.data.banner.list
+  // 如果返回一个函数，那么 redux 是不支持的，需要使用中间件。在中间件的加持下，dispatch 该函数后，该函数会自动执行。
+  return function (dispatch, getState) {
+    // 实现异步操作，网络请求。
+    axios.get('http://123.207.32.32:8000/home/multidata').then(res => {
+      const banners = res.data.data.banner.list
       const recommends = res.data.data.recommend.list
 
-			dispatch(changeBannersAction(banners))
-			dispatch(chnageRecommendsAction(recommends))
-		})
-	}
+      dispatch(changeBannersAction(banners))
+      dispatch(chnageRecommendsAction(recommends))
+    })
+  }
 }
 ```
 
 06-react-redux\src\store\index.js
 
 ```js
-import { createStore, applyMiddleware } from 'redux';
-import reducer from './reducer';
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux'
+import reducer from './reducer'
+import thunk from 'redux-thunk'
 
 const enhancer = applyMiddleware(thunk)
 const store = createStore(reducer, enhancer)
@@ -334,39 +334,37 @@ export default store
 ```jsx
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { fetchHomeMultidataAction } from '../store/actionCreators';
+import { fetchHomeMultidataAction } from '../store/actionCreators'
 
 export class Category extends PureComponent {
+  componentDidMount() {
+    this.props.fetchHomeMultidata()
+  }
 
-	componentDidMount() {
-		this.props.fetchHomeMultidata()
-	}
-
-	render() {
-		return (
-			<div>
-				<h2>Category Page: {this.props.counter}</h2>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        <h2>Category Page: {this.props.counter}</h2>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
-	counter: state.counter,
+  counter: state.counter
 })
 const mapDispatchToProps = dispatch => ({
-	fetchHomeMultidata() {
-		dispatch(fetchHomeMultidataAction())
-	}
+  fetchHomeMultidata() {
+    dispatch(fetchHomeMultidataAction())
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Category)
 ```
 
-
 ## 2.redux-thunk 使用总结
 
-1. 安装 *redux-thunk*
+1. 安装 _redux-thunk_
 
    ```shell
    npm i redux-thunk
@@ -377,10 +375,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(Category)
 4. 将 `enhancer` 作为第二个参数传入到 `createStore` 中；
 
    ```js
-   import { createStore, applyMiddleware } from 'redux';
-   import reducer from './reducer';
-   import thunk from 'redux-thunk';
-   
+   import { createStore, applyMiddleware } from 'redux'
+   import reducer from './reducer'
+   import thunk from 'redux-thunk'
+
    const enhancer = applyMiddleware(thunk)
    const store = createStore(reducer, enhancer)
    export default store
@@ -394,12 +392,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(Category)
 
    ```jsx
    export const fetchHomeMultidataAction = () => {
-     
      return function (dispatch, getState) {
-       axios.get("http://123.207.32.32:8000/home/multidata").then(res => {
+       axios.get('http://123.207.32.32:8000/home/multidata').then(res => {
          const banners = res.data.data.banner.list
          const recommends = res.data.data.recommend.list
-   
+
          dispatch(changeBannersAction(banners))
          dispatch(chnageRecommendsAction(recommends))
        })
@@ -409,7 +406,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Category)
 
 # 四、中间件是什么
 
-*Redux* 引入了中间件（Middleware）的概念：
+_Redux_ 引入了中间件（Middleware）的概念：
 
 这个中间件的目的是在 dispatch 的 action 和最终达到的 reducer 之间，扩展一些自己的代码；
 
@@ -417,28 +414,28 @@ export default connect(mapStateToProps, mapDispatchToProps)(Category)
 
 如果要发送异步的网络请求，也可以添加对应的中间件：官方推荐使用 `redux-thunk`；
 
-*redux-thunk* 是如何做到让我们可以发送异步请求的？
+_redux-thunk_ 是如何做到让我们可以发送异步请求的？
 
 - 默认情况下的 dispatch，action 需要是一个 JavaScript 的对象；
 - redux-thunk 可以让 store 派发一个函数类型的 action。
 - 该函数会被调用，并且会传给这个函数两个参数，分别是： `dispatch` 函数和，`getState` 函数；
-	- `dispatch` 函数用于再次派发对象类型的 action；
-	- `getState` 函数用于获取 store 中的状态；
+  - `dispatch` 函数用于再次派发对象类型的 action；
+  - `getState` 函数用于获取 store 中的状态；
 
 # 五、浏览器插件
 
-安装2个工具（浏览器插件）*React Developer Tools* 和 *Redux DevTools*
+安装 2 个工具（浏览器插件）_React Developer Tools_ 和 _Redux DevTools_
 
-使用代码开启 *Redux DevTools*，
+使用代码开启 _Redux DevTools_，
 
 仅在开发环境中开启，生产环境需要关闭。
 
 ```js
-import { createStore, applyMiddleware, compose } from 'redux';
-import reducer from './reducer';
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose } from 'redux'
+import reducer from './reducer'
+import thunk from 'redux-thunk'
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace: true}) || compose; // 开发环境
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) || compose // 开发环境
 // const composeEnhancers = compose; // 生产环境
 
 const enhancer = applyMiddleware(thunk)
@@ -449,12 +446,14 @@ export default store
 # 六、reducer 拆分
 
 为什么要拆分 reducer：
+
 - 当前这个 reducer 既有处理 counter 模块的状态，又有处理 home 模块的状态；
 - 后续 counter 相关的状态或 home 相关的状态会进一步变得更加复杂；
 - 同时也会继续添加其他模块的相关状态，比如购物车、分类、歌单等等；
 - 如果将所有的状态都放到一个 reducer 中进行管理，随着项目的日趋庞大，必然会造成代码臃肿、难以维护。
 
 因此，我们需要对 reducer 进行拆分：
+
 - 我们先抽取一个对 counter 处理的 reducer；
 - 再抽取一个对 home 处理的 reducer；
 
@@ -476,52 +475,51 @@ export const CHANGE_RECOMMENDS = 'change_recomends'
 06-react-redux\src\store\home\actionCreators.js
 
 ```jsx
-import * as actionTypes from './constancs';
-import axios from 'axios';
+import * as actionTypes from './constancs'
+import axios from 'axios'
 
 export const changeBannersAction = banners => ({
-	type: actionTypes.CHANGE_BANNERS,
-	banners
+  type: actionTypes.CHANGE_BANNERS,
+  banners
 })
 
 export const chnageRecommendsAction = recommends => ({
-	type: actionTypes.CHANGE_RECOMMENDS,
-	recommends
+  type: actionTypes.CHANGE_RECOMMENDS,
+  recommends
 })
 
 export const fetchHomeMultidataAction = () => {
-  
-	return function (dispatch, getState) {
-		axios.get("http://123.207.32.32:8000/home/multidata").then(res => {
-			const banners = res.data.data.banner.list
+  return function (dispatch, getState) {
+    axios.get('http://123.207.32.32:8000/home/multidata').then(res => {
+      const banners = res.data.data.banner.list
       const recommends = res.data.data.recommend.list
 
-			dispatch(changeBannersAction(banners))
-			dispatch(chnageRecommendsAction(recommends))
-		})
-	}
+      dispatch(changeBannersAction(banners))
+      dispatch(chnageRecommendsAction(recommends))
+    })
+  }
 }
 ```
 
 06-react-redux\src\store\home\reducer.js
 
 ```jsx
-import * as actionTypes from "./constancs";
+import * as actionTypes from './constancs'
 
 const initialState = {
-	banners: [],
-	recommends: []
+  banners: [],
+  recommends: []
 }
 
 function reducer(state = initialState, action) {
-	switch (action.type) {
-		case actionTypes.CHANGE_BANNERS:
-			return { ...state, banners: action.banners }
-		case actionTypes.CHANGE_RECOMMENDS:
-			return { ...state, recommends: action.recommends }
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case actionTypes.CHANGE_BANNERS:
+      return { ...state, banners: action.banners }
+    case actionTypes.CHANGE_RECOMMENDS:
+      return { ...state, recommends: action.recommends }
+    default:
+      return state
+  }
 }
 
 export default reducer
@@ -530,7 +528,7 @@ export default reducer
 06-react-redux\src\store\home\index.js
 
 ```jsx
-import reducer from './reducer';
+import reducer from './reducer'
 
 export default reducer
 export * from './actionCreators'
@@ -544,14 +542,14 @@ export * from './actionCreators'
 
 ```jsx
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
-import counterReducer from './counter';
-import homeReducer from './home';
-import thunk from 'redux-thunk';
+import counterReducer from './counter'
+import homeReducer from './home'
+import thunk from 'redux-thunk'
 
 // 将两个 reducer 合并在一起
 const reducer = combineReducers({
-	counter: counterReducer,
-	home: homeReducer
+  counter: counterReducer,
+  home: homeReducer
 })
 
 // combineReducers 实现原理（了解）
@@ -563,7 +561,7 @@ const reducer = combineReducers({
 	}
 } */
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace: true}) || compose; // 开发环境
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) || compose // 开发环境
 // const composeEnhancers = compose; // 生产环境
 
 const enhancer = applyMiddleware(thunk)
@@ -587,7 +585,6 @@ import About from './page/About'
 import Category from './page/Category'
 
 export class App extends PureComponent {
-  
   constructor() {
     super()
     this.state = {
@@ -609,7 +606,7 @@ export class App extends PureComponent {
     return (
       <div>
         <h2>APP Counter: {counter}</h2>
-        <div className="pages">
+        <div className='pages'>
           <Home />
           <Profile />
           <About />
@@ -627,61 +624,57 @@ export default App
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux';
-import { addAction, subAction } from '../store/counter';
+import { connect } from 'react-redux'
+import { addAction, subAction } from '../store/counter'
 
 export class About extends PureComponent {
-	render() {
-		const { counter, banners, recommends } = this.props
-		return (
-			<div>
-				<h2>About Page: {counter}</h2>
-				<button onClick={e => this.calcNumber(6, true)}>+6</button>
-				<button onClick={e => this.calcNumber(8, false)}>-8</button>
-				<h2>banners</h2>
-				<ul>
-					{
-            banners.map((item, index) => (
-							<li key={index}>{item.title}</li>
-						))
-					}
-				</ul>
-				<h2>recommends</h2>
-				<ul>
-					{
-            recommends.map((item, index) => (
-							<li key={index}>{item.title}</li>
-						))
-					}
-				</ul>
-			</div>
-		)
-	}
+  render() {
+    const { counter, banners, recommends } = this.props
+    return (
+      <div>
+        <h2>About Page: {counter}</h2>
+        <button onClick={e => this.calcNumber(6, true)}>+6</button>
+        <button onClick={e => this.calcNumber(8, false)}>-8</button>
+        <h2>banners</h2>
+        <ul>
+          {banners.map((item, index) => (
+            <li key={index}>{item.title}</li>
+          ))}
+        </ul>
+        <h2>recommends</h2>
+        <ul>
+          {recommends.map((item, index) => (
+            <li key={index}>{item.title}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 
-	calcNumber(num, isAdd) {
-		if (isAdd) {
-			console.log('加', num)
-			this.props.addNumber(num)
-		} else {
-			console.log('减', num)
-			this.props.subNumber(num)
-		}
-	}
+  calcNumber(num, isAdd) {
+    if (isAdd) {
+      console.log('加', num)
+      this.props.addNumber(num)
+    } else {
+      console.log('减', num)
+      this.props.subNumber(num)
+    }
+  }
 }
 
 const mapStateToProps = state => ({
   // 获取 state 时，要指明哪个模块
-	counter: state.counter.counter,
-	banners: state.home.banners,
-	recommends: state.home.recommends
+  counter: state.counter.counter,
+  banners: state.home.banners,
+  recommends: state.home.recommends
 })
 const mapDispatchToProps = dispatch => ({
-	addNumber(num) {
-		dispatch(addAction(num))
-	},
-	subNumber(num) {
-		dispatch(subAction(num))
-	}
+  addNumber(num) {
+    dispatch(addAction(num))
+  },
+  subNumber(num) {
+    dispatch(subAction(num))
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(About)
@@ -689,10 +682,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(About)
 
 # 七、combineReducers 函数
 
-事实上，*Redux* 给我们提供了一个 `combineReducers` 函数，可以方便的让我们对多个 reducer 进行合并： 
+事实上，_Redux_ 给我们提供了一个 `combineReducers` 函数，可以方便的让我们对多个 reducer 进行合并：
 
-那么 `combineReducers` 是如何实现的呢？ 
+那么 `combineReducers` 是如何实现的呢？
+
 - 事实上，它也是将我们传入的 reducers 合并到一个对象中，最终返回一个 `combination` 的函数（相当于我们之前的 reducer 函数了）；
 - 在执行 `combination` 函数的过程中，它会通过判断前后返回的数据是否相同来决定返回之前的 `state` 还是新的 `state`；
 - 新的 `state` 会触发订阅者（`subscribe`）发生对应的刷新，而旧的 `state` 可以有效的阻止订阅者发生刷新；
-

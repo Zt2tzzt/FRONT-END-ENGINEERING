@@ -14,31 +14,27 @@
 
 ```html
 <body>
-	<div id="app">
-		<!-- 在 input 中实现 v-model 的原理
+  <div id="app">
+    <!-- 在 input 中实现 v-model 的原理
 			1. v-bind value 的绑定
 			2. 监听 input 事件, 更新 message 的值	-->
-		<input
-			type="text"
-			:value="message"
-			@input="event => message = event.target.value"
-		/>
-		<!-- 等价于 -->
-		<input type="text" v-model="message" />
-	</div>
-  
-	<script src="https://unpkg.com/vue@next"></script>
-  
-	<script>
-		const app = {
-			data() {
-				return {
-					message: 'Hellow World'
-				}
-			}
-		}
-		Vue.createApp(app).mount('#app')
-	</script>
+    <input type="text" :value="message" @input="event => message = event.target.value" />
+    <!-- 等价于 -->
+    <input type="text" v-model="message" />
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+
+  <script>
+    const app = {
+      data() {
+        return {
+          message: 'Hellow World'
+        }
+      }
+    }
+    Vue.createApp(app).mount('#app')
+  </script>
 </body>
 ```
 
@@ -59,89 +55,82 @@ v-model 在元素上的使用场景：
 
 ```html
 <body>
-	<div id="app">
-    
-		<!-- 1.绑定 textarea -->
-		<label for="intro">
-			自我介绍
-			<textarea id="intro" name="intro" cols="30" rows="10" v-model="intro"></textarea>
-		</label>
-		<h2>intro: {{intro}}</h2>
-    
-		<!-- 2.input checkbox -->
-		<!-- 2.1. 单选框  v-model 绑定的是布尔值。此时 input 的 value 属性并不影响 v-model 的值。-->
-		<label for="agree">
-			<input id="agree" type="checkbox" v-model="isAgree" /> 同意协议
-		</label>
-		<h2>单选框: {{isAgree}}</h2>
-    
-		<!-- 2.2. 多选框，当有多个复选框时，因为可以选中多个，所以对应的 data 中属性是一个数组。当选中某一个时，就会将 input 的 value 添加到数组中。 -->
-		<span>你的爱好:</span>
-		<label for="sing">
-			<input id="sing" type="checkbox" value="sing" v-model="hobbies" /> 唱
-		</label>
-		<label for="jump">
-			<input id="jump" type="checkbox" value="jump" v-model="hobbies" /> 跳
-		</label>
-		<label for="rap">
-			<input id="rap" type="checkbox" value="rap" v-model="hobbies" /> rap
-		</label>
-		<label for="basketball">
-			<input id="basketball" type="checkbox" value="basketball" v-model="hobbies" /> 篮球
-		</label>
-		<h2>hobbies: {{hobbies}}</h2>
-    
-		<!-- 3.input radio -->
-		<span>你的性别: </span>
-		<label for="male">
-			<input id="male" type="radio" value="male" v-model="gender" /> 男
-		</label>
-		<label for="female">
-			<input id="female" type="radio" value="female" v-model="gender" /> 女
-		</label>
-		<h2>性别: {{gender}}</h2>
-    
-		<!-- 4.select -->
-		<!-- 4.1. 单选，只能选中一个值，v-model 绑定的是一个值； -->
-		<label for="fruit">
-			<select id="fruit" name="fruit" v-model="fruit">
-				<option value="apple">苹果</option>
-				<option value="orange">橘子</option>
-				<option value="banana">香蕉</option>
-			</select>
-		</label>
-		<h2>单选水果: {{fruit}}</h2>
-    
-		<!-- 4.2. 多选，可以选中多个值，v-model 绑定的是一个数组；当选中多个值时，就会将选中的 option 对应的 value 添加到数组 fruits 中；-->
-		<span>喜欢的水果:</span>
-		<label for="fruits">
-			<select id="fruits" name="fruits" multiple size="2" v-model="fruits">
-				<option value="apple">苹果</option>
-				<option value="orange">橘子</option>
-				<option value="banana">香蕉</option>
-			</select>
-		</label>
-		<h2>多选水果: {{fruits}}</h2>
-	</div>
-  
-	<script src="https://unpkg.com/vue@next"></script>
-  
-	<script>
-		const app = {
-			template: '#my-app',
-			data() {
-				return {
-					intro: 'Hello World',
-					isAgree: false,
-					hobbies: ['basketball'],
-					gender: 'male',
-					fruit: '', // 默认不选中
-					fruits: []
-				}
-			}
-		}
-		Vue.createApp(app).mount('#app')
-	</script>
+  <div id="app">
+    <!-- 1.绑定 textarea -->
+    <label for="intro">
+      自我介绍
+      <textarea id="intro" name="intro" cols="30" rows="10" v-model="intro"></textarea>
+    </label>
+    <h2>intro: {{intro}}</h2>
+
+    <!-- 2.input checkbox -->
+    <!-- 2.1. 单选框  v-model 绑定的是布尔值。此时 input 的 value 属性并不影响 v-model 的值。-->
+    <label for="agree"> <input id="agree" type="checkbox" v-model="isAgree" /> 同意协议 </label>
+    <h2>单选框: {{isAgree}}</h2>
+
+    <!-- 2.2. 多选框，当有多个复选框时，因为可以选中多个，所以对应的 data 中属性是一个数组。当选中某一个时，就会将 input 的 value 添加到数组中。 -->
+    <span>你的爱好:</span>
+    <label for="sing">
+      <input id="sing" type="checkbox" value="sing" v-model="hobbies" /> 唱
+    </label>
+    <label for="jump">
+      <input id="jump" type="checkbox" value="jump" v-model="hobbies" /> 跳
+    </label>
+    <label for="rap"> <input id="rap" type="checkbox" value="rap" v-model="hobbies" /> rap </label>
+    <label for="basketball">
+      <input id="basketball" type="checkbox" value="basketball" v-model="hobbies" /> 篮球
+    </label>
+    <h2>hobbies: {{hobbies}}</h2>
+
+    <!-- 3.input radio -->
+    <span>你的性别: </span>
+    <label for="male"> <input id="male" type="radio" value="male" v-model="gender" /> 男 </label>
+    <label for="female">
+      <input id="female" type="radio" value="female" v-model="gender" /> 女
+    </label>
+    <h2>性别: {{gender}}</h2>
+
+    <!-- 4.select -->
+    <!-- 4.1. 单选，只能选中一个值，v-model 绑定的是一个值； -->
+    <label for="fruit">
+      <select id="fruit" name="fruit" v-model="fruit">
+        <option value="apple">苹果</option>
+        <option value="orange">橘子</option>
+        <option value="banana">香蕉</option>
+      </select>
+    </label>
+    <h2>单选水果: {{fruit}}</h2>
+
+    <!-- 4.2. 多选，可以选中多个值，v-model 绑定的是一个数组；当选中多个值时，就会将选中的 option 对应的 value 添加到数组 fruits 中；-->
+    <span>喜欢的水果:</span>
+    <label for="fruits">
+      <select id="fruits" name="fruits" multiple size="2" v-model="fruits">
+        <option value="apple">苹果</option>
+        <option value="orange">橘子</option>
+        <option value="banana">香蕉</option>
+      </select>
+    </label>
+    <h2>多选水果: {{fruits}}</h2>
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+
+  <script>
+    const app = {
+      template: '#my-app',
+      data() {
+        return {
+          intro: 'Hello World',
+          isAgree: false,
+          hobbies: ['basketball'],
+          gender: 'male',
+          fruit: '', // 默认不选中
+          fruits: []
+        }
+      }
+    }
+    Vue.createApp(app).mount('#app')
+  </script>
 </body>
 ```
 
@@ -156,55 +145,56 @@ v-model 在元素上的使用场景：
 
 ```html
 <body>
-	<div id="app">
-		<!-- 1.select 的值绑定 -->
+  <div id="app">
+    <!-- 1.select 的值绑定 -->
     <label for="fruits">
       <select id="fruits" name="fruits" multiple size="3" v-model="fruits">
         <template v-for="item in allFruits" :key="item.value">
-        	<option :value="item.value">{{item.text}}</option>
+          <option :value="item.value">{{item.text}}</option>
         </template>
       </select>
     </label>
-		<h2>多选: {{fruits}}</h2>
-    
-		<!-- 2.checkbox 的值绑定 -->
-		<div class="hobbies">
-			<h2>请选择你的爱好:</h2>
+    <h2>多选: {{fruits}}</h2>
+
+    <!-- 2.checkbox 的值绑定 -->
+    <div class="hobbies">
+      <h2>请选择你的爱好:</h2>
       <template v-for="item in allHobbies" :key="item.value">
         <label :for="item.value">
-          <input :id="item.value" type="checkbox" :value="item.value" v-model="hobbies" /> {{item.text}}
+          <input :id="item.value" type="checkbox" :value="item.value" v-model="hobbies" />
+          {{item.text}}
         </label>
       </template>
-			<h2>爱好: {{hobbies}}</h2>
-		</div>
-	</div>
-  
-	<script src="../lib/vue.js"></script>
-  
-	<script>
-		const app = Vue.createApp({
-			data() {
-				return {
-					// 水果
-					allFruits: [
-						{ value: 'apple', text: '苹果' },
-						{ value: 'orange', text: '橘子' },
-						{ value: 'banana', text: '香蕉' }
-					],
-					fruits: [],
-					// 爱好
-					allHobbies: [
-						{ value: 'sing', text: '唱' },
-						{ value: 'jump', text: '跳' },
-						{ value: 'rap', text: 'rap' },
-						{ value: 'basketball', text: '篮球' }
-					],
-					hobbies: []
-				}
-			}
-		})
-		app.mount('#app')
-	</script>
+      <h2>爱好: {{hobbies}}</h2>
+    </div>
+  </div>
+
+  <script src="../lib/vue.js"></script>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          // 水果
+          allFruits: [
+            { value: 'apple', text: '苹果' },
+            { value: 'orange', text: '橘子' },
+            { value: 'banana', text: '香蕉' }
+          ],
+          fruits: [],
+          // 爱好
+          allHobbies: [
+            { value: 'sing', text: '唱' },
+            { value: 'jump', text: '跳' },
+            { value: 'rap', text: 'rap' },
+            { value: 'basketball', text: '篮球' }
+          ],
+          hobbies: []
+        }
+      }
+    })
+    app.mount('#app')
+  </script>
 </body>
 ```
 
@@ -227,14 +217,14 @@ v-model 有哪些常见的修饰符？有什么用？
   <input type="number" v-model="score" /><!-- 在 Vue2 中绑定的仍是 string 类型 -->
   <input type="text" v-model.number="score" />
   ```
-  
+
 - 如果我们希望绑定 input 元素值的默认类型，即 string 类型转换为 number 类型，那么可以使用 .number 修饰符：
-  
 - 另外，在我们进行逻辑判断时，如果是一个 string 类型，在可以转化的情况下会进行隐式转换的：
 
   ```js
   const score = '100'
-  if (score > 90) {	// 逻辑判断时, 可以转化的情况下, 会隐式的将一个 string 类型转成一个 number 类型, 再来进行判断
+  if (score > 90) {
+    // 逻辑判断时, 可以转化的情况下, 会隐式的将一个 string 类型转成一个 number 类型, 再来进行判断
     console.log('优秀')
   }
   ```
@@ -247,56 +237,58 @@ v-model 有哪些常见的修饰符？有什么用？
 
 ```html
 <body>
-	<div id="app">
-		<!-- 1.lazy: 绑定 change 事件  -->
-		<input type="text" v-model.lazy="message" />
-		<h2>message: {{message}}</h2>
-    
-		<!-- 2.number: 自动将内容转换成数字 -->
-		<input type="text" v-model.number="counter1" />
-		<h2>counter:{{counter1}}-{{typeof counter1}}</h2>
-		<input type="number" v-model="counter2" />
-		<h2>counter2:{{counter2}}-{{typeof counter2}}</h2>
-    
-		<!-- 3.trim: 去除首尾的空格 -->
-		<input type="text" v-model.trim="content" />
-		<h2>content: {{content}}</h2>
-    
-		<!-- 4.多个修饰符同时使用 -->
-		<input type="text" v-model.lazy.trim="content" />
-		<h2>content: {{content}}</h2>
-	</div>
-  
-	<script src="../lib/vue.js"></script>
-  
-	<script>
-		const app = Vue.createApp({
-			data() {
-				return {
-					message: 'Hello Vue',
-					counter1: 0,
-					counter2: 0,
-					content: ''
-				}
-			},
-			watch: {
-				content(newValue) {
-					console.log('content:', newValue)
-				}
-			}
-		})
-		app.mount('#app')
-	</script>
+  <div id="app">
+    <!-- 1.lazy: 绑定 change 事件  -->
+    <input type="text" v-model.lazy="message" />
+    <h2>message: {{message}}</h2>
+
+    <!-- 2.number: 自动将内容转换成数字 -->
+    <input type="text" v-model.number="counter1" />
+    <h2>counter:{{counter1}}-{{typeof counter1}}</h2>
+    <input type="number" v-model="counter2" />
+    <h2>counter2:{{counter2}}-{{typeof counter2}}</h2>
+
+    <!-- 3.trim: 去除首尾的空格 -->
+    <input type="text" v-model.trim="content" />
+    <h2>content: {{content}}</h2>
+
+    <!-- 4.多个修饰符同时使用 -->
+    <input type="text" v-model.lazy.trim="content" />
+    <h2>content: {{content}}</h2>
+  </div>
+
+  <script src="../lib/vue.js"></script>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'Hello Vue',
+          counter1: 0,
+          counter2: 0,
+          content: ''
+        }
+      },
+      watch: {
+        content(newValue) {
+          console.log('content:', newValue)
+        }
+      }
+    })
+    app.mount('#app')
+  </script>
 </body>
 ```
 
 # 组件化开发
 
 现在可以说整个的大前端开发都是组件化的天下，
+
 - 无论从三大框架（Vue、React、Angular），还是跨平台方案的 Flutter，甚至是移动端都在转向组件化开发，包括小程序的开发也是采用组件化开发的思想。
 - 所以，学习组件化最重要的是它的思想，每个框架或者平台可能实现方法不同，但是思想都是一样的。
 
 我们需要通过组件化的思想来思考整个应用程序：
+
 - 我们将一个完整的页面分成很多个组件；
 - 每个组件都用于实现页面的一个功能块；
 - 每一个组件又可以进行细分；
@@ -325,57 +317,58 @@ Vue 的组件化开发 3 点理解。
 
 ```html
 <body>
-	<div id="app">
-		<HomeNav></HomeNav><!-- 在 HTML 文件中无法使用这种写法，大小写不敏感 -->
-		<home-nav></home-nav>
-		<product-item></product-item>
-		<product-item></product-item>
-		<product-item></product-item>
-	</div>
-  
-	<template id="nav">
-		<h2>我是应用程序的导航</h2>
-	</template>
-  
-	<template id="product">
-		<div class="product">
-			<h2>{{ title }}</h2>
-			<p>商品描述, 限时折扣, 赶紧抢购</p>
-			<p>价格: {{ price }}</p>
-			<button @click="favarItem">收藏</button>
-		</div>
-	</template>
-  
-	<script src="../lib/vue.js"></script>
-  
-	<script>
-		const app = Vue.createApp({
-			data() {
-				return {
-					message: 'Hello Vue'
-				}
-			}
-		})
-		// 2.注册全局组件
-		app.component('product-item', {
-			template: '#product',
-			data() {
-				return {
-					title: '我是商品Item',
-					price: 9.9
-				}
-			},
-			methods: {
-				favarItem() {
-					console.log('收藏了当前的 item')
-				}
-			}
-		})
-		app.component('HomeNav', {
-			template: '#nav'
-		})
-		app.mount('#app')
-	</script>
+  <div id="app">
+    <HomeNav></HomeNav
+    ><!-- 在 HTML 文件中无法使用这种写法，大小写不敏感 -->
+    <home-nav></home-nav>
+    <product-item></product-item>
+    <product-item></product-item>
+    <product-item></product-item>
+  </div>
+
+  <template id="nav">
+    <h2>我是应用程序的导航</h2>
+  </template>
+
+  <template id="product">
+    <div class="product">
+      <h2>{{ title }}</h2>
+      <p>商品描述, 限时折扣, 赶紧抢购</p>
+      <p>价格: {{ price }}</p>
+      <button @click="favarItem">收藏</button>
+    </div>
+  </template>
+
+  <script src="../lib/vue.js"></script>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'Hello Vue'
+        }
+      }
+    })
+    // 2.注册全局组件
+    app.component('product-item', {
+      template: '#product',
+      data() {
+        return {
+          title: '我是商品Item',
+          price: 9.9
+        }
+      },
+      methods: {
+        favarItem() {
+          console.log('收藏了当前的 item')
+        }
+      }
+    })
+    app.component('HomeNav', {
+      template: '#nav'
+    })
+    app.mount('#app')
+  </script>
 </body>
 ```
 
@@ -392,7 +385,6 @@ Vue 的组件化开发 3 点理解。
 - 使用 kebab-case 短横线分割符，在模板中引入时也要使用这种方式，如 `<my-component></my-component>`
 - 使用 PascalCase（大）驼峰标识符，在模板中引入时最好使用短横线分割方式 `<my-component></my-component>`。在 vue-loader 解析后可使用驼峰 `<MyComponent></MyComponent>`
 
-
 ## 局部组件
 
 什么是局部组件？
@@ -405,71 +397,70 @@ Vue 的组件化开发 3 点理解。
 
 ```html
 <body>
-	<div id="app">
-		<home-nav></home-nav>
-		<product-item></product-item>
-		<product-item></product-item>
-		<product-item></product-item>
-	</div>
-  
-	<template id="product">
-		<div class="product">
-			<h2>{{title}}</h2>
-			<p>商品描述, 限时折扣, 赶紧抢购</p>
-			<p>价格: {{price}}</p>
-			<button>收藏</button>
-		</div>
-	</template>
-  
-	<template id="nav">
-		<div>-------------------- nav start ---------------</div>
-		<h1>我是home-nav的组件</h1>
-		<product-item></product-item>
-		<div>-------------------- nav end ---------------</div>
-	</template>
-  
-	<script src="../lib/vue.js"></script>
-  
-	<script>
-		const ProductItem = {
-			template: '#product',
-			data() {
-				return {
-					title: '我是product的title',
-					price: 9.9
-				}
-			}
-		}
-		const app = Vue.createApp({
-			// components: option api
-			components: {
-				ProductItem,
-				HomeNav: {
-					template: '#nav',
-					components: {
-						ProductItem
-					}
-				}
-			},
-			// data: option api
-			data() {
-				return {
-					message: 'Hello Vue'
-				}
-			}
-		})
-		app.mount('#app')
-	</script>
+  <div id="app">
+    <home-nav></home-nav>
+    <product-item></product-item>
+    <product-item></product-item>
+    <product-item></product-item>
+  </div>
+
+  <template id="product">
+    <div class="product">
+      <h2>{{title}}</h2>
+      <p>商品描述, 限时折扣, 赶紧抢购</p>
+      <p>价格: {{price}}</p>
+      <button>收藏</button>
+    </div>
+  </template>
+
+  <template id="nav">
+    <div>-------------------- nav start ---------------</div>
+    <h1>我是home-nav的组件</h1>
+    <product-item></product-item>
+    <div>-------------------- nav end ---------------</div>
+  </template>
+
+  <script src="../lib/vue.js"></script>
+
+  <script>
+    const ProductItem = {
+      template: '#product',
+      data() {
+        return {
+          title: '我是product的title',
+          price: 9.9
+        }
+      }
+    }
+    const app = Vue.createApp({
+      // components: option api
+      components: {
+        ProductItem,
+        HomeNav: {
+          template: '#nav',
+          components: {
+            ProductItem
+          }
+        }
+      },
+      // data: option api
+      data() {
+        return {
+          message: 'Hello Vue'
+        }
+      }
+    })
+    app.mount('#app')
+  </script>
 </body>
 ```
 
 # Vue 的组件化开发模式
 
-
-
 目前我们使用 vue 的过程都是在 html 文件中，通过 template 编写自己的模板、脚本逻辑、样式等。
 
 但是随着项目越来越复杂，我们需要采用更清晰的组件化的方式来进行开发：
+
 - 这就意味着每个组件都会有自己的模板、脚本逻辑、样式等；
 - 当然我们依然可以把它们抽离到单独的 js、css 文件中，但是它们还是会分离开来；
 - 也包括我们的 script 是在一个全局的作用域下，很容易出现命名冲突的问题；
@@ -502,7 +493,7 @@ Vue 的组件化开发 3 点理解。
 - 所以在真实开发中，我们通常会使用脚手架来创建一个项目，Vue 的项目我们使用的就是 Vue 的脚手架；
 - 脚手架其实是建筑工程中的一个概念，在我们软件工程中也会将一些帮助我们搭建项目的工具称之为脚手架；
 
-Vue CLI 的3点理解：
+Vue CLI 的 3 点理解：
 
 - CLI 是 command-line-interface，翻译为命令行界面。
 - 我们可以通过 CLI 选择项目的配置和创建出我们的项目。

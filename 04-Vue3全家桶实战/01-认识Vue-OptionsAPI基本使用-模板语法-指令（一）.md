@@ -15,38 +15,41 @@ Vue 在前端处于什么地位？
 # Vue3 与 vue2 的区别
 
 源码方面：
+
 - Vue3 通过 monorepo 的形式来管理源代码。
 - Vue3 源码使用 TypeScript 进行重写。（Vue2 中使用 Flow 来进行类型检测）
 
 性能方面：
-- Vue3 使用 Proxy 进行数据劫持。
-	1. Vue2 中使用 `Object.defineProperly` 中的 getter 和 setter 方法进行数据劫持，
-	2. 这种方法无法劫持对象添加或删除属性，
-	3. 所以不得不提供一些像 $set 或 $delete 这样特殊的 API
-- Vue3 删除了一些不必要的 API。
-	- 移除了实例上的 $on，$off 和 $once；
-	- 删除了一些特性，如 filter，内联模板等。
-- Vue3 做了编译方面的优化。
-	- 生成 Block Tree；
-	- Slot 编译优化；
-	- diff 算法优化。
 
-API方面
+- Vue3 使用 Proxy 进行数据劫持。
+  1.  Vue2 中使用 `Object.defineProperly` 中的 getter 和 setter 方法进行数据劫持，
+  2.  这种方法无法劫持对象添加或删除属性，
+  3.  所以不得不提供一些像 $set 或 $delete 这样特殊的 API
+- Vue3 删除了一些不必要的 API。
+  - 移除了实例上的 $on，$off 和 $once；
+  - 删除了一些特性，如 filter，内联模板等。
+- Vue3 做了编译方面的优化。
+  - 生成 Block Tree；
+  - Slot 编译优化；
+  - diff 算法优化。
+
+API 方面
+
 - Vue3 由 Options API 转到 Composition API，同时兼容 Options API。
-	- Vue2 通过 Options API 来描述组件对象，
-	- 其中包括 data, props, methods, computed, watch, 生命周期等等这些选项。
-	- 造成编写代码时，一个逻辑可能写在不同的地方，代码内聚性非常差。
-	- Composition API 可以将相关联的代码放到同一处进行处理，而不需要在多个 Options 之间寻找
+  - Vue2 通过 Options API 来描述组件对象，
+  - 其中包括 data, props, methods, computed, watch, 生命周期等等这些选项。
+  - 造成编写代码时，一个逻辑可能写在不同的地方，代码内聚性非常差。
+  - Composition API 可以将相关联的代码放到同一处进行处理，而不需要在多个 Options 之间寻找
 - Hook 函数增加代码的复用性：
-	- vue2 通常使用 mixin 在多个组件之间共享逻辑。
-	- 而 mixin 也是由一大堆 Options 组成，并且多个 mixin 会存在名命冲突的问题。
-	- Vue3 中可以通过 Hook 函数，将一部分独立的逻辑抽取出去，并且还可以做到响应式。
+  - vue2 通常使用 mixin 在多个组件之间共享逻辑。
+  - 而 mixin 也是由一大堆 Options 组成，并且多个 mixin 会存在名命冲突的问题。
+  - Vue3 中可以通过 Hook 函数，将一部分独立的逻辑抽取出去，并且还可以做到响应式。
 
 # 如何使用 Vue
 
 ## 在项目中引入 Vue
 
-如何在项目中引入 Vue？4种方式
+如何在项目中引入 Vue？4 种方式
 
 - 通过 CDN 的方式引入（分发网络，英文是 Content Deliver NetWork 或 Content Distribution NetWork）。
 - 下载 Vue 的 JavaScript 文件，并且自己手动引入。
@@ -68,31 +71,32 @@ API方面
       template: `<h2>Hello World</h2><span>呵呵呵</span>`
     })
     // 挂载
-    app.mount("#app")
+    app.mount('#app')
   </script>
 </body>
 ```
 
 ## 基本使用
 
-Vue 的初体验，3个案例的实现。
+Vue 的初体验，3 个案例的实现。
 
 案例一，动态展示数据；
 
 ```html
 <body>
   <div id="app"></div>
-  <script src="./lib/vue.js"></script> <!-- 使用下载到本地的 vue -->
+  <script src="./lib/vue.js"></script>
+  <!-- 使用下载到本地的 vue -->
   <script>
     const app = Vue.createApp({
       template: `<h2>{{message}}</h2>`,
-      data: function() {
+      data: function () {
         return {
-          message: "你好啊, Vue3"
+          message: '你好啊, Vue3'
         }
       }
     })
-    app.mount("#app")
+    app.mount('#app')
   </script>
 </body>
 ```
@@ -111,13 +115,13 @@ Vue 的初体验，3个案例的实现。
           <li v-for="item in movies">{{item}}</li>
         </ul>
       `,
-      data: function() {
+      data: function () {
         return {
-          movies: [ "大话西游", "星际穿越", "盗梦空间", "少年派", "飞驰人生" ]
+          movies: ['大话西游', '星际穿越', '盗梦空间', '少年派', '飞驰人生']
         }
       }
     })
-    app.mount("#app")
+    app.mount('#app')
   </script>
 </body>
 ```
@@ -135,21 +139,21 @@ Vue 的初体验，3个案例的实现。
         <button @click="increment">+1</button>
         <button @click="decrement">-1</button>
       `,
-      data: function() {
+      data: function () {
         return {
           counter: 0
         }
       },
       methods: {
-        increment: function() {
+        increment: function () {
           this.counter++
         },
-        decrement: function() {
+        decrement: function () {
           this.counter--
         }
       }
     })
-    app.mount("#app")
+    app.mount('#app')
   </script>
 </body>
 ```
@@ -173,26 +177,26 @@ Vue 的初体验，3个案例的实现。
   <script src="./lib/vue.js"></script>
   <script>
     const app = Vue.createApp({
-      data: function() {
+      data: function () {
         return {
           counter: 0
         }
       },
       methods: {
-        increment: function() {
+        increment: function () {
           this.counter++
         },
-        decrement: function() {
+        decrement: function () {
           this.counter--
         }
       }
     })
-    app.mount("#app")
+    app.mount('#app')
   </script>
 </body>
 ```
 
-template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
+template 会替换掉要挂载的元素，Vue 使用 template 的 2 种方式。
 
 - 方式一：使用 script 标签，并且标记它的类型为 `x-template` (type="x-template")，并设置 Id
 
@@ -206,10 +210,10 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
     </div>
   </script>
   <script>
-  Vue.createApp({
-    template: '#my-app',
-    // ...
-  }).mount('#app')
+    Vue.createApp({
+      template: '#my-app'
+      // ...
+    }).mount('#app')
   </script>
   ```
 
@@ -225,10 +229,10 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
     </div>
   </template>
   <script>
-  Vue.createApp({
-    template: '#my-app',
-    // ...
-  }).mount('#app')
+    Vue.createApp({
+      template: '#my-app'
+      // ...
+    }).mount('#app')
   </script>
   ```
 
@@ -243,17 +247,17 @@ template 会替换掉要挂载的元素，Vue 使用 template 的2种方式。
   <button class="sub">-1</button>
   <script>
     // 1.获取dom
-    const counterEl = document.querySelector(".counter")
-    const addBtnEl = document.querySelector(".add")
-    const subBtnEl = document.querySelector(".sub")
+    const counterEl = document.querySelector('.counter')
+    const addBtnEl = document.querySelector('.add')
+    const subBtnEl = document.querySelector('.sub')
     // 2.定义一个变量记录数据
     let counter = 100
     counterEl.textContent = counter
     // 2.监听按钮的点击
-    addBtnEl.onclick = function() {
+    addBtnEl.onclick = function () {
       counterEl.textContent = ++counter
     }
-    subBtnEl.onclick = function() {
+    subBtnEl.onclick = function () {
       counterEl.textContent = --counter
     }
   </script>
@@ -301,7 +305,7 @@ data: function() {
 
 methods 属性有什么用？
 
-- methods 属性是一个对象，通常我们会在这个对象中定义很多的方法： 
+- methods 属性是一个对象，通常我们会在这个对象中定义很多的方法：
 - 这些方法可以被绑定到模板中；
 - 在该方法中，我们可以使用 `this` 关键字来直接访问到 data 中返回的对象的属性；
 
@@ -315,21 +319,20 @@ methods 中 this 的指向。
 
 Options API 中还有哪些其它属性？
 
-- 比如 computed、watch、props、emits、setup 等等； 
+- 比如 computed、watch、props、emits、setup 等等；
 - 也包括很多的生命周期函数；
 
 # Vue 的模板语法
 
-
 什么是模板语法的开发模式？
 
--  React 的开发模式： 
-	- React 使用的 jsx，所以对应的代码都是编写的类似于 js 的一种语法； 
-	- 之后通过 Babel 将 jsx 编译成 React.createElement 函数调用；
--  Vue 也支持 jsx 的开发模式： 
-	- 但是大多数情况下，使用基于 HTML 的模板语法； 
-	- 在模板中，允许开发者以声明式的方式将 DOM 和底层组件实例的数据绑定在一起；
-	- 在底层的实现中，Vue 将模板编译成虚拟 DOM 渲染函数（createVNode）。
+- React 的开发模式：
+  - React 使用的 jsx，所以对应的代码都是编写的类似于 js 的一种语法；
+  - 之后通过 Babel 将 jsx 编译成 React.createElement 函数调用；
+- Vue 也支持 jsx 的开发模式：
+  - 但是大多数情况下，使用基于 HTML 的模板语法；
+  - 在模板中，允许开发者以声明式的方式将 DOM 和底层组件实例的数据绑定在一起；
+  - 在底层的实现中，Vue 将模板编译成虚拟 DOM 渲染函数（createVNode）。
 
 ## Mustache 语法
 
@@ -349,7 +352,8 @@ Mustache 语法（双大括号语法/插值语法）的使用。
 不能定义语句
 
 ```html
-<div>{{ const foo = 'haha' }}</div> <!-- 错误写法 -->
+<div>{{ const foo = 'haha' }}</div>
+<!-- 错误写法 -->
 ```
 
 # 指令
@@ -404,7 +408,8 @@ v-cloak 这个指令保存在元素上，直到关联组件实例编译完成。
 v-memo 缓存一个模板的子树，在元素和组件上都可以使用，传入一个数组用于缓存，如果数组里的每个值都与最后一次的渲染相同，那么整个子树的更新将被跳过
 
 ```html
-<div v-memo="[name, age]"> <!-- 如果 name, age 不改变，那么整个 div 都不会更新 -->
+<div v-memo="[name, age]">
+  <!-- 如果 name, age 不改变，那么整个 div 都不会更新 -->
   <h2>姓名: {{ name }}</h2>
   <h2>年龄: {{ age }}</h2>
   <h2>身高: {{ height }}</h2>
@@ -429,7 +434,7 @@ v-bind 的作用，语法糖，预期值类型，修饰符
 <body>
   <div id="app">
     <!-- 1. v-bind的基本使用 -->
-    <img v-bind:src="imgUrl" alt="">
+    <img v-bind:src="imgUrl" alt="" />
     <!-- 2. v-bind提供一个语法糖 -->
     <a :href="link">百度一下</a>
   </div>
@@ -550,7 +555,7 @@ v-bind 的作用，语法糖，预期值类型，修饰符
           }
         }
       },
-      methods:{
+      methods: {
         getFinalStyleObj() {
           return {
             'font-size': '50px',
@@ -582,7 +587,7 @@ v-bind 的作用，语法糖，预期值类型，修饰符
             fontSize: '30px'
           },
           style2Obj: {
-            textDecoration: "underline"
+            textDecoration: 'underline'
           }
         }
       }
@@ -616,7 +621,7 @@ v-bind 的作用，语法糖，预期值类型，修饰符
 </body>
 ```
 
------
+---
 
 ### 以对象形式直接给元素绑定 attributes
 
@@ -632,7 +637,7 @@ v-bind 的作用，语法糖，预期值类型，修饰符
   <script>
     const app = {
       data() {
-        return { 
+        return {
           info: {
             class: 'active',
             style: {
@@ -647,4 +652,3 @@ v-bind 的作用，语法糖，预期值类型，修饰符
   </script>
 </body>
 ```
-

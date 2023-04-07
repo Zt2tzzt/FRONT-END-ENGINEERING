@@ -1,8 +1,8 @@
 # VueCLI 的运行原理
 
-1. 执行命令 npm run serve -> 
-2. 执行命令 vue-cli-service serve -> 
-3. 找到并执行 node_modules/.bin/vue-cli-service -> 
+1. 执行命令 npm run serve ->
+2. 执行命令 vue-cli-service serve ->
+3. 找到并执行 node_modules/.bin/vue-cli-service ->
 4. 找到并执行 @vue/cli-service ->
 5. 经过一系列操作加载 webpack 配置 ->
 6. 启动 devServer 服务器。
@@ -21,9 +21,9 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: {
-    resolve: {  
+    resolve: {
       alias: {
-        "utils": "@/utils" // 配置路径别名，“@”是 Vue 默认已经配置好的路径别名: 对应的是 src/ 路径
+        utils: '@/utils' // 配置路径别名，“@”是 Vue 默认已经配置好的路径别名: 对应的是 src/ 路径
       }
     }
   }
@@ -32,7 +32,7 @@ module.exports = defineConfig({
 
 > 修改配置文件后，项目要重新运行。
 
------
+---
 
 在 jsconfig.josn 中配置 VSCode 的路径提示。了解其它选项的作用。
 
@@ -43,12 +43,12 @@ module.exports = defineConfig({
     "module": "esnext", // 采用 es 模块化规范。
     "baseUrl": "./", // 路径基于当前项目目录下。
     "moduleResolution": "node", // 模块的查找顺序，按照 node 的顺序查找。
-    "paths": { // 指定路径别名。
-      "@/*": [
-        "src/*"
-      ]
+    "paths": {
+      // 指定路径别名。
+      "@/*": ["src/*"]
     },
-    "lib": [ // 准备用到哪些语法。
+    "lib": [
+      // 准备用到哪些语法。
       "esnext",
       "dom",
       "dom.iterable",
@@ -58,7 +58,7 @@ module.exports = defineConfig({
 }
 ```
 
------
+---
 
 理解 Vue 的渲染流程。
 
@@ -66,7 +66,7 @@ module.exports = defineConfig({
 - vue-loader 完成了 template 转换到 createVNode 函数的编译过程。
 - 在非脚手架（没有 vue-loader 参与打包）的环境中，需要 Vue 的源码来完成上面的编译 compiler 过程，即需要引入非 runtime 版本的 Vue 源码，如 `vue.esm-buldel.js`。
 
------
+---
 
 vue 的 sfc 文件 css 作用域的理解
 
@@ -81,7 +81,6 @@ vue 的 sfc 文件 css 作用域的理解
   > 然而，组件要是没有根元素，或使用的是元素选择器添加样式，可能还是会出现穿透效果。
   >
   > 所以在开发中，一般推荐给组件**加上根元素**，**通过 class 来给样式**。
-
 
 # Vite 创建项目（一）
 
@@ -120,14 +119,14 @@ vite 的定位：下一代构建工具；vite 的发音：/vit/；vite 由两部
 - 一个开发服务器，基于原生 ES 模块，提供了丰富的内建功能。HMR 的速度非常快。
 - 一套构建指令，它使用 rollup 打开代码，并且是预配置的，可输出优化后的静态资源。
 
-------
+---
 
-现在大部分新的浏览器，都已支持 ES6+ 语法和 ES 模块化，vite 只需帮助我们解决2点问题：
+现在大部分新的浏览器，都已支持 ES6+ 语法和 ES 模块化，vite 只需帮助我们解决 2 点问题：
 
 - 引入第三方依赖如 lodash，加载了上百个 js 代码，对于浏览器是巨大消耗（打包代码）。
 - 代码中有 Typescript，less，vue 等代码时，浏览器并不能直接识别（预处理器）。
 
-------
+---
 
 vite 依赖 Node 环境，Node 版本要 >= 12.0.0
 
@@ -152,7 +151,7 @@ npx vite
 - 将请求的第三方依赖打包在一个文件中，减少发送请求的次数。
 - 第一次使用 vite 打包，会对第三方依赖做预打包，放在 node_modules/vite 中。
 
-------
+---
 
 ## css 支持
 
@@ -206,7 +205,7 @@ Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成
 
 ## Vue 的支持
 
-vite 对 vue 提供的3种版本的支持。
+vite 对 vue 提供的 3 种版本的支持。
 
 - vue3 的 SFC 支持：@vitejs/plugin-vue
 - vue3 的 JSX 支持：@vitejs/plugin-vue-jsx
@@ -229,10 +228,10 @@ vite 对 vue3 的 SFC 打包的步骤：
 3. 在`vite.config.js`中配置插件
 
    ```javascript
-   import vue from '@vitejs/plugin-vue';
-   
+   import vue from '@vitejs/plugin-vue'
+
    module.exports = {
-     plugins: [ vue() ]
+     plugins: [vue()]
    }
    ```
 
@@ -283,5 +282,4 @@ ESBuild 为什么这么快：
 
 - 使用 Go 编写，无需经过字节码，直接转换成机器码；
 - 可充分利用 CPU 的多核，尽可能让它们饱和运行；
-- ESBuild 从0编写，不使用第三方库，考虑了各种性能问题。
-
+- ESBuild 从 0 编写，不使用第三方库，考虑了各种性能问题。

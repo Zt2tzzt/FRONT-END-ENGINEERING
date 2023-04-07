@@ -12,13 +12,13 @@
 import React, { PureComponent } from 'react'
 
 export class HomeSongMenu extends PureComponent {
-	render() {
-		return (
-			<div>
-				<h1>Home Song Menu</h1>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        <h1>Home Song Menu</h1>
+      </div>
+    )
+  }
 }
 
 export default HomeSongMenu
@@ -32,7 +32,7 @@ export default HomeSongMenu
 // ...
 <Routes>
   {/* 注册路由 */}
-  <Route path="/home/songmenu" element={<HomeSongMenu />}></Route>
+  <Route path='/home/songmenu' element={<HomeSongMenu />}></Route>
 </Routes>
 // ...
 ```
@@ -46,13 +46,12 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function withRouter(WrapperComponent) {
-  
-	return function (props) {
-		const navigate = useNavigate()
-		const router = { navigate }
+  return function (props) {
+    const navigate = useNavigate()
+    const router = { navigate }
 
-		return <WrapperComponent {...props} router={ router } />
-	}
+    return <WrapperComponent {...props} router={router} />
+  }
 }
 
 export default withRouter
@@ -65,29 +64,29 @@ export default withRouter
 ```jsx
 import React, { PureComponent } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import withRouter from '../hoc/withRouter';
+import withRouter from '../hoc/withRouter'
 
 export class Home extends PureComponent {
-	render() {
-		return (
-			<div>
-				<h1>Home Page</h1>
-				<div className="home-nav">
-					<Link to='/home/recommend'>推荐</Link>
-					<Link to='/home/ranking'>排行榜</Link>
-					<button onClick={e => this.navigateTo('/home/songmenu')}>歌单</button>
-				</div>
+  render() {
+    return (
+      <div>
+        <h1>Home Page</h1>
+        <div className='home-nav'>
+          <Link to='/home/recommend'>推荐</Link>
+          <Link to='/home/ranking'>排行榜</Link>
+          <button onClick={e => this.navigateTo('/home/songmenu')}>歌单</button>
+        </div>
 
-				{/* 占位组件 */}
-				<Outlet />
-			</div>
-		)
-	}
+        {/* 占位组件 */}
+        <Outlet />
+      </div>
+    )
+  }
 
-	navigateTo(path) {
-		const { navigate } = this.props.router
-		navigate(path)
-	}
+  navigateTo(path) {
+    const { navigate } = this.props.router
+    navigate(path)
+  }
 }
 
 export default withRouter(Home)
@@ -103,7 +102,7 @@ export default withRouter(Home)
 eg:
 
 ```js
-navigate('/home', {replacement: false, state: ''})
+navigate('/home', { replacement: false, state: '' })
 navigate(-1)
 ```
 
@@ -120,7 +119,7 @@ navigate(-1)
 ```jsx
 // ...
 <Routes>
-	<Route path='/detail/:id' element={<Detail />} />
+  <Route path='/detail/:id' element={<Detail />} />
 </Routes>
 // ...
 ```
@@ -134,13 +133,13 @@ import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 function withRouter(WrapperComponent) {
-	return function (props) {
-		const navigate = useNavigate()
-		const params = useParams()
-		const router = { navigate, params }
+  return function (props) {
+    const navigate = useNavigate()
+    const params = useParams()
+    const router = { navigate, params }
 
-		return <WrapperComponent {...props} router={ router } />
-	}
+    return <WrapperComponent {...props} router={router} />
+  }
 }
 
 export default withRouter
@@ -155,35 +154,37 @@ import React, { PureComponent } from 'react'
 import withRouter from '../hoc/withRouter'
 
 export class HomeSongMenu extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			songMenus: [
-				{ id: 111, name: '华语流行' },
-				{ id: 112, name: '古典音乐' },
-				{ id: 113, name: '乡村民谣' },
-			]
-		}
-	}
-	render() {
-		const { songMenus } = this.state
-    
-		return (
-			<div>
-				<h1>Home Song Menu</h1>
-				<ul>
-					{songMenus.map(item => (
-            <li key={item.id} onClick={e => this.navigateToDetail(item.id)}>{item.name}</li>
-          ))}
-				</ul>
-			</div>
-		)
-	}
+  constructor() {
+    super()
+    this.state = {
+      songMenus: [
+        { id: 111, name: '华语流行' },
+        { id: 112, name: '古典音乐' },
+        { id: 113, name: '乡村民谣' }
+      ]
+    }
+  }
+  render() {
+    const { songMenus } = this.state
 
-	navigateToDetail(id) {
-		const { navigate } = this.props.router
-		navigate('/detail/' + id)
-	}
+    return (
+      <div>
+        <h1>Home Song Menu</h1>
+        <ul>
+          {songMenus.map(item => (
+            <li key={item.id} onClick={e => this.navigateToDetail(item.id)}>
+              {item.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  navigateToDetail(id) {
+    const { navigate } = this.props.router
+    navigate('/detail/' + id)
+  }
 }
 
 export default withRouter(HomeSongMenu)
@@ -198,16 +199,16 @@ import React, { PureComponent } from 'react'
 import withRouter from '../hoc/withRouter'
 
 export class Detail extends PureComponent {
-	render() {
-		const { params } = this.props.router
-    
-		return (
-			<div>
-				<h1>Detail Page</h1>
-				<div>id: {params.id}</div>
-			</div>
-		)
-	}
+  render() {
+    const { params } = this.props.router
+
+    return (
+      <div>
+        <h1>Detail Page</h1>
+        <div>id: {params.id}</div>
+      </div>
+    )
+  }
 }
 
 export default withRouter(Detail)
@@ -222,23 +223,23 @@ export default withRouter(Detail)
 ```jsx
 // ...
 <div>
-	<div className="header">
-		header
-		<div className="nav">
+  <div className='header'>
+    header
+    <div className='nav'>
       {/* 查询字符串 */}
-			<Link to='/user?name=zzt&age=18'>用户</Link>
-		</div>
-		<hr />
-	</div>
-	<div className="content">
-		<Routes>
-			<Route path='/user' element={<User />} />
-		</Routes>
-	</div>
-	<div className="footer">
-		<hr />
-		footer
-	</div>
+      <Link to='/user?name=zzt&age=18'>用户</Link>
+    </div>
+    <hr />
+  </div>
+  <div className='content'>
+    <Routes>
+      <Route path='/user' element={<User />} />
+    </Routes>
+  </div>
+  <div className='footer'>
+    <hr />
+    footer
+  </div>
 </div>
 // ...
 ```
@@ -252,26 +253,26 @@ import React from 'react'
 import { useNavigate, useParams, useLocation, useSearchParams } from 'react-router-dom'
 
 function withRouter(WrapperComponent) {
-	return function (props) {
-		// 导航
-		const navigate = useNavigate()
+  return function (props) {
+    // 导航
+    const navigate = useNavigate()
 
-		// 动态路由的参数：/detail/:id
-		const params = useParams()
+    // 动态路由的参数：/detail/:id
+    const params = useParams()
 
-		// 查询字符串的参数：/user?name=zzt&age=18
-		const location = useLocation()
-		console.log('location:', location)
+    // 查询字符串的参数：/user?name=zzt&age=18
+    const location = useLocation()
+    console.log('location:', location)
     // {pathname: '/user', search: '?name=zzt&age=18', hash: '', state: null, key: '1k1r7ie4'}
-    
-		const [searchParams] = useSearchParams()
-		const query = Object.fromEntries(searchParams)
-		console.log('query:', query);
+
+    const [searchParams] = useSearchParams()
+    const query = Object.fromEntries(searchParams)
+    console.log('query:', query)
     // {name: 'zzt', age: '18'}
 
-		const router = { navigate, params, location, query }
-		return <WrapperComponent {...props} router={ router } />
-	}
+    const router = { navigate, params, location, query }
+    return <WrapperComponent {...props} router={router} />
+  }
 }
 
 export default withRouter
@@ -286,16 +287,18 @@ import React, { PureComponent } from 'react'
 import withRouter from '../hoc/withRouter'
 
 export class User extends PureComponent {
-	render() {
-		const { query } = this.props.router
+  render() {
+    const { query } = this.props.router
 
-		return (
-			<div>
-				<h1>User Page</h1>
-				<div>{query.name}-{query.age}</div>
-			</div>
-		)
-	}
+    return (
+      <div>
+        <h1>User Page</h1>
+        <div>
+          {query.name}-{query.age}
+        </div>
+      </div>
+    )
+  }
 }
 
 export default withRouter(User)
@@ -303,24 +306,22 @@ export default withRouter(User)
 
 ## 4.路由的配置文件
 
-
 上述所有的路由定义，都是直接使用 `<Route>` 组件，并且添加属性来完成的。
 
 这样的方式，会让路由变得非常混乱，我们希望将所有的路由配置放到一个地方进行集中管理，如一个单独的配置文件中：
 
-- 在 *React Router 5.x* 及以前的版本，需要借助于 *react-router-config* 库来完成；
-- 在 *React Router 6.x* 中，已为我们提供 `useRoutes` Hook 来完成相关的配置；
+- 在 _React Router 5.x_ 及以前的版本，需要借助于 _react-router-config_ 库来完成；
+- 在 _React Router 6.x_ 中，已为我们提供 `useRoutes` Hook 来完成相关的配置；
 
 08-learn-reactrouter\src\App.jsx
 
 ```jsx
 import React from 'react'
-import { useNavigate, Link, useRoutes } from 'react-router-dom';
+import { useNavigate, Link, useRoutes } from 'react-router-dom'
 // 引入配置文件
-import routes from './router';
+import routes from './router'
 
 export function App() {
-
   const navigate = useNavigate()
   function navigateTo(path) {
     navigate(path)
@@ -328,20 +329,20 @@ export function App() {
 
   return (
     <div>
-      <div className="header">
+      <div className='header'>
         header
-        <div className="nav">
-          <button onClick={e => navigateTo('/category') }>分类</button>
-          <span onClick={e => navigateTo('/order') }>订单</span>
+        <div className='nav'>
+          <button onClick={e => navigateTo('/category')}>分类</button>
+          <span onClick={e => navigateTo('/order')}>订单</span>
           <Link to='/user?name=zzt&age=18'>用户</Link>
         </div>
         <hr />
       </div>
-      <div className="content">
+      <div className='content'>
         {/* 使用 useRoutes，传入配置好的数组 */}
-        { useRoutes(routes) }
+        {useRoutes(routes)}
       </div>
-      <div className="footer">
+      <div className='footer'>
         <hr />
         footer
       </div>
@@ -369,56 +370,56 @@ import User from '../pages/User'
 import { Navigate } from 'react-router-dom'
 
 const routes = [
-	{
-		path: '/',
+  {
+    path: '/',
     // 重定向
-		element: <Navigate to="/home" />
-	},
-	{
-		path: '/home',
-		element: <Home />,
+    element: <Navigate to='/home' />
+  },
+  {
+    path: '/home',
+    element: <Home />,
     // 二级路由
-		children: [
-			{
-				path: '/home',
-				element: <Navigate to="/home/recommend" />
-			},
-			{
-				path: '/home/recommend',
-				element: <HomeRecommend />
-			},
-			{
-				path: '/home/ranking',
-				element: <HomeRanking />
-			},
-			{
-				path: '/home/songmenu',
-				element: <HomeSongMenu />
-			}
-		]
-	},
-	{
-		path: '/category',
-		element: <Category />
-	},
-	{
-		path: '/order',
-		element: <Order />
-	},
+    children: [
+      {
+        path: '/home',
+        element: <Navigate to='/home/recommend' />
+      },
+      {
+        path: '/home/recommend',
+        element: <HomeRecommend />
+      },
+      {
+        path: '/home/ranking',
+        element: <HomeRanking />
+      },
+      {
+        path: '/home/songmenu',
+        element: <HomeSongMenu />
+      }
+    ]
+  },
+  {
+    path: '/category',
+    element: <Category />
+  },
+  {
+    path: '/order',
+    element: <Order />
+  },
   // 动态路由
-	{
-		path: '/detail/:id',
-		element: <Detail />
-	},
-	{
-		path: '/user',
-		element: <User />
-	},
+  {
+    path: '/detail/:id',
+    element: <Detail />
+  },
+  {
+    path: '/user',
+    element: <User />
+  },
   // NotFound
-	{
-		path: '*',
-		element: <NotFound />
-	}
+  {
+    path: '*',
+    element: <NotFound />
+  }
 ]
 
 export default routes
@@ -439,14 +440,14 @@ const Category = React.lazy(() => import('../pages/Category'))
 const Order = React.lazy(() => import('../pages/Order'))
 
 const routes = [
-	{
-		path: '/category',
-		element: <Category />
-	},
-	{
-		path: '/order',
-		element: <Order />
-	}
+  {
+    path: '/category',
+    element: <Category />
+  },
+  {
+    path: '/order',
+    element: <Order />
+  }
 ]
 
 export default routes
@@ -457,12 +458,12 @@ export default routes
 08-learn-reactrouter\src\index.js
 
 ```jsx
-import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import { HashRouter } from 'react-router-dom';
+import React, { Suspense } from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import { HashRouter } from 'react-router-dom'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <HashRouter>
@@ -471,7 +472,7 @@ root.render(
       </Suspense>
     </HashRouter>
   </React.StrictMode>
-);
+)
 ```
 
 # 二、React Hooks
@@ -480,28 +481,28 @@ root.render(
 
 函数式组件存在的最大缺陷，结合案例分析.
 
-09-learn-reacthooks\src\01-不适用Hooks\App.jsx
+09-learn-reacthooks\src\01-不适用 Hooks\App.jsx
 
 ```jsx
 import React from 'react'
 
 function App() {
-	let msg = 'Hello World'
+  let msg = 'Hello World'
 
-	/**
-	 * 函数式组件存在的最大缺陷：
-	 *  1.不能保存状态。
-	 * 	 * 修改 msg 之后，组件不会被重新渲染。
-	 * 	 * 即使页面重新渲染，意味着函数会被重新执行，那么会重新给 msg 赋值为“Hello World”
-	 * 	3.类似于生命周期的回调函数，也是没有的。
-	 */
+  /**
+   * 函数式组件存在的最大缺陷：
+   *  1.不能保存状态。
+   * 	 * 修改 msg 之后，组件不会被重新渲染。
+   * 	 * 即使页面重新渲染，意味着函数会被重新执行，那么会重新给 msg 赋值为“Hello World”
+   * 	3.类似于生命周期的回调函数，也是没有的。
+   */
 
-	return (
-		<div>
-			<h2>内容：{msg}</h2>
-			<button onClick={e => msg = '你好啊，李银河！'}>修改文本</button>
-		</div>
-	)
+  return (
+    <div>
+      <h2>内容：{msg}</h2>
+      <button onClick={e => (msg = '你好啊，李银河！')}>修改文本</button>
+    </div>
+  )
 }
 
 export default App
@@ -516,6 +517,7 @@ export default App
 - 函数式组件不可以，因为函数每次调用都会产生新的临时变量；
 
 有自己的生命周期，可以在对应的生命周期中完成特定的逻辑；如在 `componentDidMount` 中发送网络请求，并且该生命周期函数只会执行一次；
+
 - 函数式组件没有生命周期，如果在函数式组件中发送网络请求，意味着每次组件重新渲染都会重新发送一次网络请求；
 
 可以在状态改变时重新执行 `render` 函数以及生命周期函数 `componentDidUpdate` 等；
@@ -524,27 +526,29 @@ export default App
 
 ## 3.类组件的缺陷
 
-
 复杂组件变得难以理解：
+
 - 随着业务的增多，类组件会变得越来越复杂；
   - 比如 `componentDidMount` 中，可能就会包含大量的逻辑代码：像是网络请求、一些事件的监听（还需要在 `componentWillUnmount` 中移除）；
 - 对于这样的类组件，实际上非常难以拆分：因为它们的逻辑往往混在一起，强行拆分反而会造成过度设计，增加代码的复杂度；
 
 组件复用状态很麻烦，需要通过高阶组件完成；
-- 比如 *react-redux* 中 `connect` 或者 *react-router* 中的 `withRouter`，这些高阶组件设计的目的就是为了状态的复用；
+
+- 比如 _react-redux_ 中 `connect` 或者 _react-router_ 中的 `withRouter`，这些高阶组件设计的目的就是为了状态的复用；
 - 比如 Context 中的 `<Provider>`、`<Consumer>` 来共享一些状态，而且多次使用 `<Consumer>` 时，代码会存在很多嵌套；
 - 这些代码让我们不管是编写和设计上来说，都变得非常困难；
 
 难以理解：
+
 - 很多人发现学习 ES6 的 class 是学习 React 的一个障碍。
 - 比如在 class 中，我们必须搞清楚 `this` 的指向到底是什么，对于初学者难以理解。
-
 
 ## 6.Hooks 是什么？
 
 Hook 是 **React 16.8** 的新增特性，它可以让我们在函数组件中，使用类组件的特性。可以延伸出非常多的用法。
 
 Hook 的使用场景：
+
 - Hook 的出现基本可以代替我们之前所有使用类组件的地方；
 - Hook 只能在函数组件中使用，不能在类组件，以及函数组件之外的地方使用；
   - 除非是自定义 Hook 函数，即以“`use`”开头的函数。
@@ -562,13 +566,13 @@ import CounterClass from './CounterClass'
 import CounterHook from './CounterHook'
 
 const App = memo(() => {
-	return (
-		<div>
-			<h1>App Component</h1>
-			<CounterClass />
-			<CounterHook />
-		</div>
-	)
+  return (
+    <div>
+      <h1>App Component</h1>
+      <CounterClass />
+      <CounterHook />
+    </div>
+  )
 })
 
 export default App
@@ -584,35 +588,35 @@ export default App
 import React, { PureComponent } from 'react'
 
 export class CounterClass extends PureComponent {
-	constructor(props) {
-		super(props)
-		this.state = {
-			counter: 0
-		}
-	}
+  constructor(props) {
+    super(props)
+    this.state = {
+      counter: 0
+    }
+  }
 
-	render() {
-		const { counter } = this.state
+  render() {
+    const { counter } = this.state
 
-		return (
-			<div>
-				<h1>当前计数：{counter}</h1>
-				<button onClick={e => this.increment()}>+1</button>
-				<button onClick={e => this.decrement()}>-1</button>
-			</div>
-		)
-	}
+    return (
+      <div>
+        <h1>当前计数：{counter}</h1>
+        <button onClick={e => this.increment()}>+1</button>
+        <button onClick={e => this.decrement()}>-1</button>
+      </div>
+    )
+  }
 
-	increment() {
-		this.setState({
-			counter: this.state.counter + 1
-		})
-	}
-	decrement() {
-		this.setState({
-			counter: this.state.counter - 1
-		})
-	}
+  increment() {
+    this.setState({
+      counter: this.state.counter + 1
+    })
+  }
+  decrement() {
+    this.setState({
+      counter: this.state.counter - 1
+    })
+  }
 }
 
 export default CounterClass
@@ -628,15 +632,15 @@ export default CounterClass
 import React, { memo, useState } from 'react'
 
 const CounterHook = memo(() => {
-	const [counter, setCounter] = useState(0)
+  const [counter, setCounter] = useState(0)
 
-	return (
-		<div>
-			<h1>当前计数：{counter}</h1>
-			<button onClick={e => setCounter(counter + 1)}>+1</button>
-			<button onClick={e => setCounter(counter - 1)}>-1</button>
-		</div>
-	)
+  return (
+    <div>
+      <h1>当前计数：{counter}</h1>
+      <button onClick={e => setCounter(counter + 1)}>+1</button>
+      <button onClick={e => setCounter(counter - 1)}>-1</button>
+    </div>
+  )
 })
 
 export default CounterHook
@@ -652,27 +656,30 @@ export default CounterHook
 参数：接受唯一一个参数，表示初始化值，如果不设置，默认为 `undefined`；
 
 返回值：数组，包含两个元素；可以通过数组的解构进行使用，非常方便。
+
 - 元素一：当前状态的值（第一此调用为初始化值）；
 - 元素二：设置状态值的函数；
 
 在上述案例中，点击 `<button>` 按钮后，会做两件事情：
+
 1. 调用 `setCount`，设置一个新的值；
 2. 组件重新渲染，并且根据新的值返回 DOM 结构；
 
 React Hook 就是 JavaScript 函数，这个函数可以钩入（hook into）React State 以及生命周期等特性；
 
 React Hooks 使用两个规则：
+
 - 只能在函数式组件中使用。不要在其他普通 JavaScript 函数中调用，
   - 除非是在自定义 Hook 函数中调用，即以“`use`”开头的函数。
 - 只能在函数组件的**最外层**调用 Hook。不要在循环、条件判断或者子函数中调用。
 
 ```jsx
-import { memo, useState } from "react";
+import { memo, useState } from 'react'
 
 // 普通的函数, 里面不能使用 hooks
 // 在自定义的 hooks 中（必须使用“use”开头）, 可以使用 react 提供的其他 hooks:
 function useFoo() {
-  const [ message ] = useState("Hello World")
+  const [message] = useState('Hello World')
   return message
 }
 
@@ -684,8 +691,8 @@ function CounterHook(props) {
   return (
     <div>
       <h2>当前计数: {counter}</h2>
-      <button onClick={e => setCounter(counter+1)}>+1</button>
-      <button onClick={e => setCounter(counter-1)}>-1</button>
+      <button onClick={e => setCounter(counter + 1)}>+1</button>
+      <button onClick={e => setCounter(counter - 1)}>-1</button>
     </div>
   )
 }
@@ -693,10 +700,9 @@ function CounterHook(props) {
 export default memo(CounterHook)
 ```
 
-> FAQ：为什么叫 `useState` 而不叫 `createState`? 
+> FAQ：为什么叫 `useState` 而不叫 `createState`?
+>
 > 1. “create” 可能不是很准确，因为 state 只在组件首次渲染的时候被创建。
 > 2. 在下一次重新渲染时，`useState` 返回给我们当前的 `state`。
 > 3. 如果每次都创建新的变量，它就不是 “state”了。
 > 4. 这也是 Hook 的名字总是以 `use` 开头的一个原因。
-
-

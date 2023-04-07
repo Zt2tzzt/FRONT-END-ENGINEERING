@@ -1,4 +1,4 @@
-# Vue 中页面数据的2种管理方案
+# Vue 中页面数据的 2 种管理方案
 
 分层结构的使用。
 
@@ -7,7 +7,7 @@
 
 # Vuex 核心四 actions
 
-## 与 mutations 的不同之处2点。
+## 与 mutations 的不同之处 2 点。
 
 - action 提交的是 mutation，而不是直接变更状态。
 - action 可以包含异步操作。
@@ -16,7 +16,6 @@
 
 - `context` 是一个和 store 实例有相同方法和属性的对象。
 - 它与 store 实例相同的属性/方法：`state`, `getters`, `commit`, `dispatch`；它特有的属性（有 namespace 的情况下）：`rootState`, `rootGetters`.
-
 
 ## 基本使用。
 
@@ -28,24 +27,24 @@ src / store / index.js
 import { createStore } from 'vuex'
 
 const store = createStore({
-	state() {
-		return {
-			counter: 0
-		}
-	},
-	mutations: {
-		increment(state, num) {
-			state.counter = state.counter + num
-		},
-	},
+  state() {
+    return {
+      counter: 0
+    }
+  },
+  mutations: {
+    increment(state, num) {
+      state.counter = state.counter + num
+    }
+  },
   // action 的基本使用，可传递参数。
-	actions: {
-		incrementAction(ctx, num) {
-			setTimeout(() => {
-				ctx.commit('increment', num)
-			}, 1000);
-		}
-	}
+  actions: {
+    incrementAction(ctx, num) {
+      setTimeout(() => {
+        ctx.commit('increment', num)
+      }, 1000)
+    }
+  }
 })
 export default store
 ```
@@ -54,10 +53,10 @@ Home.vue
 
 ```vue
 <template>
-	<div >
-		计数器：{{ $store.state.counter }}
-		<button @click="increment">+100</button>
-	</div>
+  <div>
+    计数器：{{ $store.state.counter }}
+    <button @click="increment">+100</button>
+  </div>
 </template>
 
 <script>
@@ -89,24 +88,24 @@ src / store / index.js
 
 ```javascript
 const store = createStore({
-	state() {
-		return {
-			counter: 0
-		}
-	},
-	mutations: {
-		increment(state, count) {
-			state.counter = state.counter + count
-		},
-	},
-	actions: {
+  state() {
+    return {
+      counter: 0
+    }
+  },
+  mutations: {
+    increment(state, count) {
+      state.counter = state.counter + count
+    }
+  },
+  actions: {
     // payload 传递的是对象，需要解构。
-		incrementAction(ctx, { count }) {
-			setTimeout(() => {
-				ctx.commit('increment', count)
-			}, 1000);
-		}
-	}
+    incrementAction(ctx, { count }) {
+      setTimeout(() => {
+        ctx.commit('increment', count)
+      }, 1000)
+    }
+  }
 })
 export default store
 ```
@@ -115,15 +114,15 @@ Home.vue
 
 ```javascript
 export default {
-	methods: {
-		increment() {
+  methods: {
+    increment() {
       // 对象类型提交时，传递的参数为对象类型。
-			this.$store.dispatch({
+      this.$store.dispatch({
         type: 'incrementAction',
         count: 100
       })
-		}
-	}
+    }
+  }
 }
 ```
 
@@ -137,23 +136,23 @@ src / store / index.js
 import { createStore } from 'vuex'
 
 const store = createStore({
-	state() {
-		return {
-			counter: 0
-		}
-	},
-	mutations: {
-		increment(state) {
-			state.counter++
-		},
-	},
-	actions: {
-		incrementAction(ctx, payload) {
-			setTimeout(() => {
-				ctx.commit('increment')
-			}, 1000);
-		}
-	}
+  state() {
+    return {
+      counter: 0
+    }
+  },
+  mutations: {
+    increment(state) {
+      state.counter++
+    }
+  },
+  actions: {
+    incrementAction(ctx, payload) {
+      setTimeout(() => {
+        ctx.commit('increment')
+      }, 1000)
+    }
+  }
 })
 export default store
 ```
@@ -162,39 +161,40 @@ Home.vue
 
 ```vue
 <template>
-	<div >
-		计数器：{{$store.state.counter}}
-		<button @click="incrementAction({name: 'zzt'})">+1</button>
+  <div>
+    计数器：{{ $store.state.counter }}
+    <button @click="incrementAction({ name: 'zzt' })">+1</button>
     <button @click="add">+1</button>
-	</div>
+  </div>
 </template>
 
 <script>
-import { useStore, mapActions } from "vuex"
+import { useStore, mapActions } from 'vuex'
 
 export default {
   // VOA 中的写法
-	methods: {
-		...mapActions(['incrementAction']), // 传入数组的写法
-    ...mapActions({ // 传入对象的写法
-      add: 'incrementAction',
+  methods: {
+    ...mapActions(['incrementAction']), // 传入数组的写法
+    ...mapActions({
+      // 传入对象的写法
+      add: 'incrementAction'
     })
-	},
+  },
   // VCA 中的写法（不推荐）
   setup() {
     const store = useStore()
-    const actions = mapActions(["incrementAction"])
+    const actions = mapActions(['incrementAction'])
     const newActions = {}
     Object.keys(actions).forEach(key => {
       newActions[key] = actions[key].bind({ $store: store })
     })
-		return {
+    return {
       ...mapActions(['incrementAction']),
       ...mapActions({
-          add: 'incrementAction'
+        add: 'incrementAction'
       })
     }
-	}
+  }
 }
 </script>
 ```
@@ -209,26 +209,26 @@ src / store / index.js
 import { createStore } from 'vuex'
 
 const store = createStore({
-	state() {
-		return {
-			counter: 0
-		}
-	},
-	mutations: {
-		increment(state) {
-			state.counter++
-		},
-	},
-	actions: {
-		incrementAction(ctx) {
-			return new Promise(resolve => {
-				setTimeout(() => {
-					ctx.commit('increment')
-					resolve('请求完成')
-				}, 1000);
-			})
-		}
-	}
+  state() {
+    return {
+      counter: 0
+    }
+  },
+  mutations: {
+    increment(state) {
+      state.counter++
+    }
+  },
+  actions: {
+    incrementAction(ctx) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          ctx.commit('increment')
+          resolve('请求完成')
+        }, 1000)
+      })
+    }
+  }
 })
 export default store
 ```
@@ -237,23 +237,23 @@ Home.vue
 
 ```vue
 <template>
-	<div>
-		计数器：{{ $store.state.counter }}
-		<button @click="incrementAction">+1</button>
-	</div>
+  <div>
+    计数器：{{ $store.state.counter }}
+    <button @click="incrementAction">+1</button>
+  </div>
 </template>
 
 <script>
-import { useStore } from "vuex"
-  
+import { useStore } from 'vuex'
+
 export default {
-	setup() {
-		const store = useStore()
-		const incrementAction = () => {
-			const promise = store.dispatch('incrementAction').then(res => console.log(res))
-		}
-		return { incrementAction }
-	}
+  setup() {
+    const store = useStore()
+    const incrementAction = () => {
+      const promise = store.dispatch('incrementAction').then(res => console.log(res))
+    }
+    return { incrementAction }
+  }
 }
 </script>
 ```
@@ -269,11 +269,11 @@ export default {
 Vuex 中使用单一状态树，所有状态集中在一个对象显得比较臃肿，使用 modules 对不同模块的状态进行管理。
 
 使用 modules 后，四个核心怎么获取：
-* `store.state.moduleName.stateName`
-* `store.getters['moduleName/getterName']`
-* `store.commit('moduleName/mutationName')`
-* `store.dispatch('moduleName/actionName')`
 
+- `store.state.moduleName.stateName`
+- `store.getters['moduleName/getterName']`
+- `store.commit('moduleName/mutationName')`
+- `store.dispatch('moduleName/actionName')`
 
 ## 基本使用。
 
@@ -281,11 +281,11 @@ src / store / modules / home.js
 
 ```javascript
 const home = {
-	state() {
-		return {
-			homeCounter: 100
-		}
-	},
+  state() {
+    return {
+      homeCounter: 100
+    }
+  }
 }
 export default home
 ```
@@ -297,9 +297,9 @@ import { createStore } from 'vuex'
 import home from './modules/home'
 
 const store = createStore({
-	modules: {
-		home
-	}
+  modules: {
+    home
+  }
 })
 export default store
 ```
@@ -308,7 +308,7 @@ Home.vue
 
 ```vue
 <template>
-	<div>HomeCouter: {{ $store.state.home.homeCounter }}</div>
+  <div>HomeCouter: {{ $store.state.home.homeCounter }}</div>
 </template>
 ```
 
@@ -318,7 +318,7 @@ Home.vue
 
 ```vue
 <template>
-	<div>
+  <div>
     <!-- 这种方式取不到 home 模块中的 getter -->
     <!-- HomeGetter: {{ $store.state.home.homeGetter }} -->
     <!-- 这种方式才能取到，但是可能会有名命冲突 -->
@@ -335,21 +335,21 @@ src / store / modules / home.js
 
 ```javascript
 const home = {
-	state() {
-		return {
-			homeCounter: 100
-		}
-	},
+  state() {
+    return {
+      homeCounter: 100
+    }
+  },
   getters: {
-		homeGetter(state) {
-			return state.homeCounter
-		}
-	},
-	mutations: {
-		increment(state) {
-			state.homeCounter++
-		}
-	},
+    homeGetter(state) {
+      return state.homeCounter
+    }
+  },
+  mutations: {
+    increment(state) {
+      state.homeCounter++
+    }
+  }
 }
 export default home
 ```
@@ -361,19 +361,19 @@ import { createStore } from 'vuex'
 import home from './modules/home'
 
 const store = createStore({
-	state() {
-		return {
-			counter: 0
-		}
-	},
-	mutations: {
-		increment(state) {
-			state.counter++
-		},
-	},
-	modules: {
-		home
-	}
+  state() {
+    return {
+      counter: 0
+    }
+  },
+  mutations: {
+    increment(state) {
+      state.counter++
+    }
+  },
+  modules: {
+    home
+  }
 })
 export default store
 ```
@@ -382,21 +382,20 @@ Home.vue
 
 ```vue
 <script>
-import { useStore } from "vuex"
-  
+import { useStore } from 'vuex'
+
 export default {
-	setup() {
-		const store = useStore()
-		const homeIncrement = () => {
+  setup() {
+    const store = useStore()
+    const homeIncrement = () => {
       // 在此处直接提交，counter，homeCounter 都会+1
-			store.commit('increment')
-		}
-		return { homeIncrement }
-	}
+      store.commit('increment')
+    }
+    return { homeIncrement }
+  }
 }
 </script>
 ```
-
 
 ## 命名空间。
 
@@ -406,7 +405,7 @@ src / store / modules / home.js
 
 ```javascript
 const home = {
-	namespaced: true,
+  namespaced: true
   // ...
 }
 export default home
@@ -416,68 +415,68 @@ Home.vue
 
 ```vue
 <template>
-	<div>
+  <div>
     <!-- 获取 home 模块中的 homeGetter -->
-    HomeCouter: {{ $store.state.home.homeCounter }}
-    HomeGetter: {{ $store.getters['home/homeGetter'] }}
-		<button @click="homeIncrement">home+1</button>
+    HomeCouter: {{ $store.state.home.homeCounter }} HomeGetter:
+    {{ $store.getters['home/homeGetter'] }}
+    <button @click="homeIncrement">home+1</button>
   </div>
 </template>
 
 <script>
 import { useStore } from 'vuex'
-  
+
 export default {
-	setup() {
-		const store = useStore()
-		const homeIncrement = () => {
+  setup() {
+    const store = useStore()
+    const homeIncrement = () => {
       // 提交 home 模块中的 increment mutation，dispatch 同理
-			store.commit('home/increment')
-		}
-		return { homeIncrement }
-	}
+      store.commit('home/increment')
+    }
+    return { homeIncrement }
+  }
 }
 </script>
 ```
 
-**增加名命空间后**，modules 中的 getter 方法有4个参数：`state`, `getters`, `rootState`, `rootGetters`.
+**增加名命空间后**，modules 中的 getter 方法有 4 个参数：`state`, `getters`, `rootState`, `rootGetters`.
 
 src / store / modules / home.js
 
 ```javascript
 const home = {
-	namespaced: true,
-	state() {
-		return {
-			homeCounter: 100
-		}
-	},
+  namespaced: true,
+  state() {
+    return {
+      homeCounter: 100
+    }
+  },
   getters: {
-		homeGetter(state, getters, rootState, rootGetters) {
-			return state.homeCounter
-		}
-	},
+    homeGetter(state, getters, rootState, rootGetters) {
+      return state.homeCounter
+    }
+  }
 }
 export default home
 ```
 
-**增加名命空间后**，modules 中的 action 方法 context 参数对象有6个属性。`commit`, `dispatch`, `state`, `rootState`, `getters`, `rootGetters`
+**增加名命空间后**，modules 中的 action 方法 context 参数对象有 6 个属性。`commit`, `dispatch`, `state`, `rootState`, `getters`, `rootGetters`
 
 src / store / moudels / home.js
 
 ```javascript
 const home = {
-	namespaced: true,
-	state() {
-		return {
-			homeCounter: 100
-		}
-	},
-	mutations: {
-		increment(state) {
-			state.homeCounter++
-		}
-	},
+  namespaced: true,
+  state() {
+    return {
+      homeCounter: 100
+    }
+  },
+  mutations: {
+    increment(state) {
+      state.homeCounter++
+    }
+  },
   actions: {
     // {} 解构语法
     homeIncrementAction({ commit, dispatch, state, rootState, getters, rootGetters }) {
@@ -488,7 +487,6 @@ const home = {
 export default home
 ```
 
-
 ## 派发事件到根组件。
 
 在 modules 中使用 actions 向根提交和派发事件，传第三个参数。
@@ -497,10 +495,11 @@ src / store / modules / home.js
 
 ```javascript
 const home = {
-	namespaced: true,
+  namespaced: true,
   actions: {
-    homeIncrementAction({ commit }) { // {} 解构语法
-      commit('increment', null, { root: true } ) // 第二个参数是 payload，第三个参数是对象，设置 root:true
+    homeIncrementAction({ commit }) {
+      // {} 解构语法
+      commit('increment', null, { root: true }) // 第二个参数是 payload，第三个参数是对象，设置 root:true
     }
   }
 }
@@ -511,7 +510,7 @@ export default home
 
 ### 在 VOA（Vue Options API）中
 
-使用 modules 中对应状态的辅助函数 VOA 的2种常用写法。
+使用 modules 中对应状态的辅助函数 VOA 的 2 种常用写法。
 
 Home.vue
 
@@ -519,17 +518,17 @@ Home.vue
 
 ```vue
 <script>
-import { mapActions, mapGetters, mapMutations, mapState } from "vuex"
-  
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+
 export default {
-	computed: {
-		...mapState('home', ['homeCounter']),
-		...mapGetters('home', ['homeGetter']),
-	},
-	methods: {
-		...mapMutations('home', ['increment']),
-		...mapActions('home', ['homeIncrementAction'])
-	},
+  computed: {
+    ...mapState('home', ['homeCounter']),
+    ...mapGetters('home', ['homeGetter'])
+  },
+  methods: {
+    ...mapMutations('home', ['increment']),
+    ...mapActions('home', ['homeIncrementAction'])
+  }
 }
 </script>
 ```
@@ -538,18 +537,18 @@ export default {
 
 ```vue
 <script>
-import { createNamespacedHelpers } from "vuex"
-  
+import { createNamespacedHelpers } from 'vuex'
+
 const { mapActions, mapGetters, mapMutations, mapState } = createNamespacedHelpers('home')
 export default {
-	computed: {
-		...mapState(['homeCounter']),
-		...mapGetters(['homeGetter']),
-	},
-	methods: {
-		...mapMutations(['increment']),
-		...mapActions(['homeIncrementAction'])
-	},
+  computed: {
+    ...mapState(['homeCounter']),
+    ...mapGetters(['homeGetter'])
+  },
+  methods: {
+    ...mapMutations(['increment']),
+    ...mapActions(['homeIncrementAction'])
+  }
 }
 </script>
 ```
@@ -564,12 +563,12 @@ src / hooks / useState.js
 import useMapper from './useMapper'
 import { mapState, createNamespacedHelpers } from 'vuex'
 
-export default function(mapper, moduleName) {
-	let mapperFn = mapState
-	if (typeof moduleName === 'string' && moduleName.length > 0) {
-		mapperFn = createNamespacedHelpers(moduleName).mapState
-	}
-	return useMapper(mapper, mapperFn)
+export default function (mapper, moduleName) {
+  let mapperFn = mapState
+  if (typeof moduleName === 'string' && moduleName.length > 0) {
+    mapperFn = createNamespacedHelpers(moduleName).mapState
+  }
+  return useMapper(mapper, mapperFn)
 }
 ```
 
@@ -577,24 +576,24 @@ Home.vue
 
 ```vue
 <script>
-import { createNamespacedHelpers } from "vuex"
-import useState from "../hooks/useState"
-import useGetters from "../hooks/useGetters"
+import { createNamespacedHelpers } from 'vuex'
+import useState from '../hooks/useState'
+import useGetters from '../hooks/useGetters'
 
 const { mapActions, mapMutations } = createNamespacedHelpers('home')
 export default {
-	setup() {
-		const states = useState(['homeCounter'], 'home')
-		const getters = useGetters(['homeGetter'], 'home')
-		const mutations = mapMutations(['increment'])
-		const actions = mapActions(['homeIncrementAction'])
-		return {
-			...states,
-			...getters,
-			...mutations,
-			...actions,
-		}
-	}
+  setup() {
+    const states = useState(['homeCounter'], 'home')
+    const getters = useGetters(['homeGetter'], 'home')
+    const mutations = mapMutations(['increment'])
+    const actions = mapActions(['homeIncrementAction'])
+    return {
+      ...states,
+      ...getters,
+      ...mutations,
+      ...actions
+    }
+  }
 }
 </script>
 ```
@@ -614,7 +613,7 @@ nextTick 的基本使用。
 ```Vue
 <script>
   import { ref, nextTick } from "vue";
-  
+
   export default {
     setup() {
       const message = ref("")
@@ -649,7 +648,7 @@ nextTick 的基本使用。
 
 Pinia（发音为/piːnjʌ/，如英语中的“peenya”）是最接近 piña（西班牙语中的菠萝）的词；
 
-Pinia 开始于大概2019年，最初是作为一个实验为 Vue 重新设计状态管理，让它用起来像组合式API（Composition API）。
+Pinia 开始于大概 2019 年，最初是作为一个实验为 Vue 重新设计状态管理，让它用起来像组合式 API（Composition API）。
 
 从那时到现在，最初的设计原则依然是相同的，并且目前同时兼容 Vue2、Vue3，也并不要求你使用 Composition API；
 
@@ -660,11 +659,11 @@ Pinia 本质上依然是一个状态管理的库，用于跨组件、页面进�
 和 Vuex 相比，Pinia 有很多的优势：
 
 - mutations 不再存在：
-	- 经常被认为是非常冗长；
-	- 最初为了实现 devtools 集成，但这不再是问题；
+  - 经常被认为是非常冗长；
+  - 最初为了实现 devtools 集成，但这不再是问题；
 - 不再有 modules 的嵌套结构：
-	- 可以灵活使用每一个 store，它们是通过扁平化的方式来相互使用的；
-	- 也不再有命名空间的概念，不需要记住它们的复杂关系；
+  - 可以灵活使用每一个 store，它们是通过扁平化的方式来相互使用的；
+  - 也不再有命名空间的概念，不需要记住它们的复杂关系；
 - 更友好的 TypeScript 支持，Vuex 之前对 TS 的支持很不友好；
 
 <img src="NodeAssets/Vuex和Pinia的区别.jpg" alt="Vuex和Pinia的区别" style="zoom:80%;" />
@@ -709,6 +708,7 @@ Pinia 中一个 store 是一个实体，它持有能够绑定到组件树的状�
 允许在应用程序中定义任意数量的 store 来管理不同模块的状态；
 
 一个 store 有三个核心概念：
+
 - state、getters、actions；这些概念等同于组件的 data、computed、methods；
 - 一旦 store 被实例化，就可以直接在 store 上访问 state、getters 和 actions 中定义的任何属性；
 
@@ -726,12 +726,12 @@ src / store / home.js
 import { defineStore } from 'pinia'
 
 // 返回一个函数
-const useHome = defineStore("home", {
+const useHome = defineStore('home', {
   state: () => ({
-		name: "zzt",
+    name: 'zzt',
     age: 18,
     level: 100,
-		couter: 0,
+    couter: 0,
     banners: [],
     recommends: []
   })
@@ -751,16 +751,16 @@ src / components / Home.vue
 
 ```vue
 <script setup>
-  import { toRefs } from 'vue'
-  import { storeToRefs } from 'pinia'
-  import useHome from '@/stores/home';
+import { toRefs } from 'vue'
+import { storeToRefs } from 'pinia'
+import useHome from '@/stores/home'
 
-  const homeStore = useHome()
-  function incrementCount() {
-		homeStore.count++
-  }
-	// const { count } = toRefs(homeStore)
-  const { count } = storeToRefs(homeStore)
+const homeStore = useHome()
+function incrementCount() {
+  homeStore.count++
+}
+// const { count } = toRefs(homeStore)
+const { count } = storeToRefs(homeStore)
 </script>
 
 <template>
@@ -771,8 +771,7 @@ src / components / Home.vue
     <button @click="incrementCount">count+1</button>
   </div>
 </template>
-<style scoped>
-</style>
+<style scoped></style>
 ```
 
 # Pinia 核心一 State
@@ -790,13 +789,13 @@ src / stores / home.js
 ```js
 import { defineStore } from 'pinia'
 
-const useHome = defineStore("home", {
+const useHome = defineStore('home', {
   state: () => ({
-		name: "zzt",
+    name: 'zzt',
     age: 18,
     level: 100,
     friends: []
-  }),
+  })
 })
 export default useHome
 ```
@@ -811,16 +810,16 @@ Home.vue
 
 ```vue
 <script setup>
-  import useHome from '@/stores/home'
-  import { storeToRefs } from 'pinia';
+import useHome from '@/stores/home'
+import { storeToRefs } from 'pinia'
 
-  const homeStore = useHome()
-  const { name, age, level } = storeToRefs(homeStore)
-  function changeState1() {
-    homeStore.name = "kobe"
-    homeStore.age = 20
-    homeStore.level = 200
-  }
+const homeStore = useHome()
+const { name, age, level } = storeToRefs(homeStore)
+function changeState1() {
+  homeStore.name = 'kobe'
+  homeStore.age = 20
+  homeStore.level = 200
+}
 </script>
 
 <template>
@@ -842,24 +841,24 @@ Home.vue
 
 ```vue
 <script setup>
-  import useHome from '@/stores/home'
-  import { storeToRefs } from 'pinia';
+import useHome from '@/stores/home'
+import { storeToRefs } from 'pinia'
 
-  const homeStore = useHome()
-  const { name, age, level } = storeToRefs(homeStore)
-  
-	function changeStatese() {
-    homeStore.$patch({
-      name: "james",
-      level: homeStore.level + 1
-    })
-	}
-  function addFriend() {
-    homeStore.$patch(state => {
-      state.friends.push({ name: 'CR7', age: '37' })
-      state.level = 101
-    })
-  }
+const homeStore = useHome()
+const { name, age, level } = storeToRefs(homeStore)
+
+function changeStatese() {
+  homeStore.$patch({
+    name: 'james',
+    level: homeStore.level + 1
+  })
+}
+function addFriend() {
+  homeStore.$patch(state => {
+    state.friends.push({ name: 'CR7', age: '37' })
+    state.level = 101
+  })
+}
 </script>
 
 <template>
@@ -882,15 +881,15 @@ Home.vue
 
 ```vue
 <script setup>
-  import useHome from '@/stores/home'
-  import { storeToRefs } from 'pinia';
+import useHome from '@/stores/home'
+import { storeToRefs } from 'pinia'
 
-  const homeStore = useHome()
-  const { name, age, level } = storeToRefs(homeStore)
-  
-  function resetState() {
-    homeStore.$reset()
-  }
+const homeStore = useHome()
+const { name, age, level } = storeToRefs(homeStore)
+
+function resetState() {
+  homeStore.$reset()
+}
 </script>
 
 <template>
@@ -903,8 +902,7 @@ Home.vue
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
 ```
 
 # Pinia 核心二 Getters
@@ -925,13 +923,13 @@ src / store / counter.js
 import { defineStore } from 'pinia'
 import useUser from './user'
 
-const useCounter = defineStore("counter", {
+const useCounter = defineStore('counter', {
   state: () => ({
     count: 99,
     friends: [
-      { id: 111, name: "why" },
-      { id: 112, name: "kobe" },
-      { id: 113, name: "james" },
+      { id: 111, name: 'why' },
+      { id: 112, name: 'kobe' },
+      { id: 113, name: 'james' }
     ]
   }),
   getters: {
@@ -957,8 +955,8 @@ export default useCounter
 
 ```vue
 <script setup>
-  import useCounter from '@/stores/counter';
-  const counterStore = useCounter()
+import useCounter from '@/stores/counter'
+const counterStore = useCounter()
 </script>
 
 <template>
@@ -982,7 +980,6 @@ Actions 相当于组件中的 methods。可以使用 `defineStore()` 中的 `act
 
 Actions 中是支持异步操作的，通过返回一个 Promise 告知使用者异步操作执行状态。
 
-
 ## 定义 actiuons
 
 src / stores / home.js
@@ -990,18 +987,18 @@ src / stores / home.js
 ```js
 import { defineStore } from 'pinia'
 
-const useHome = defineStore("home", {
+const useHome = defineStore('home', {
   state: () => ({
     banners: [],
     recommends: []
   }),
   actions: {
     async fetchHomeMultidata() {
-      const res = await fetch("http://123.207.32.32:8000/home/multidata")
+      const res = await fetch('http://123.207.32.32:8000/home/multidata')
       const data = await res.json()
       this.banners = data.data.banner.list
       this.recommends = data.data.recommend.list
-			return data // 异步（async）函数默认会将返回值包裹在 promise 中返回。
+      return data // 异步（async）函数默认会将返回值包裹在 promise 中返回。
     }
   }
 })
@@ -1014,13 +1011,13 @@ Home.vue
 
 ```vue
 <script setup>
-  import useHome from '@/stores/home';
+import useHome from '@/stores/home'
 
-  const homeStore = useHome()
-  // 执行 actions
-  homeStore.fetchHomeMultidata().then(res => {
-    console.log("fetchHomeMultidata 的 action 已经完成了:", res)
-  })
+const homeStore = useHome()
+// 执行 actions
+homeStore.fetchHomeMultidata().then(res => {
+  console.log('fetchHomeMultidata 的 action 已经完成了:', res)
+})
 </script>
 
 <template>
@@ -1079,86 +1076,97 @@ npm install axios
 import axios from 'axios'
 
 // 1.发送 request 请求
-axios.request({
-  url: "http://123.207.32.32:8000/home/multidata",
-  method: "get"
-}).then(res => {
-  console.log("res:", res.data)
-})
+axios
+  .request({
+    url: 'http://123.207.32.32:8000/home/multidata',
+    method: 'get'
+  })
+  .then(res => {
+    console.log('res:', res.data)
+  })
 
 // 2.发送 get 请求
 axios.get(`http://123.207.32.32:9001/lyric?id=500665346`).then(res => {
-  console.log("res:", res.data.lrc)
+  console.log('res:', res.data.lrc)
 })
 
-axios.get("http://123.207.32.32:9001/lyric", {
-  params: {
-    id: 500665346
-  }
-}).then(res => {
-  console.log("res:", res.data.lrc)
-})
+axios
+  .get('http://123.207.32.32:9001/lyric', {
+    params: {
+      id: 500665346
+    }
+  })
+  .then(res => {
+    console.log('res:', res.data.lrc)
+  })
 
 // 3.发送 post 请求
-axios.post("http://123.207.32.32:1888/02_param/postjson", {
-  name: "zzt",
-  password: 123456
-}).then(res => {
-  console.log("res", res.data)
-})
-
-axios.post("http://123.207.32.32:1888/02_param/postjson", {
-  data: {
-    name: "zzt",
+axios
+  .post('http://123.207.32.32:1888/02_param/postjson', {
+    name: 'zzt',
     password: 123456
-  }
-}).then(res => {
-  console.log("res", res.data)
-})
+  })
+  .then(res => {
+    console.log('res', res.data)
+  })
+
+axios
+  .post('http://123.207.32.32:1888/02_param/postjson', {
+    data: {
+      name: 'zzt',
+      password: 123456
+    }
+  })
+  .then(res => {
+    console.log('res', res.data)
+  })
 ```
 
 # axios 常见的配置选项
 
 - 请求地址（**常用**）
-	- url: '/user',
+  - url: '/user',
 - 请求类型（**常用**）
-	- method: 'get',
+  - method: 'get',
 - 请根路径（**常用**）
-	- baseURL: 'http://www.mt.com/api',
+  - baseURL: 'http://www.mt.com/api',
 - 自定义的请求头（**常用**）
-	- headers:{'x-Requested-With':'XMLHttpRequest'},
-- URL查询对象（**常用**）（get 请求拼接 query 字符串）
-	- params:{ id: 12 },
+  - headers:{'x-Requested-With':'XMLHttpRequest'},
+- URL 查询对象（**常用**）（get 请求拼接 query 字符串）
+  - params:{ id: 12 },
 - request body（**常用**）（post 请求请求体）
-	- data: { key: 'aa' },
+  - data: { key: 'aa' },
 - 超时设置（**常用**）
-	- timeout: 1000,
+  - timeout: 1000,
 - 请求前的数据处理
-	- transformRequest:[function(data){}],
+  - transformRequest:[function(data){}],
 - 请求后的数据处理
-	- transformResponse: [function(data){}],
+  - transformResponse: [function(data){}],
 - 查询对象序列化函数
-	- paramsSerializer: function(params){ }
+  - paramsSerializer: function(params){ }
 
 ```js
 import axios from 'axios'
 
-const baseURL = "http://123.207.32.32:8000"
+const baseURL = 'http://123.207.32.32:8000'
 // 给 axios 实例配置公共的基础配置
 axios.defaults.baseURL = baseURL
 axios.defaults.timeout = 10000
 axios.defaults.headers = {}
 // 1.发送 get 请求: /home/multidata
-axios.get("/home/multidata").then(res => {
-  console.log("res:", res.data)
+axios.get('/home/multidata').then(res => {
+  console.log('res:', res.data)
 })
 // 2.axios 发送多个请求
-axios.all([ // 原理 Promise.all
-  axios.get("/home/multidata"),
-  axios.get("http://123.207.32.32:9001/lyric?id=500665346")
-]).then(res => {
-  console.log("res:", res)
-})
+axios
+  .all([
+    // 原理 Promise.all
+    axios.get('/home/multidata'),
+    axios.get('http://123.207.32.32:9001/lyric?id=500665346')
+  ])
+  .then(res => {
+    console.log('res:', res)
+  })
 ```
 
 # axios 创建实例
@@ -1177,22 +1185,24 @@ axios.all([ // 原理 Promise.all
 import axios from 'axios'
 
 // axios 默认库提供给我们的实例对象
-axios.get("http://123.207.32.32:9001/lyric?id=500665346")
+axios.get('http://123.207.32.32:9001/lyric?id=500665346')
 // 创建其他的实例发送网络请求
 const instance1 = axios.create({
-  baseURL: "http://123.207.32.32:9001",
+  baseURL: 'http://123.207.32.32:9001',
   timeout: 6000,
   headers: {}
 })
-instance1.get("/lyric", {
-  params: {
-    id: 500665346
-  }
-}).then(res => {
-  console.log("res:", res.data)
-})
+instance1
+  .get('/lyric', {
+    params: {
+      id: 500665346
+    }
+  })
+  .then(res => {
+    console.log('res:', res.data)
+  })
 const instance2 = axios.create({
-  baseURL: "http://123.207.32.32:8000",
+  baseURL: 'http://123.207.32.32:8000',
   timeout: 10000,
   headers: {}
 })
@@ -1211,32 +1221,42 @@ axios 也可以设置拦截器：拦截每次请求和响应
 import axios from 'axios'
 
 // 对实例配置拦截器，请求拦截
-axios.interceptors.request.use(config => { // 传入请求的配置信息 config
-  console.log("请求成功的拦截")
-  // 1.开始 loading 的动画
-  // 2.对原来的配置进行一些修改
-  // 3.添加 header，如认证登录: token / cookie
-  // 4.请求参数进行某些转化
-  return config
-}, err => {
-  console.log("请求失败的拦截")
-  return err
-})
+axios.interceptors.request.use(
+  config => {
+    // 传入请求的配置信息 config
+    console.log('请求成功的拦截')
+    // 1.开始 loading 的动画
+    // 2.对原来的配置进行一些修改
+    // 3.添加 header，如认证登录: token / cookie
+    // 4.请求参数进行某些转化
+    return config
+  },
+  err => {
+    console.log('请求失败的拦截')
+    return err
+  }
+)
 // 响应拦截
-axios.interceptors.response.use(res => {
-  console.log("响应成功的拦截")
-  // 1.结束 loading 的动画
-  // 2.对数据进行转化, 再返回数据
-  return res.data
-}, err => {
-  console.log("响应失败的拦截:", err)
-  return err
-})
-axios.get("http://123.207.32.32:9001/lyric?id=500665346").then(res => {
-  console.log("res:", res)
-}).catch(err => {
-  console.log("err:", err)
-})
+axios.interceptors.response.use(
+  res => {
+    console.log('响应成功的拦截')
+    // 1.结束 loading 的动画
+    // 2.对数据进行转化, 再返回数据
+    return res.data
+  },
+  err => {
+    console.log('响应失败的拦截:', err)
+    return err
+  }
+)
+axios
+  .get('http://123.207.32.32:9001/lyric?id=500665346')
+  .then(res => {
+    console.log('res:', res)
+  })
+  .catch(err => {
+    console.log('err:', err)
+  })
 ```
 
 # 基于 axios 再封装
@@ -1251,7 +1271,7 @@ axios.get("http://123.207.32.32:9001/lyric?id=500665346").then(res => {
 import axios from 'axios'
 
 class ZTRequest {
-  constructor(baseURL, timeout=10000) {
+  constructor(baseURL, timeout = 10000) {
     this.instance = axios.create({
       baseURL,
       timeout
@@ -1259,20 +1279,20 @@ class ZTRequest {
   }
   request(config) {
     return new Promise((resolve, reject) => {
-      this.instance.request(config).then(res => {
-        resolve(res.data)
-      }).catch(reject)
+      this.instance
+        .request(config)
+        .then(res => {
+          resolve(res.data)
+        })
+        .catch(reject)
     })
   }
   get(config) {
-    return this.request({ ...config, method: "get" })
+    return this.request({ ...config, method: 'get' })
   }
   post(config) {
-    return this.request({ ...config, method: "post" })
+    return this.request({ ...config, method: 'post' })
   }
 }
-export default new ZTRequest("http://123.207.32.32:9001")
+export default new ZTRequest('http://123.207.32.32:9001')
 ```
-
-
-

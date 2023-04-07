@@ -2,7 +2,7 @@ bug 复现，函数不能写在逻辑运算符两侧。否则结果一定为 tru
 
 ```js
 const obj = {
-	name: props => props.name || 'abc' // 定义了一个函数，在逻辑与运算符中一定为 true
+  name: props => props.name || 'abc' // 定义了一个函数，在逻辑与运算符中一定为 true
 }
 ```
 
@@ -17,17 +17,17 @@ styled-components 高级特性-实现继承
 04-learn-react-css\src\05-CSS-IN-JS\Home\style.js
 
 ```jsx
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const ZTButton = styled.button`
-	border: 1px solid red;
-	border-radius: 5px;
+  border: 1px solid red;
+  border-radius: 5px;
 `
 
 // 集成 ZTButton 的2个样式
 export const ZTButtonWrapper = styled(ZTButton)`
-	background-color: #0f0;
-	color: #fff;
+  background-color: #0f0;
+  color: #fff;
 `
 ```
 
@@ -38,16 +38,13 @@ import React, { PureComponent } from 'react'
 import { ZTButtonWrapper } from './style'
 
 export class Home extends PureComponent {
-	render() {
-		return (
-			<ZTButtonWrapper>哈哈哈</ZTButtonWrapper>
-		)
-	}
+  render() {
+    return <ZTButtonWrapper>哈哈哈</ZTButtonWrapper>
+  }
 }
 
 export default Home
 ```
-
 
 # 二、vue 添加 class
 
@@ -56,7 +53,7 @@ vue 中添加 class 是一件非常简单的事情：
 可以传入一个对象：
 
 ```vue
-<div class="static" v-bind:class="{active: isActive, 'text-danger': hasError}"></div>
+<div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }"></div>
 ```
 
 可以传入一个数组：
@@ -68,7 +65,7 @@ vue 中添加 class 是一件非常简单的事情：
 甚至是对象和数组混合使用：
 
 ```vue
-<div class="static" v-bind:class="[{active: isActive}, 'text-danger']"></div>
+<div class="static" v-bind:class="[{ active: isActive }, 'text-danger']"></div>
 ```
 
 # 三、React 添加 class
@@ -79,8 +76,8 @@ JSX 有者足够多的灵活性，可以像编写 JavaScript 代码一样，通�
 
 ```jsx
 <div>
-	<h2 className={"title " + (isActive ? "active" : "")}></h2>
-  <h2 className={["title", (isActive ? "active" : "")].join(" ")}></h2>
+  <h2 className={'title ' + (isActive ? 'active' : '')}></h2>
+  <h2 className={['title', isActive ? 'active' : ''].join(' ')}></h2>
 </div>
 ```
 
@@ -96,25 +93,25 @@ JSX 有者足够多的灵活性，可以像编写 JavaScript 代码一样，通�
 
    ```jsx
    import React, { PureComponent } from 'react'
-   import classnames from 'classnames';
+   import classnames from 'classnames'
 
    export class App extends PureComponent {
-   	constructor() {
-   		super()
-   		this.state = {
-   			isbbb: true,
-   			isccc: true
-   		}
-   	}
-   	render() {
-   		const { isbbb, isccc } = this.state
-   		return (
-   			<div>
-   				<h2 className={classnames('aaa', {bbb: isbbb, ccc: isccc})}>哈哈哈</h2>
-   				<h2 className={classnames(['aaa', {bbb: isbbb, ccc: isccc}])}>嘻嘻嘻</h2>
-   			</div>
-   		)
-   	}
+     constructor() {
+       super()
+       this.state = {
+         isbbb: true,
+         isccc: true
+       }
+     }
+     render() {
+       const { isbbb, isccc } = this.state
+       return (
+         <div>
+           <h2 className={classnames('aaa', { bbb: isbbb, ccc: isccc })}>哈哈哈</h2>
+           <h2 className={classnames(['aaa', { bbb: isbbb, ccc: isccc }])}>嘻嘻嘻</h2>
+         </div>
+       )
+     }
    }
 
    export default App
@@ -124,8 +121,7 @@ JSX 有者足够多的灵活性，可以像编写 JavaScript 代码一样，通�
 
 ## 1.JS 纯函数（回顾）
 
-在程序设计中，若一个函数符合以下条件，那么这个函数被称为纯函数： 
-
+在程序设计中，若一个函数符合以下条件，那么这个函数被称为纯函数：
 
 - 确定的输入，一定会产生确定的输出；
 - 函数在执行过程中，不能产生副作用；
@@ -136,9 +132,9 @@ JSX 有者足够多的灵活性，可以像编写 JavaScript 代码一样，通�
 
 在 react 开发中纯函数是被多次提及的，
 
-React 中就要求我们，无论是函数还是 class 声明一个组件，这个组件都必须像纯函数一样，保护它们的 `props` 不被修改： 
+React 中就要求我们，无论是函数还是 class 声明一个组件，这个组件都必须像纯函数一样，保护它们的 `props` 不被修改：
 
-*redux* 中有一个 ”reducer“ 的概念，也是要求必须是一个纯函数；
+_redux_ 中有一个 ”reducer“ 的概念，也是要求必须是一个纯函数；
 
 ## 3.作用 & 是什么
 
@@ -154,22 +150,22 @@ React 在视图层解决了 DOM 的渲染过程，
 
 - 包括在组件中定义自己的 `state`，
 - 组件之间的通信通过 `props` 进行传递；
-- 使用 Context 进行数据之间的共享； 
+- 使用 Context 进行数据之间的共享；
 
 但是整个应用程序的 State，依然是留给我们自己来管理：
 
-管理不断变化的状态（state）是非常困难的： 
+管理不断变化的状态（state）是非常困难的：
 
 - 状态之间相互会存在依赖；
 - 一个状态的变化会引起另一个状态的变化；
-- View 页面也有可能会引起状态的变化； 
+- View 页面也有可能会引起状态的变化；
 - 当应用程序复杂时，state 在什么时候，因为什么原因而发生了变化，发生了怎么样的变化，会变得非常难以控制和追踪；
 
 Redux 是一个用于管理 State 的容器：提供了可预测的状态管理；
 
 Redux 除了和 React 一起使用之外，它也可以和其他框架一起来使用（比如 Vue），
 
-Redux 本身非常小（包括依赖在内，只有2kb）
+Redux 本身非常小（包括依赖在内，只有 2kb）
 
 # 五、Redux 核心概念
 
@@ -177,9 +173,9 @@ Redux 本身非常小（包括依赖在内，只有2kb）
 
 用于跟踪 state 的变化。
 
-案例理解：有一个朋友列表需要管理，如果没有定义统一的规范来操作这段数据，那么整个数据的变化就是无法跟踪的； 
+案例理解：有一个朋友列表需要管理，如果没有定义统一的规范来操作这段数据，那么整个数据的变化就是无法跟踪的；
 
-- 比如页面的某处通过 `products.push` 的方式增加了一条数据； 
+- 比如页面的某处通过 `products.push` 的方式增加了一条数据；
 
 - 比如另一个页面通过 `products[0].age = 25` 修改了一条数据；
 
@@ -197,19 +193,20 @@ const initialState = {
 
 ## 5.action
 
-Redux 中所有 state 的变化，必须通过派发（dispatch）action 来更新； 
+Redux 中所有 state 的变化，必须通过派发（dispatch）action 来更新；
 
 action 是一个普通的 JavaScript 对象，用来描述这次更新的 `type` 和 `content`；
 
-下面是几个更新 `friends` 的 action： 
-- 强制使用 action 的好处，是所有的数据变化都是可跟追、可预测的； 
+下面是几个更新 `friends` 的 action：
+
+- 强制使用 action 的好处，是所有的数据变化都是可跟追、可预测的；
 - 目前的 action 是固定的对象；
 - 真实应用中，会通过函数来返回一个 action；
 
 ```js
-const action1 = { type: 'ADD_FRIEND', info: {name: 'curry', age: 39 } }
+const action1 = { type: 'ADD_FRIEND', info: { name: 'curry', age: 39 } }
 const action2 = { type: 'INC_AGE', index: 1 }
-const action3 = { type: 'CHANGE_NAME', payload: {newName: 'ZeT1an', index: 0} }
+const action3 = { type: 'CHANGE_NAME', payload: { newName: 'ZeT1an', index: 0 } }
 ```
 
 ## 6.reducer
@@ -220,7 +217,7 @@ reducer 将传入的 state 和 action 结合起来生成一个新的 state；
 
 # 六、Redux 使用
 
-安装 *redux*
+安装 _redux_
 
 ```shell
 npm i redux
@@ -237,13 +234,13 @@ const { createStore } = require('redux')
 
 // 初始化的数据
 const initialState = {
-	name: 'zzt',
-	age: 18
+  name: 'zzt',
+  age: 18
 }
 
 // 定义 reducer 函数，要求是一个纯函数
 function reducer() {
-	return initialState
+  return initialState
 }
 
 // 创建 store，传入 reducer，自动调用 reducer，拿到 initialState
@@ -254,13 +251,13 @@ module.exports = store
 
 ## 2.state 获取
 
-05-learn-redux\src\01-使用store中的数据.js
+05-learn-redux\src\01-使用 store 中的数据.js
 
 ```js
 const store = require('./store')
 
 // 获取 store 中的数据，得到一个对象
-console.log(store.getState()); // { name: 'zzt', age: 18 }
+console.log(store.getState()) // { name: 'zzt', age: 18 }
 ```
 
 ## 3.state 修改
@@ -272,8 +269,8 @@ const { createStore } = require('redux')
 
 // 初始化的 state，只会在 reducer 中使用一次。
 const initialState = {
-	name: 'zzt',
-	level: 99
+  name: 'zzt',
+  level: 99
 }
 
 /**
@@ -283,22 +280,22 @@ const initialState = {
  * 返回值，会作为 store 中存储的 state
  */
 function reducer(state = initialState, action) {
-	console.log(state, action);
-	/**
-	 * 当没有给 state 设置默认值时，
-	 * 	第一次打印：undefined { type: '@@redux/INIT0.7.y.e.0.b' }
-	 * 	第二次打印：{name: 'zzt', level: 99 } { type: 'change_name', name: 'kobe' }
-	 */
+  console.log(state, action)
+  /**
+   * 当没有给 state 设置默认值时，
+   * 	第一次打印：undefined { type: '@@redux/INIT0.7.y.e.0.b' }
+   * 	第二次打印：{name: 'zzt', level: 99 } { type: 'change_name', name: 'kobe' }
+   */
 
-	// 有新数据进行更新时，返回一个新 state
-	if (action.type === 'change_name') {
-		return { ...state, name: action.name }
-	} else if (action.type === 'add_level') {
-		return { ...state, level: state.level + action.count }
-	}
+  // 有新数据进行更新时，返回一个新 state
+  if (action.type === 'change_name') {
+    return { ...state, name: action.name }
+  } else if (action.type === 'add_level') {
+    return { ...state, level: state.level + action.count }
+  }
 
-	// 没有新数据更新时，默认返回当前的 state
-	return state
+  // 没有新数据更新时，默认返回当前的 state
+  return state
 }
 
 const store = createStore(reducer)
@@ -306,7 +303,7 @@ const store = createStore(reducer)
 module.exports = store
 ```
 
-05-learn-redux\src\02-修改store中的数据.js
+05-learn-redux\src\02-修改 store 中的数据.js
 
 ```js
 const store = require('./store')
@@ -315,12 +312,12 @@ const nameAction = { type: 'change_name', name: 'kobe' }
 // 一但使用 store 派发 action，reducer 将会重新执行
 store.dispatch(nameAction)
 
-console.log(store.getState()); // { name: 'kobe', level: 99 }
+console.log(store.getState()) // { name: 'kobe', level: 99 }
 
 const levelAction = { type: 'add_level', count: 10 }
 store.dispatch(levelAction)
 
-console.log(store.getState());
+console.log(store.getState())
 ```
 
 ## 4.store 订阅
@@ -331,19 +328,19 @@ console.log(store.getState());
 const { createStore } = require('redux')
 
 const initialState = {
-	name: 'zzt',
-	level: 99
+  name: 'zzt',
+  level: 99
 }
 
 function reducer(state = initialState, action) {
-	switch (action.type) {
-		case 'change_name':
-			return { ...state, name: action.name } 
-		case 'add_level':
-			return { ...state, level: state.level + action.count }
-		default:
-			return state
-	}
+  switch (action.type) {
+    case 'change_name':
+      return { ...state, name: action.name }
+    case 'add_level':
+      return { ...state, level: state.level + action.count }
+    default:
+      return state
+  }
 }
 
 const store = createStore(reducer)
@@ -351,18 +348,18 @@ const store = createStore(reducer)
 module.exports = store
 ```
 
-05-learn-redux\src\03-订阅store中的数据.js
+05-learn-redux\src\03-订阅 store 中的数据.js
 
 ```js
 const store = require('./store')
 
 // react-redux 帮助我们实现了 store.subcribe，后面再详细分析
 const unSubscribe = store.subscribe(() => {
-	console.log('监听到数据的变化：', store.getState());
-	/**
-	 * 监听到数据的变化： { name: 'kobe', level: 99 }
-	 * 监听到数据的变化： { name: 'kobe', level: 109 }
-	 */
+  console.log('监听到数据的变化：', store.getState())
+  /**
+   * 监听到数据的变化： { name: 'kobe', level: 99 }
+   * 监听到数据的变化： { name: 'kobe', level: 109 }
+   */
 })
 
 store.dispatch({ type: 'change_name', name: 'kobe' })
@@ -373,22 +370,22 @@ unSubscribe() // 取消订阅
 
 ## 5.actions 动态生成
 
-05-learn-redux\src\04-动态生成actions.js
+05-learn-redux\src\04-动态生成 actions.js
 
 ```js
 const store = require('./store')
 
 const unSubscribe = store.subscribe(() => {
-	console.log('监听到数据的变化：', store.getState());
+  console.log('监听到数据的变化：', store.getState())
 })
 
 const changeNameAction = name => ({
-	type: 'change_name',
-	name
+  type: 'change_name',
+  name
 })
 const changeLevelAction = count => ({
-	type: 'add_level',
-	count
+  type: 'add_level',
+  count
 })
 
 store.dispatch(changeNameAction('kobe'))
@@ -408,8 +405,8 @@ const CHANGE_NAME = 'change_name'
 const ADD_LEVEL = 'add_level'
 
 module.exports = {
-	CHANGE_NAME,
-	ADD_LEVEL
+  CHANGE_NAME,
+  ADD_LEVEL
 }
 ```
 
@@ -421,17 +418,17 @@ module.exports = {
 const { CHANGE_NAME, ADD_LEVEL } = require('./constans')
 
 const changeNameAction = name => ({
-	type: CHANGE_NAME,
-	name
+  type: CHANGE_NAME,
+  name
 })
 const changeLevelAction = count => ({
-	type: ADD_LEVEL,
-	count
+  type: ADD_LEVEL,
+  count
 })
 
 module.exports = {
-	changeNameAction,
-	changeLevelAction
+  changeNameAction,
+  changeLevelAction
 }
 ```
 
@@ -445,19 +442,19 @@ module.exports = {
 const { CHANGE_NAME, ADD_LEVEL } = require('./constans')
 
 const initialState = {
-	name: 'zzt',
-	level: 99
+  name: 'zzt',
+  level: 99
 }
 
 function reducer(state = initialState, action) {
-	switch (action.type) {
-		case CHANGE_NAME:
-			return { ...state, name: action.name } 
-		case ADD_LEVEL:
-			return { ...state, level: state.level + action.count }
-		default:
-			return state
-	}
+  switch (action.type) {
+    case CHANGE_NAME:
+      return { ...state, name: action.name }
+    case ADD_LEVEL:
+      return { ...state, level: state.level + action.count }
+    default:
+      return state
+  }
 }
 
 module.exports = reducer
@@ -478,14 +475,14 @@ module.exports = store
 
 ### 5.store 使用
 
-05-learn-redux\src\04-动态生成actions.js
+05-learn-redux\src\04-动态生成 actions.js
 
 ```js
 const store = require('./store')
 const { changeNameAction, changeNameAction } = require('./store/actionCreators')
 
 const unSubscribe = store.subscribe(() => {
-	console.log('监听到数据的变化：', store.getState());
+  console.log('监听到数据的变化：', store.getState())
 })
 
 store.dispatch(changeNameAction('kobe'))
@@ -512,29 +509,27 @@ Redux 使用流程官方图解
 
 <img src="NodeAssets/Redux使用流程官方图解.jpg" alt="Redux使用流程官方图解" style="zoom:60%;" />
 
-
-
 # 八、Redux 三大原则
 
-1.单一数据源 
+1.单一数据源
 
 整个应用程序的 state 被存储在一颗 object tree 中，并且这个 object tree 只存储在一个 store 中：
 
-并非强制不能创建多个 Store，而是说这样做并不利于数据的维护； 
+并非强制不能创建多个 Store，而是说这样做并不利于数据的维护；
 
 单一的数据源可以让整个应用程序的 state 变得方便维护、追踪、修改（概念类似于 Vuex）；
 
-2.State 是只读的 
+2.State 是只读的
 
 修改 State 的唯一方法是派发 action。
 
-这样确保了视图层或网络请求都不能直接修改 state，只能通过 action 来描述自己想要如何修改 state； 
+这样确保了视图层或网络请求都不能直接修改 state，只能通过 action 来描述自己想要如何修改 state；
 
 这样可以保证所有的修改都被集中化处理，并且按照严格的顺序来执行，所以不需要担心 race condition（竟态）的问题；
 
 > 【竟态】：操作系统中的概念，两个进程操作同一块内存，如果不能确定先后顺序，那么会使得最终的结果不确定。
 
-3.使用纯函数来执行修改 
+3.使用纯函数来执行修改
 
 所有的 reducer 都应该是纯函数，不能产生任何的副作用；
 
@@ -546,16 +541,16 @@ Redux 使用流程官方图解
 
 # 九、node 中的 ESModule 支持。
 
-node v13.2.0 之前，需要进行如下操作： 
-- 在 `package.json` 中添加属性：`"type": "module"`； 
+node v13.2.0 之前，需要进行如下操作：
+
+- 在 `package.json` 中添加属性：`"type": "module"`；
 - 在执行命令中添加如下选项：`node --experimental-modules src/index.js`;
 
-node v13.2.0 之后，只需要进行如下操作： 
+node v13.2.0 之后，只需要进行如下操作：
 
 - 在 `package.json` 中添加属性： `"type": "module"`；
 
 > 【注意】：在 node 中使用 ESMoudule，导入文件时，需要跟上 `.js` 后缀名；
-
 
 # 十、React 使用 Redux
 
@@ -569,36 +564,36 @@ export const SUB_NUMBER = 'sub_number'
 06-react-redux\src\store\actionCreators.js
 
 ```js
-import * as actionType from "./constancs";
+import * as actionType from './constancs'
 
 export const addAction = count => ({
-	type: actionType.ADD_NUMBER,
-	count
+  type: actionType.ADD_NUMBER,
+  count
 })
 export const subAction = count => ({
-	type: actionType.SUB_NUMBER,
-	count
+  type: actionType.SUB_NUMBER,
+  count
 })
 ```
 
 06-react-redux\src\store\reducer.js
 
 ```js
-import * as actionType from "./constancs";
+import * as actionType from './constancs'
 
 const initialState = {
-	counter: 100
+  counter: 100
 }
 
 function reducer(state = initialState, action) {
-	switch (action.type) {
-		case actionType.ADD_NUMBER:
-			return { ...state, counter: state.counter + action.count }
-		case actionType.SUB_NUMBER:
-			return { ...state, counter: state.counter + action.count}
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case actionType.ADD_NUMBER:
+      return { ...state, counter: state.counter + action.count }
+    case actionType.SUB_NUMBER:
+      return { ...state, counter: state.counter + action.count }
+    default:
+      return state
+  }
 }
 
 export default reducer
@@ -607,8 +602,8 @@ export default reducer
 06-react-redux\src\store\index.js
 
 ```js
-import { createStore } from 'redux';
-import reducer from './reducer';
+import { createStore } from 'redux'
+import reducer from './reducer'
 
 const store = createStore(reducer)
 export default store
@@ -643,7 +638,7 @@ export class App extends PureComponent {
     return (
       <div>
         <h2>APP Counter: {counter}</h2>
-        <div className="pages">
+        <div className='pages'>
           <Home />
           <Profile />
         </div>
@@ -663,7 +658,7 @@ import store from '../store'
 import { addAction } from '../store/actionCreators'
 
 export class Home extends PureComponent {
-	constructor() {
+  constructor() {
     super()
     this.state = {
       counter: store.getState().counter
@@ -676,23 +671,22 @@ export class Home extends PureComponent {
       this.setState({ counter: state.counter })
     })
   }
-	render() {
+  render() {
     const { counter } = this.state
-		return (
-			<div>
-				<h2>Home Counter: {counter}</h2>
-				<button onClick={e => this.onBtnClick(1)}>+1</button>
-				<button onClick={e => this.onBtnClick(5)}>+5</button>
-				<button onClick={e => this.onBtnClick(8)}>+8</button>
-			</div>
-		)
-	}
+    return (
+      <div>
+        <h2>Home Counter: {counter}</h2>
+        <button onClick={e => this.onBtnClick(1)}>+1</button>
+        <button onClick={e => this.onBtnClick(5)}>+5</button>
+        <button onClick={e => this.onBtnClick(8)}>+8</button>
+      </div>
+    )
+  }
 
-	onBtnClick(count) {
-		store.dispatch(addAction(count))
-	}
+  onBtnClick(count) {
+    store.dispatch(addAction(count))
+  }
 }
 
 export default Home
 ```
-

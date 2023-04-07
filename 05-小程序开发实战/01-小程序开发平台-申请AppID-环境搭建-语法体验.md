@@ -75,18 +75,20 @@
   - 该框架在 2018 年之后就不再维护和更新了，所以目前已经被放弃；
 
 - wepy（不推荐）：
-  
+
   - WePY (发音: /'wepi/)是由腾讯开源的，一款让小程序支持组件化开发的框架，通过预编译的手段让开发者可以选择自己喜欢的开发风格去开发小程序。
   - 该框架目前维护的也较少，在前两年还有挺多的项目在使用，现在已不推荐使用；
+
 - uni-app：
   - 由 DCloud 团队开发和维护（HBuild 也是该团队开发）；
   - uni-app 是一个使用 Vue 开发所有前端应用的框架，开发者编写一套代码，可发布到 iOS、Android、Web（响应式）、以及各种小程序（微信/支付宝/百度/头条/飞书/QQ/快手/钉钉/淘宝）、快应用等多个平台。
   - uni-app 目前是很多公司的技术选型，特别是希望适配移动端 App 的公司；
 - taro：
+
   - 由京东团队开发和维护；
   - taro 是一个开放式跨端跨框架解决方案，支持使用 React / Vue / Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/QQ/飞书小程序，H5 / RN 等应用；
   - taro 因为本身支持 React、Vue 的语法，给了我们更加灵活的选择空间；特别是在 Taro3.x 之后，支持 Vue3、React Hook 写法等；
-  
+
     > taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼；
 
 uni-app 和 taro 开发原生 App：
@@ -102,7 +104,7 @@ uni-app 和 taro 开发原生 App：
 
 下载微信开发者工具：官方提供的开发工具，必须下载安装：[下载地址](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
 
-> 新建 Page 包的2种方式：
+> 新建 Page 包的 2 种方式：
 >
 > - 在开发工具中创建页面，component 右击 -> 新建 Page；
 > - app.json 中添加路径。
@@ -158,17 +160,17 @@ index.wxml
 
 <!-- 3.动态展示列表数据 -->
 <view class="movies">
-	<!-- 可省略 wx:for-item="item"、wx:for-index="index" -->
-	<block wx:for="{{ movies }}" wx:key="*this">
-		<view> {{ item }}-{{ index }} </view>
-	</block>
+  <!-- 可省略 wx:for-item="item"、wx:for-index="index" -->
+  <block wx:for="{{ movies }}" wx:key="*this">
+    <view> {{ item }}-{{ index }} </view>
+  </block>
 </view>
 
 <!-- 4.事件绑定: 计数器案例 -->
 <view class="counter">
-	<view class="count">当前计数: {{ counter }}</view>
-	<button size="mini" type="primary" bindtap="increment">+1</button>
-	<button size="mini" type="warn" bindtap="decrement">-1</button>
+  <view class="count">当前计数: {{ counter }}</view>
+  <button size="mini" type="primary" bindtap="increment">+1</button>
+  <button size="mini" type="warn" bindtap="decrement">-1</button>
 </view>
 ```
 
@@ -177,30 +179,30 @@ index.js
 ```js
 // 实例化: 页面实例
 Page({
-	data: {
-		// 1.案例一: 数据绑定 mustache 语法
-		message: 'Hello World',
-		// 2.案例二: 列表数据
-		movies: ['少年派', '大话西游', '星际穿越', '独行月球'],
-		// 3.案例三: 计数器
-		counter: 0
-	},
-	// 监听的事件方法
-	increment() {
-		// 修改 data 中的数据, 但是你的修改并不会引起页面的刷新(自动检测你的新数据重新渲染页面, 在小程序中不会, 在 react 中也不会)
-		// this.data.counter += 1
-		// console.log(this.data.counter);
+  data: {
+    // 1.案例一: 数据绑定 mustache 语法
+    message: 'Hello World',
+    // 2.案例二: 列表数据
+    movies: ['少年派', '大话西游', '星际穿越', '独行月球'],
+    // 3.案例三: 计数器
+    counter: 0
+  },
+  // 监听的事件方法
+  increment() {
+    // 修改 data 中的数据, 但是你的修改并不会引起页面的刷新(自动检测你的新数据重新渲染页面, 在小程序中不会, 在 react 中也不会)
+    // this.data.counter += 1
+    // console.log(this.data.counter);
 
-		// 修改 data, 并且希望页面重新渲染, 这里必须使用 this.setData()
-		this.setData({
-			counter: this.data.counter + 1
-		})
-	},
-	decrement() {
-		this.setData({
-			counter: this.data.counter - 1
-		})
-	}
+    // 修改 data, 并且希望页面重新渲染, 这里必须使用 this.setData()
+    this.setData({
+      counter: this.data.counter + 1
+    })
+  },
+  decrement() {
+    this.setData({
+      counter: this.data.counter - 1
+    })
+  }
 })
 ```
 
@@ -210,7 +212,7 @@ Page({
 
 1. 加载 app.json
 2. 运行 app.js，创建 app 实例
-4. 加载 app.json 中指定的第一个页面（使用双线程模型）创建页面实例，通过 `Page()` 函数。
+3. 加载 app.json 中指定的第一个页面（使用双线程模型）创建页面实例，通过 `Page()` 函数。
 4. ...
 
 # 小程序中组件与 HTML 中元素的类比
@@ -284,10 +286,10 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 | window | Object   | 否   | 全局的默认窗口表现 |
 | tabBar | Object   | 否   | 底部 tab 栏的表现  |
 
-- pages: 页面路径列表 
-	- 用于指定小程序由哪些页面组成，每一项都对应一个页面的路径（含文件名）信息。 
-	- 小程序中所有的页面都是必须在 pages 中进行注册的。
-- window: 全局的默认窗口展示 
+- pages: 页面路径列表
+  - 用于指定小程序由哪些页面组成，每一项都对应一个页面的路径（含文件名）信息。
+  - 小程序中所有的页面都是必须在 pages 中进行注册的。
+- window: 全局的默认窗口展示
 - tabBar: 底部 tab 栏的展示
 
 ## 配置一个 tabbar
@@ -366,13 +368,13 @@ pages / profile / index.js
 ```js
 Page({
   data: {
-    avatarURL: "",
+    avatarURL: '',
     listCount: 30
   },
 
   // 监听下拉刷新
   onPullDownRefresh() {
-    console.log("用户进行下拉刷新~");
+    console.log('用户进行下拉刷新~')
 
     // 模拟网络请求:
     setTimeout(() => {
@@ -381,10 +383,10 @@ Page({
       // API: 停止下拉刷新
       wx.stopPullDownRefresh({
         success: res => {
-          console.log("成功停止了下拉刷新", res);
+          console.log('成功停止了下拉刷新', res)
         },
         fail: err => {
-          console.log("失败停止了下拉刷新", err);
+          console.log('失败停止了下拉刷新', err)
         }
       })
     }, 1000)
@@ -392,7 +394,7 @@ Page({
 
   // 监听页面滚动到底部
   onReachBottom() {
-    console.log("onReachBottom");
+    console.log('onReachBottom')
     this.setData({
       listCount: this.data.listCount + 30
     })

@@ -34,7 +34,6 @@
 
 大家都在寻找最好的或者说最适合自己的 CSS 方案，但是到目前为止也没有统一的方案；
 
-
 # 四、React 的内联样式
 
 内联样式是官方文档中有在用的一种 css 别写方式。
@@ -59,32 +58,32 @@ JSX 上的 `style` 属性，接收一个采用小驼峰命名的 JavaScript 对�
 
 某些样式无法编写(比如伪类、伪元素)。
 
-04-learn-react-css\src\01-内联样式css\App.jsx
+04-learn-react-css\src\01-内联样式 css\App.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			titleSize: 30
-		}
-	}
-	render() {
-		const { titleSize } = this.state
-    
-		return (
-			<div>
-				<button onClick={e => this.addTitleSize()}>增加 titleSize</button>
-				<h2 style={{color: "red", fontSize: `${titleSize}px`}}>我是标题</h2>
-				<p style={{color: 'blue', fontSize: '20px'}}>我是内容，哈哈哈</p>
-			</div>
-		)
-	}
-	addTitleSize() {
-		this.setState({ titleSize: this.state.titleSize + 2 })
-	}
+  constructor() {
+    super()
+    this.state = {
+      titleSize: 30
+    }
+  }
+  render() {
+    const { titleSize } = this.state
+
+    return (
+      <div>
+        <button onClick={e => this.addTitleSize()}>增加 titleSize</button>
+        <h2 style={{ color: 'red', fontSize: `${titleSize}px` }}>我是标题</h2>
+        <p style={{ color: 'blue', fontSize: '20px' }}>我是内容，哈哈哈</p>
+      </div>
+    )
+  }
+  addTitleSize() {
+    this.setState({ titleSize: this.state.titleSize + 2 })
+  }
 }
 
 export default App
@@ -102,39 +101,39 @@ export default App
 
 ## 3.缺点
 
-当引用普通的 css 样式，它会被应用于全局的 css，样式之间会相互影响；me没有局部的作用域。
+当引用普通的 css 样式，它会被应用于全局的 css，样式之间会相互影响；me 没有局部的作用域。
 
-04-learn-react-css\src\02-普通的CSS写法\App.jsx
+04-learn-react-css\src\02-普通的 CSS 写法\App.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
 import './App.css'
 
 export class App extends PureComponent {
-	render() {
-		return (
-			<div>
-				<h2 className='title'>我是标题</h2>
-				<p className='content'>我是内容，哈哈哈</p>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        <h2 className='title'>我是标题</h2>
+        <p className='content'>我是内容，哈哈哈</p>
+      </div>
+    )
+  }
 }
 
 export default App
 ```
 
-04-learn-react-css\src\02-普通的CSS写法\App.css
+04-learn-react-css\src\02-普通的 CSS 写法\App.css
 
 ```css
 .title {
-	font-size: 32px;
-	color: green;
+  font-size: 32px;
+  color: green;
 }
 
 .content {
-	font-size: 22px;
-	color: orange;
+  font-size: 22px;
+  color: orange;
 }
 ```
 
@@ -148,7 +147,7 @@ React 项目添加 less 支持
 
 ### 1.craco 使用步骤
 
-1. 安装 *craco*
+1. 安装 _craco_
 
    ```shell
    npm i @craco/craco -D # 生产时依赖
@@ -163,11 +162,11 @@ React 项目添加 less 支持
        "build": "craco build",
        "test": "craco test",
        "eject": "react-scripts eject"
-     },
+     }
    }
    ```
 
-3. 安装 *craco-less*
+3. 安装 _craco-less_
 
    ```shell
    npm i craco-less -D
@@ -178,12 +177,12 @@ React 项目添加 less 支持
    04-learn-react-css\craco.config.js
 
    ```js
-   const CracoLessPlugin = require('craco-less');
+   const CracoLessPlugin = require('craco-less')
 
    module.exports = {
      plugins: [
        {
-         plugin: CracoLessPlugin,
+         plugin: CracoLessPlugin
          /* options: {
            lessLoaderOptions: {
              lessOptions: {
@@ -192,30 +191,30 @@ React 项目添加 less 支持
              },
            },
          }, */
-       },
-     ],
-   };
+       }
+     ]
+   }
    ```
 
 ### 2.项目中使用 less
 
-04-learn-react-css\src\04-less编写方式\App.jsx
+04-learn-react-css\src\04-less 编写方式\App.jsx
 
 ```jsx
 import React, { PureComponent } from 'react'
 import './App.less'
 
 export class App extends PureComponent {
-	render() {
-		return (
-			<div className="app">
-				<div className="section">
-					<h2 className="title">我是标题</h2>
-					<p className='content'>我是内容，哈哈哈哈</p>
-				</div>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div className='app'>
+        <div className='section'>
+          <h2 className='title'>我是标题</h2>
+          <p className='content'>我是内容，哈哈哈哈</p>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default App
@@ -251,17 +250,17 @@ React 的脚手架内置了 css modules 的配置：
 
 ```jsx
 import React, { PureComponent } from 'react'
-import appStyle from './App.module.css';
+import appStyle from './App.module.css'
 
 export class App extends PureComponent {
-	render() {
-		return (
-			<div>
-				<h2 className={appStyle.title}>我是标题</h2>
-				<p className={appStyle.content}>我是内容，哈哈哈哈</p>
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        <h2 className={appStyle.title}>我是标题</h2>
+        <p className={appStyle.content}>我是内容，哈哈哈哈</p>
+      </div>
+    )
+  }
 }
 
 export default App
@@ -271,34 +270,32 @@ export default App
 
 ```css
 .title {
-	font-size: 32px;
-	color: green;
+  font-size: 32px;
+  color: green;
 }
 .content {
-	font-size: 22px;
-	color: orange;
+  font-size: 22px;
+  color: orange;
 }
 ```
 
-
-
-04-learn-react-css\src\04-less编写方式\App.less
+04-learn-react-css\src\04-less 编写方式\App.less
 
 ```less
 @primaryColor: red;
 
 .section {
-	bottom: 1px solid @primaryColor;
+  bottom: 1px solid @primaryColor;
 
-	.title {
-		font-size: 30px;
-		color: @primaryColor;
-	}
+  .title {
+    font-size: 30px;
+    color: @primaryColor;
+  }
 
-	.content {
-		font-size: 20px;
-		color: @primaryColor;
-	}
+  .content {
+    font-size: 20px;
+    color: @primaryColor;
+  }
 }
 ```
 
@@ -310,7 +307,7 @@ export default App
 
 此功能需要由第三方库提供。
 
-> React 2个 UI 库使用 CSS 的方式
+> React 2 个 UI 库使用 CSS 的方式
 >
 > - Material UI：CSS in JS
 > - Ant-Desigh：CSS in JS
@@ -343,23 +340,24 @@ export default App
 
 1.安装 `styled-components`：
 
- ```shell
- npm install styled-components
- ```
-2.安装 *VSCode-style-component* 插件，在编辑器中使代码高亮。
+```shell
+npm install styled-components
+```
+
+2.安装 _VSCode-style-component_ 插件，在编辑器中使代码高亮。
 
 ### 2.在项目中使用
 
 04-learn-react-css\src\05-CSS-IN-JS\style.js
 
 ```js
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 // style.div`` 返回一个组件，这个组件渲染一个 div 元素。
 export const AppWrapper = styled.div`
-	.footer {
-		border: 1px solid orange;
-	}
+  .footer {
+    border: 1px solid orange;
+  }
 `
 ```
 
@@ -367,19 +365,19 @@ export const AppWrapper = styled.div`
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { AppWrapper } from './style';
+import { AppWrapper } from './style'
 
 export class App extends PureComponent {
-	render() {
-		return (
-			<AppWrapper>
-				<div className="footer">
-					<p>免责声明</p>
-					<p>版权声明</p>
-				</div>
-			</AppWrapper>
-		)
-	}
+  render() {
+    return (
+      <AppWrapper>
+        <div className='footer'>
+          <p>免责声明</p>
+          <p>版权声明</p>
+        </div>
+      </AppWrapper>
+    )
+  }
 }
 
 export default App
@@ -387,11 +385,11 @@ export default App
 
 ### 3.原理分析
 
-*styled-components* 的本质是通过函数的调用，最终创建出一个组件：
+_styled-components_ 的本质是通过函数的调用，最终创建出一个组件：
 
 这个组件会被自动添加上一个不重复的 `class`；
 
-*styled-components* 会给该这个 `class` 添加相关的样式；
+_styled-components_ 会给该这个 `class` 添加相关的样式；
 
 ### 4.props、attrs 属性
 
@@ -415,38 +413,38 @@ export const largeSize = '18px'
 04-learn-react-css\src\05-CSS-IN-JS\style.js
 
 ```jsx
-import styled from 'styled-components';
-import { primaryColor, largeSize } from './variables';
+import styled from 'styled-components'
+import { primaryColor, largeSize } from './variables'
 
 // style.div`` 返回一个组件，这个组件渲染一个 div 元素。
 export const AppWrapper = styled.div`
-	.footer {
-		border: 1px solid orange;
-	}
+  .footer {
+    border: 1px solid orange;
+  }
 `
 
 // 1. 子元素单独抽取到一个样式组件
 // 2. 可以接收外部传入的 props
 // 3. 可以通过 attrs 给标签模板字符串中提供属性值
 // 4. 从一个单独的文件中引入变量
-export const SectionWrapper = styled.div.attrs(props =>({
-	tcolor: props.color || 'blue' // 为避免递归，使用 tcolor 代替传递过来的 color
+export const SectionWrapper = styled.div.attrs(props => ({
+  tcolor: props.color || 'blue' // 为避免递归，使用 tcolor 代替传递过来的 color
 }))`
-	border: 1px solid red;
+  border: 1px solid red;
 
-	.title {
-		font-size: ${props => props.size}px;
-		color: ${props => props.tcolor};
+  .title {
+    font-size: ${props => props.size}px;
+    color: ${props => props.tcolor};
 
-		&:hover {
-			background-color: purple;
-		}
-	}
+    &:hover {
+      background-color: purple;
+    }
+  }
 
-	.content {
-		font-size: ${largeSize}px;
-		color: ${primaryColor};
-	}
+  .content {
+    font-size: ${largeSize}px;
+    color: ${primaryColor};
+  }
 `
 ```
 
@@ -454,33 +452,33 @@ export const SectionWrapper = styled.div.attrs(props =>({
 
 ```jsx
 import React, { PureComponent } from 'react'
-import { AppWrapper, SectionWrapper } from './style';
+import { AppWrapper, SectionWrapper } from './style'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			size: 30,
-			color: 'yellow'
-		}
-	}
-	render() {
-		const { size, color } = this.state
-		return (
-			<AppWrapper>
-				<SectionWrapper size={size} color={color}>
-					<h2 className='title'>我是标题</h2>
-					<p className='content'>我是内容，哈哈哈</p>
-					<button onClick={e => this.setState({color: 'skyblue'})}>修改颜色</button>
-				</SectionWrapper>
+  constructor() {
+    super()
+    this.state = {
+      size: 30,
+      color: 'yellow'
+    }
+  }
+  render() {
+    const { size, color } = this.state
+    return (
+      <AppWrapper>
+        <SectionWrapper size={size} color={color}>
+          <h2 className='title'>我是标题</h2>
+          <p className='content'>我是内容，哈哈哈</p>
+          <button onClick={e => this.setState({ color: 'skyblue' })}>修改颜色</button>
+        </SectionWrapper>
 
-				<div className="footer">
-					<p>免责声明</p>
-					<p>版权声明</p>
-				</div>
-			</AppWrapper>
-		)
-	}
+        <div className='footer'>
+          <p>免责声明</p>
+          <p>版权声明</p>
+        </div>
+      </AppWrapper>
+    )
+  }
 }
 
 export default App
@@ -488,7 +486,7 @@ export default App
 
 ### 4.设置主题
 
-*styled-components* 高级特性-设置主题
+_styled-components_ 高级特性-设置主题
 
 04-learn-react-css\src\index.js
 
@@ -500,38 +498,38 @@ import { ThemeProvider } from 'styled-components'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-	<React.StrictMode>
-		<ThemeProvider theme={{color: 'purple', size: '50px'}}>
-			<App />
-		</ThemeProvider>
-	</React.StrictMode>
+  <React.StrictMode>
+    <ThemeProvider theme={{ color: 'purple', size: '50px' }}>
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>
 )
 ```
 
 04-learn-react-css\src\05-CSS-IN-JS\Home\style.js
 
 ```js
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const HomeWrapper = styled.div`
-	.top {
-		.banner {
-			color: red;
-		}
-	}
+  .top {
+    .banner {
+      color: red;
+    }
+  }
 
-	.bottom {
-		.header {
-			color: ${props => props.theme.color};
-			font-size: ${props => props.theme.size};
-		}
+  .bottom {
+    .header {
+      color: ${props => props.theme.color};
+      font-size: ${props => props.theme.size};
+    }
 
-		.product-list {
-			.item {
-				color: blue;
-			}
-		}
-	}
+    .product-list {
+      .item {
+        color: blue;
+      }
+    }
+  }
 `
 ```
 
@@ -542,23 +540,23 @@ import React, { PureComponent } from 'react'
 import { HomeWrapper } from './style'
 
 export class Home extends PureComponent {
-	render() {
-		return (
-			<HomeWrapper>
-				<div className="top">
-					<div className="banner">BannerContent</div>
-				</div>
-				<div className="bottom">
-					<h2 className="header">商品列表</h2>
-					<ul className="poduct-list">
-						<li className="item">商品列表1</li>
-						<li className="item">商品列表2</li>
-						<li className="item">商品列表3</li>
-					</ul>
-				</div>
-			</HomeWrapper>
-		)
-	}
+  render() {
+    return (
+      <HomeWrapper>
+        <div className='top'>
+          <div className='banner'>BannerContent</div>
+        </div>
+        <div className='bottom'>
+          <h2 className='header'>商品列表</h2>
+          <ul className='poduct-list'>
+            <li className='item'>商品列表1</li>
+            <li className='item'>商品列表2</li>
+            <li className='item'>商品列表3</li>
+          </ul>
+        </div>
+      </HomeWrapper>
+    )
+  }
 }
 
 export default Home

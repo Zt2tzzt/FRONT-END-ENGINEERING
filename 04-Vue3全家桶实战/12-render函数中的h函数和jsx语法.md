@@ -16,11 +16,10 @@ template -> compiler 编译 -> render 函数（返回 createVNode 函数） -> V
 1. option 选项 render 函数，不支持在`<script setup>`中编写，如果要在顶层语法中使用，必须要在 `<template>` 中将 render 函数当作组件使用。
 2. render 函数是组件中的一个选项 option，它要求返回一个 VNode 对象，一般使用 h 函数生成这个 VNode 对象。
 
-## h 函数的介绍2点：
+## h 函数的介绍 2 点：
 
 1. h 函数是一个用于创建 VNode 对象的函数。
 2. h 函数更准确的名命是`createVNode`函数，简化为 h，推测源于 hyperscript 工具，它是一个基于 JavaScript 编写模板的工具。
-
 
 ## render 函数与 h 函数的区别
 
@@ -40,7 +39,7 @@ export default {
 
 ## 基本使用
 
-h 函数接收哪3个参数，
+h 函数接收哪 3 个参数，
 
 1. `tag`(String | Object | Function)：表示 html 元素 / 组件 / 异步组件、函数式组件。
 2. `props`(Object)：表示：在模板中使用的 attribute / props / 事件。
@@ -52,7 +51,7 @@ h 函数接收哪3个参数，
 <script>
 // vue3 中需要导入 h，方便代码抽取，vue2 中是 render(h)，即在 render 函数中传入 h 函数。
 import { h } from 'vue'
-  
+
 export default {
   render() {
     return h('h2', { class: 'title' }, 'Hello Render')
@@ -70,7 +69,7 @@ export default {
 ```vue
 <script>
 import { h } from 'vue'
-  
+
 export default {
   data() {
     return { counter: 0 }
@@ -82,7 +81,7 @@ export default {
       h('h2', null, `当前计数: ${this.counter}`),
       // h 函数中事件绑定使用 on 前缀
       h('button', { onClick: () => this.counter++ }, '+1'),
-      h('button', { onClick: () => this.counter-- }, '-1'),
+      h('button', { onClick: () => this.counter-- }, '-1')
     ])
   }
 }
@@ -96,7 +95,7 @@ export default {
 ```vue
 <script>
 import { h, ref } from 'vue'
-  
+
 export default {
   setup() {
     const counter = ref(0)
@@ -106,7 +105,7 @@ export default {
     return h('div', { class: 'app' }, [
       h('h2', null, `当前计数: ${this.counter}`),
       h('button', { onClick: () => this.counter++ }, '+1'),
-      h('button', { onClick: () => this.counter-- }, '-1'),
+      h('button', { onClick: () => this.counter-- }, '-1')
     ])
   }
 }
@@ -122,17 +121,17 @@ render 函数作为 setup 返回值，放在 setup 中：
 ```vue
 <script>
 import { h } from 'vue'
-  
+
 export default {
   setup() {
     const counter = ref(0)
     return function render() {
       return h('div', { class: 'app' }, [
         // 在 render 函数中，不能写 this，需要用 xxx.value 将 ref 对象解包。
-        h('h2', null, `当前计数: ${ counter.value }`),
+        h('h2', null, `当前计数: ${counter.value}`),
         h('button', { onClick: () => counter.value++ }, '+1'),
-        h('button', { onClick: () => counter.value-- }, '-1'),
-    	])
+        h('button', { onClick: () => counter.value-- }, '-1')
+      ])
     }
   }
 }
@@ -147,7 +146,7 @@ export default {
 
 ```vue
 <script setup>
-import { ref, h } from 'vue';
+import { ref, h } from 'vue'
 import Home from './Home.vue'
 
 const counter = ref(0)
@@ -157,17 +156,18 @@ const increment = () => {
 const decrement = () => {
   counter.value--
 }
-const render = () => h("div", { className: "app" }, [
-  h("h2", null, `当前计数: ${counter.value}`),
-  h("button", { onClick: increment }, "+1"),
-  h("button", { onClick: decrement }, "-1"),
-  h(Home)
-])
+const render = () =>
+  h('div', { className: 'app' }, [
+    h('h2', null, `当前计数: ${counter.value}`),
+    h('button', { onClick: increment }, '+1'),
+    h('button', { onClick: decrement }, '-1'),
+    h(Home)
+  ])
 </script>
 
 <template>
-	<!-- 必须将 render 函数作为组件，在 template 中使用 -->
-  <render/>
+  <!-- 必须将 render 函数作为组件，在 template 中使用 -->
+  <render />
 </template>
 ```
 
@@ -194,7 +194,7 @@ HelloFrog.vue
 ```vue
 <script>
 import { h } from 'vue'
-  
+
 export default {
   render() {
     return h('h2', null, 'Hello Frog')
@@ -215,15 +215,17 @@ import HelloFrog from './HelloFrog.vue'
 export default {
   render() {
     // 使用插槽，h() 第三个参数用对象 {}
-    return h(HelloFrog, null,
+    return h(
+      HelloFrog,
+      null,
       /*
       	- default 是要使用的插槽的名称。是一个函数，
         - 可接收参数 props，里面是子组件的作用域插槽传递给父组件的参数。
         - 返回一个用 h() 生成的要传入插槽的 VNode。
       */
-     	{
-      	default: props => h('span', null, `app 传入到 HelloFrog 中的内容：${props.name}`),
-        title: props => h('span', null, `app 传入到 HelloFrog - title 中的内容：${props.title}`) 
+      {
+        default: props => h('span', null, `app 传入到 HelloFrog 中的内容：${props.name}`),
+        title: props => h('span', null, `app 传入到 HelloFrog - title 中的内容：${props.title}`)
       }
     )
   }
@@ -236,7 +238,7 @@ HelloFrog.vue
 ```vue
 <script>
 import { h } from 'vue'
-  
+
 export default {
   render() {
     return h('div', null, [
@@ -246,10 +248,12 @@ export default {
       	 - 插入了内容，则通过 $slot 调用该函数，返回一个 VNode，
       	 - 没插入内容，则调用默认的 h 函数返回一个 VNode
       */
-      this.$slots.default ? this.$slots.default({ name: 'zzt' })
-      : h('span', null, '我是Hello Frog组件的插槽默认值'),
-      this.$slots.title ? this.$slots.title({ title: 'abaaba' })
-      : h('span', null, '我是Hello Frog - tilte组件的插槽默认值')
+      this.$slots.default
+        ? this.$slots.default({ name: 'zzt' })
+        : h('span', null, '我是Hello Frog组件的插槽默认值'),
+      this.$slots.title
+        ? this.$slots.title({ title: 'abaaba' })
+        : h('span', null, '我是Hello Frog - tilte组件的插槽默认值')
     ])
   }
 }
@@ -260,7 +264,7 @@ export default {
 
 > jsx 是 JavaScript Extension 的简称。
 
-在 Vue 中生成 VNode 的3种方式
+在 Vue 中生成 VNode 的 3 种方式
 
 - template 通过 vuew-loader 转化（常用）。
 - render 函数不需要转化，直接调用。
@@ -274,47 +278,43 @@ babel 有什么用？
 
 ## jsx 支持环境配置
 
-jsx 通过 babel 进行转换，配置对 jsx 的支持2步
+jsx 通过 babel 进行转换，配置对 jsx 的支持 2 步
 
 1. 安装 babel 针对 vue 的 jsx 语法转化插件：
 
    ```shell
    npm install @vue/babel-plugin-jsx -D # webpack 环境
-	npm install @vitejs/plugin-vue-jsx -D # vite 环境
+   npm install @vitejs/plugin-vue-jsx -D # vite 环境
    ```
 
 2. 修改配置文件
 
-	webpack 环境下，在项目根目录新建 `babel.config.js` 在其中配置预设和插件：
+   webpack 环境下，在项目根目录新建 `babel.config.js` 在其中配置预设和插件：
 
-	```javascript
-	module.exports = {
-		presets: ['@vue/cli-plugin-babel/preset'],
-		plugin: ['@vue/babel-plugin-jsx']
-	}
-	```
+   ```javascript
+   module.exports = {
+     presets: ['@vue/cli-plugin-babel/preset'],
+     plugin: ['@vue/babel-plugin-jsx']
+   }
+   ```
 
-	vite 环境下，在 `vite.config.js` 中进行配置
+   vite 环境下，在 `vite.config.js` 中进行配置
 
-	```js
-	import { fileURLToPath, URL } from 'node:url'
-	import { defineConfig } from 'vite'
-	import vue from '@vitejs/plugin-vue'
-	import jsx from '@vitejs/plugin-vue-jsx'
+   ```js
+   import { fileURLToPath, URL } from 'node:url'
+   import { defineConfig } from 'vite'
+   import vue from '@vitejs/plugin-vue'
+   import jsx from '@vitejs/plugin-vue-jsx'
 
-	export default defineConfig({
-		plugins: [
-			vue(),
-			jsx()
-		],
-		resolve: {
-			alias: {
-				'@': fileURLToPath(new URL('./src', import.meta.url))
-			}
-		}
-	})
-
-	```
+   export default defineConfig({
+     plugins: [vue(), jsx()],
+     resolve: {
+       alias: {
+         '@': fileURLToPath(new URL('./src', import.meta.url))
+       }
+     }
+   })
+   ```
 
 > 实际上，目前 Vue CLI 创建的 webpack 项目已默认支持 jsx，可不用配置。
 >
@@ -421,7 +421,7 @@ HelloFrogs.js （使用 VCA 顶层写法）
 ```jsx
 <script setup lang="jsx">
 import { useSlots } from 'vue'
-  
+
 const slots = useSlots()
 const jsx = () => (
   <div>
@@ -437,4 +437,3 @@ const jsx = () => (
 	<jsx />
 </template>
 ```
-

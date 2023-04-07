@@ -18,12 +18,12 @@ index.js
 
 ```js
 Page({
-	data: {
-		message: 'Hello World',
-		firstname: 'kobe',
-		lastname: 'bryant',
-		date: new Date().toLocaleDateString() // 2022/10/10 这样的字符串
-	}
+  data: {
+    message: 'Hello World',
+    firstname: 'kobe',
+    lastname: 'bryant',
+    date: new Date().toLocaleDateString() // 2022/10/10 这样的字符串
+  }
 })
 ```
 
@@ -44,9 +44,9 @@ index.js
 
 ```js
 Page({
-	data: {
-		score: 10
-	}
+  data: {
+    score: 10
+  }
 })
 ```
 
@@ -71,14 +71,14 @@ index.js
 
 ```js
 Page({
-	data: {
-		isHidden: false
-	},
-	onChangeTap() {
-		this.setData({
-			isHidden: !this.data.isHidden
-		})
-	}
+  data: {
+    isHidden: false
+  },
+  onChangeTap() {
+    this.setData({
+      isHidden: !this.data.isHidden
+    })
+  }
 })
 ```
 
@@ -101,17 +101,17 @@ index.js
 
 ```js
 Page({
-	data: {
-		books: [
-			{ id: 111, name: '代码大全', price: 98 },
-			{ id: 112, name: '你不知道JS', price: 87 },
-			{ id: 113, name: 'JS高级设计', price: 76 }
-		],
+  data: {
+    books: [
+      { id: 111, name: '代码大全', price: 98 },
+      { id: 112, name: '你不知道JS', price: 87 },
+      { id: 113, name: 'JS高级设计', price: 76 }
+    ],
     info: {
       name: 'zzt',
-      age: 18,
+      age: 18
     }
-	}
+  }
 })
 ```
 
@@ -120,24 +120,24 @@ index.wxml
 ```html
 <!-- 遍历 data 中的数组 -->
 <view class="books">
-	<view wx:for="{{ books }}" wx:key="id">
-		<!-- item: 每项内容, index: 每项索引 -->
-		{{ item.name }}-{{ item.price }}
-	</view>
+  <view wx:for="{{ books }}" wx:key="id">
+    <!-- item: 每项内容, index: 每项索引 -->
+    {{ item.name }}-{{ item.price }}
+  </view>
 </view>
 <!-- 遍历 data 中的对象 -->
 <view class="info">
-	<view wx:for="{{ info }}" wx:key="id" wx:for-item="value" wx:for-index="key">
-		{{ key }}-{{ value }}
-	</view>
+  <view wx:for="{{ info }}" wx:key="id" wx:for-item="value" wx:for-index="key">
+    {{ key }}-{{ value }}
+  </view>
 </view>
 <!-- 遍历数字 -->
 <view class="number">
-	<view wx:for="{{10}}" wx:key="*this"> {{ item }} </view>
+  <view wx:for="{{10}}" wx:key="*this"> {{ item }} </view>
 </view>
 <!-- 遍历字符串 -->
 <view class="str">
-	<view wx:for="coderzzt" wx:key="*this"> {{ item }} </view>
+  <view wx:for="coderzzt" wx:key="*this"> {{ item }} </view>
 </view>
 ```
 
@@ -150,9 +150,9 @@ index.wxml
 
 ```html
 <view class="books">
-	<block wx:for="{{ books }}" wx:key="id">
-		<view>{{ item.name }}-{{ item.price }}-{{ index }}</view>
-	</block>
+  <block wx:for="{{ books }}" wx:key="id">
+    <view>{{ item.name }}-{{ item.price }}-{{ index }}</view>
+  </block>
 </view>
 ```
 
@@ -167,9 +167,9 @@ index.wxml
 
 ```html
 <view class="books">
-	<block wx:for="{{ books }}" wx:key="id" wx:for-item="book" wx:for-index="i">
-		<view>{{ book.name }}-{{ book.price }}-{{ i }}</view>
-	</block>
+  <block wx:for="{{ books }}" wx:key="id" wx:for-item="book" wx:for-index="i">
+    <view>{{ book.name }}-{{ book.price }}-{{ i }}</view>
+  </block>
 </view>
 ```
 
@@ -214,19 +214,14 @@ index.html
 ```html
 <!-- 1.方式一: 标签 -->
 <wxs module="format">
-	function formatPrice(price) {
-  	return "¥" + price
-  }
-  // 必须导出后，才能被其他地方调用: 必须使用 CommonJS 导出，只能使用 es5 的语法。
-  module.exports = {
-    formatPrice: formatPrice
-  }
+  function formatPrice(price) { return "¥" + price } // 必须导出后，才能被其他地方调用: 必须使用
+  CommonJS 导出，只能使用 es5 的语法。 module.exports = { formatPrice: formatPrice }
 </wxs>
 
 <view class="books">
-	<block wx:for="{{ books }}" wx:key="id">
-		<view>name:{{ item.name }}-price:{{ format.formatPrice(item.price) }}</view>
-	</block>
+  <block wx:for="{{ books }}" wx:key="id">
+    <view>name:{{ item.name }}-price:{{ format.formatPrice(item.price) }}</view>
+  </block>
 </view>
 ```
 
@@ -234,17 +229,17 @@ index.js
 
 ```js
 Page({
-	data: {
-		books: [
-			{ id: 111, name: '代码大全', price: 98, coverURL: '' },
-			{ id: 112, name: '你不知道JS', price: 87, coverURL: '' },
-			{ id: 113, name: 'JS高级设计', price: 76, coverURL: '' }
-		]
-	},
-	// 不能在 view 层中使用
-	formatPrice(price) {
-		return '¥' + price
-	}
+  data: {
+    books: [
+      { id: 111, name: '代码大全', price: 98, coverURL: '' },
+      { id: 112, name: '你不知道JS', price: 87, coverURL: '' },
+      { id: 113, name: 'JS高级设计', price: 76, coverURL: '' }
+    ]
+  },
+  // 不能在 view 层中使用
+  formatPrice(price) {
+    return '¥' + price
+  }
 })
 ```
 
@@ -257,9 +252,9 @@ index.html
 <wxs module="format" src="/utils/format.wxs"></wxs>
 
 <view class="books">
-	<block wx:for="{{ books }}" wx:key="id">
-		<view>name:{{ item.name }}-price:{{ format.formatPrice(item.price) }}</view>
-	</block>
+  <block wx:for="{{ books }}" wx:key="id">
+    <view>name:{{ item.name }}-price:{{ format.formatPrice(item.price) }}</view>
+  </block>
 </view>
 <view class="total">总价格: {{ format.calcPrice(books) }}</view>
 ```
@@ -268,22 +263,22 @@ utils \ format.wxs
 
 ```js
 function formatPrice(price) {
-	return '¥' + price
+  return '¥' + price
 }
 
 function calcPrice(books) {
-	// es5 中可以写高阶函数，不能写箭头函数
-	return (
-		'¥' +
-		books.reduce(function(accumulator, item) {
-			return accumulator + item.price
-		}, 0)
-	)
+  // es5 中可以写高阶函数，不能写箭头函数
+  return (
+    '¥' +
+    books.reduce(function (accumulator, item) {
+      return accumulator + item.price
+    }, 0)
+  )
 }
 
 module.exports = {
-	formatPrice: formatPrice,
-	calcPrice: calcPrice
+  formatPrice: formatPrice,
+  calcPrice: calcPrice
 }
 ```
 
@@ -306,14 +301,16 @@ utils \ format.wxs
 
 ```js
 function formatCount(count) {
-	count *= 1
-	return count >= 100000000	? (count / 100000000).toFixed(1) + '亿'
-		: count >= 10000 ? (count / 10000).toFixed(1) + '万'
-		: count
+  count *= 1
+  return count >= 100000000
+    ? (count / 100000000).toFixed(1) + '亿'
+    : count >= 10000
+    ? (count / 10000).toFixed(1) + '万'
+    : count
 }
 
 module.export = {
-	formatCount: formatCount
+  formatCount: formatCount
 }
 ```
 
@@ -321,9 +318,9 @@ index.js
 
 ```js
 Page({
-	data: {
-		playCount: 2237232
-	}
+  data: {
+    playCount: 2237232
+  }
 })
 ```
 
@@ -341,20 +338,20 @@ utils \ format.wxs
 
 ```js
 function padLeft(time) {
-	time += ''
-	return ('00' + time).slice(time.length)
+  time += ''
+  return ('00' + time).slice(time.length)
 }
 // 100 -> 01:40
 function formatTime(time) {
-	// 1.获取时间
-	var minute = Math.floor(time / 60)
-	var second = Math.floor(time) % 60
-	// 2.拼接字符串
-	return padLeft(minute) + ':' + padLeft(second)
+  // 1.获取时间
+  var minute = Math.floor(time / 60)
+  var second = Math.floor(time) % 60
+  // 2.拼接字符串
+  return padLeft(minute) + ':' + padLeft(second)
 }
 
 module.export = {
-	formatTime: formatTime
+  formatTime: formatTime
 }
 ```
 
@@ -362,8 +359,8 @@ index.js
 
 ```js
 Page({
-	duration: 255,
-	currentTime: 65
+  duration: 255,
+  currentTime: 65
 })
 ```
 
@@ -372,9 +369,7 @@ index.wxml
 ```html
 <wxs module="format" src="/utils/format.wxs"></wxs>
 
-<view class="time">
-	{{ format.formatTime(currentTime) }}/{{ format.formatTime(duration) }}
-</view>
+<view class="time"> {{ format.formatTime(currentTime) }}/{{ format.formatTime(duration) }} </view>
 ```
 
 # 事件处理
@@ -402,10 +397,10 @@ index.js
 
 ```js
 Page({
-	// 绑定事件监听函数
-	onBtnTap(event) {
-		console.log('onBtnTap:', event)
-	}
+  // 绑定事件监听函数
+  onBtnTap(event) {
+    console.log('onBtnTap:', event)
+  }
 })
 ```
 
@@ -437,14 +432,14 @@ index.js
 
 ```js
 Paage({
-	onOuterViewTap(event) {
-		// 1.target - 触发事件的元素
-		const name = event.target.dataset.name
-		console.log(name) // undefined
-		// 2.currentTarget - 处理事件的元素
-		const name = event.currentTarget.dataset.name
-		console.log(name) // zzt
-	}
+  onOuterViewTap(event) {
+    // 1.target - 触发事件的元素
+    const name = event.target.dataset.name
+    console.log(name) // undefined
+    // 2.currentTarget - 处理事件的元素
+    const name = event.currentTarget.dataset.name
+    console.log(name) // zzt
+  }
 })
 ```
 
@@ -452,7 +447,7 @@ index.wsml
 
 ```html
 <view id="outer" class="outer" data-name="zzt" bindtap="onOuterViewTap">
-	<view id="inner" class="inner"></view>
+  <view id="inner" class="inner"></view>
 </view>
 ```
 
@@ -465,28 +460,23 @@ index.js
 
 ```js
 Page({
-	onTouchTap(event) {
-		console.log('tap:', event)
-	},
-	onLongPress(event) {
-		console.log('long:', event)
-	},
-	onTouchEnd(event) {
-		console.log('end:', event) // changedTouches 中有元素，touches 中没有。
-	}
+  onTouchTap(event) {
+    console.log('tap:', event)
+  },
+  onLongPress(event) {
+    console.log('long:', event)
+  },
+  onTouchEnd(event) {
+    console.log('end:', event) // changedTouches 中有元素，touches 中没有。
+  }
 })
 ```
 
 index.wxml
 
 ```html
-<view
-	class="touches"
-	bindtap="onTouchTap"
-	bindlongpress="onLongPress"
-	bindtouchend="onTouchEnd"
->
-	多指触摸
+<view class="touches" bindtap="onTouchTap" bindlongpress="onLongPress" bindtouchend="onTouchEnd">
+  多指触摸
 </view>
 ```
 
@@ -504,10 +494,10 @@ index.js
 
 ```js
 Page({
-	onArgumentsTap(event) {
-		const { name, age, height } = event.currentTarget.dataset
-		console.log(name, age, height)
-	}
+  onArgumentsTap(event) {
+    const { name, age, height } = event.currentTarget.dataset
+    console.log(name, age, height)
+  }
 })
 ```
 
@@ -515,14 +505,8 @@ index.wxml
 
 ```html
 <!-- 4.event的参数传递 -->
-<view
-	class="arguments"
-	bindtap="onArgumentsTap"
-	data-name="zzt"
-	data-age="18"
-	data-height="1.88"
->
-	参数传递
+<view class="arguments" bindtap="onArgumentsTap" data-name="zzt" data-age="18" data-height="1.88">
+  参数传递
 </view>
 ```
 
@@ -536,29 +520,22 @@ index.js
 
 ```js
 Page({
-	// mark 的数据传递
-	onMarkTap(event) {
-		const data1 = event.target.dataset
-		console.log(data1) // {} 空对象
+  // mark 的数据传递
+  onMarkTap(event) {
+    const data1 = event.target.dataset
+    console.log(data1) // {} 空对象
 
-		const data2 = event.mark
-		console.log(data2) // {address: "洛杉矶", age: "30", name: "kobe"}
-	}
+    const data2 = event.mark
+    console.log(data2) // {address: "洛杉矶", age: "30", name: "kobe"}
+  }
 })
 ```
 
 index.wxml
 
 ```html
-<view
-	class="mark"
-	bindtap="onMarkTap"
-	data-name="why"
-	data-age="18"
-	mark:name="kobe"
-	mark:age="30"
->
-	<text mark:address="洛杉矶" class="title">mark</text>
+<view class="mark" bindtap="onMarkTap" data-name="why" data-age="18" mark:name="kobe" mark:age="30">
+  <text mark:address="洛杉矶" class="title">mark</text>
 </view>
 ```
 
@@ -569,13 +546,13 @@ index.js
 ```js
 Page({
   data: {
-    titles: ["手机", "电脑", "iPad", "相机"],
+    titles: ['手机', '电脑', 'iPad', '相机'],
     currentIndex: 0
   },
-	onItemTap(event) {
+  onItemTap(event) {
     const currentIndex = event.currentTarget.dataset.index
     this.setData({ currentIndex })
-  },
+  }
 })
 ```
 
@@ -584,15 +561,15 @@ index.html
 ```html
 <!-- 5.tab-control案例(重要) -->
 <view class="tab-control">
-	<block wx:for="{{ titles }}" wx:key="*this">
-		<view
-			class="item {{index === currentIndex ? 'active': ''}}"
-			bindtap="onItemTap"
-			data-index="{{index}}"
-		>
-			<text class="title">{{ item }}</text>
-		</view>
-	</block>
+  <block wx:for="{{ titles }}" wx:key="*this">
+    <view
+      class="item {{index === currentIndex ? 'active': ''}}"
+      bindtap="onItemTap"
+      data-index="{{index}}"
+    >
+      <text class="title">{{ item }}</text>
+    </view>
+  </block>
 </view>
 ```
 
@@ -600,20 +577,20 @@ index.wxss
 
 ```css
 .tab-control {
-	display: flex;
-	height: 40px;
-	line-height: 40px;
-	text-align: center;
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
 }
 .tab-control .item {
-	flex: 1;
+  flex: 1;
 }
 .tab-control .item.active {
-	color: #ff8189;
+  color: #ff8189;
 }
 .tab-control .item.active .title {
-	border-bottom: 3px solid #ff8189;
-	padding: 5px;
+  border-bottom: 3px solid #ff8189;
+  padding: 5px;
 }
 ```
 
@@ -628,13 +605,9 @@ index.wxml
 ```html
 <!-- 6.捕获和冒泡阶段 -->
 <view class="view1" capture-bind:tap="onView1CaptureTap" bindtap="onView1Tap">
-	<view class="view2" capture-bind:tap="onView2CaptureTap" bindtap="onView2Tap">
-		<view
-			class="view3"
-			capture-bind:tap="onView3CaptureTap"
-			bindtap="onView3Tap"
-		></view>
-	</view>
+  <view class="view2" capture-bind:tap="onView2CaptureTap" bindtap="onView2Tap">
+    <view class="view3" capture-bind:tap="onView3CaptureTap" bindtap="onView3Tap"></view>
+  </view>
 </view>
 ```
 
@@ -642,25 +615,25 @@ index.js
 
 ```js
 Page({
-	// 捕获和冒泡过程
-	onView1CaptureTap() {
-		console.log('onView1CaptureTap') // 1
-	},
-	onView2CaptureTap() {
-		console.log('onView2CaptureTap') // 2
-	},
-	onView3CaptureTap() {
-		console.log('onView3CaptureTap') // 3
-	},
-	onView1Tap() {
-		console.log('onView1Tap') // 6
-	},
-	onView2Tap() {
-		console.log('onView2Tap') // 5
-	},
-	onView3Tap() {
-		console.log('onView3Tap') // 4
-	}
+  // 捕获和冒泡过程
+  onView1CaptureTap() {
+    console.log('onView1CaptureTap') // 1
+  },
+  onView2CaptureTap() {
+    console.log('onView2CaptureTap') // 2
+  },
+  onView3CaptureTap() {
+    console.log('onView3CaptureTap') // 3
+  },
+  onView1Tap() {
+    console.log('onView1Tap') // 6
+  },
+  onView2Tap() {
+    console.log('onView2Tap') // 5
+  },
+  onView3Tap() {
+    console.log('onView3Tap') // 4
+  }
 })
 ```
 
@@ -718,9 +691,9 @@ Page({
 
   ```js
   Component({
-  	options: {
-  		styleIsolation: 'apply-shared'
-  	}
+    options: {
+      styleIsolation: 'apply-shared'
+    }
   })
   ```
 
@@ -738,8 +711,8 @@ components \ section-info \ section-info.json
 
 ```json
 {
-	"component": true,
-	"usingComponents": {}
+  "component": true,
+  "usingComponents": {}
 }
 ```
 
@@ -747,25 +720,25 @@ components \ section-info \ section-info.js
 
 ```js
 Component({
-	properties: {
-		title: {
-			type: String,
-			value: '默认标题'
-		},
-		content: {
-			type: String,
-			value: '默认内容'
-		}
-	},
+  properties: {
+    title: {
+      type: String,
+      value: '默认标题'
+    },
+    content: {
+      type: String,
+      value: '默认内容'
+    }
+  },
 
-	externalClasses: ['info'], // 接收传递的样式名
+  externalClasses: ['info'], // 接收传递的样式名
 
-	methods: {
-		onTitleTap() {
-			// 自定义事件，发送给组件的使用者
-			this.triggerEvent('titleTap', 'aaa')
-		}
-	}
+  methods: {
+    onTitleTap() {
+      // 自定义事件，发送给组件的使用者
+      this.triggerEvent('titleTap', 'aaa')
+    }
+  }
 })
 ```
 
@@ -773,9 +746,9 @@ components \ section-info \ section-info.wxml
 
 ```html
 <view class="section">
-	<view class="title" bindtap="onTitleTap">{{ title }}</view>
-	<!-- 使用接收的样式名 info -->
-	<view class="content info">{{ content }}</view>
+  <view class="title" bindtap="onTitleTap">{{ title }}</view>
+  <!-- 使用接收的样式名 info -->
+  <view class="content info">{{ content }}</view>
 </view>
 ```
 
@@ -783,13 +756,13 @@ components \ section-info \ section-info.wxss
 
 ```css
 .section .title {
-	font-size: 40rpx;
-	font-weight: 700;
-	color: red;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: red;
 }
 .section .content {
-	font-size: 24rpx;
-	color: purple;
+  font-size: 24rpx;
+  color: purple;
 }
 ```
 
@@ -799,9 +772,9 @@ index.json
 
 ```json
 {
-	"usingComponents": {
-		"section-info": "/components/section-info/section-info"
-	}
+  "usingComponents": {
+    "section-info": "/components/section-info/section-info"
+  }
 }
 ```
 
@@ -809,11 +782,11 @@ index.js
 
 ```js
 Page({
-	// 处理自定义事件
-	handleSectionTitleTap(event) {
+  // 处理自定义事件
+  handleSectionTitleTap(event) {
     // 传递过来的参数，放在 event 的 detail 中。
-		console.log('区域title发生了点击', event.detail)
-	}
+    console.log('区域title发生了点击', event.detail)
+  }
 })
 ```
 
@@ -826,31 +799,27 @@ index.wxml
 <!-- 2.自定义组件 -->
 <!-- 传递样式。本质是传递类选择器，应用类的样式 -->
 <section-info
-	info="abc"
-	title="我与地坛"
-	content="要是有些事情我没说, 别以为是我忘记了"
-	bind:titleTap="handleSectionTitleTap"
+  info="abc"
+  title="我与地坛"
+  content="要是有些事情我没说, 别以为是我忘记了"
+  bind:titleTap="handleSectionTitleTap"
 />
-<section-info
-	info="cba"
-	title="黄金时代"
-	content="在我一生中最好的黄金时代, 我想吃, 我想爱"
-/>
+<section-info info="cba" title="黄金时代" content="在我一生中最好的黄金时代, 我想吃, 我想爱" />
 ```
 
 index.wxss
 
 ```css
 .title {
-	background-color: skyblue;
+  background-color: skyblue;
 }
 /* 传给组件的样式 */
 .abc {
-	background-color: #0f0;
+  background-color: #0f0;
 }
 /* 传给组件的样式 */
 .cba {
-	background-color: #00f;
+  background-color: #00f;
 }
 ```
 
@@ -862,8 +831,8 @@ components \ tab-control \ tab-control.json
 
 ```json
 {
-	"component": true,
-	"usingComponents": {}
+  "component": true,
+  "usingComponents": {}
 }
 ```
 
@@ -871,25 +840,25 @@ components \ tab-control \ tab-control.js
 
 ```js
 Component({
-	properties: {
-		titles: {
-			type: Array,
-			value: []
-		}
-	},
+  properties: {
+    titles: {
+      type: Array,
+      value: []
+    }
+  },
 
-	data: {
-		currentIndex: 0
-	},
+  data: {
+    currentIndex: 0
+  },
 
-	methods: {
-		onItemTap(event) {
-			const currentIndex = event.currentTarget.dataset.index
-			this.setData({ currentIndex })
-			// 自定义事件
-			this.triggerEvent('indexchange', currentIndex)
-		}
-	}
+  methods: {
+    onItemTap(event) {
+      const currentIndex = event.currentTarget.dataset.index
+      this.setData({ currentIndex })
+      // 自定义事件
+      this.triggerEvent('indexchange', currentIndex)
+    }
+  }
 })
 ```
 
@@ -897,15 +866,15 @@ components \ tab-control \ tab-control.wxml
 
 ```html
 <view class="tab-control">
-	<block wx:for="{{ titles }}" wx:key="*this">
-		<view
-			class="item {{index === currentIndex ? 'active': ''}}"
-			bindtap="onItemTap"
-			data-index="{{index}}"
-		>
-			<text class="title">{{ item }}</text>
-		</view>
-	</block>
+  <block wx:for="{{ titles }}" wx:key="*this">
+    <view
+      class="item {{index === currentIndex ? 'active': ''}}"
+      bindtap="onItemTap"
+      data-index="{{index}}"
+    >
+      <text class="title">{{ item }}</text>
+    </view>
+  </block>
 </view>
 ```
 
@@ -913,20 +882,20 @@ components \ tab-control \ tab-control.wxss
 
 ```css
 .tab-control {
-	display: flex;
-	height: 40px;
-	line-height: 40px;
-	text-align: center;
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
 }
 .tab-control .item {
-	flex: 1;
+  flex: 1;
 }
 .tab-control .item.active {
-	color: #ff8189;
+  color: #ff8189;
 }
 .tab-control .item.active .title {
-	border-bottom: 3px solid #ff8189;
-	padding: 5px;
+  border-bottom: 3px solid #ff8189;
+  padding: 5px;
 }
 ```
 
@@ -936,9 +905,9 @@ index.json
 
 ```json
 {
-	"usingComponents": {
-		"tab-control": "/components/tab-control/tab-control"
-	}
+  "usingComponents": {
+    "tab-control": "/components/tab-control/tab-control"
+  }
 }
 ```
 
@@ -946,15 +915,15 @@ index.js
 
 ```js
 Page({
-	data: {
-		digitalTitles: ['电脑', '手机', 'iPad'],
-		currentIndex: 0
-	},
-	handleTabIndexChange(event) {
-		const index = event.detail
-		console.log('点击了', this.data.digitalTitles[index])
-		this.setData({ currentIndex })
-	}
+  data: {
+    digitalTitles: ['电脑', '手机', 'iPad'],
+    currentIndex: 0
+  },
+  handleTabIndexChange(event) {
+    const index = event.detail
+    console.log('点击了', this.data.digitalTitles[index])
+    this.setData({ currentIndex })
+  }
 })
 ```
 
@@ -962,8 +931,8 @@ index.wxml
 
 ```html
 <tab-control
-	class="tab-control"
-	titles="{{ digitalTitles }}"
-	bind:indexchange="handleTabIndexChange"
+  class="tab-control"
+  titles="{{ digitalTitles }}"
+  bind:indexchange="handleTabIndexChange"
 />
 ```

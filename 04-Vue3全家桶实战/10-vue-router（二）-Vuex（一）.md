@@ -3,15 +3,15 @@
 客户端：
 
 - PC 端网站，
-  
+
   - 如商家端，用户端等等。
-  
+
 - 移动端 IOS / Android
 
 - H5 产品端，如小程序端。
-  
+
   - 通常为用户端。
-  
+
   > H5 通常指产品端，而非 HTML5 这项技术。
   >
   > 通过移动端中某一个浏览器，无论是微信的 WebView 还是别的浏览器打开的页面。
@@ -33,14 +33,14 @@ vue-router 4 删除了 router-linke 上 `tag` 属性，使用插槽的方式来�
 
 ```vue
 <template>
-	<div>
-		<router-link to="/home" custom>
-			<button>首页</button>
-			<Foo></Foo>
-		</router-link>
-		<router-link to="/about">关于</router-link>
-		<router-view></router-view>
-	</div>
+  <div>
+    <router-link to="/home" custom>
+      <button>首页</button>
+      <Foo></Foo>
+    </router-link>
+    <router-link to="/about">关于</router-link>
+    <router-view></router-view>
+  </div>
 </template>
 ```
 
@@ -58,19 +58,17 @@ App.vue
 
 ```vue
 <template>
-	<router-link to="/home" v-slot="slotProps" custom>
-		<button @click="slotProps.navigate">{{ slotProps.href }}</button>
-		<span :class="{ active: slotProps.isActive }">{{
-			slotProps.isActive
-		}}</span>
-	</router-link>
-	<router-link to="/about">关于</router-link>
-	<router-view></router-view>
+  <router-link to="/home" v-slot="slotProps" custom>
+    <button @click="slotProps.navigate">{{ slotProps.href }}</button>
+    <span :class="{ active: slotProps.isActive }">{{ slotProps.isActive }}</span>
+  </router-link>
+  <router-link to="/about">关于</router-link>
+  <router-view></router-view>
 </template>
 
 <style scoped>
 .active {
-	color: green;
+  color: green;
 }
 </style>
 ```
@@ -81,26 +79,26 @@ App.vue
 
 ```vue
 <template>
-	<router-link to="/home">主页</router-link>
-	<router-link to="/about">关于</router-link>
-	<!-- slotProps 解构：{ Component } -->
-	<router-view v-slot="{ Component, route }">
-		<transition name="zzt" mode="out-in" appear>
-			<keep-alive>
-				<component :is="Component"></component>
-			</keep-alive>
-		</transition>
-	</router-view>
+  <router-link to="/home">主页</router-link>
+  <router-link to="/about">关于</router-link>
+  <!-- slotProps 解构：{ Component } -->
+  <router-view v-slot="{ Component, route }">
+    <transition name="zzt" mode="out-in" appear>
+      <keep-alive>
+        <component :is="Component"></component>
+      </keep-alive>
+    </transition>
+  </router-view>
 </template>
 
 <style scoped>
 .zzt-enter-from,
 .zzt-leave-to {
-	opacity: 0;
+  opacity: 0;
 }
 .zzt-enter-active,
 .zzt-leave-active {
-	transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 </style>
 ```
@@ -125,6 +123,7 @@ router-view 使用 `v-slot` 来获取作用域插槽内部传递的对象，对�
 - 后端维护用户表，权限表和关系表。
 
 理解 3 种在前端控制权限的方法，
+
 - 方法一：注册所有路由，弊端：用户可通过手动改 url 实现禁止的权限。
 - 方法二：在前端用数组维护好各个角色对应的路由，获取角色后**动态添加路由**。弊端：后端修改角色权限，需要前端修改代码再部署。
 - 方法三：在前端获取用户权限，如访问的菜单，根据用户权限**动态添加路由**。，这么做要求后端要返回需要动态添加的路由对应的组件，有 2 种方式：
@@ -143,23 +142,23 @@ import Home from '../pages/Home.vue'
 import About from '../pages/About.vue'
 
 const router = createRouter({
-	routes: [
+  routes: [
     { path: '/home', component: Home },
     { path: '/about', component: About }
   ],
-	history: createWebHistory()
+  history: createWebHistory()
 })
 
 // 动态添加一级路由
 router.addRoute({
-	path: '/category',
-	component: () => import('../pages/Category.vue')
+  path: '/category',
+  component: () => import('../pages/Category.vue')
 })
 
 // 动态添加二级路由，第一个参数是上级路由的 name
 router.addRoute('home', {
-	path: 'moment', // 要么写完整路径‘/home/moment’，要么写成‘moment’
-	component: () => import('../pages/HomeMoment.vue')
+  path: 'moment', // 要么写完整路径‘/home/moment’，要么写成‘moment’
+  component: () => import('../pages/HomeMoment.vue')
 })
 export default router
 ```
@@ -186,9 +185,9 @@ router.removeRoute('category')
 
 ```javascript
 const removeCategoryRoute = router.addRoute({
-	path: '/category',
-	name: 'category',
-	component: Category
+  path: '/category',
+  name: 'category',
+  component: Category
 })
 removeCategoryRoute()
 ```
@@ -228,11 +227,12 @@ removeCategoryRoute()
 src / router / index.js
 
 ```javascript
-router.beforeEach((to, from, next) => { // next 已不推荐使用
-	const token = window.localStorage.getItem('token')
-	if (to.path === '/order ' && !token) {
-		return '/login'
-	}
+router.beforeEach((to, from, next) => {
+  // next 已不推荐使用
+  const token = window.localStorage.getItem('token')
+  if (to.path === '/order ' && !token) {
+    return '/login'
+  }
 })
 ```
 
@@ -246,17 +246,17 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const loginClick = () => {
-	const token = 'zzt'
-	window.localStorage.setItem('token', token)
-	router.push({ path: '/order' })
+  const token = 'zzt'
+  window.localStorage.setItem('token', token)
+  router.push({ path: '/order' })
 }
 </script>
 
 <template>
-	<div>
-		Login
-		<button @click="loginClick">登录</button>
-	</div>
+  <div>
+    Login
+    <button @click="loginClick">登录</button>
+  </div>
 </template>
 ```
 
@@ -267,15 +267,15 @@ Home.vue
 ```vue
 <script setup>
 function logoutClick() {
-	window.localStorage.removeItem('token')
+  window.localStorage.removeItem('token')
 }
 </script>
 
 <template>
-	<div class="home">
-		<h2>Home</h2>
-		<button @click="logoutClick">退出登录</button>
-	</div>
+  <div class="home">
+    <h2>Home</h2>
+    <button @click="logoutClick">退出登录</button>
+  </div>
 </template>
 ```
 
@@ -290,12 +290,10 @@ function logoutClick() {
    ```js
    // Home.vue （VOA 写法）
    export default {
-   	beforeRouteLeave(to, from) {
-   		const answer = window.confirm(
-   			'Do you really want to leave? you have unsaved changes!'
-   		)
-   		if (!answer) return false
-   	}
+     beforeRouteLeave(to, from) {
+       const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+       if (!answer) return false
+     }
    }
    ```
 
@@ -314,8 +312,8 @@ function logoutClick() {
    console.log(route.params.id)
    // 获取 route 跳转前后的 id
    onBeforeRouteUpdate((to, from) => {
-   	console.log('from:', from.params.id)
-   	console.log('to:', to.params.id)
+     console.log('from:', from.params.id)
+     console.log('to:', to.params.id)
    })
    </script>
    ```
@@ -325,14 +323,14 @@ function logoutClick() {
    ```js
    // src / router / index.js
    const routes = [
-   	{
-   		path: '/users/:id',
-   		component: User,
-   		beforeEnter: (to, from) => {
-   			// reject the navigation
-   			return false
-   		}
-   	}
+     {
+       path: '/users/:id',
+       component: User,
+       beforeEnter: (to, from) => {
+         // reject the navigation
+         return false
+       }
+     }
    ]
    ```
 
@@ -343,11 +341,11 @@ function logoutClick() {
    ```js
    // Home.vue
    export default {
-   	beforeRouteEnter(to, from, next) {
-   		next(instance => {
-   			// 通过 `instance` 访问组件实例
-   		})
-   	}
+     beforeRouteEnter(to, from, next) {
+       next(instance => {
+         // 通过 `instance` 访问组件实例
+       })
+     }
    }
    ```
 
@@ -357,19 +355,19 @@ function logoutClick() {
 
    ```js
    router.beforeResolve(async to => {
-   	if (to.meta.requiresCamera) {
-   		try {
-   			await askForCameraPermission()
-   		} catch (error) {
-   			if (error instanceof NotAllowedError) {
-   				// ... 处理错误，然后取消导航
-   				return false
-   			} else {
-   				// 意料之外的错误，取消导航并把错误传给全局处理器
-   				throw error
-   			}
-   		}
-   	}
+     if (to.meta.requiresCamera) {
+       try {
+         await askForCameraPermission()
+       } catch (error) {
+         if (error instanceof NotAllowedError) {
+           // ... 处理错误，然后取消导航
+           return false
+         } else {
+           // 意料之外的错误，取消导航并把错误传给全局处理器
+           throw error
+         }
+       }
+     }
    })
    ```
 
@@ -379,7 +377,7 @@ function logoutClick() {
 
    ```js
    router.afterEach((to, from, failure) => {
-   	if (!failure) sendToAnalytics(to.fullPath)
+     if (!failure) sendToAnalytics(to.fullPath)
    })
    ```
 
@@ -467,18 +465,18 @@ src / store / index.js
 import { createStore } from 'vuex'
 
 const store = createStore({
-	state: () => ({
-		rootCounter: 100
-	}),
-	// mutation 中不允许有异步操作，异步操作在 action 中处理。
-	mutations: {
-		increment(state) {
-			state.rootCounter++
-		},
-		decrement(state) {
-			state.rootCounter--
-		}
-	}
+  state: () => ({
+    rootCounter: 100
+  }),
+  // mutation 中不允许有异步操作，异步操作在 action 中处理。
+  mutations: {
+    increment(state) {
+      state.rootCounter++
+    },
+    decrement(state) {
+      state.rootCounter--
+    }
+  }
 })
 export default store
 ```
@@ -499,23 +497,23 @@ App.vue
 
 ```vue
 <template>
-	<div>
-		<h2>当前计数：{{ $store.state.rootCounter }}</h2>
-		<button @click="increment">+1</button>
-		<button @click="decrement">-1</button>
-	</div>
+  <div>
+    <h2>当前计数：{{ $store.state.rootCounter }}</h2>
+    <button @click="increment">+1</button>
+    <button @click="decrement">-1</button>
+  </div>
 </template>
 
 <script>
 export default {
-	methods: {
-		increment() {
-			this.$store.commit('increment')
-		},
-		decrement() {
-			this.$store.commit('decrement')
-		}
-	}
+  methods: {
+    increment() {
+      this.$store.commit('increment')
+    },
+    decrement() {
+      this.$store.commit('decrement')
+    }
+  }
 }
 </script>
 ```
@@ -549,9 +547,9 @@ src / store / index.js
 import { createStore } from 'vuex'
 
 const store = createStore({
-	state() {
-		return { rootCounter: 100 }
-	}
+  state() {
+    return { rootCounter: 100 }
+  }
 })
 export default store
 ```
@@ -560,17 +558,17 @@ App.vue
 
 ```vue
 <template>
-	<div>{{ $store.state.rootCounter }}</div>
-	<div>{{ rootCounter }}</div>
+  <div>{{ $store.state.rootCounter }}</div>
+  <div>{{ rootCounter }}</div>
 </template>
 
 <script>
 export default {
-	computed: {
-		rootCounter() {
-			return this.$store.state.rootCounter
-		}
-	}
+  computed: {
+    rootCounter() {
+      return this.$store.state.rootCounter
+    }
+  }
 }
 </script>
 ```
@@ -585,9 +583,9 @@ src / store / index.js
 import { createStore } from 'vuex'
 
 const store = createStore({
-	state() {
-		return { name: 'zzt', age: 18 }
-	}
+  state() {
+    return { name: 'zzt', age: 18 }
+  }
 })
 export default store
 ```
@@ -596,24 +594,24 @@ App.vue
 
 ```vue
 <template>
-	<div>{{ name }} - {{ age }}</div>
-	<div>{{ myName }} - {{ myAge }}</div>
+  <div>{{ name }} - {{ age }}</div>
+  <div>{{ myName }} - {{ myAge }}</div>
 </template>
 
 <script>
 // mapState 返回的是对象，对象中是一个个函数，函数中本质上也是通过 this.$store.state.xxx 来读取数据。
 import { mapState } from 'vuex'
-  
+
 export default {
-	computed: {
-		// 第一种写法，传入数组。
-		...mapState(['name', 'age']),
-		// 第二种写法，传入对象，key 为重名命的名称，value 为传入参数为 state 的 getter 函数，返回指定状态
-		...mapState({
-			myName: state => state.name,
-			myAge: state => state.age
-		})
-	}
+  computed: {
+    // 第一种写法，传入数组。
+    ...mapState(['name', 'age']),
+    // 第二种写法，传入对象，key 为重名命的名称，value 为传入参数为 state 的 getter 函数，返回指定状态
+    ...mapState({
+      myName: state => state.name,
+      myAge: state => state.age
+    })
+  }
 }
 </script>
 ```
@@ -628,7 +626,7 @@ App.vue
 
 ```vue
 <template>
-	<div>{{ myName }} - {{ myAge }}</div>
+  <div>{{ myName }} - {{ myAge }}</div>
 </template>
 
 <script>
@@ -636,16 +634,16 @@ import { computed } from 'vue'
 import { useStore, mapState } from 'vuex'
 
 export default {
-	setup() {
-		const store = useStore()
-		// VCA 结合计算属性使用。
-		const myName = computed(() => store.state.name)
-		const myAge = computed(() => store.state.age)
-		return {
-			myName,
-			myAge
-		}
-	}
+  setup() {
+    const store = useStore()
+    // VCA 结合计算属性使用。
+    const myName = computed(() => store.state.name)
+    const myAge = computed(() => store.state.age)
+    return {
+      myName,
+      myAge
+    }
+  }
 }
 </script>
 ```
@@ -656,10 +654,10 @@ App.vue
 
 ```vue
 <template>
-	<div class="app">
-		<h2>name: {{ name }}</h2>
-		<h2>age: {{ age }}</h2>
-	</div>
+  <div class="app">
+    <h2>name: {{ name }}</h2>
+    <h2>age: {{ age }}</h2>
+  </div>
 </template>
 
 <script setup>
@@ -679,25 +677,25 @@ App.vue
 
 ```vue
 <template>
-	<div>{{ myName }} - {{ myAge }}</div>
+  <div>{{ myName }} - {{ myAge }}</div>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { useStore, mapState } from 'vuex'
-  
+
 export default {
-	setup() {
-		// name, age 为存放一个个名称为属性名的 geeter 函数。函数中未绑定 this，也就是 $store 对象，函数没有被 computed 包裹。
-		const { name, age } = mapState(['name', 'age'])
-		const store = useStore()
-		const myName = computed(name.bind({ $store: store }))
-		const myAge = computed(age.bind({ $store: store }))
-		return {
-			myName,
-			myAge
-		}
-	}
+  setup() {
+    // name, age 为存放一个个名称为属性名的 geeter 函数。函数中未绑定 this，也就是 $store 对象，函数没有被 computed 包裹。
+    const { name, age } = mapState(['name', 'age'])
+    const store = useStore()
+    const myName = computed(name.bind({ $store: store }))
+    const myAge = computed(age.bind({ $store: store }))
+    return {
+      myName,
+      myAge
+    }
+  }
 }
 </script>
 ```
@@ -715,17 +713,17 @@ import { useStore, mapState } from 'vuex'
  * @return {Array} state名称对应的 ref Object 对象
  */
 export default function (mapper) {
-	// VCA 结合 mapState 使用。
-	// objFns 为 Object 类型，其中存放一个个名称为属性名的 geeter 函数。函数中未绑定 this，函数没有被 computed 包裹。
-	const objFns = mapState(mapper)
-	const store = useStore()
-	const storeState = {}
-	Object.keys(objFns).forEach(fnKey => {
-		// 函数中通过 this.$store.state.xxx 来取值，因此绑定一个 this
-		const fn = objFns[fnKey].bind({ $store: store })
-		storeState[fnKey] = computed(fn)
-	})
-	return storeState
+  // VCA 结合 mapState 使用。
+  // objFns 为 Object 类型，其中存放一个个名称为属性名的 geeter 函数。函数中未绑定 this，函数没有被 computed 包裹。
+  const objFns = mapState(mapper)
+  const store = useStore()
+  const storeState = {}
+  Object.keys(objFns).forEach(fnKey => {
+    // 函数中通过 this.$store.state.xxx 来取值，因此绑定一个 this
+    const fn = objFns[fnKey].bind({ $store: store })
+    storeState[fnKey] = computed(fn)
+  })
+  return storeState
 }
 ```
 
@@ -733,16 +731,16 @@ App.vue
 
 ```vue
 <template>
-	<div>{{ name }} - {{ age }}</div>
+  <div>{{ name }} - {{ age }}</div>
 </template>
 <script>
 import useState from '../hooks/useState'
-  
+
 export default {
-	setup() {
-		const storeState = useState(['name', 'age'])
-		return { ...storeState }
-	}
+  setup() {
+    const storeState = useState(['name', 'age'])
+    return { ...storeState }
+  }
 }
 </script>
 ```
@@ -762,45 +760,44 @@ src / store / index.js
 import { createStore } from 'vuex'
 
 const store = createStore({
-	state: () => ({
-		books: [
-			{ name: 'vuejs', count: 2, price: 110 },
-			{ name: 'react', count: 3, price: 120 },
-			{ name: 'webpack', count: 4, price: 130 }
-		],
-		discount: 0.9 // 折扣
-	}),
-	getters: {
-		// getters 的基本使用，计算书籍的总价。
-		totalPrice(state) {
-			return state.books
-				.map(book => book.count * book.price)
-				.reduce((accumulator, currVal) => accumulator + currVal)
-		},
-		currentDiscount(state) {
-			// 当前折扣
-			return state.discount * 0.7
-		},
-		// getters 第2个参数的使用,实现书籍折上折案例。
-		totalPriceWithDoubleCount(state, getters) {
-			return (
-				state.books
-					.map(book => book.count * book.price)
-					.reduce((accumulator, currVal) => accumulator + currVal) *
-				getters.currentDiscount
-			)
-		},
-		// getters 返回函数（柯里化）的使用。实现自定义折扣案例
-		totalPriceWithCount(state) {
-			return function (n) {
-				return (
-					state.books
-						.map(book => book.count * book.price)
-						.reduce((accumulator, currVal) => accumulator + currVal) * n
-				)
-			}
-		}
-	}
+  state: () => ({
+    books: [
+      { name: 'vuejs', count: 2, price: 110 },
+      { name: 'react', count: 3, price: 120 },
+      { name: 'webpack', count: 4, price: 130 }
+    ],
+    discount: 0.9 // 折扣
+  }),
+  getters: {
+    // getters 的基本使用，计算书籍的总价。
+    totalPrice(state) {
+      return state.books
+        .map(book => book.count * book.price)
+        .reduce((accumulator, currVal) => accumulator + currVal)
+    },
+    currentDiscount(state) {
+      // 当前折扣
+      return state.discount * 0.7
+    },
+    // getters 第2个参数的使用,实现书籍折上折案例。
+    totalPriceWithDoubleCount(state, getters) {
+      return (
+        state.books
+          .map(book => book.count * book.price)
+          .reduce((accumulator, currVal) => accumulator + currVal) * getters.currentDiscount
+      )
+    },
+    // getters 返回函数（柯里化）的使用。实现自定义折扣案例
+    totalPriceWithCount(state) {
+      return function (n) {
+        return (
+          state.books
+            .map(book => book.count * book.price)
+            .reduce((accumulator, currVal) => accumulator + currVal) * n
+        )
+      }
+    }
+  }
 })
 export default store
 ```
@@ -815,16 +812,16 @@ App.vue
 
 ```vue
 <template>
-	<div>
-		{{ $store.getters.totalPrice }}
-		{{ $store.getters.totalPriceWithDoubleCount }}
-		{{ $store.getters.totalPriceWithCount(0.8) }}
-	</div>
-	<div>
-		{{ totalPrice }}
-		{{ totalPriceWithDoubleCount }}
-		{{ totalPriceWithCount }}
-	</div>
+  <div>
+    {{ $store.getters.totalPrice }}
+    {{ $store.getters.totalPriceWithDoubleCount }}
+    {{ $store.getters.totalPriceWithCount(0.8) }}
+  </div>
+  <div>
+    {{ totalPrice }}
+    {{ totalPriceWithDoubleCount }}
+    {{ totalPriceWithCount }}
+  </div>
 </template>
 
 <script>
@@ -872,22 +869,22 @@ App.vue
 
 ```vue
 <template>
-	<div>{{ totalPrice }}</div>
+  <div>{{ totalPrice }}</div>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-  
+
 export default {
-	setup() {
-		// VCA 的基本使用
-		const store = useStore()
-		const totalPrice = computed(() => store.getters.totalPrice)
-		return {
-			totalPrice
-		}
-	}
+  setup() {
+    // VCA 的基本使用
+    const store = useStore()
+    const totalPrice = computed(() => store.getters.totalPrice)
+    return {
+      totalPrice
+    }
+  }
 }
 </script>
 ```
@@ -898,7 +895,7 @@ App.vue
 
 ```vue
 <template>
-	<div>{{ totalPrice }}</div>
+  <div>{{ totalPrice }}</div>
 </template>
 
 <script setup>
@@ -918,22 +915,22 @@ App.vue
 
 ```vue
 <template>
-	<div>{{ totalPrice }}</div>
+  <div>{{ totalPrice }}</div>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { mapGetters, useStore } from 'vuex'
-  
+
 export default {
-	setup() {
-		const store = useStore()
-		const { totalPrice: totalPriceFn } = mapGetters(['totalPrice'])
-		const totalPrice = computed(totalPriceFn.bind({ $store: store }))
-		return {
-			totalPrice
-		}
-	}
+  setup() {
+    const store = useStore()
+    const { totalPrice: totalPriceFn } = mapGetters(['totalPrice'])
+    const totalPrice = computed(totalPriceFn.bind({ $store: store }))
+    return {
+      totalPrice
+    }
+  }
 }
 </script>
 ```
@@ -944,30 +941,30 @@ App.vue
 
 ```vue
 <template>
-	<div>{{ nameInfo }} - {{ ageInfo }}</div>
+  <div>{{ nameInfo }} - {{ ageInfo }}</div>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { mapGetters, useStore } from 'vuex'
-  
+
 export default {
-	setup() {
-		// VCA的基本使用
-		const store = useStore()
-		// 结合 mapGetter 使用。
-		// objFns 为 Object 类型，其中存放一个个名称为属性名的 geeter 函数。
-		const objFns = mapGetters(['nameInfo', 'ageInfo'])
-		const storeGetter = {}
-		Reflect.ownKeys(objFns).forEach(fnKey => {
-			// 函数中通过 this.$store.getters.xxx 来取值，因此绑定一个 this
-			const fn = objFns[fnKey].bind({ $store: store })
-			storeGetter[fnKey] = computed(fn)
-		})
-		return {
-			...storeGetter
-		}
-	}
+  setup() {
+    // VCA的基本使用
+    const store = useStore()
+    // 结合 mapGetter 使用。
+    // objFns 为 Object 类型，其中存放一个个名称为属性名的 geeter 函数。
+    const objFns = mapGetters(['nameInfo', 'ageInfo'])
+    const storeGetter = {}
+    Reflect.ownKeys(objFns).forEach(fnKey => {
+      // 函数中通过 this.$store.getters.xxx 来取值，因此绑定一个 this
+      const fn = objFns[fnKey].bind({ $store: store })
+      storeGetter[fnKey] = computed(fn)
+    })
+    return {
+      ...storeGetter
+    }
+  }
 }
 </script>
 ```
@@ -986,14 +983,14 @@ import { useStore } from 'vuex'
  * @return {Array} state名称对应的 ref Object 数组
  */
 export default function (mapper, mapFn) {
-	const objFns = mapFn(mapper)
-	const store = useStore()
-	const res = {}
-	Reflect.ownKeys(objFns).forEach(fnKey => {
-		const fn = objFns[fnKey].bind({ $store: store })
-		res[fnKey] = computed(fn)
-	})
-	return res
+  const objFns = mapFn(mapper)
+  const store = useStore()
+  const res = {}
+  Reflect.ownKeys(objFns).forEach(fnKey => {
+    const fn = objFns[fnKey].bind({ $store: store })
+    res[fnKey] = computed(fn)
+  })
+  return res
 }
 ```
 
@@ -1004,7 +1001,7 @@ import useMapper from './useMapper'
 import { mapGetters } from 'vuex'
 
 export default function (mapper) {
-	return useMapper(mapper, mapGetters)
+  return useMapper(mapper, mapGetters)
 }
 ```
 
@@ -1028,19 +1025,21 @@ src / store / index.js
 import { createStore } from 'vuex'
 
 const store = createStore({
-	state() {
-		return {
-			rootCounter: 100
-		}
-	},
-	mutations: {
-		increment(state, num) { // 传一个 Number 类型
-			state.rootCounter = state.rootCounter + num
-		},
-		decrement(state, payload) { // 传一个 Object 类型
-			state.rootCounter = state.rootCounter - payload.num
-		}
-	}
+  state() {
+    return {
+      rootCounter: 100
+    }
+  },
+  mutations: {
+    increment(state, num) {
+      // 传一个 Number 类型
+      state.rootCounter = state.rootCounter + num
+    },
+    decrement(state, payload) {
+      // 传一个 Object 类型
+      state.rootCounter = state.rootCounter - payload.num
+    }
+  }
 })
 export default store
 ```
@@ -1074,16 +1073,16 @@ mutations 中对象风格的提交方式，基本使用。
 ```vue
 <script>
 export default {
-	methods: {
-		// 对象风格的提交方式
-		decrement() {
-			this.$store.commit({
-				type: 'decrement',
-				age: 10,
-				name: 'zzt'
-			})
-		}
-	}
+  methods: {
+    // 对象风格的提交方式
+    decrement() {
+      this.$store.commit({
+        type: 'decrement',
+        age: 10,
+        name: 'zzt'
+      })
+    }
+  }
 }
 </script>
 ```
@@ -1105,15 +1104,15 @@ import { createStore } from 'vuex'
 import { DECREMENT } from './mutationTypes'
 
 const store = createStore({
-	state() {
-		return { rootCounter: 100 }
-	},
-	mutations: {
-		// ES6 对象字面量增强 计算属性名
-		[DECREMENT](state, payload) {
-			state.rootCounter = state.rootCounter - payload.num
-		}
-	}
+  state() {
+    return { rootCounter: 100 }
+  },
+  mutations: {
+    // ES6 对象字面量增强 计算属性名
+    [DECREMENT](state, payload) {
+      state.rootCounter = state.rootCounter - payload.num
+    }
+  }
 })
 export default store
 ```
@@ -1123,13 +1122,13 @@ App.vue
 ```vue
 <script>
 import { DECREMENT } from './store/mutationTypes'
-  
+
 export default {
-	methods: {
-		decrement() {
-			this.$store.commit(DECREMENT, { age: 10, name: 'zzt' })
-		}
-	}
+  methods: {
+    decrement() {
+      this.$store.commit(DECREMENT, { age: 10, name: 'zzt' })
+    }
+  }
 }
 </script>
 ```
@@ -1150,20 +1149,20 @@ template 中提交 mutations，结合 methods 使用：
 
 ```vue
 <template>
-	<div>
-		<h2>当前计数：{{ $store.state.rootCounter }}</h2>
-		<button @click="$store.commit('increment', 10)">+1</button>
-		<button @click="decrement">-1</button>
-	</div>
+  <div>
+    <h2>当前计数：{{ $store.state.rootCounter }}</h2>
+    <button @click="$store.commit('increment', 10)">+1</button>
+    <button @click="decrement">-1</button>
+  </div>
 </template>
 
 <script>
 export default {
-	methods: {
-		decrement() {
-			this.$store.commit('decrement', { age: 18, name: 'zzt' })
-		}
-	}
+  methods: {
+    decrement() {
+      this.$store.commit('decrement', { age: 18, name: 'zzt' })
+    }
+  }
 }
 </script>
 ```
@@ -1176,29 +1175,29 @@ App.vue
 
 ```vue
 <template>
-	<div>
-		<h2>当前计数：{{ $store.state.rootCounter }}</h2>
-		<!-- mapMutation 省略了操作步骤 this.$store.commit -->
-		<button @click="decrement({ n: 10 })">-1</button>
-		<button @click="sub10({ n: 10 })">sub-1</button>
-	</div>
+  <div>
+    <h2>当前计数：{{ $store.state.rootCounter }}</h2>
+    <!-- mapMutation 省略了操作步骤 this.$store.commit -->
+    <button @click="decrement({ n: 10 })">-1</button>
+    <button @click="sub10({ n: 10 })">sub-1</button>
+  </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
-  
+
 export default {
-	data() {
-		return {}
-	},
-	methods: {
-		// 传入数组
-		...mapMutations(['decrement']),
-		// 传入对象
-		...mapMutations({
-			sub10: 'decrement'
-		})
-	}
+  data() {
+    return {}
+  },
+  methods: {
+    // 传入数组
+    ...mapMutations(['decrement']),
+    // 传入对象
+    ...mapMutations({
+      sub10: 'decrement'
+    })
+  }
 }
 </script>
 ```
@@ -1211,24 +1210,24 @@ template 中直接提交 commit mutations，VCA 结合 methods，
 
 ```vue
 <template>
-	<div>
-		<h2>当前计数：{{ $store.state.rootCounter }}</h2>
-		<button @click="$store.commit('decrement', { num: 10 })">-10</button>
-		<button @click="handleDecrement">-10</button>
-	</div>
+  <div>
+    <h2>当前计数：{{ $store.state.rootCounter }}</h2>
+    <button @click="$store.commit('decrement', { num: 10 })">-10</button>
+    <button @click="handleDecrement">-10</button>
+  </div>
 </template>
 
 <script>
 import { useStore } from 'vuex'
-  
+
 export default {
-	setup() {
-		const store = useStore()
-		function handleDecrement() {
-			store.commit('decrement', { num: 10 })
-		}
-		return { handleDecrement }
-	}
+  setup() {
+    const store = useStore()
+    function handleDecrement() {
+      store.commit('decrement', { num: 10 })
+    }
+    return { handleDecrement }
+  }
 }
 </script>
 ```
@@ -1239,26 +1238,26 @@ App.vue
 
 ```vue
 <template>
-	<div>
-		<h2>当前计数：{{ $store.state.rootCounter }}</h2>
-		<button @click="decrement({ num: 10 })">-1</button>
-	</div>
+  <div>
+    <h2>当前计数：{{ $store.state.rootCounter }}</h2>
+    <button @click="decrement({ num: 10 })">-1</button>
+  </div>
 </template>
 
 <script>
 import { useStore, mapMutations } from 'vuex'
-  
+
 export default {
-	setup() {
-		const store = useStore()
-		// 手动的映射和绑定
-		const mutations = mapMutations(['decrement', 'increment'])
-		const newMutations = {}
-		Object.keys(mutations).forEach(key => {
-			newMutations[key] = mutations[key].bind({ $store: store })
-		})
-		const { increment, decrement } = newMutations
-	}
+  setup() {
+    const store = useStore()
+    // 手动的映射和绑定
+    const mutations = mapMutations(['decrement', 'increment'])
+    const newMutations = {}
+    Object.keys(mutations).forEach(key => {
+      newMutations[key] = mutations[key].bind({ $store: store })
+    })
+    const { increment, decrement } = newMutations
+  }
 }
 </script>
 ```
