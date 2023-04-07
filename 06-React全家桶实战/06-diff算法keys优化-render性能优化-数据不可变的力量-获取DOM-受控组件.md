@@ -463,7 +463,7 @@ export class App extends PureComponent {
     return (
       <div>
         {/* 方式一：在 React 元素上绑定一个 ref 字符串 */}
-        <h2 ref='zzt'>Hello World</h2>
+        <h2 ref="zzt">Hello World</h2>
 
         {/* 方式二：提前创建好 ref 对象,使用 createRef() API，将创建出来的对象绑定到元素 */}
         <h2 ref={this.titleRef}>你好啊，李银河</h2>
@@ -607,10 +607,10 @@ export class App extends PureComponent {
     return (
       <div>
         {/* React 中没有双向绑定，受控组件必须绑定事件处理函数，将 value 更新到 state，否则在浏览器中的设值无效 */}
-        <input type='text' value={username} onInput={e => this.onInputChange(e)} />
+        <input type="text" value={username} onInput={e => this.onInputChange(e)} />
 
         {/* 非受控组件 */}
-        <input type='text' />
+        <input type="text" />
 
         <h2>username: {username}</h2>
       </div>
@@ -653,16 +653,16 @@ export class App extends PureComponent {
       <div>
         <form onSubmit={e => this.onSubmitClick(e)}>
           {/* 1.用户名 */}
-          <label htmlFor='username'>
+          <label htmlFor="username">
             <input
-              id='username'
-              type='text'
-              name='username'
+              id="username"
+              type="text"
+              name="username"
               value={username}
               onInput={e => this.onUsernameInput(e)}
             />
           </label>
-          <button type='submit'>注册</button>
+          <button type="submit">注册</button>
         </form>
       </div>
     )
@@ -694,54 +694,54 @@ export default App
 import React, { PureComponent } from 'react'
 
 export class App extends PureComponent {
-	constructor() {
-		super()
-		this.state = {
-			username: '',
-			password: （
-		}
-	}
-	render() {
-		const { username, password } = this.state
-		return (
-			<div>
-				<form onSubmit={e => this.onSubmitClick(e)}>
-					{/* 1.用户名 */}
-					<label htmlFor="username">
-						<input
-							id="username"
-							type="text"
-							name="username"
-							value={username}
-							onInput={e => this.onInputChange(e)}
-						/>
-					</label>
-					<label htmlFor="password">
-						<input
-							id="username"
-							type="password"
-							name="password"
-							value={password}
-							onChange={e => this.onInputChange(e)}
-						/>
-					</label>
-					<button type="submit">注册</button>
-				</form>
-			</div>
-		)
-	}
+  constructor() {
+    super()
+    this.state = {
+      username: '',
+      password: （
+    }
+  }
+  render() {
+    const { username, password } = this.state
+    return (
+      <div>
+        <form onSubmit={e => this.onSubmitClick(e)}>
+          {/* 1.用户名 */}
+          <label htmlFor="username">
+            <input
+              id="username"
+              type="text"
+              name="username"
+              value={username}
+              onInput={e => this.onInputChange(e)}
+            />
+          </label>
+          <label htmlFor="password">
+            <input
+              id="username"
+              type="password"
+              name="password"
+              value={password}
+              onChange={e => this.onInputChange(e)}
+            />
+          </label>
+          <button type="submit">注册</button>
+        </form>
+      </div>
+    )
+  }
 
-	onSubmitClick(e) {
-		// 1.组织默认的行为。
-		e.preventDefault()
-		// 2.获取到所有的表单数据，对数据进行组织。
-		console.log('username:', this.state.username, 'password:', this.state.password)
-		// 3.以网络请求 ajax 的方式，将数据传递给服务器。
-	}
-	onInputChange(e) {
+  onSubmitClick(e) {
+    // 1.组织默认的行为。
+    e.preventDefault()
+    // 2.获取到所有的表单数据，对数据进行组织。
+    console.log('username:', this.state.username, 'password:', this.state.password)
+    // 3.以网络请求 ajax 的方式，将数据传递给服务器。
+  }
+  onInputChange(e) {
     // ES6 中对象的增强写法 ，计算属性名
-		this.setState({ [e.target.name]: e.target.value })
-	}
+    this.setState({ [e.target.name]: e.target.value })
+  }
 }
 
 export default App
@@ -773,10 +773,10 @@ export class App extends PureComponent {
     return (
       <div>
         {/* checkbox 单选 */}
-        <label htmlFor='agree'>
+        <label htmlFor="agree">
           <input
-            type='checkbox'
-            id='agree'
+            type="checkbox"
+            id="agree"
             checked={isAgree}
             onChange={e => this.onAgreeChange(e)}
           />
@@ -789,7 +789,7 @@ export class App extends PureComponent {
           {hobbies.map((item, index) => (
             <label htmlFor={item.value} key={item.value}>
               <input
-                type='checkbox'
+                type="checkbox"
                 id={item.value}
                 checked={item.isChecked}
                 onChange={e => this.onHobbiesChange(e, index)}
@@ -834,15 +834,15 @@ export class App extends PureComponent {
       <div>
         {/* select 单选处理 */}
         <select value={gender} onChange={e => this.onGenderChange(e)}>
-          <option value='male'>男</option>
-          <option value='female'>女</option>
+          <option value="male">男</option>
+          <option value="female">女</option>
         </select>
 
         {/* select 多选处理 */}
         <select value={fruits} onChange={e => this.onFruitChange(e)} multiple>
-          <option value='apple'>苹果</option>
-          <option value='banana'>香蕉</option>
-          <option value='orange'>橘子</option>
+          <option value="apple">苹果</option>
+          <option value="banana">香蕉</option>
+          <option value="orange">橘子</option>
         </select>
       </div>
     )
@@ -903,11 +903,11 @@ export class App extends PureComponent {
     return (
       <div>
         <form onSubmit={e => this.onSubmitChange(e)}>
-          <label htmlFor='intro'>
-            <input type='text' id='intro' defaultValue={intro} ref={this.introRef} />
+          <label htmlFor="intro">
+            <input type="text" id="intro" defaultValue={intro} ref={this.introRef} />
             介绍
           </label>
-          <button type='submit'>注册</button>
+          <button type="submit">注册</button>
         </form>
       </div>
     )
