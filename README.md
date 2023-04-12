@@ -2,7 +2,7 @@
 
 #### 介绍
 
-FRONT-END-ENGINEERING，前端工程化；coderwhy 前端学习笔记分享。
+前端工程化学习笔记分享；我的 coderwhy 学习笔记。
 
 #### 参与贡献
 
