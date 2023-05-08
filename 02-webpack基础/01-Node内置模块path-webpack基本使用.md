@@ -75,7 +75,7 @@ webpack 可应用于哪些场景？
 然而，对于大部分前端开发者来说，并不需要思考这些问题；
 - 这是因为，目前前端开发，通常都会直接使用三大框架（Vue、React、Angular）；
 - 而这三大框架的创建过程，都是借助于脚手架（CLI）的；
-  - Vue-CLI、create-react-app、Angular-CLI 都是基于 webpack 来帮助我们支持模块化、其中就包括 less、TypeScript、打包优化等等；
+- 分别是 Vue-CLI、create-react-app、Angular-CLI，它们都是基于 webpack 来帮助我们支持模块化、其中就包括 less、TypeScript、打包优化等等；
 
 ## 2.是什么
 
