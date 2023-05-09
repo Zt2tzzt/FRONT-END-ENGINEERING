@@ -177,7 +177,7 @@ webpack 默认打包步骤：
 
 ## 6.配置文件
 
-webpack 配置文件，一般名为 `webpack.config.js`，使用 CommonJS 规范。
+webpack 配置文件，一般名为 `webpack.config.js`，使用 CommonJS 规范编写。
 
 在该文件中，入口/出口两个属性的使用
 
@@ -195,7 +195,7 @@ module.exports = {
 
 指定 webpack 配置文件名，
 
-将将项目目录下的 `webpack.config.js` 修改为了 `zzt.config.js`：
+将项目目录下的 `webpack.config.js` 修改为了 `zzt.config.js`：
 
 1. 执行 webpack 命令时，需要指定配置文件名：
 
