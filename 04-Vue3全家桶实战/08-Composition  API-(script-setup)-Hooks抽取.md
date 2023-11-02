@@ -416,12 +416,12 @@ setup 中实现计算属性 API 是 `computed`，基本使用：
   </template>
   ```
 
+# watchEffect API
+
 setup 中侦听器提供了 2 种 API ：
 
 - `watchEffect` - 用于自动收集响应式数据依赖。
 - `watch` - 手动指定侦听的数据源。
-
-# watchEffect API
 
 2 个特点：
 
