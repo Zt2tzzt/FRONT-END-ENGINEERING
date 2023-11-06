@@ -1,4 +1,6 @@
-# 注册 App，理解 App 函数。
+# 02-App函数-Page函数-常用组件-WXSS
+
+## 一、注册 App，理解 App 函数
 
 APP 函数：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html)
 
@@ -16,7 +18,7 @@ APP 函数：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/ref
 
 2. 因为 app 实例只有一个，并且是全局共享的（单例对象），所以我们可以将一些共享数据放在这里（仅限**非响应式**的数据，如 token，用户信息等等）；
 
-## 案例演示：
+### 1.案例演示
 
 判断小程序的进入场景。[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html)
 
@@ -92,7 +94,7 @@ Page({
 
 > 微信小程序跳转的 page 路径中（`wx.navigateTo`），不能有中文。
 
-# 注册页面 理解 Page 函数
+## 二、注册页面 理解 Page 函数
 
 Page 函数：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html)
 
@@ -106,7 +108,7 @@ Page 函数：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/re
 3. 监听 wxml 中的事件，绑定对应的事件函数；
 4. 其他一些监听（比如页面滚动、上拉刷新、下拉加载更多等）；
 
-## 案例理解
+### 1.案例理解
 
 发送网络请求，请求轮播图数据并展示。
 
@@ -205,13 +207,13 @@ index.wxml
 </view>
 ```
 
-# Page 页面的生命周期
+## 三、Page 页面的生命周期
 
 结合双线程模型，理解 Page 页面的生命周期。
 
-<img src="NodeAssets/Page页面的生命周期.jpg" alt="Page页面的生命周期" style="zoom:150%;" />
+![Page页面的生命周期](NodeAssets/Page页面的生命周期.jpg)
 
-# text 组件
+## 四、text 组件
 
 text 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/component/text.html)
 
@@ -230,7 +232,7 @@ index.wxml
 <text decode>&gt;</text>
 ```
 
-# button 组件
+## 五、button 组件
 
 button 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/component/button.html)
 
@@ -296,7 +298,7 @@ Page({
 
 > 早期小程序很多 API 不持支 Promise 风格，现在新的 API 大部分支持。
 
-# view 组件
+## 六、view 组件
 
 view 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/component/view.html)
 
@@ -316,7 +318,7 @@ index.wxss
 }
 ```
 
-# image 组件
+## 七、image 组件
 
 image 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/component/image.html)
 
@@ -370,7 +372,7 @@ Page({
 
 > 小程序中，'/' 在某些场景下可以表示根目录。
 
-# scroll-viwe 组件
+## 八、scroll-viwe 组件
 
 scroll-view 组件：[官方文档·](https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html)
 
@@ -433,22 +435,22 @@ Page({
     console.log('scrollview 发生了滚动:', event.detail)
     // deltalX > 0，表示向左滚动，反之向右滚动。deltalY 同理
     /* detail: {
-			deltaX: -5.7318878173828125
-			deltaY: 0
-			scrollHeight: 170
-			scrollLeft: 105.93421936035156
-			scrollTop: 0
-			scrollWidth: 600
-		}*/
+      deltaX: -5.7318878173828125
+      deltaY: 0
+      scrollHeight: 170
+      scrollLeft: 105.93421936035156
+      scrollTop: 0
+      scrollWidth: 600
+    }*/
   }
 })
 ```
 
-# 组件共同的属性
+## 九、组件共同的属性
 
 类似于 HTML 元素的公共属性，组件也有一些共有的属性：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/view/component.html#%E5%B1%9E%E6%80%A7%E7%B1%BB%E5%9E%8B)
 
-# input 组件
+## 十、input 组件
 
 小程序在 input 组件上引入了双向绑定的功能（早期不支持，现已支持），使用 `model:value="{{ msg }}"` 双向绑定 data 中的数据。
 
@@ -468,13 +470,13 @@ Page({
 })
 ```
 
-# WXSS 编写样式
+## 十一、WXSS 编写样式
 
 小程序样式的 3 种形式：行内样式、页面样式、全局样式。
 
 优先级：行内样式 > 页面样式 > 全局样式。权重图：
 
-<img src="NodeAssets/WXSS选择器权重.jpg" alt="WXSS选择器权重" style="zoom:150%;" />
+![WXSS选择器权重](NodeAssets/WXSS选择器权重.jpg)
 
 支持的选择器，[官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxss.html)，推荐使用类选择器。
 

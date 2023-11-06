@@ -5,7 +5,7 @@
 小程序是什么呢？
 
 - 小程序（Mini Program）是一种不需要下载安装即可使用的应用，它实现了“触手可及”的梦想，使用起来方便快捷，用完即走。
-- 事实上，目前小程序在我们生活中已经随处可见（特别是这次疫情的推动，不管是什么岗位、什么年龄阶段的人，都需要打开健康码）；
+- 目前小程序在我们生活中已经随处可见（特别是这次疫情的推动，不管是什么岗位、什么年龄阶段的人，都需要打开健康码）；
 
 最初我们提到小程序时，往往指的是微信小程序：但是目前小程序技术本身已经被各个平台所实现和支持。那么目前常见的小程序有哪些呢？
 
@@ -131,7 +131,7 @@ uni-app 和 taro 开发原生 App：
 
 [框架](https://developers.weixin.qq.com/miniprogram/dev/reference/)：项目的配置文件；options API；项目文件的语法。
 
-[组件](https://developers.weixin.qq.com/miniprogram/dev/component/)：WXML 中用到的组件（HTML 中称为元素，移动端原生称为控件，其中包括了 webview）。
+[组件](https://developers.weixin.qq.com/miniprogram/dev/component/)：WXML 中用到的组件（HTML 中称为“元素”，移动端原生称为“控件”，其中包括了 webview）。
 
 [API](https://developers.weixin.qq.com/miniprogram/dev/api/)：原生提供的类似于 wx.request 这样用于发送网络请求的 API。
 
@@ -157,7 +157,7 @@ index.wxml
 <!-- 1.显示普通的文本 -->
 <text class="title">我是普通的文本</text>
 
-<!-- 2.动态绑定message属性 -->
+<!-- 2.动态绑定 message 属性 -->
 <view class="message">{{ message }}</view>
 
 <!-- 3.动态展示列表数据 -->
@@ -191,7 +191,7 @@ Page({
   },
   // 监听的事件方法
   increment() {
-    // 修改 data 中的数据, 但是你的修改并不会引起页面的刷新(自动检测你的新数据重新渲染页面, 在小程序中不会, 在 react 中也不会)
+    // 修改 data 中的数据, 但是你的修改并不会引起页面的刷新(即自动检测新数据并重新渲染页面, 在小程序，react 中都不会)
     // this.data.counter += 1
     // console.log(this.data.counter);
 
@@ -208,13 +208,15 @@ Page({
 })
 ```
 
-> 页面事件绑定的方法，直接写在 Page 传入的对象中，组件中要写在 methods option 中。
+> 页面事件绑定的方法，直接写在 Page 传入的对象中，
+>
+> 组件中要写在 methods option 中。
 
 ## 十、小程序的启动过程
 
-1. 加载 app.json
-2. 运行 app.js，创建 app 实例
-3. 加载 app.json 中指定的第一个页面（使用双线程模型）创建页面实例，通过 `Page()` 函数。
+1. 加载 app.json；
+2. 运行 app.js，创建 app 实例；
+3. 加载 app.json 中指定的第一个页面；（使用双线程模型）创建页面实例，通过 `Page()` 函数。
 4. ...
 
 ## 十一、小程序中组件与 HTML 中元素的类比
