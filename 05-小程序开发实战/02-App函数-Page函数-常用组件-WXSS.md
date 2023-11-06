@@ -1,4 +1,4 @@
-# 02-App函数-Page函数-常用组件-WXSS
+# App函数-Page函数-常用组件-WXSS
 
 ## 一、注册 App，理解 App 函数
 
@@ -57,13 +57,16 @@ App({
     // 1.从本地获取保存到 storage 中的 token / userInfo
     const token = wx.getStorageSync('token')
     const userInfo = wx.getStorageSync('userInfo')
+    
     // 2.先模拟进行登录操作(判断逻辑)，真实登录操作在后续章节中讲解。
     if (!token || !userInfo) {
       // 发送网络请求, 优先请求一些必要的数据
       wx.request({ url: 'url' })
+      
       // 将登录成功的数据, 保存到 storage
       wx.setStorageSync('token', 'kobetoken')
       wx.setStorageSync('userInfo', { nickname: 'kobe', level: 100 })
+      
       // 3.将获取到数据保存到 globalData 中
       this.globalData.token = token
       this.globalData.userInfo = userInfo
@@ -122,6 +125,7 @@ Page({
     counter: 100,
     btns: ['red', 'blue', 'green', 'orange']
   },
+  // 生命周期函数:
   onLoad() {
     // 发送网络请求，请求轮播图数据。
     wx.request({
@@ -133,6 +137,18 @@ Page({
         this.setData({ banners, recommends })
       }
     })
+  },
+  onShow() {
+    console.log('onShow')
+  },
+  onReady() {
+    console.log('onReady')
+  },
+  onHide() {
+    console.log('onHide')
+  },
+  onUnload() {
+    console.log('onUnload')
   },
 
   // 处理自定义事件：绑定 wxml 中产生事件后的回调函数
@@ -149,20 +165,6 @@ Page({
   },
   onPageScroll(event) {
     console.log('onPageScroll:', event)
-  },
-
-  // 生命周期函数:
-  onShow() {
-    console.log('onShow')
-  },
-  onReady() {
-    console.log('onReady')
-  },
-  onHide() {
-    console.log('onHide')
-  },
-  onUnload() {
-    console.log('onUnload')
   }
 })
 ```
@@ -307,7 +309,8 @@ view 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/co
 index.wxml
 
 ```html
-<view bindtap="onViewClick" hover-class="active">我是view组件</view> <view>哈哈哈</view>
+<view bindtap="onViewClick" hover-class="active">我是view组件</view>
+<view>哈哈哈</view>
 ```
 
 index.wxss
@@ -484,8 +487,8 @@ WXSS 扩展的单位 rpx，用于做自适应。
 
 - 尺寸单位
   - rpx（responsive pixel）: 可以根据屏幕宽度进行自适应，规定屏幕宽为 750rpx。
-  - 如在 iPhone6 上，屏幕宽度为 375px，共有 750 个物理像素，则 750rpx = 375px = 750 物理像素，1rpx = 0.5px = 1 物理像素。
-- 建议：开发微信小程序时设计师用 iPhone6 作为视觉稿的标准（宽度 375px）。
+  - 如在 iPhone 6 上，屏幕宽度为 375px，共有 750 个物理像素，则 750rpx = 375px = 750 物理像素，1rpx = 0.5px = 1 物理像素。
+- 建议：开发微信小程序时设计师用 iPhone 6 作为视觉稿的标准（宽度 375px）。
 
 行内样式
 
