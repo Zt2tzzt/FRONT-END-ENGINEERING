@@ -1,4 +1,6 @@
-# 什么是小程序？
+# 小程序开发平台-申请AppID-环境搭建-语法体验
+
+## 一、什么是小程序？
 
 小程序是什么呢？
 
@@ -9,7 +11,7 @@
 
 - 微信小程序、支付宝小程序、淘宝小程序、抖音小程序、头条小程序、QQ 小程序、美团小程序等等；
 
-# 小程序的发展背景
+## 二、小程序的发展背景
 
 各个平台小程序大概的发布时间线：
 
@@ -45,7 +47,7 @@
 
 所以重点学习的一定是微信小程序开发。
 
-# 小程序的产品定位：
+## 三、小程序的产品定位
 
 小程序的产品定位：
 
@@ -56,9 +58,9 @@
 1. 由谁开发事实上是由它的技术特点所决定的，比如微信小程序的技术栈主要是 WXML、WXSS、JavaScript；
 2. 它更接近于我们前端的开发技术栈，所以小程序都是由我们前端来开发的；
 
-<img src="NodeAssets/小程序由谁来开发？.jpg" style="zoom:80%;" />
+![小程序由谁来开发](NodeAssets/小程序由谁来开发？.jpg)
 
-# 小程序开发技术选型
+## 四、小程序开发技术选型
 
 原生小程序开发：
 
@@ -98,7 +100,7 @@ uni-app 和 taro 开发原生 App：
 
 - 也有其他的技术选项来开发原生 App，如 ReactNative、Flutter（更接近原生）；
 
-# 准备 AppID 和开发工具
+## 五、准备 AppID 和开发工具
 
 申请 AppID：[接入流程](https://mp.weixin.qq.com/cgi-bin/wx)
 
@@ -109,7 +111,7 @@ uni-app 和 taro 开发原生 App：
 > - 在开发工具中创建页面，component 右击 -> 新建 Page；
 > - app.json 中添加路径。
 
-# 小程序开发使用的技术栈
+## 六、小程序开发使用的技术栈
 
 小程序的核心技术主要是三个：
 
@@ -119,11 +121,11 @@ uni-app 和 taro 开发原生 App：
 
 如果你之前已经掌握了 Vue 或者 React 等框架开发，那么学习小程序是更简单的；因为里面的核心思想都是一致的（比如组件化开发、数据响应式、mustache 语法、事件绑定等等）
 
-# 小程序项目结构
+## 七、小程序项目结构
 
-<img src="NodeAssets/小程序项目解构.jpg" style="zoom:80%;" />
+![小程序项目解构](NodeAssets/小程序项目解构.jpg)
 
-# 小程序文档指南
+## 八、小程序文档指南
 
 [指南](https://developers.weixin.qq.com/miniprogram/dev/framework/)：小程序起步。
 
@@ -145,7 +147,7 @@ uni-app 和 taro 开发原生 App：
 
 更新日志。
 
-# 小程序开发体验
+## 九、小程序开发体验
 
 三个案例：1.数据绑定；2.列表渲染；3.事件监听。
 
@@ -208,14 +210,14 @@ Page({
 
 > 页面事件绑定的方法，直接写在 Page 传入的对象中，组件中要写在 methods option 中。
 
-# 小程序的启动过程
+## 十、小程序的启动过程
 
 1. 加载 app.json
 2. 运行 app.js，创建 app 实例
 3. 加载 app.json 中指定的第一个页面（使用双线程模型）创建页面实例，通过 `Page()` 函数。
 4. ...
 
-# 小程序中组件与 HTML 中元素的类比
+## 十一、小程序中组件与 HTML 中元素的类比
 
 小程序中称为组件，HTML 中称为元素。
 
@@ -226,11 +228,11 @@ Page({
 
 APP 中称为控件，其中就包含控件 `webview`
 
-# 理解小程序中的 MVVM 架构
+## 十二、理解小程序中的 MVVM 架构
 
 Vue 的 MVVM 和小程序 MVVM 对比：
 
-<img src="NodeAssets/Vue的MVVM和小程序的MVVM对比.jpg" alt="Vue的MVVM和小程序的MVVM对比" style="zoom:150%;" />
+![Vue的MVVM和小程序的MVVM对比](NodeAssets/Vue的MVVM和小程序的MVVM对比.jpg)
 
 MVVM 为什么好用呢?
 
@@ -239,7 +241,7 @@ MVVM 为什么好用呢?
 
 MVVM 架构将我们从命令式编程转移到声明式编程。
 
-# 小程序的双线程模型
+## 十三、小程序的双线程模型
 
 谁是小程序的宿主环境呢？微信客户端.。
 
@@ -255,11 +257,11 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 - JS 脚本（app.js / home.js 等）运行于逻辑层，逻辑层使用 JsCore 运行 JS 脚本。
 - 这两个线程都会经由微信客户端（Native）进行中转交互。
 
-<img src="NodeAssets/小程序双线程吗模型.jpg" alt="小程序双线程吗模型" style="zoom:80%;" />
+![小程序双线程吗模型](NodeAssets/小程序双线程吗模型.jpg)
 
 了解 skyline 渲染引擎，目前是 Beta 版本。
 
-# 小程序的配置文件
+## 十四、小程序的配置文件
 
 小程序的很多开发需求被规定在了配置文件中。为什么这样做呢?
 
@@ -274,7 +276,7 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 - `app.json`：全局配置；
 - `page.json`：页面配置；
 
-# 全局配置文件 app.json
+## 十五、全局配置文件 app.json
 
 全局配置比较多, 我们这里将几个比较重要的. 完整的查看[官方文档](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html)
 
@@ -292,7 +294,7 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 - window: 全局的默认窗口展示
 - tabBar: 底部 tab 栏的展示
 
-## 配置一个 tabbar
+### 1.配置一个 tabbar
 
 ```json
 {
@@ -343,13 +345,13 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 }
 ```
 
-# 页面配置文件 page.json
+## 十六、页面配置文件 page.json
 
 每一个小程序页面也可以使用 `.json` 文件来对本页面的窗口表现进行配置。[官方文档](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/page.html)
 
 页面中配置项在当前页面会覆盖 `app.json` 的 `window` 中相同的配置项。
 
-## 配置上拉刷新和触底加载更多
+### 1.配置上拉刷新和触底加载更多
 
 pages / profile / index.json
 
