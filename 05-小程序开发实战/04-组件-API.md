@@ -1,11 +1,15 @@
-# 组件化开发
+# 组件-API
 
-## 页面（Page）调用组件中的方法
+## 一、组件化开发
 
-类似于 Vue 中使用 ref 拿到组件实例对象调用其中方法，小程序也可在页面中调用组件中的方法。
+### 1.页面（Page）调用组件中的方法
 
-- 可在父组件里调用 `this.selectComponent` ，获取子组件的实例对象。
-- 调用时需要传入一个匹配选择器 selector，如：`this.selectComponent(".my-component")`
+类似于 Vue 中使用 ref 拿到组件实例对象调用其中方法；
+
+小程序也可在页面中调用组件中的方法。
+
+- 在父组件里调用 `this.selectComponent` 方法，获取子组件的实例对象。
+- 需要传入一个匹配选择器 selector，如：`this.selectComponent(".my-component")`
 
 tab-control 组件
 
@@ -44,10 +48,11 @@ Page({
 index.wxml
 
 ```html
-<tab-control class="tab-control" /> <button bindtap="onExecTCMethod">调用TC方法</button>
+<tab-control class="tab-control" />
+<button bindtap="onExecTCMethod">调用TC方法</button>
 ```
 
-## Component 的插槽
+### 2.Component 的插槽
 
 slot 翻译为插槽：
 
@@ -66,9 +71,9 @@ slot 翻译为插槽：
 - 导航栏我们必然会封装成一个插件，比如 nav-bar 组件。
 - 一旦有了这个组件，我们就可以在多个页面中复用了。
 
-<img src="NodeAssets/什么是插槽？.jpg" alt="什么是插槽？" style="zoom:80%;" />
+![什么是插槽？](NodeAssets/什么是插槽？.jpg)
 
-### 单个插槽的使用。
+#### 1.单个插槽的使用
 
 前面我们学习了内容和样式在页面和组件之间的传递，那么在使用组件的过程中，外界可能想决定内容显示的方式：
 
@@ -88,6 +93,7 @@ components \ my-slot \ my-slot.wxml
     <!-- 预留一个插槽，小程序中插槽是不支持默认值的 -->
     <slot></slot>
   </view>
+
   <!-- 使用 .default 元素结合伪类 :empty 实现默认插槽的效果 -->
   <view class="default-content">哈哈哈哈</view>
   <view class="footer">Footer</view>
@@ -118,11 +124,11 @@ index.html
 </my-slot>
 ```
 
-### 多个插槽的使用
+#### 2.多个插槽的使用
 
 有时候为了让组件更加灵活, 我们需要定义多个插槽：
 
-- 在小程序中实现类似于 Vue 中具名插槽的效果。
+在小程序中，实现类似于 Vue 中具名插槽的效果。
 
 multi-slot 组件
 
@@ -166,7 +172,7 @@ index.html
 </mul-slot>
 ```
 
-## Component 的混入
+### 3.Component 的混入
 
 behaviors 是用于组件间代码共享的特性，类似于 Vue 中的 “mixins”。
 
@@ -216,13 +222,15 @@ components \ c-behavior \ c-behavior.wxml
 
 > 基础库版本 2.9.2 后，Page 也支持 behaviors
 
-## Component 的生命周期
+### 4.Component 的生命周期
 
 [官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/lifetimes.html)
 
-- 组件的生命周期，指的是组件自身的一些函数，这些函数在特殊的时间点或遇到一些特殊的框架事件时被自动触发。
-- 其中，最重要的生命周期是 `created`、`attached`、`detached` ，包含一个组件实例生命流程的最主要时间点。
-- 自小程序基础库版本 2.2.3 起，组件的的生命周期也可以在 `lifetimes` 字段内进行声明（这是推荐的方式，其优先级最高）。
+组件的生命周期，指的是组件自身的一些函数，这些函数在特殊的时间点或遇到一些特殊的框架事件时被自动触发。
+
+其中，最重要的生命周期是 `created`、`attached`、`detached` ，包含一个组件实例生命流程的最主要时间点。
+
+自小程序基础库版本 2.2.3 起，组件的的生命周期也可以在 `lifetimes` 字段内进行声明（这是推荐的方式，其优先级最高）。
 
 ```js
 Component({
@@ -240,7 +248,7 @@ Component({
 })
 ```
 
-## Component 所在页面的生命周期
+### 5.Component 所在页面的生命周期
 
 Component 所在页面的生命周期 [官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/lifetimes.html)
 
@@ -262,21 +270,21 @@ Component({
 })
 ```
 
-## Component 构造器，总结
+### 6.Component 构造器，总结
 
 Component 构造器，能传哪些 options？
 
-<img src="NodeAssets/Component构造器1.jpg" alt="Component构造器1" style="zoom:150%;" />
+![Component构造器1](NodeAssets/Component构造器1.jpg)
 
-<img src="NodeAssets/Component构造器2.jpg" alt="Component构造器2" style="zoom:150%;" />
+![Component构造器2](NodeAssets/Component构造器2.jpg)
 
-## Component 的数据侦听
+### 7.Component 的数据侦听
 
 Component 的 observers option [官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/observer.html)
 
-# 系统 API 调用
+## 二、系统 API 调用
 
-## 网络请求 API。
+### 1.网络请求 API
 
 微信提供了专属的 API 接口,用于网络请求: [wx.request](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)
 
@@ -288,7 +296,7 @@ Component 的 observers option [官方文档](https://developers.weixin.qq.com/m
 - `success`: 成功时的回调；
 - `fail`: 失败时的回调。
 
-### 基本使用
+#### 1.基本使用
 
 ```js
 wx.request({
@@ -303,7 +311,7 @@ wx.request({
 })
 ```
 
-### 使用函数进行封装
+#### 2.使用函数进行封装
 
 service \ index.js
 
@@ -344,7 +352,7 @@ ztRequest({
 // ...
 ```
 
-### 使用类进行封装
+#### 3.使用类进行封装
 
 service \ index.js
 
@@ -398,7 +406,7 @@ ztRequest
 > - 可定义在 data 中，直接使用 `this.data.xxx = xxx` 修改，
 > - 也可以直接定义在实例对象中，直接使用 `this.xxx = xxx` 修改。
 
-## 网络请求的域名配置
+### 2.网络请求的域名配置
 
 每个微信小程序需要事先设置通讯域名，小程序只可以跟指定的域名进行网络通信。
 
@@ -406,13 +414,20 @@ ztRequest
 
 - 域名只支持 `https` (`wx.request`、`wx.uploadFile`、`wx.downloadFile`) 和 `wss` (`wx.connectSocket`) 协议；
 - 域名不能使用 IP 地址（小程序的局域网 IP 除外）或 localhost；
-- 可以配置端口，如 https://myserver.com:8080，但是配置后只能向 https://myserver.com:8080 发起请求。如果向 https://myserver.com、https://myserver.com:9091 等 URL 请求则会失败。
-- 如果不配置端口。如 https://myserver.com，那么请求的 URL 中也不能包含端口，甚至是默认的 443 端口也不可以。如果 向 https://myserver.com:443 请求则会失败。
+- 可以配置端口，
+  - 如 `https://myserver.com:8080`
+  - 如果向 `https://myserver.com` 或 `https://myserver.com:9091` 等 URL 请求，则会失败。
+- 如果不配置端口。
+  - 如 `https://myserver.com`；
+  - 那么请求的 URL 中也不能包含端口；
+  - 甚至是默认的 443 端口也不可以。如果向 `https://myserver.com:443` 请求则会失败。
 - 域名必须经过 ICP 备案；
-- 出于安全考虑，[api.weixin.qq.com]() 不能被配置为服务器域名，相关 API 也不能在小程序内调用。 开发者应将 AppSecret 保存到后台服务器中，通过服务器使用 getAccessToken 接口获取 access_token，并调用相关 API；
+- 出于安全考虑，`api.weixin.qq.com` 不能被配置为服务器域名；
+  - 相关 API 也不能在小程序内调用。
+  - 开发者应将 AppSecret 保存到后台服务器中，通过服务器使用 getAccessToken 接口获取 access_token，再调用相关 API；
 - 不支持配置父域名，使用子域名。
 
-## 实现弹窗效果
+### 3.实现弹窗效果
 
 小程序中展示弹窗有四种方式:
 
@@ -433,7 +448,7 @@ wx.showToast({
 })
 ```
 
-<img src="NodeAssets/showToast.jpg" alt="showToast" style="zoom:100%;" />
+![showToast](NodeAssets/showToast.jpg)
 
 [wx.showModal](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html) 显示模态对话框
 
@@ -453,7 +468,7 @@ wx.showModal({
 })
 ```
 
-<img src="NodeAssets/showModal.jpg" alt="showModal" style="zoom:100%;" />
+![showModal](NodeAssets/showModal.jpg)
 
 [wx.showLoading](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showLoading.html) 显示 loading 提示框。需主动调用 `wx.hideLoading` 才能关闭提示框。
 
@@ -467,7 +482,7 @@ setTimeout(function () {
 }, 2000)
 ```
 
-<img src="NodeAssets/showLoading.jpg" alt="showLoading" style="zoom:100%;" />
+![showLoading](NodeAssets/showLoading.jpg)
 
 [wx.showActionSheet](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showActionSheet.html) 显示操作菜单。
 
@@ -483,9 +498,9 @@ wx.showActionSheet({
 })
 ```
 
-<img src="NodeAssets/showActionSheet.jpg" alt="showActionSheet1" style="zoom:100%;" />
+![showActionSheet1](NodeAssets/showActionSheet.jpg)
 
-## 分享功能
+### 4.分享功能
 
 分享是小程序扩散的一种重要方式，小程序中有两种分享方式：
 
@@ -508,9 +523,9 @@ onShareAppMessage() {
 }
 ```
 
-## 获取设备信息
+### 5.获取设备信息
 
-在开发中，我们需要经常获取当前设备的信息，用于手机信息或者进行一些适配工作。 小程序提供了相关 API：[wx.getSystemInfo](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemInfo.html)
+在开发中，我们经常需要获取当前设备的信息，用于手机信息或者进行一些适配工作。 小程序提供了相关 API：[wx.getSystemInfo](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemInfo.html)
 
 ```js
 wx.getSystemInfo({
@@ -520,16 +535,17 @@ wx.getSystemInfo({
 })
 ```
 
-## 获取位置信息
+### 6.获取位置信息
 
-- 开发中我们需要经常获取用户的位置信息，以方便给用户提供相关的服务： 我们可以通过 API 获取：[wx.getLocation](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html)
-- 对于用户的关键信息，需要在 app.json 中进行配置，如[获取用户的位置配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission)，最后得到用户的授权后才能获得：
+开发中，我们需要经常获取用户的位置信息，以方便给用户提供相关的服务： 我们可以通过 API 获取：[wx.getLocation](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html)
+
+对于用户的关键信息，需要在 app.json 中进行配置，如[获取用户的位置配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission)，最后得到用户的授权后才能获得：
 
 app.json
 
 ```json
 {
-  "pages": ["pages/index/index"],
+  "pages": ["pages/index/index],
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
@@ -538,7 +554,7 @@ app.json
 }
 ```
 
-<img src="NodeAssets/获取位置授权.jpg" alt="获取位置" style="zoom:100%;" />
+![获取位置](NodeAssets/获取位置授权.jpg)
 
 ```js
 wx.getLocation({
@@ -548,7 +564,7 @@ wx.getLocation({
 })
 ```
 
-## Storage 存储
+### 7.Storage 存储
 
 在开发中，常见地，我们需要将一部分数据存储在本地：比如 token、用户信息等。
 
@@ -586,11 +602,11 @@ wx.setStorage({
 })
 ```
 
-## 页面跳转
+### 8.页面跳转
 
 界面的跳转有两种方式：
 
-### 通过 wx 的 API 跳转
+#### 1.通过 wx 的 API 跳转
 
 有以下 API 支持页面跳转，或者说路由跳转：
 
@@ -622,7 +638,7 @@ index.html
 <button bindtap="onNavTap">跳转</button>
 ```
 
-### 通过 navigator 组件
+#### 2.通过 navigator 组件
 
 [navigator](https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html) 组件，`open-type` 默认值为 `navigate`
 
@@ -630,9 +646,9 @@ index.html
 <navigator class="nav" url="/pages2/detail/detail">跳转</navigator>
 ```
 
-### 跳转时传递数据
+#### 3.跳转时传递数据
 
-#### 方式一：
+**方式一：**
 
 在路径后面拼接。`?queryString`
 
@@ -666,7 +682,7 @@ Page({
 })
 ```
 
-#### 方式二：
+**方式二：**
 
 在小程序基础库 2.7.3 版本后支持 [EventChannel](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.html)，`wx.navigateTo` 成功的回调结果中，可获取 eventChannel 实例。
 
@@ -700,9 +716,9 @@ Page({
 })
 ```
 
-### 返回时传递数据
+#### 4.返回时传递数据
 
-#### 方式一：
+**方式一：**
 
 早期做法，通过 [getCurrentPages](https://developers.weixin.qq.com/miniprogram/dev/reference/api/getCurrentPages.html) 获取页面实例，并通过 `prePage.setData` 设值
 
@@ -721,6 +737,7 @@ Page({
     // 2.1. 获取到上一个页面的实例
     const pages = getCurrentPages()
     const prePage = pages[pages.length - 2]
+
     // 2.2.通过 setData 给上一个页面设置数据
     prePage.setData({ message: '呵呵呵' })
   },
@@ -743,9 +760,9 @@ Page({
 })
 ```
 
-<img src="NodeAssets/页面数据传递.jpg" alt="页面数据传递" style="zoom:150%;" />
+![页面数据传递](NodeAssets/页面数据传递.jpg)
 
-#### 方式二：
+**方式二：**
 
 在小程序基础库 2.7.3 `wx.navigateTo` 开始支持 `events` 参数，也可以用于数据的传递。
 
@@ -781,22 +798,23 @@ Page({
 })
 ```
 
-# 小程序用户登录
+## 三、小程序用户登录
 
-### 为什么需要用户登录
+### 1.为什么需要用户登录
 
 增加用户的粘性和产品的停留时间；
 
-### 认识小程序登录流程
+### 2.认识小程序登录流程
 
-<img src="NodeAssets/小程序登录流程.jpg" alt="小程序登录流程" style="zoom:150%;" />
+![小程序登录流程](NodeAssets/小程序登录流程.jpg)
 
-### openid 和 unionid
+### 3.openid 和 unionid
 
-- openid 用于在同一小程序中，识别唯一用户。
-- unionid 用于在微信生态（小程序，公众号等等）中，识别唯一用户。
+openid 用于在同一小程序中，识别唯一用户。
 
-### 用户静默登录
+unionid 用于在微信生态（小程序，公众号等等）中，识别唯一用户。
+
+### 4.用户静默登录
 
 1. 在 service 文件夹中，封装：
 
@@ -908,6 +926,6 @@ Page({
    })
    ```
 
-### 用户信息，手机号
+### 5.用户信息，手机号
 
-在上文 [button 组件](https://gitee.com/Zt2tzzt/front-end--engineering/blob/master/05-%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/02-App%E5%87%BD%E6%95%B0-Page%E5%87%BD%E6%95%B0-%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6-WXSS.md#button-%E7%BB%84%E4%BB%B6) 中回顾获取**用户信息**、**用户手机**号的方式
+在上文 [button 组件](https://gitee.com/Zt2tzzt/front-end--engineering/blob/master/05-%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/02-App%E5%87%BD%E6%95%B0-Page%E5%87%BD%E6%95%B0-%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6-WXSS.md#button-%E7%BB%84%E4%BB%B6) 中回顾获取**用户信息**、**用户手机**号的方式。
