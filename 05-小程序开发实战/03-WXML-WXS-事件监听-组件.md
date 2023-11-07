@@ -168,6 +168,7 @@ index.wxml
 #### 3.指定 item / index 的名称
 
 默认情况下，`item` / `index` 的名字是固定的：
+
 - 某些情况下，我们可能想使用其他名称；
 - 或者当出现多层遍历时，名字会重复，需要指定其它名称加以区分。
 
@@ -213,12 +214,13 @@ WXS 使用的限制和特点：
 - WXS 中只能写 **es5** 语法；
 - 由于运行环境的差异，在 iOS 设备上小程序内的 WXS 会比 JavaScript 代码快 2 ~ 20 倍。在 android 设备上二者运行效率无差异；
 
-> - 因为小程序采用的是双线程模型，所以在 mustache 中不能引用函数（如果这么设计，底层需要进行频繁的传递，会造成较大的性能损耗）
-> - wxs 运行在 webview 线程中。不要在其中做耗时操作，会影响性能。
+> 因为小程序采用的是双线程模型，所以在 mustache 中不能引用函数；
+>
+> - 如果这么设计，底层需要进行频繁的传递，会造成较大的性能损耗。
+>
+> wxs 运行在 webview 线程中。不要在其中做耗时操作，会影响性能。
 
-### 可写在 2 种位置
-
-#### 写在 `<wxs>` 标签中
+### 1.写在 `<wxs>` 标签中
 
 index.html
 
@@ -254,7 +256,7 @@ Page({
 })
 ```
 
-#### 写在 `.wxs` 结尾的文件中
+### 2.写在 `.wxs` 结尾的文件中
 
 index.html
 
@@ -267,6 +269,7 @@ index.html
     <view>name:{{ item.name }}-price:{{ format.formatPrice(item.price) }}</view>
   </block>
 </view>
+
 <view class="total">总价格: {{ format.calcPrice(books) }}</view>
 ```
 
@@ -293,20 +296,22 @@ module.exports = {
 }
 ```
 
-### `<wxs>` 标签的属性
+### 3.`<wxs>` 标签的属性
 
 | 属性名 | 类型   | 说明                                                                          |
 | ------ | ------ | ----------------------------------------------------------------------------- |
 | module | String | 模块名，必填字段                                                              |
 | src    | String | 引用 wxs 文件的相对路径，仅当本标签为**单闭合标签**或**标签的内容**为空时有效 |
 
-> - 每一个 .wxs 文件和 \<wxs\> 标签都是一个单独的模块。
-> - 每个模块都有自己独立的作用域。即在一个模块里面定义的变量与函数，默认为私有的，对其他模块不可见；
-> - 一个模块要想对外暴露其内部的私有变量与函数，只能通过 `module.exports` 实现；
+> 每一个 .wxs 文件和 \<wxs\> 标签都是一个单独的模块。
+>
+> 每个模块都有自己独立的作用域。即在一个模块里面定义的变量与函数，默认为私有的，对其他模块不可见；
+>
+> 一个模块要想对外暴露其内部的私有变量与函数，只能通过 `module.exports` 实现；
 
-### 案例练习
+### 4.案例练习
 
-#### 案例一：对播放量进行格式化
+#### 1.对播放量进行格式化
 
 utils \ format.wxs
 
@@ -343,7 +348,7 @@ index.wxml
 <view class="count">播放量: {{ format.formatCount(playCount) }}</view>
 ```
 
-#### 案例二：对歌曲时间进行格式化
+#### 2.对歌曲时间进行格式化
 
 utils \ format.wxs
 
@@ -383,9 +388,9 @@ index.wxml
 <view class="time"> {{ format.formatTime(currentTime) }}/{{ format.formatTime(duration) }} </view>
 ```
 
-## 事件处理
+## 三、事件处理
 
-### 事件的产生和处理
+### 1.事件的产生和处理
 
 什么时候会产生事件呢？
 
@@ -400,9 +405,9 @@ index.wxml
 - 事件是通过 `bind` / `catch` 这个属性绑定在组件上的；
 - 属性以 `bind` 或 `catch` 开头, 从 1.5.0 版本开始, 可以在 `bind` 和 `catch` 后加上一个冒号；
 - 同时在当前页面的 Page 构造器中定义对应的事件处理函数, 如果没有对应的函数, 触发事件时会报错；
-- 比如当用户点击该 button 区域时，达到触发条件生成事件 `tap`，该事件处理函数会被执行，同时还会收到一个事件对象 `event`。
+- 比如当用户点击该 button 区域时，达到触发条件，生成事件 `tap`，该事件处理函数会被执行，同时还会收到一个事件对象 `event`。
 
-### 基本使用
+### 2.基本使用
 
 index.js
 
@@ -421,7 +426,7 @@ index.wxml
 <button bindtap="onBtnTap">按钮</button>
 ```
 
-### 组件的事件类型
+### 3.组件的事件类型
 
 组件共有的事件类型，[官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html#%E4%BA%8B%E4%BB%B6%E5%88%86%E7%B1%BB)
 
@@ -430,14 +435,15 @@ index.wxml
 - 比如 input 有 `bindinput` / `bindblur` / `bindfocus` 等
 - 比如 scroll-view 有 `bindscrolltoupper` / `bindscrolltolower` 等
 
-### 事件对象 event
+### 4.事件对象 event
 
 当某个事件触发时, 会产生一个事件对象, 并且这个对象被传入到回调函数中, 事件对象有哪些常见的属性呢? [官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html#%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1)
 
-#### 属性 currentTarget 和 target 的区别（再次强调）
+#### 1.属性 currentTarget 和 target 的区别（再次强调）
 
-- `currentTarget` 是当前处理事件的对象。
-- `target` 是事件触发的对象。
+`currentTarget` 是当前处理事件的对象。
+
+`target` 是事件触发的对象。
 
 index.js
 
@@ -447,6 +453,7 @@ Paage({
     // 1.target - 触发事件的元素
     const name = event.target.dataset.name
     console.log(name) // undefined
+
     // 2.currentTarget - 处理事件的元素
     const name = event.currentTarget.dataset.name
     console.log(name) // zzt
@@ -462,10 +469,11 @@ index.wsml
 </view>
 ```
 
-#### 属性 touches 和 changedTouches 的区别（了解，很少用）
+#### 2.属性 touches 和 changedTouches 的区别（了解，很少用）
 
-- 在 `touchend` 事件对象中不同。
-- 多手指触摸时不同。
+在 `touchend` 事件对象中不同。
+
+多手指触摸时不同。
 
 index.js
 
@@ -493,11 +501,13 @@ index.wxml
 
 ![touches和changedTouches的区别](NodeAssets/touches和changedTouches的区别.jpg)
 
-### 事件参数的传递
+### 5.事件参数的传递
 
-当视图层发生事件时，某些情况需要事件携带一些参数到执行的函数中，在小程序中，目前有 2 种方式，实现事件参数传递。
+当视图层发生事件时，某些情况需要事件携带一些参数到执行的函数中，
 
-#### 通过 `data-*`
+在小程序中，目前有 2 种方式，实现事件参数传递。
+
+#### 1.`data-*`
 
 本质上是 HTML 中 DOM 元素对象的特性：
 
@@ -521,11 +531,11 @@ index.wxml
 </view>
 ```
 
-#### 通过属性 `mark:*`
+#### 2.`mark:*`
 
 小程序的特性。
 
-- 当涉及事件冒泡时，mark 会将值进行合并传递。不需要关心用 `target` 还是 `currentTarget`。
+当涉及事件冒泡时，mark 会将值进行合并传递。不需要关心用 `target` 还是 `currentTarget`。
 
 index.js
 
@@ -550,7 +560,7 @@ index.wxml
 </view>
 ```
 
-### TabControl 案例
+### 6.TabControl 案例
 
 index.js
 
@@ -605,7 +615,7 @@ index.wxss
 }
 ```
 
-### 事件捕获和冒泡
+### 7.事件捕获和冒泡
 
 当界面产生一个事件时，事件分为了捕获阶段和冒泡阶段。
 
@@ -648,7 +658,7 @@ Page({
 })
 ```
 
-#### catch 绑定
+#### 1.catch 绑定
 
 会阻止事件的冒泡，不会阻止事件捕获。
 
@@ -656,59 +666,73 @@ Page({
 <view class="view3" catchtap="onView3Tap"></view>
 ```
 
-## 组件化开发
+## 四、组件化开发
 
-### 认识小程序的组件化开发
+### 1.小程序的组件化开发
 
-- 小程序在刚刚推出时是不支持组件化的, 也是为人诟病的一个点：
-  - 但是从 v1.6.3 开始, 小程序开始支持自定义组件开发, 也让我们更加方便的在程序中使用组件化.
-- 组件化思想的应用：
-  - 有了组件化的思想，我们在之后的开发中就要充分的利用它。
-  - 尽可能的将页面拆分成一个个小的、可复用的组件。
-  - 这样让我们的代码更加方便组织和管理，并且扩展性也更强。
+小程序在刚刚推出时，是不支持组件化的,，也是为人诟病的一个点：
 
-### 创建一个组件
+从 v1.6.3 开始, 小程序支持自定义组件开发，也让我们更加方便的在程序中使用组件化.
 
-- 类似于页面，自定义组件由 json wxml wxss js 4 个文件组成。
-  - 按照我的个人习惯, 我们会先在根目录下创建一个文件夹 components, 里面存放我们之后自定义的公共组件；
-- 自定义组件的步骤：
-  1. 首先需要在 json 文件中进行自定义组件声明 `component: true`：
-  2. 在 wxml 中编写属于组件自己的模板
-  3. 在 wxss 中编写属于组件自己的样式
-  4. 在 js 文件中, 可以定义数据或组件内部的相关逻辑。
+组件化思想的应用：
 
-### 引用自定义组件
+- 有了组件化的思想，我们在之后的开发中就要充分的利用它。
+- 尽可能的将页面拆分成一个个小的、可复用的组件。
+- 这样让我们的代码更加方便组织和管理，并且扩展性也更强。
 
-- 除了在页面引用自定义组件，自定义组件也是可以引用自定义组件，引用方法：json 文件中使用 `usingComponents` 字段。
-- 自定义组件和页面所在项目根目录名，不能以“wx-”为前缀，否则会报错。
-- 如果在 `app.json` 的 `usingComponents` 声明某个组件，那么所有页面和组件可以直接使用该组件（全局注册，很少用）。
+### 2.创建一个组件
 
-### 组件的样式细节
+类似于页面，自定义组件由 json、wxml、wxss、js 等 4 个文件组成。
 
-- 课题一：组件内的样式对外部样式的影响
-  - 结论一：组件内的 class 样式，只对组件 wxml 内的节点生效，对于引用组件的 Page 页面不生效。
-  - 结论二：组件内使用 id 选择器、属性选择器、元素选择器会对外界产生影响）。
-- 课题二：外部样式对组件内样式的影响
-  - 结论一：外部使用 class 的样式，只对外部 wxml 节点生效，对组件内是不生效的 ；
-  - 结论二：外部使用了 id 选择器、属性选择器不会对组件内产生影响。
-  - 结论三：外部使用了元素选择器，会对组件内产生影响。
-- 课题三：如何让 class 可以相互影响
+按照我的个人习惯, 我们会先在根目录下创建一个文件夹 components, 里面存放我们之后自定义的公共组件；
 
-  - 在 Component 对象中，可以传入一个 `options` 属性，其中 `options` 属性中有一个 `styleIsolation`（隔离）属性。
-  - `styleIsolation` 有三个取值：
-    - `isolated` 表示启用样式隔离，在自定义组件内外，使用 class 指定的样式将不会相互影响（默认取值）；
-    - `apply-shared` 表示页面 wxss 样式将影响到自定义组件，但自定义组件 wxss 中指定的样式不会影响页面；
-    - `shared` 表示页面 wxss 样式将影响到自定义组件，自定义组件 wxss 中指定的样式也会影响页面。
+自定义组件的步骤：
 
-  ```js
-  Component({
-    options: {
-      styleIsolation: 'apply-shared'
-    }
-  })
-  ```
+1. 首先需要在 json 文件中进行自定义组件声明 `component: true`：
+2. 在 wxml 中编写属于组件自己的模板
+3. 在 wxss 中编写属于组件自己的样式
+4. 在 js 文件中, 可以定义数据或组件内部的相关逻辑。
 
-### 组件的通信
+### 3.引用自定义组件
+
+除了在页面引用自定义组件，自定义组件也是可以引用自定义组件的；
+
+- 引用方法：json 文件中使用 `usingComponents` 字段。
+
+自定义组件和页面所在项目根目录名，不能以“wx-”为前缀，否则会报错。
+
+如果在 `app.json` 的 `usingComponents` 声明某个组件，那么所有页面和组件，可以直接使用该组件（全局注册，很少用）。
+
+### 2.组件的样式细节
+
+课题一：组件内的样式对外部样式的影响
+
+- 结论一：组件内的 class 类选择器样式，只对组件 wxml 内的节点生效，对于引用组件的 Page 页面不生效。
+- 结论二：组件内使用 id 选择器、属性选择器、元素选择器会对外界产生影响）。
+
+课题二：外部样式对组件内样式的影响
+
+- 结论一：外部使用 class 类选择器的样式，只对外部 wxml 节点生效，对组件内是不生效的 ；
+- 结论二：外部使用了 id 选择器、属性选择器不会对组件内产生影响。
+- 结论三：外部使用了元素选择器，会对组件内产生影响。
+
+课题三：如何让 class 可以相互影响
+
+- 在 Component 对象中，传入一个 `options` 属性，其中有一个 `styleIsolation`（隔离）属性。
+- `styleIsolation` 有三个取值：
+  - `isolated` 表示启用样式隔离，在自定义组件内外，使用 class 指定的样式将不会相互影响（默认取值）；
+  - `apply-shared` 表示页面 wxss 样式将影响到自定义组件，但自定义组件 wxss 中指定的样式不会影响页面；
+  - `shared` 表示页面 wxss 样式将影响到自定义组件，自定义组件 wxss 中指定的样式也会影响页面。
+
+```js
+Component({
+  options: {
+    styleIsolation: 'apply-shared'
+  }
+})
+```
+
+### 4.组件的通信
 
 很多情况下，组件内展示的内容（数据、样式、标签），并不是在组件内写死的，而是可以由使用者来决定。
 
