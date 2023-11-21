@@ -1006,8 +1006,11 @@ const clickbtn = () => emit('increment', 1000000)
 
 ## defineExpose 的使用
 
-- 使用 \<script setup\> 的组件是默认关闭的：通过模板 `ref` 或者 `$parent` 链获取到的组件的公开实例，不会暴露任何在 \<script setup\> 中声明的绑定；
-- 通过 `defineExpose` 编译器宏来显式指定在 \<script setup\> 组件中要暴露出去的 property：
+使用 `<script setup>` 的组件是默认关闭的：
+
+- 通过模板 `ref` 或者 `$parent` 链获取到的组件的公开实例，不会暴露任何在 `<script setup>` 中声明的绑定；
+
+通过 `defineExpose` 编译器宏，来显式指定在 `<script setup>` 组件中要暴露出去的 `property`：
 
 子组件 Home.vue
 
