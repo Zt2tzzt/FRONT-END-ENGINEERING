@@ -138,6 +138,7 @@ v-model 可在以下表单元素上使用：
 ### 2.v-model 结合值绑定
 
 目前，我们在前面的案例中，大部分的值都是在 `<template>` 中固定好的：
+
 - 比如 gender 的两个输入框值 male、female；
 - 比如 hobbies 的四个输入框值 sing, jump, rap, basketball；
 
@@ -300,7 +301,7 @@ Vue 的组件化开发的理解。
 - 组件化提供了一种抽象，可以开发出一个个独立可复用的小组件来构建应用。
 - 任何应用都会被抽象成一颗组件树。
 
-<img src="NodeAssets/Vue的组件化开发.jpg" alt="Vue的组件化开发" style="zoom:80%;" />
+![Vue的组件化开发](NodeAssets/Vue的组件化开发.jpg)
 
 注册组件的 2 种形式。
 
@@ -320,7 +321,7 @@ Vue 的组件化开发的理解。
   <div id="app">
     <!-- 在 HTML 文件中无法使用这种写法，大小写不敏感 -->
     <HomeNav></HomeNav>
-      
+
     <!-- 在 HTML 文件中，应该使用连字符写法 -->
     <home-nav></home-nav>
     <product-item></product-item>
@@ -428,7 +429,7 @@ Vue 的组件化开发的理解。
         }
       }
     }
-    
+
     const app = Vue.createApp({
       // components: option api
       components: {
@@ -517,8 +518,8 @@ vue create [项目的名称] ## 使用它创建项目
 ```shell
 Vue CLI v4.5.15
 ? Please pick a preset: (Use arrow keys)  ## 选择预设
-	Default ([Vue 2] babel, eslint) ## 选择 vue2 的版本，默认选择 babel 和 eslint
-	Default (Vue 3) ([Vue 3] babel, eslint) ## 选择 vue3 版本，默认选择 babel 和 eslint
+  Default ([Vue 2] babel, eslint) ## 选择 vue2 的版本，默认选择 babel 和 eslint
+  Default (Vue 3) ([Vue 3] babel, eslint) ## 选择 vue3 版本，默认选择 babel 和 eslint
 > Manually select features ## 手动选择希望获取到的特性
 ```
 
@@ -541,20 +542,20 @@ Vue CLI v4.5.15
 ```shell
 ? Where do you prefer placing config for Babel, ESLint, etc.? (Use arrow keys) ## 设置单独的配置文件，还是统一将配置放在 package.json
 > In dedicated config files
-	In package.json
+  In package.json
 ```
 
 理解项目的目录结构。
 
-```
+```shell
 public // 项目的一些资源
-	-favicon.ico
-	-index.html
+  -favicon.ico
+  -index.html
 src // 所有的源代码
-	-assets
-	-components
-	-App.vue
-	-main.js
+  -assets
+  -components
+  -App.vue
+  -main.js
 .browserslistrc // 设置目标浏览器，会去 caniuse 网站查询满足适配条件的浏览器。
 jsconfig.json // 用于给编辑器如 VSCode 更好的提示
 ...

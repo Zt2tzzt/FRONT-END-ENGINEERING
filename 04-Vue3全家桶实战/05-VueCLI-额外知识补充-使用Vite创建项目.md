@@ -1,19 +1,26 @@
-# VueCLI 的运行原理
+# VueCLI-SFC-使用 Vite 创建项目
 
-1. 执行命令 npm run serve ->
-2. 执行命令 vue-cli-service serve ->
-3. 找到并执行 node_modules/.bin/vue-cli-service ->
-4. 找到并执行 @vue/cli-service ->
-5. 经过一系列操作加载 webpack 配置 ->
-6. 启动 devServer 服务器。
+## 一、VueCLI 的运行原理
 
-<img src="NodeAssets/Vue CLI运行原理.jpg" alt="Vue CLI 运行原理" style="zoom:80%;" />
+1.执行命令 npm run serve ->
 
-# 额外知识补充
+2.执行命令 vue-cli-service serve ->
 
-在 vue.config.js 中配置 resolve 别名。
+3.找到并执行 node_modules/.bin/vue-cli-service ->
 
-- “@”是 Vue 默认已经配置好的路径别名: 对应的是 src/ 路径
+4.找到并执行 @vue/cli-service ->
+
+5.经过一系列操作加载 webpack 配置 ->
+
+6.启动 devServer 服务器。
+
+![Vue CLI 运行原理](NodeAssets/Vue CLI运行原理.jpg)
+
+## 二、Vue 的配置文件
+
+在 `vue.config.js` 中，配置 `resolve` 别名。
+
+“@”是 Vue 默认已经配置好的路径别名: 对应的是 src/ 路径
 
 ```js
 const { defineConfig } = require('@vue/cli-service')
@@ -31,8 +38,6 @@ module.exports = defineConfig({
 ```
 
 > 修改配置文件后，项目要重新运行。
-
----
 
 在 jsconfig.josn 中配置 VSCode 的路径提示。了解其它选项的作用。
 
@@ -58,81 +63,82 @@ module.exports = defineConfig({
 }
 ```
 
----
+## 三、Vue 的渲染流程
 
-理解 Vue 的渲染流程。
+template -> (compiler 模块) -> createVNode 函数 -> VNode -> 虚拟 DOM -> 真实 DOM
 
-- template -> (compiler 模块) -> createVNode 函数 -> VNode -> 虚拟 DOM -> 真实 DOM
-- vue-loader 完成了 template 转换到 createVNode 函数的编译过程。
-- 在非脚手架（没有 vue-loader 参与打包）的环境中，需要 Vue 的源码来完成上面的编译 compiler 过程，即需要引入非 runtime 版本的 Vue 源码，如 `vue.esm-buldel.js`。
+vue-loader 完成了 `<template>` 转换到 `createVNode` 函数的编译过程。
 
----
+在非脚手架（没有 vue-loader 参与打包）的环境中；
 
-vue 的 sfc 文件 css 作用域的理解
+需要 Vue 的源码来完成上面的编译（compiler）过程，即需要引入非 runtime 版本的 Vue 源码，如 `vue.esm-buldel.js`。
 
-- style 标签加上 scoped 可以防止样式污染（穿透）。
+## 四、SFC CSS 作用域
 
-  ```vue
-  <style scoped></style>
-  ```
+style 标签加上 scoped 可以防止样式污染（穿透）。
 
-- 文件打包后通过给组件加上一个特殊的属性如 “data-v-f23aade0”，来防止样式穿透。
+```vue
+<style scoped></style>
+```
 
-  > 然而，组件要是没有根元素，或使用的是元素选择器添加样式，可能还是会出现穿透效果。
-  >
-  > 所以在开发中，一般推荐给组件**加上根元素**，**通过 class 来给样式**。
+文件打包后，通过给组件加上一个特殊的属性如 “data-v-f23aade0”，来防止样式穿透。
 
-# Vite 创建项目（一）
+> 然而，组件要是没有根元素，或使用的是元素选择器添加样式，可能还是会出现穿透效果。
+>
+> 所以在开发中，一般推荐给组件**加上根元素**，**通过 class 来给样式**。
+
+## 五、Vite 创建项目
+
+方式一：
 
 如何使用 vite 脚手架来创建项目：
 
-- 直接使用 vite 脚手架创建项目，可创建 vue，react 等等项目：
+直接使用 vite 脚手架创建项目，可创建 vue，react 等等项目：
 
-  ```shell
-  npm init @vitejs/app
-  ```
+```shell
+npm init @vitejs/app
+```
 
-- 先安装 vite 脚手架，再创建项目：
+先安装 vite 脚手架，再创建项目：
 
-  ```shell
-  npm install @vitejs/create-app -g
-  create-app
-  ```
+```shell
+npm install @vitejs/create-app -g
+create-app
+```
 
-# Vite 创建项目（二）（推荐）
-
-使用 Vite 初始化 Vue 项目的第二种方式（一步到位的写法，官方推荐）：
+方式二：（一步到位的写法，官方推荐）：
 
 ```shell
 npm init vue@latest
 ```
 
-1. 首先要知道，能执行上面的命令，代表远程仓库已有 `create-vue` 工具，
-2. 会安装一个本地工具 create-vue。
-3. 再使用 create-vue 创建一个 vue 项目
-4. 创建出的项目会通过 vite 打包
+1.首先要知道，能执行上面的命令，代表远程仓库已有 `create-vue` 工具，
 
-# 什么是 Vite
+2.会安装一个本地工具 create-vue。
 
-vite 的定位：下一代构建工具；vite 的发音：/vit/；vite 由两部分组成：
+3.再使用 create-vue 创建一个 vue 项目
+
+4.创建出的项目会通过 vite 打包
+
+## 六、Vite 是什么
+
+vite（发音：/vit/；）的定位：下一代构建工具；
+
+vite 由两部分组成：
 
 - 一个开发服务器，基于原生 ES 模块，提供了丰富的内建功能。HMR 的速度非常快。
 - 一套构建指令，它使用 rollup 打开代码，并且是预配置的，可输出优化后的静态资源。
 
----
-
 现在大部分新的浏览器，都已支持 ES6+ 语法和 ES 模块化，vite 只需帮助我们解决 2 点问题：
 
-- 引入第三方依赖如 lodash，加载了上百个 js 代码，对于浏览器是巨大消耗（打包代码）。
-- 代码中有 Typescript，less，vue 等代码时，浏览器并不能直接识别（预处理器）。
+- 问题一：项目在引入第三方依赖如 lodash 时，加载了上百个 js 代码，对于浏览器是巨大消耗（打包代码）。
+- 问题二：代码中有 Typescript，less，vue 等代码时，浏览器并不能直接识别（预处理器）。
 
----
+vite 依赖 Node 环境，Node 版本 >= 12.0.0
 
-vite 依赖 Node 环境，Node 版本要 >= 12.0.0
+## 七、vite 的使用
 
-# vite 的使用（一）：
-
-## 安装
+### 1.vite 安装
 
 ```shell
 npm install vite -g
@@ -153,89 +159,88 @@ npx vite
 
 ---
 
-## css 支持
+### 2.css 支持
 
 vite 对 css 的默认支持，直接导入 css 即可。
 
-## less 支持
+### 3.less 支持
 
 vite 对 less 的支持步骤：
 
-1. 安装 less 编译器
+1.安装 less 编译器
 
-   ```shell
-   npm install less -D
-   ```
+```shell
+npm install less -D
+```
 
-2. 直接导入 less 即可
+2.直接导入 less 即可
 
-## postcss 支持
+### 3.postcss 支持
 
 vite 对 postcss 的支持步骤：
 
-1. 安装 postcss，和预设
+1.安装 `postcss` 和预设：
 
-   ```shell
-   npm install postcss postcss-preset-env -D
-   ```
+```shell
+npm install postcss postcss-preset-env -D
+```
 
-2. 在 `postcss.config.js` 中配置 postcss：
+2.在 `postcss.config.js` 中配置 postcss：
 
-   ```javascript
-   module.exports = {
-     plugins: {
-       require('postcss-preset-env')
-     }
-   }
-   ```
+```javascript
+module.exports = {
+  plugins: {
+    require('postcss-preset-env')
+  }
+}
+```
 
-## TypeScript 支持
+### 4.TypeScript 支持
 
-Vite 对 TypeScript 的支持：原生支持，会直接使用 ESBuild 来完成编译：直接导入 ts 即可。
+Vite 对 TypeScript 原生支持，会直接使用 ESBuild 来完成编译：直接导入 ts 即可。
 
-# vite 原理
+### 5.vite 本地服务的原理
 
 理解 vite 的原理（ vite2 中不再使用 Koa 作为服务器）
 
 1. 浏览器发送请求给 vite 中的 Connect 服务器。
 2. Connect 服务器对请求进行转发。
-3. 给浏览器返回编译后的代码，浏览器可直接解析（比如，浏览器中获取的仍是 .ts 结尾的代码文件，但里面的代码是 js 的语法）。
+3. 给浏览器返回编译后的代码，浏览器可直接解析；
+   - 比如，浏览器中获取的仍是 .ts 结尾的代码文件，但里面的代码是 js 的语法）。
 
-# vite 的使用（二）
-
-## Vue 的支持
+### 6.Vue 支持
 
 vite 对 vue 提供的 3 种版本的支持。
 
-- vue3 的 SFC 支持：@vitejs/plugin-vue
-- vue3 的 JSX 支持：@vitejs/plugin-vue-jsx
-- Vue2 的支持：underfin/vite-plugin-vue2
+- vue3 的 SFC 支持：要用到 @vitejs/plugin-vue 插件；
+- vue3 的 JSX 支持：要用到 @vitejs/plugin-vue-jsx 插件；
+- vue2 的支持：要用到 underfin/vite-plugin-vue2 插件。
 
 vite 对 vue3 的 SFC 打包的步骤：
 
-1. 安装 vite 插件 @vitejs/plugin-vue：
+1.安装 vite 插件 @vitejs/plugin-vue：
 
-   ```shell
-   npm install @vitejs/plugin-vue -D
-   ```
+```shell
+npm install @vitejs/plugin-vue -D
+```
 
-2. 安装 vue 插件 @vue/compiler-sfc
+2.安装 vue 插件 @vue/compiler-sfc
 
-   ```shell
-   npm install @vue/compiler-sfc -D
-   ```
+```shell
+npm install @vue/compiler-sfc -D
+```
 
-3. 在`vite.config.js`中配置插件
+3.在`vite.config.js`中配置插件
 
-   ```javascript
-   import vue from '@vitejs/plugin-vue'
+```javascript
+import vue from '@vitejs/plugin-vue'
 
-   module.exports = {
-     plugins: [vue()]
-   }
-   ```
+module.exports = {
+  plugins: [vue()]
+}
+```
 
-## 打包、预览
+### 7.打包、预览
 
 vite 的打包操作：
 
@@ -243,7 +248,7 @@ vite 的打包操作：
 npx vite build
 ```
 
-vite 的预览操作：(开启一个本地服务来预览打包后的效果)
+vite 的预览操作：(开启一个本地服务，来预览打包后的效果)
 
 ```shell
 npx vite preview
@@ -265,12 +270,12 @@ npx vite preview
 >
 > 为验证打包后部署到服务器上的项目，和本地开启服务的项目环境一致，可以使用 `preview` 命令进行预览。
 
-# 认识 ESBuild
+## 八、认识 ESBuild
 
-ESBuild 特点：（有 babel 的功能，同时也兼顾一些 webpack 的功能）
+ESBuild 特点（有 babel 的功能，同时也兼顾一些 webpack 的功能）：
 
 - 超快构建速度，且不需要缓存。
-- 支持 ES 和 CommonJS 模块化（webpack）
+- 支持 ES Module 和 CommonJS 模块化（webpack）
 - 支持 ES6 的 Tree Shaking（webpack）
 - 支持 Go、JavaScript 的 API（babel 不支持 Go）
 - 支持 TypeScript、JSX 等语法编译（babel）
