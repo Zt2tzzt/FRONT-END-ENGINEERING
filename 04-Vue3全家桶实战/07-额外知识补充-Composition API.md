@@ -1,31 +1,37 @@
-# 非父子组件通信
+# 组件通信-生命周期-Composition API
+
+## 一、非父子组件通信
 
 非父子组件通信两种方式。
 
 - Provide / Inject
 - Mitt 全局事件总线
 
-## Provide & Inject
+### 1.Provide & Inject
 
-provide 和 inject 使用的场景：
+`provide` 和 `inject` 使用的场景：
 
 - 深度嵌套的组件，子组件想要获取父组件中的内容。
 - 用的不多，一般会用状态管理插件（Vuex，Pinia）替代这种方案。
 
-<img src="NodeAssets/Project&inject的使用场景.jpg" alt="Project&inject的使用场景" style="zoom:50%;" />
+![Project&inject的使用场景](NodeAssets/Project&inject的使用场景.jpg)
 
-provide 和 inject 如何使用 3 点描述：
+`provide` 和 `inject` 如何使用？
 
 1. 无论层级结构多深，父组件都可以作为其所有子组件的依赖提供者。
-2. 父组件用 provide 选项提供数据。
-3. 子组件用 inject 选项使用数据。
+2. 父组件用 `provide` 选项提供数据。
+3. 子组件用 `inject` 选项使用数据。
 
-provide 和 inject 可看作 “long range props”，2 点理解。
+`provide` 和 `inject` 可看作 “long range props”；
 
-1. 父组件不需要知道哪些子组件使用 provide 的 properties。
-2. 子组件不需要知道 inject 的 properties 来自哪里。
+- 父组件不需要知道哪些子组件使用 `provide` 的 `properties`。
+- 子组件不需要知道 `inject` 的 `properties` 来自哪里。
 
-Provide / Inject 基本使用；provide 的函数写法；处理响应式数据（需要解包）。
+Provide / Inject 基本使用；
+
+provide 的函数写法；
+
+处理响应式数据（需要解包）。
 
 父组件：App.vue
 
@@ -68,11 +74,13 @@ export default {
 </script>
 ```
 
-> 不能在对象写法的 provide 中使用 this，因为 vue 的 sfc 文件中，\<script\> 标签中的代码会按照 Node 模块化打包，所以其中全局 this 指向 undefined。
+> 不能在对象写法的 provide 中，使用 this，
+>
+> 因为在 vue 的 sfc 文件中，`<script>` 标签里的代码，会使用 Node 环境进行模块化打包，所以全局 `this` 指向 `undefined`。
 >
 > computed API 中传入的是 get 函数，并且要用箭头函数。
 >
-> computed 返回的是一个 ref 对象，需要使用 value 拿到值（解包）。
+> computed 返回的是一个 ref 对象，需要使用 `value` 拿到值（解包）。
 
 孙子组件：HomeBanner.vue
 
@@ -90,15 +98,15 @@ export default {
 </script>
 ```
 
-## 事件总线
+### 2.全局事件总线
 
-事件总线的使用，
+为了使框架功能专一，Vue3 移除了实例上的 `$on`, `$off`, `$once` 方法；
 
-- 为了使框架功能专一，Vue3 移除了实例上的 `$on`, `$off`, `$once` 方法，官方推荐用第三方库实现全局事件总线，如 `mitt` 库或 `tiny-emitter` 库。
+官方推荐用第三方库，实现全局事件总线，如 *mitt* 库或 *tiny-emitter* 库。
 
-- 这里介绍 hy-event-store 库，它是一个轻量级的库，可以实现事件总线和状态管理的功能，
+这里介绍 *hy-event-store* 库，它是一个轻量级的库，可以实现事件总线和状态管理的功能，
 
-hy-event-store 基本使用
+*hy-event-store* 基本使用：
 
 1. 安装 hy-evnet-store
 
@@ -168,22 +176,23 @@ hy-event-store 基本使用
    </script>
    ```
 
-# 生命周期
+## 二、生命周期
 
-认识生命周期。
+生物学上，生物生命周期指的是，一个生物体，在生命开始到结束周而复始，所历经的一系列变化过程；
 
-1. 生物学上，生物生命周期指得是一个生物体在生命开始到结束周而复始所历经的一系列变化过程；
-2. 在 Vue 中每个组件都可能会经历从创建、挂载、更新、卸载等一系列的过程；
-3. 在这个过程中的某一个阶段，我们可能会想要添加一些属于自己的代码逻辑（比如组件创建完后就请求一些服务器数据）；
-4. 但是我们如何可以知道目前组件正在哪一个过程呢？Vue 给我们提供了组件的生命周期函数；
+在 Vue 中每个组件，都会经历从创建、挂载、更新、卸载等一系列的过程；
 
-<img src="NodeAssets/Vue的生命周期.jpg" alt="Vue的生命周期" style="zoom:150%;" />
+在这些过程中，某一个阶段，我们可能会想要添加一些属于自己的代码逻辑（比如：组件创建完后就请求一些服务器数据）；
 
-生命周期函数是什么。
+但是，我们如何可以知道目前组件正在哪一个过程呢？Vue 给我们提供了组件的生命周期函数；
 
-1. 生命周期函数是一些钩子函数（回调函数），在某个时间会被 Vue 源码内部进行回调；
-2. 通过对生命周期函数的回调，我们可以知道目前组件正在经历什么阶段；
-3. 那么我们就可以在该生命周期中编写属于自己的逻辑代码了；
+![Vue的生命周期](NodeAssets/Vue的生命周期.jpg)
+
+生命周期函数，是一些钩子函数（回调函数），在某个时间会被 Vue 源码内部进行回调；
+
+通过对生命周期函数的回调，可以知道目前组件正在经历什么阶段；
+
+那么我们就可以在该生命周期中编写属于自己的逻辑代码了；
 
 基本使用
 
@@ -234,18 +243,19 @@ export default {
 </script>
 ```
 
-# 在 Vue 中获取 DOM 对象
+## 三、Vue 中获取 DOM 对象
 
-在 Vue 开发中不推荐进行原生 DOM 操作；
+在 Vue 开发中，不推荐进行原生 DOM 操作；
 
-1. 如果一定要获取 DOM。这个时候，我们可以给元素或者组件绑定一个 `ref` 的 attribute 属性；
-2. 再通过 `this.$refs` 来获取元素 DOM 对象。
+如果一定要获取 DOM。可以给元素或者组件，绑定一个 `ref` 的 attribute 属性；
 
-$refs 的使用步骤：
+再通过 `this.$refs` 来获取元素 DOM 对象。
+
+`$refs` 的使用步骤：
 
 1. 给元素或组件绑定一个 `ref` 的 attribute。
-2. 在组件实例中使用 $refs，它是一个对象，持有注册过 ref attribute 的所有 DOM 元素和子组件实例。
-3. 元素会返回它本身，组件会返回一个 Proxy 且可以访问其中 data 定义的变量，调用 methods 中的方法。
+2. 在组件实例中，使用 `$refs`，它是一个对象，持有注册过 `ref` attribute 的所有 DOM 元素和子组件实例。
+3. 元素会返回它本身，组件会返回一个 Proxy 且可以访问其中 `data` 定义的变量，调用 `methods` 中的方法。
 
 父组件 App.vue
 
@@ -275,19 +285,21 @@ export default {
     changeTitle() {
       // 1.在 Vue 中，不要使用原生方法去获取 DOM，并且修改 DOM 内容
       /* const titleEl = document.querySelector('.title')
-				title.textContent = '你好啊，李银河' */
+      title.textContent = '你好啊，李银河' */
 
-      // 2.获取 h2/button DOM 对象
+      // 2.获取 h2 / button DOM 对象
       console.log(this.$refs.title)
       console.log(this.$refs.btn)
 
       // 3.获取 banner 组件: 组件实例
       console.log(this.$refs.banner)
+
       // 3.1.在父组件中可以主动的调用子组件的对象方法
       this.$refs.banner.bannerClick()
+
       // 3.2.获取 banner 中的根元素
       console.log(this.$refs.banner.$el)
-      // 3.3.如果 banner template 是多个根, 拿到的是第一个 node 节点，一般是 text 文本节点，需要通过元素导航去拿到多个根节点中的某一个。
+      // 3.3.如果 banner template 是多个根, 拿到的是第一个 node 节点，一般是 text 文本节点，需要通过元素导航，去拿到多个根节点中的某一个。
       console.log(this.$refs.banner.$el.nextElementSibling)
       // 注意: 开发中不推荐一个组件的 template 中有多个根元素
 
@@ -303,7 +315,7 @@ export default {
 > 理解组件和组件实例（Instance）的关系，会不会出现一个组件有多个父组件的情况？
 >
 > - 不会，我们写一个.vue 组件，是在写一个组件描述，真正使用时，会创建出一个组件实例。
-> - 组件实例，不等于组件导出的对象，Vue 通过导出的对象创建组件实例 Instance，组件导出的对象的功能类似于 class 类。
+> - 组件实例，不等于组件导出的对象，Vue 通过导出的对象，创建组件实例 Instance，组件导出的对象的功能类似于 class 类。
 
 子组件 Banner.vue
 
@@ -325,26 +337,25 @@ export default {
 </script>
 ```
 
-`$parent` 和 `$root` 的使用。Vue3 中已移除 `$children`。
+`$parent` 和 `$root` 的使用。
 
 - $parent：用来访问父组件。
 - $root：用来访问根组件。
 
 不推荐使用，使用时耦合性太强。
 
-# 内置 Component 组件
+Vue3 中已移除 `$children`。
+
+## 四、`<Component>` 内置组件
 
 在学习路由（router）之前，切换组件的 2 种方式。
 
-1. 通过 v-if 来判断，显示不同组件。
-2. 动态组件（内置组件 Component）的方式
+- 方式一：通过 `v-if` 来判断，显示不同组件。
+- 方式二：动态组件（Component 内置组件）的方式
 
-内置动态组件 Component 的使用。组件通信与普通父子组件无差别。
+Component  内置动态组件。组件之间通信，与普通父子组件无差别。
 
-- 通过一个特殊的 attribute `is` 来实现。
-- is 最好使用 v-bind 动态绑定，它的值可以是 2 种。
-  - 注册的全局组件名。
-  - 注册的局部组件名。
+通过一个特殊的 attribute `is` 来实现。is 最好使用 `v-bind` 动态绑定，它的值可以是 2 种。注册的全局组件名，或者局部组件名。
 
 父组件 App.vue
 
@@ -399,6 +410,7 @@ export default {
       <template v-else-if="currentIndex === 2">
         <category></category>
       </template>
+
       <!-- 2.第二种做法: 动态组件 component -->
       <!-- is 中的组件需要来自两个地方: 1.全局注册的组件 2.局部注册的组件 -->
       <!-- <component :is="tabs[currentIndex]"></component> -->
@@ -449,14 +461,13 @@ export default {
 <style scoped></style>
 ```
 
-> 使用 component 时，父子组件通信的方式与之前的不变
+> 使用 component 时，父子组件通信的方式，与之前的不变。
 
-# 内置 keep-alive 组件
+## 五、`<keep-alive>` 内置组件
 
-内置 keep-alive 组件的使用场景。
+默认情况下，组件切换后会被销毁，切换回来会重新创建组件；
 
-- 默认情况下，组件切换后会被销毁，切换回来会重新创建组件；
-- 如果希望保持组件的状态，则需要使用 keep-alive。
+如果希望保持组件的状态，则需要使用 `<keep-alive>` 内置组件。
 
 父组件 App.vue
 
@@ -496,7 +507,7 @@ export default {
       </template>
     </div>
     <div class="view">
-      <!-- include: 组件的名称来自于组件定义时 name 选项，逗号后不能加空格 -->
+      <!-- include: 组件的名称，来自于组件定义时 name 选项，逗号后不能加空格 -->
       <keep-alive include="home,about">
         <component :is="currentTab"></component>
       </keep-alive>
@@ -549,11 +560,11 @@ export default {
 <style scoped></style>
 ```
 
-keep-alive 的属性
+keep-alive 的属性可传值类型：
 
-- include - string | RegExp | Array。只有名称匹配的组件会被缓存；
-- exclude - string | RegExp | Array。任何名称匹配的组件都不会被缓存；
-- max - number | string。最多可以缓存多少组件实例，一旦达到这个数字，那么缓存组件中最近没有被访问的实例会被销毁；
+- `include` - string | RegExp | Array。只有名称匹配的组件，会被缓存；
+- `exclude` - string | RegExp | Array。任何名称匹配的组件，都不会被缓存；
+- `max - number` | string。最多可以缓存多少组件实例，一旦达到这个数字，那么缓存组件中最近没有被访问的实例会被销毁；
 
 > keep-alive 中属性 include / exclude 实际上匹配的是组件中设置属性 `name` 选项值。
 
@@ -562,7 +573,7 @@ keep-alive 的属性
 - 但是有时候我们确实希望监听到何时重新进入到了组件，何时离开了组件；
 - 这个时候我们可以使用 `activated` 和 `deactivated` 这两个生命周期钩子函数来监听；
 
-# webpack 代码分包
+## webpack 代码分包
 
 webpack 的代码分包理解。
 
@@ -598,7 +609,7 @@ webpack 代码分包的简单实现：在 JS 代码中使用 ESModule 的异步�
 import('./utils/math').then(res => console.log(res.sum(20, 30)))
 ```
 
-# Vue 中实现异步组件
+## Vue 中实现异步组件
 
 vue 中异步组件的使用场景：项目过大，对于某些组件我们希望通过异步的方式来进行加载，目的是可以对其进行分包处理。
 
@@ -655,7 +666,7 @@ const AsyncHome = defineAsyncComponent({
 
 打包后的 dist 目录理解同上。
 
-# Suspense 内置组件（实验性特性）
+## Suspense 内置组件（实验性特性）
 
 Suspense 是一个内置的全局组件，该组件有 2 个插槽并介绍：
 
@@ -688,7 +699,7 @@ Suspense 与异步组件的结合使用：
 </script>
 ```
 
-# 组件 v-model
+## 组件 v-model
 
 组件的 v-model 的使用。绑定多个属性。
 
@@ -699,7 +710,7 @@ Suspense 与异步组件的结合使用：
 2. 如果我们现在封装了一个组件，其他地方在使用这个组件时，是否也可以使用 v-model 来同时完成这两个功能呢？
 3. 也是可以的，vue 也支持在组件上使用 v-model；
 
-## 基本使用：
+### 基本使用：
 
 父组件 App.vue
 
@@ -742,7 +753,7 @@ export default {
 </script>
 ```
 
-## 使用 computed 处理
+### 使用 computed 处理
 
 父组件 App.vue
 
@@ -788,16 +799,16 @@ export default {
 </script>
 ```
 
-## 绑定多个值的使用：
+### 绑定多个值的使用：
 
 App.vue
 
 ```vue
 <template>
-  <!-- 
+  <!--
 		v-model:title 做了2件事：
       1.使用 v-bind 绑定了 title 属性。:title
-      2.使用 v-on 监听了 update:title 的事件。@update:title=“newValue => title = newValue” 
+      2.使用 v-on 监听了 update:title 的事件。@update:title=“newValue => title = newValue”
   -->
   <MyCpn v-model="message" v-model:title="title"></MyCpn>
 </template>
@@ -851,9 +862,9 @@ export default {
 </script>
 ```
 
-# Mixin
+## Mixin
 
-## 使用场景：
+### 使用场景：
 
 - vue 项目的开发过程中，组件和组件之间有时会存在相同的代码逻辑，我们希望将相同的代码逻辑进行抽取，可以使用 Mixin
 - Vue2 中使用 Mixin 进行相同逻辑的抽取，Vue3 用的很少，一般在 Composition API 中使用 Hooks 函数对相同逻辑进行抽取。
@@ -864,7 +875,7 @@ Mixin 的 3 点描述：
 2. 一个 Mixin 对象可以包含任何组件选项 Options。
 3. 当组件使用 Mixin 对象时，所有 Mixin 对象的选项将被混合进入该组件本身的选项中。
 
-## 基本使用：
+### 基本使用：
 
 demoMixin.js
 
@@ -906,7 +917,7 @@ export default {
 <style scoped></style>
 ```
 
-## 冲突合并的规则，
+### 冲突合并的规则，
 
 分 3 种情况：
 
@@ -914,7 +925,7 @@ export default {
 2. 如果是生命周期钩子函数产生冲突，会合并到数组中，都会被调用。
 3. 如果是值为对象的选项（如 computed，methods），key 冲突，保留自身组件对象的键值对。
 
-## 全局混入
+### 全局混入
 
 全局混入的使用场景：
 
@@ -937,7 +948,7 @@ app.mixin({
 app.mount('#app')
 ```
 
-# extends
+## extends
 
 extends 的使用场景：
 
@@ -984,7 +995,7 @@ export default {
 <style scoped></style>
 ```
 
-# Composition API
+## Composition API
 
 Options API 的缺点，
 
@@ -1000,7 +1011,7 @@ Options API 的缺点，
   - 只不过这个选项强大到我们可以用它来替代之前所编写的大部分其他选项；
   - 比如 methods、computed、watch、data、生命周期等等；
 
-## 认识 setup 函数。
+### 认识 setup 函数。
 
 setup 函数主要有 2 个参数：
 
