@@ -1,95 +1,99 @@
-# 案例练习
+# 案例练习-vue-router（一）
+
+## 一、阶段性案例练习
 
 Vue 阶段性案例练习，房源展示。网络请求模拟。见 `demo-project`
 
 > 安装依赖不需要重启项目，修改配置文件后才需要重启项目。
 
-# 路由
+## 二、路由的概念
 
-什么是路由？
+路由是网络工程中的一个术语：
 
-- 路由其实是网络工程中的一个术语：
-- 在架构一个网络时，非常重要的两个设备就是路由器和交换机。
-- 当然，目前在我们生活中路由器也是越来越被大家所熟知，因为我们生活中都会用到路由器：路由器可用来给每个终端设备分配 ip 地址，如 192.168.154.26，这样的私网 ip 地址。
-- 事实上，路由器主要维护的是一个映射表；（ip 地址 <-> 终端设备（mac 地址））
-- 映射表会决定数据的流向；
+在架构一个网络时，非常重要的两个设备，就是路由器和交换机。
 
-# 软件工程中的路由
+当然，目前在我们生活中，路由器也是越来越被大家所熟知，因为我们生活中，都会用到路由器：
 
-软件工程中路由的发展历程。
+路由器可用来给每个终端设备分配 ip 地址，如 `192.168.154.26`，这样的私网 ip 地址。
 
-- 后端路由阶段（后端渲染模式）；
-- 前后端分离阶段（后端渲染模式）；
-- 前端路由阶段，单页面富应用（SPA -> Simple Page Web Application）（前端渲染模式）；
+事实上，路由器主要维护的是一个映射表；（ip 地址 <-> 终端设备（mac 地址））
 
-## 后端路由
+映射表会决定数据的流向；
+
+## 三、路由的发展历程
+
+后端路由阶段（后端渲染模式）；
+
+前后端分离阶段（后端渲染模式）；
+
+前端路由阶段，单页面富应用（SPA -> Simple Page Web Application）（前端渲染模式）；
+
+### 1.后端路由
 
 什么是后端路由阶段？
 
 1. 客户端发送请求 url 给服务器；
-2. 服务器根据 url 进行匹配，交给一个 Controller 进行处理，最终生成 HTML 页面；
+2. 服务器根据 url 进行匹配，交给一个 Controller 进行处理，最终在服务器生成 HTML 页面；
 3. 服务器返回生成的 HTML 页面给客户端浏览器。
 4. 浏览器渲染展示。
 
-后端路由的优势
+后端路由的优势：
 
-- 直接返回渲染的页面，不需要单独加载任何的 js 和 css ，可直接交给浏览器展示。
+- 直接返回渲染的页面，省去加载 js 和 css 的步骤 ；
 - 有利于 SEO 优化。
 
 后端路由的弊端：
 
-- 大多数情况下整个页面的模块由后端人员来编写和维护的；
-- 另一种情况是前端开发人员如果要开发页面, 需要通过 PHP 和 Java 等语言来编写页面代码；
+- 大多数情况下，整个页面的模块，由后端人员来编写和维护的；
+- 另一种情况是：前端开发人员如果要开发页面, 需要通过 PHP 和 Java 等语言，来编写页面代码；
 - 而且通常情况下 HTML 代码和数据以及对应的逻辑会混在一起, 编写和维护都是非常糟糕的事情；
 
-## 前后端分离
+### 2.前后端分离
 
 什么是前后端分离阶段？
 
-1. 每次请求涉及到的静态资源都会从静态资源服务器获取，这些资源包括 HTML+CSS+JS，然后在前端对这些请求回来的资源进行渲染；
-2. 需要注意的是，客户端的每一次请求，都会从静态资源服务器请求文件；
+1. 每次请求涉及到的静态资源，都会从静态资源服务器获取，这些资源包括 HTML+CSS+JS；
+2. 然后，在前端对这些请求回来的资源进行渲染；
+3. 需要注意的是，客户端的每一次请求，都会从静态资源服务器请求文件；
    - 每个独立完整的页面，还是要向后端请求。因此仍然属于**后端渲染**的模式。
-3. 同时可以看到，和之前的后端路由不同，这时后端只是负责提供 API 了；
+4. 同时可以看到，和之前的后端路由不同，这时后端只是负责提供 API 了；
 
-> 随着 Ajax 的出现, 有了前后端分离的开发模式；后端只提供 API 来返回数据，前端通过 Ajax 获取数据，并且可以通过 JavaScript 将数据渲染到页面中；
+> 随着 Ajax 的出现, 有了前后端分离的开发模式；
+>
+> 后端只提供 API 来返回数据，前端通过 Ajax 获取数据，并且可以通过 JavaScript 将数据渲染到页面中；
 
 前后端分离的优势：
 
-- 这样做最大的优点就是前后端责任清晰，后端专注于数据上，前端专注于交互和可视化上；
+- 前后端责任清晰，后端专注于数据上，前端专注于交互和可视化上；
 - 并且当移动端 iOS / Android 出现后，后端不需要进行任何处理，依然使用之前的一套 API 即可；
 
-目前比较少的网站采用这种模式开发；
+目前，比较少的网站采用这种模式开发；
 
-## 前端路由，单页面富应用（SPA）
+### 3.前端路由，单页面富应用（SPA）
 
 什么是单页面富应用阶段（SPA）。
 
-1. 其实 SPA 最主要的特点就是在前后端分离的基础上加了一层前端路由.
+1. 其实 SPA 最主要的特点，就是在前后端分离的基础上，加了一层前端路由；
 2. 也就是前端来维护一套路由规则.
    1. 修改页面的 url；
    2. 让页面内容渲染不同的组件。
 
-# 前端路由的原理
+## 四、前端路由的原理
 
 实现 url 改变，页面不刷新的 2 种模式。
 
-- 使用 URL 的 hash。
-- 使用 HTML5 的 history。
+- 使用 URL 的 hash 模式。
+- 使用 HTML5 的 history 模式。
 
-## 使用 URL 的 hash
+### 1.URL 的 hash
 
-URL 的 hash 理解，2 点：
+URL 的 hash，也就是**锚点(#)**，本质上是改变 `window.location` 的 `href` 属性。
 
-1. URL 的 hash 也就是锚点(#)，本质上是改变 `window.location` 的 `href` 属性。
-2. 可以通过直接赋值 `location.hash` 来改变 `href`，但是页面不发生刷新。
+可以通过直接赋值 `location.hash` 来改变 `href`，但是页面不发生刷新。
 
-优点：
+优点：兼容性好，在老版本 IE 中也可以运行。
 
-- 兼容性好，在老版本 IE 中也可以运行。
-
-缺点：
-
-- 有一个#，显得不像一个真实的路径。
+缺点：有一个#，显得不像一个真实的路径。
 
 实现更改 hash，渲染不同内容的简单案例
 
@@ -102,6 +106,7 @@ URL 的 hash 理解，2 点：
 
 <script>
   const contentEl = document.querySelector('.content')
+
   window.addEventListener('hashchange', () => {
     switch (location.hash) {
       case '#home':
@@ -117,7 +122,7 @@ URL 的 hash 理解，2 点：
 </script>
 ```
 
-## 使用 HTML5 的 history
+### 2.HTML5 的 history
 
 HTML5 中 history 的 6 种方法改变 URL 而不刷新：
 
@@ -154,6 +159,7 @@ HTML5 中 history 的 6 种方法改变 URL 而不刷新：
   }
 
   const aEls = document.getElementsByTagName('a')
+
   for (const aEl of aEls) {
     aEl.addEventListener('click', e => {
       e.preventDefault() // 阻止点击跳转的默认事件。
@@ -167,18 +173,16 @@ HTML5 中 history 的 6 种方法改变 URL 而不刷新：
 </script>
 ```
 
-# vue-router
+## 五、vue-router
 
-## 认识 vue-router
+### 1.vue-router 是什么？
 
-Vue Router 是 Vue.js 的官方路由：
+Vue Router 是 Vue.js 的官方路由：它与 Vue.js 核心深度集成，让用 Vue.js 构建单页应用（SPA）变得非常容易；
 
-- 它与 Vue.js 核心深度集成，让用 Vue.js 构建单页应用（SPA）变得非常容易；
-
-vue-router 是基于路由和组件的
+vue-router 是基于路由和组件的：
 
 - 路由用于设定访问路径, 将路径和组件映射起来；
-- 在 vue-router 的单页面应用中, 页面的路径的改变就是组件的切换；
+- 在 vue-router 的单页面应用中，页面的路径的改变就是组件的切换；
 
 安装 Vue Router：
 
@@ -188,16 +192,18 @@ npm install vue-router
 
 > 安装依赖不需要重启项目，修改配置文件后才需要重启项目。
 
-## 使用步骤
+### 2.vue-router 使用步骤
 
-1. 创建路由需要映射的组件（打算显示的页面）；
-2. 通过 `createRouter` 函数创建路由对象，并且传入 routes 和 history 模式；
-   1. 配置路由映射: 组件和路径映射关系的 routes 数组；
-   2. 创建基于 hash 或者 history 的模式；
-3. 使用 app 注册路由对象（`use` 方法）；
-4. 通过 `<router-link>` / 编程式导航 进行路由跳转，通过 `<router-view>` 展示路由对应的组件；
+Ⅰ、创建路由需要映射的组件（打算显示的页面）；
 
-基本使用。
+Ⅱ、通过 `createRouter` 函数创建路由对象，并且传入 routes 和 history 模式；
+
+1. 配置路由映射: 组件和路径映射关系的 routes 数组；
+2. 创建基于 hash 或者 history 的模式；
+
+Ⅲ、使用 app 注册路由对象（`use` 方法）；
+
+Ⅳ、通过 `<router-link>` 编程式导航，进行路由跳转，通过 `<router-view>` 展示路由对应的组件；
 
 src / router / index.js
 
@@ -210,11 +216,13 @@ const routes = [
   { path: '/home', component: Home },
   { path: '/about', component: About }
 ]
+
 const router = createRouter({
   routes,
   // history: createWebHistory(), // 使用 history 模式
   history: createWebHashHistory() // 使用 hash 模式
 })
+
 export default router
 ```
 
@@ -241,13 +249,11 @@ src / App.vue
 </template>
 ```
 
-## 路由的默认路径（重定向）
+### 3.路由重定向
 
-使用场景：
+使用场景：进入网站时，默认没有匹配路由，则显示 Home 组件；
 
-- 进入网站时，默认没有匹配路由，则显示 Home 组件
-
-基本使用：
+#### 1.默认路由重定向
 
 src / router / index.js
 
@@ -256,6 +262,8 @@ const routes = [
   { path: '/', component: Home } // 第一种方式
 ]
 ```
+
+#### 2.路由重定向
 
 在默认路由的基础上使用重定向：
 
@@ -266,7 +274,7 @@ const routes = [
 ]
 ```
 
-## \<router-link\> 的使用
+### 4.`<router-link>` 的使用
 
 router-link 有哪些属性？
 
@@ -280,19 +288,17 @@ router-link 有哪些属性？
 <router-link to="/home" replace active-class="“active”" custome>首页</router-link>
 ```
 
-## 路由懒加载
+### 5.路由懒加载
 
-使用场景：
+随着应用不断庞大，打包后的文件，也随之增大；
 
-- 随着应用不断庞大，打包后的文件也随之增大，需要对路由对应的组件进行分包加载，加快首屏的渲染速度，提高组件加载效率。
+需要对路由对应的组件，进行分包加载，以加快首屏的渲染速度，提高组件加载效率。
 
-原理：
+路由懒加载的原理：
 
-- 其实这里原理还是 webpack 的分包，而 Vue Router 默认就支持动态来导入组件：
-- 这是因为 routes 中 component 可以传入一个组件，也可以接收一个函数，该函数需要返回一个 Promise；
+- 其实这里原理，还是 webpack 的分包，而 Vue Router 默认就支持动态来导入组件：
+- 这是因为 routes 中 component 可以传入一个组件，也可以接收一个函数，该函数需要**返回一个 Promise**；
 - 而在 webpack 分包中， import 函数就是返回一个 Promise；
-
-基本使用：
 
 ```javascript
 const routes = [
@@ -314,21 +320,22 @@ const routes = [
 
 打包后 dist 文件夹如下
 
-```
+```shell
 dist
-	js
-		app.fd14a7ae.js
-		app.fd14a7ae.map
-		home-chunk-2d0dda4d.88dfd768.js // 原 chunk-2d0dda4d.88dfd768.js
-		home-chunk-2d0dda4d.88dfd768.map // 原 chunk-2d0dda4d.88dfd768.map
-		chunk-vendors.f9aa8ccb.js
-		chunk-vendors.f9aa8ccb.map
-
+  js
+    app.fd14a7ae.js
+    app.fd14a7ae.map
+    home-chunk-2d0dda4d.88dfd768.js // 原 chunk-2d0dda4d.88dfd768.js
+    home-chunk-2d0dda4d.88dfd768.map // 原 chunk-2d0dda4d.88dfd768.map
+    chunk-vendors.f9aa8ccb.js
+    chunk-vendors.f9aa8ccb.map
 ```
 
-## 路由的 name 和 meta 属性。
+### 6.name 、meta 属性
 
-name：路由记录独一无二的名称，可通过名字来做跳转（很少用），一般用于：
+`name` 属性：路由记录独一无二的名称，
+
+可通过名字，来做跳转（很少用），一般用于：
 
 - **动态添加路由**中的二级子路由添加，需要使用 name 来指定一级路由（后续学习）。
 - 删除添加的路由。
@@ -352,21 +359,22 @@ const routes = [
 ```js
 // VOA 中
 this.$route.meta
+
 // VCA 中
 const route = useRoute()
 route.meta
 ```
 
-## 动态路由（匹配路径参数）
+### 7.动态路由（匹配路径参数）
 
-### 使用场景：
+#### 使用场景
 
 - 动态匹配路径中的值。
 - 很多时候我们需要将给定匹配模式的路由映射到同一个组件：
 - 例如，我们可能有一个 User 组件，它应该对所有用户进行渲染，但是用户的 ID 是不同的；
 - 在 Vue Router 中，我们可以在路径中使用一个动态字段来实现，我们称之为**路径参数**；
 
-### 基本使用：
+#### 基本使用
 
 src / router / index.js
 
@@ -380,7 +388,7 @@ App.vue
 <router-link to="/user/123">用户：123</router-link>
 ```
 
-### 动态路由组件中获取路径参数：
+#### 动态路由组件中获取路径参数
 
 1. 在 template 中通过 `$route.params.xxx` 获取值。
 2. 在 VOA 中通过 `this.$route.params.xxx` 获取值。
@@ -411,7 +419,7 @@ export default {
 </script>
 ```
 
-### 动态路由匹配多个参数：
+#### 动态路由匹配多个参数
 
 src / router / index.js
 
@@ -424,7 +432,7 @@ const routes = [{ path: '/user/:id/info/:name', component: () => import('../page
 | /user/:id            | /user/123          | { id: '123' }              |
 | /user/:id/info/:name | /user/123/info/zzt | { id: '123', name: 'zzt' } |
 
-### 动态路由之间进行切换时，获取动态路由的参数值
+#### 动态路由之间进行切换时，获取动态路由的参数值
 
 使用 route 的生命周期 `onBeforeUpdataRoute`
 
@@ -444,7 +452,7 @@ onBeforeRouteUpdate((to, from) => {
 </script>
 ```
 
-### 动态路由 NotFount 的匹配
+#### 动态路由 NotFount 的匹配
 
 使用动态路由对 NotFound 页面做处理，匹配规则的 2 种写法。
 
@@ -470,13 +478,13 @@ NotFound.vue
 
 > 他们的区别在于解析的时候，方式一不解析"/"，方式二解析“/”
 
-## 路由的嵌套（子路由）
+### 路由的嵌套（子路由）
 
-### 使用场景：
+#### 使用场景
 
 - 在路由对应的组件页面中，也存在多个组件来回切换的情况。
 
-### 基本使用：
+#### 基本使用
 
 src / router / index.js
 
@@ -516,13 +524,13 @@ Home.vue
 </template>
 ```
 
-## 路由的编程式导航（使用代码做页面跳转）
+### 路由的编程式导航（使用代码做页面跳转）
 
-### 使用场景：
+#### 使用场景
 
 通过代码来完成跳转。
 
-### 基本使用，
+#### 基本使用
 
 分别使用 VOA, VCA 实现:
 
@@ -558,7 +566,7 @@ export default {
 </template>
 ```
 
-### 对象风格导航：
+#### 对象风格导航
 
 传入对象，使用 query 传递参数
 
@@ -602,7 +610,7 @@ route.query.age
 
 ---
 
-### 编程导航的 5 个方法：
+#### 编程导航的 5 个方法
 
 - push：可传路径或对象作为参数。
 
