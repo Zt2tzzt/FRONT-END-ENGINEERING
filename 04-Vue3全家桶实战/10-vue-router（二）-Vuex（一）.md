@@ -1,4 +1,6 @@
-# 前端产品分类
+# vue-router（二）-Vuex（一）
+
+## 一、前端产品分类
 
 客户端：
 
@@ -8,12 +10,10 @@
 
 - 移动端 IOS / Android
 
-- H5 产品端，如小程序端。
-
-  - 通常为用户端。
+- H5 产品端，如小程序端。通常为用户端。
 
   > H5 通常指产品端，而非 HTML5 这项技术。
-  >
+>
   > 通过移动端中某一个浏览器，无论是微信的 WebView 还是别的浏览器打开的页面。
 
 后端管理系统：
@@ -21,11 +21,11 @@
 - PC 端网站，
   - 如客服端，产品经理端等等。往往有更高的权限。
 
-# vue-router 补充
+## 二、vue-router 补充
 
-## router-link 结合插槽使用
+### 1.router-link 结合插槽使用
 
-vue-router 4 删除了 router-linke 上 `tag` 属性，使用插槽的方式来渲染内容。
+vue-router 4 删除了 router-link 上 `tag` 属性，使用插槽的方式来渲染内容。
 
 在 router-link 组件上使用 `custom` 表示自定义元素，否则内容外层会包裹 `<a>`
 
@@ -44,9 +44,9 @@ vue-router 4 删除了 router-linke 上 `tag` 属性，使用插槽的方式来�
 </template>
 ```
 
-增强写法，结合作用域插槽 `v-slot` 如何使用。
+增强写法，结合作用域插槽 `v-slot` 如何使用；
 
-使用 `v-slot` （独占默认插槽语法），来获取作用域插槽内部传递的对象 slotProps，对象中有以下属性：
+使用 `v-slot` （独占默认插槽语法），来获取作用域插槽内部，传递的对象 slotProps，对象中有以下属性：
 
 - `href`：解析后的 url，如 "/home".
 - `route`：解析后的规范化 route 对象，里面有 params，query，meta 等属性。
@@ -73,7 +73,7 @@ App.vue
 </style>
 ```
 
-## router-view 结合插槽使用
+### 2.router-view 结合插槽使用
 
 增强写法，结合作用域插槽 v-slot，使用动态组件，缓存，动画。
 
@@ -81,6 +81,7 @@ App.vue
 <template>
   <router-link to="/home">主页</router-link>
   <router-link to="/about">关于</router-link>
+
   <!-- slotProps 解构：{ Component } -->
   <router-view v-slot="{ Component, route }">
     <transition name="zzt" mode="out-in" appear>
@@ -110,29 +111,34 @@ router-view 使用 `v-slot` 来获取作用域插槽内部传递的对象，对�
 
 > 不能通过 router-view 拿到组件实例对象，它只能起到占位的作用。
 
-# vue-router 动态添加路由
+### 3.动态添加路由
 
-## 使用场景：
+主要适用场景是：根据用户不同的权限，注册不同的路由。
 
-根据用户不同的权限，注册不同的路由。
+> 系统实现角色权限管理的 3 种方案
+>
+> 后台权限设计的思想之一：**RBAC** ( role based access control ) 基于访问权限控制的角色管理。
+>
+> 一般后端要维护用户表，权限表和关系表。
+>
+> 理解 3 种在前端控制权限的方法，
+>
+> 方法一：注册所有路由；
+>
+> - 弊端：用户可通过手动改 url 实现禁止的权限。
+>
+> 方法二：在前端用数组维护好各个角色对应的路由，获取角色后**动态添加路由**。
+>
+> - 弊端：后端修改角色权限，需要前端修改代码再部署。
+>
+> 方法三：在前端获取用户权限，如访问的菜单，根据用户权限**动态添加路由**。
+>
+> 这么做要求后端要返回需要动态添加的路由对应的组件，有 2 种方式：
+>
+> - 方式一：后端返回数据中有 component 字段，里面是组件名称，如 Role.vue。
+> - 方式二：后端只返回 path，前端根据已有的配置，找到对应的 component。
 
-### 系统实现角色权限管理的 3 种方案。
-
-后台权限设计的思想之一：**RBAC** ( role based access control ) 基于访问权限控制的角色管理。
-
-- 后端维护用户表，权限表和关系表。
-
-理解 3 种在前端控制权限的方法，
-
-- 方法一：注册所有路由，弊端：用户可通过手动改 url 实现禁止的权限。
-- 方法二：在前端用数组维护好各个角色对应的路由，获取角色后**动态添加路由**。弊端：后端修改角色权限，需要前端修改代码再部署。
-- 方法三：在前端获取用户权限，如访问的菜单，根据用户权限**动态添加路由**。，这么做要求后端要返回需要动态添加的路由对应的组件，有 2 种方式：
-  1. 后端返回数据中有 component 字段，里面是组件名称，如 Role.vue。
-  2. 后端只返回 path，前端根据已有的配置，找到对应的 component。
-
-## 基本使用
-
-动态添加一个一级路由和二级路由
+动态添加一个一级路由和二级路由：
 
 src / router / index.js
 
@@ -163,25 +169,25 @@ router.addRoute('home', {
 export default router
 ```
 
-## 动态删除路由：
+### 4.动态删除路由
 
 有三种方式：
 
-方式一：添加一个 name 相同的路由做替换。
+方式一：添加一个 name 相同的路由替换原来的路由。
 
 ```javascript
 router.addRoute({ path: '/category', name: 'category', component: Category })
 router.addRoute({ path: '/other', name: 'category', component: Other }) // 使用 /other 替换 /category
 ```
 
-方式二：通过 `removeRoute` 的方法，传入路由的 `name`。
+方式二：使用 `removeRoute` 的方法；传入路由的 `name`。
 
 ```javascript
 router.addRoute({ path: '/category', name: 'category', component: Category })
 router.removeRoute('category')
 ```
 
-方式三：通过 `addRoute` 方法的返回函数回调。
+方式三：使用 `addRoute` 方法，返回函数回调。
 
 ```javascript
 const removeCategoryRoute = router.addRoute({
@@ -192,37 +198,32 @@ const removeCategoryRoute = router.addRoute({
 removeCategoryRoute()
 ```
 
-## 路由的其他方法
+### 5.路由的其他方法
 
 `router.hasRoute(name)`：检查路由是否存在。
 
 `router.getRoutes()`：获取一个包含所有路由的记录数组。
 
-# 导航守卫
+### 6.beforeEach 导航守卫
 
-## 使用场景。
+主要用来通过跳转或取消的方式，守卫导航；
 
-- 主要用来通过跳转或取消的方式守卫导航。
-- 比如，用户访问某一页面，如果处于未登陆的状态，那么跳转到登陆页面。
+比如，用户访问某一页面，如果处于未登陆的状态，那么跳转到登录页面。
 
-## beforeEach 介绍
+导航守卫常用的 `beforeEach` 函数，有如下参数：
 
-### 回调函数传入的参数：
+- `to`：即将进入的路由 route 对象；
+- `from`：即将离开的路由 route 对象；
+- `next`：Vue2 中通过该函数，来决定如何跳转（Vue3 中使用返回值来控制，不推荐使用 next 函数。因为开发中容易调用多次）。
 
-- `to`：即将进入的路由 route 对象。
-- `from`：即将离开的路由 route 对象。
-- `next`：Vue2 中通过 next 函数来决定如何跳转。Vue3 中使用返回值来控制，不推荐使用 next 函数。因为开发中容易调用多次。
-
-### 回调函数的返回值：
+回调函数的返回值：
 
 - `false`；取消当前导航。
 - `undefined`：进行默认导航。
 - 一个 string 类型的路径，如 `'/login'`。
 - 一个对象，其中包含 `path`, `query`, `params`，如 `{ path: '/login/123', query: { name: 123 } }`，
 
-## 基本使用
-
-在注册 route 时，模拟进行导航守卫，
+在注册 route 时，进行导航守卫，
 
 src / router / index.js
 
@@ -279,113 +280,113 @@ function logoutClick() {
 </template>
 ```
 
-## 其它导航守卫
+### 7.其它导航守卫
 
 [官方文档](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html)
 
 其它导航守卫函数的执行时机：
 
-1. 导航被触发。在失活的组件里调用 `beforeRouteLeave` 守卫（**组件内的守卫**）。能通过 this 拿到组件实例。
+导航被触发。在失活的组件里调用 `beforeRouteLeave` 守卫（**组件内的守卫**）。能通过 this 拿到组件实例。
 
-   ```js
-   // Home.vue （VOA 写法）
-   export default {
-     beforeRouteLeave(to, from) {
-       const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
-       if (!answer) return false
-     }
-   }
-   ```
+```js
+// Home.vue （VOA 写法）
+export default {
+  beforeRouteLeave(to, from) {
+    const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+    if (!answer) return false
+  }
+}
+```
 
-2. 调用全局的 `beforeEach` 守卫（**全局守卫**）。
+调用全局的 `beforeEach` 守卫（**全局守卫**）。
 
-3. 在重用的组件里调用 `beforeRouteUpdate` 守卫（**组件内的守卫**）
+在重用的组件里调用 `beforeRouteUpdate` 守卫（**组件内的守卫**）
 
-   - 本质上还未跳转，而是组件发生更新，比如动态路由 /user/123 -> /user/321。能通过 this 拿到组件实例
+- 本质上还未跳转，而是组件发生更新，比如动态路由 /user/123 -> /user/321。能通过 this 拿到组件实例
 
-   ```vue
-   <!-- User.vue（VCA 写法） -->
-   <script setup>
-   import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+```vue
+<!-- User.vue（VCA 写法） -->
+<script setup>
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 
-   const route = useRoute()
-   console.log(route.params.id)
-   // 获取 route 跳转前后的 id
-   onBeforeRouteUpdate((to, from) => {
-     console.log('from:', from.params.id)
-     console.log('to:', to.params.id)
-   })
-   </script>
-   ```
+const route = useRoute()
+console.log(route.params.id)
+// 获取 route 跳转前后的 id
+onBeforeRouteUpdate((to, from) => {
+  console.log('from:', from.params.id)
+  console.log('to:', to.params.id)
+})
+</script>
+```
 
-4. 在调用路由配置里的 `beforeEnter` 守卫（**路由独享守卫**）
+在调用路由配置里的 `beforeEnter` 守卫（**路由独享守卫**）
 
-   ```js
-   // src / router / index.js
-   const routes = [
-     {
-       path: '/users/:id',
-       component: User,
-       beforeEnter: (to, from) => {
-         // reject the navigation
-         return false
-       }
-     }
-   ]
-   ```
+```js
+// src / router / index.js
+const routes = [
+  {
+    path: '/users/:id',
+    component: User,
+    beforeEnter: (to, from) => {
+      // reject the navigation
+      return false
+    }
+  }
+]
+```
 
-5. 解析异步路由组件。在被激活的组件里调用 `beforeRouteEnter` 守卫（**组件内的守卫**）。
+解析异步路由组件。在被激活的组件里调用 `beforeRouteEnter` 守卫（**组件内的守卫**）。
 
-   - 异步组件已经解析，但回调函数中不能通过 this 拿到组件实例，需要使用 next
+- 异步组件已经解析，但回调函数中不能通过 this 拿到组件实例，需要使用 next
 
-   ```js
-   // Home.vue
-   export default {
-     beforeRouteEnter(to, from, next) {
-       next(instance => {
-         // 通过 `instance` 访问组件实例
-       })
-     }
-   }
-   ```
+```js
+// Home.vue
+export default {
+  beforeRouteEnter(to, from, next) {
+    next(instance => {
+      // 通过 `instance` 访问组件实例
+    })
+  }
+}
+```
 
-6. 调用全局的 `beforeResolve` 守卫（**全局守卫**）(2.5+)。
+调用全局的 `beforeResolve` 守卫（**全局守卫**）(2.5+)。
 
-   - 名字取得不好，类似与 beforeEach，但触发时机是在异步组件解析之后，跳转之前。能确保获取到自定义 `meta` 属性。
+- 名字取得不好，类似与 beforeEach，但触发时机是在异步组件解析之后，跳转之前。能确保获取到自定义 `meta` 属性。
 
-   ```js
-   router.beforeResolve(async to => {
-     if (to.meta.requiresCamera) {
-       try {
-         await askForCameraPermission()
-       } catch (error) {
-         if (error instanceof NotAllowedError) {
-           // ... 处理错误，然后取消导航
-           return false
-         } else {
-           // 意料之外的错误，取消导航并把错误传给全局处理器
-           throw error
-         }
-       }
-     }
-   })
-   ```
+```js
+router.beforeResolve(async to => {
+  if (to.meta.requiresCamera) {
+    try {
+      await askForCameraPermission()
+    } catch (error) {
+      if (error instanceof NotAllowedError) {
+        // ... 处理错误，然后取消导航
+        return false
+      } else {
+        // 意料之外的错误，取消导航并把错误传给全局处理器
+        throw error
+      }
+    }
+  }
+})
+```
 
-7. 导航被确认。调用全局的 `afterEach` 钩子（**全局守卫**）。触发 DOM 更新。
+导航被确认。调用全局的 `afterEach` 钩子（**全局守卫**）。触发 DOM 更新。
 
-   - 对于分析、更改页面标题、声明页面等辅助功能以及许多其他事情都很有用。
+- 对于分析、更改页面标题、声明页面等辅助功能以及许多其他事情都很有用。
 
-   ```js
-   router.afterEach((to, from, failure) => {
-     if (!failure) sendToAnalytics(to.fullPath)
-   })
-   ```
+```js
+router.afterEach((to, from, failure) => {
+  if (!failure) sendToAnalytics(to.fullPath)
+})
+```
 
-# Vuex
+## 三、Vuex
 
-> Vue 的全家桶包括：Vue 核心语法，vue-router，Vuex / Pinia。
+Vue 的全家桶包括：Vue 核心语法，vue-router，Vuex / Pinia。
 
-## 认识状态管理
+### 1.认识状态管理
 
 什么是状态管理？
 
@@ -419,9 +420,9 @@ function logoutClick() {
 - state：组件中的 data，setup 返回的数据。
 - action：组件中产生的修改 `state` 的事件。
 
-<img src="NodeAssets/状态管理中的state-view-actions.jpg" style="zoom:80%;" />
+![状态管理中的state-view-actions](NodeAssets/状态管理中的state-view-actions.jpg)
 
-## Vuex 的状态管理。
+### 2.Vuex 的状态管理
 
 Vuex 的状态管理模式：
 
@@ -429,33 +430,33 @@ Vuex 的状态管理模式：
 2. 通过定义和隔离状态管理的各个概念，并通过强制性的规则，来维护 view 和 state 的独立性
 3. 借鉴了 Flux、Redux、Elm（纯函数语言，redux 有借鉴它的思想）
 
-<img src="NodeAssets/Vuex的状态管理.jpg" alt="Vuex的状态管理" style="zoom:80%;" />
+![Vuex的状态管理](NodeAssets/Vuex的状态管理.jpg)
 
 > vue devtool 的使用场景之一：对组件或者 Vuex 进行调试。
 
-## 使用步骤
+### 3.Vuex 使用步骤
 
-1. 安装 vuex
+Ⅰ、安装 vuex
 
-   ```shell
-   npm install vuex
-   ```
+```shell
+npm install vuex
+```
 
-2. 使用 vuex 中的 `createStore` 创建 store 对象，本质上是一个容器，包含应用中全部需要实现状态管理的 state
+Ⅱ、使用 vuex 中的 `createStore` 创建 store 对象，本质上是一个容器，包含应用中全部需要实现状态管理的 state
 
-   - Vuex 的状态存储是响应式的
-     - 当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会被更新；
-   - 不能直接改变 store 中的状态
-     - 改变 store 中的状态的**唯一途径**就显示提交 (commit) mutation；
-     - 这样使得我们可以方便的跟踪每一个状态的变化，从而让我们能够通过一些工具，如 devtool ，帮助我们更好的管理应用的状态；
+- Vuex 的状态存储是响应式的
+  - 当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会被更新；
+- 不能直接改变 store 中的状态
+  - 改变 store 中的状态的**唯一途径**就显示提交 (commit) mutation；
+  - 这样使得我们可以方便的跟踪每一个状态的变化，从而让我们能够通过一些工具，如 devtool ，帮助我们更好的管理应用的状态；
 
-3. 配置 store 的状态管理。
+Ⅲ、配置 store 的状态管理。
 
-4. 在全局使用 `app.use(store)` 安装插件。
+Ⅳ、在全局使用 `app.use(store)` 安装插件。
 
-5. 组件中使用 store
+Ⅴ、组件中使用 store
 
-## 基本使用
+### 4.Vuex 基本使用
 
 使用 Vuex 实现计数器案例。
 
@@ -518,7 +519,7 @@ export default {
 </script>
 ```
 
-## 单一状态树理解
+### 5.单一状态树理解
 
 Vuex 的单一状态树理解：
 
@@ -533,11 +534,11 @@ Vuex 单一状态树的优势 1 点。
 
 > Vuex 的 5 大核心，state，getters，mutations，actions，modules。
 
-## Vuex 核心一 state
+### 6.Vuex 核心一 state
 
-### VOA（Vue Options Api）中
+#### 1.VOA（Vue Options Api）中
 
-#### 直接获取
+##### 1.直接获取 state
 
 template 中取 state，直接展示，结合计算属性。
 
@@ -573,7 +574,7 @@ export default {
 </script>
 ```
 
-#### 通过映射函数 mapState
+##### 2.VOA 通过映射函数 mapState
 
 template 中取 state，VOA 使用 `mapState` 辅助函数进行映射。2 种写法。分别的使用场景。
 
@@ -616,9 +617,9 @@ export default {
 </script>
 ```
 
-### VCA（Vue Composition API） 中
+#### 2.VCA（Vue Composition API） 中
 
-#### 直接获取（推荐）
+##### 1.VCA 直接获取（推荐）
 
 template 中取 state，VCA 结合计算属性，
 
@@ -648,7 +649,7 @@ export default {
 </script>
 ```
 
-#### 直接对 store.state 进行解构（推荐）
+##### 2.VCA 对 store.state 进行解构（推荐）
 
 App.vue
 
@@ -669,9 +670,9 @@ const { name, age } = toRefs(store.state)
 </script>
 ```
 
-#### 通过映射函数 mapState
+##### 3.VCA 通过映射函数 mapState
 
-##### 基本使用
+基本使用
 
 App.vue
 
@@ -700,7 +701,7 @@ export default {
 </script>
 ```
 
-##### VCA 结合 mapState 做封装
+###### 1.VCA 结合 mapState 做封装
 
 src / hooks / useState.js
 
@@ -745,14 +746,13 @@ export default {
 </script>
 ```
 
-## Vuex 核心二 getters
+### 7.Vuex 核心二 getters
 
-### 使用场景
+某些状态（state）可能需要经过一些计算逻辑变化后，再来使用。
 
-- 某些状态（state）可能需要经过一些计算逻辑变化后，再来使用。
-- 类似于组件中的计算属性 computed，使用时不需要加 “()”
+类似于组件中的计算属性 computed，使用时不需要加 “()”
 
-### 基本使用，
+#### 1.getters 基本使用
 
 src / store / index.js
 
@@ -802,9 +802,9 @@ const store = createStore({
 export default store
 ```
 
-### VOA（Vue Options Api）中
+#### 2.VOA 中的 getters
 
-#### 直接获取
+##### 1.直接获取 getters
 
 template 中取 getters，VOA 直接展示，结合计算属性
 
@@ -835,7 +835,7 @@ export default {
 </script>
 ```
 
-#### 通过映射函数 mapGetters
+##### 2.VOA getter是 通过映射函数 mapGetters
 
 template 中取 getters，VOA 使用 `mapGetters` 辅助函数进行映射。2 种写法。分别的使用场景。
 
@@ -859,9 +859,9 @@ export default {
 </script>
 ```
 
-### VCA（Vue Composition API） 中
+#### 3.VCA 中的 getters
 
-#### 直接获取（推荐）
+##### 1.VCA getters 直接获取（推荐）
 
 template 中取 getters，VCA 结合计算属性，
 
@@ -889,7 +889,7 @@ export default {
 </script>
 ```
 
-#### 直接对 store.getters 进行解构（推荐）
+##### 2.对 store.getters 进行解构（推荐）
 
 App.vue
 
@@ -907,9 +907,9 @@ const { totalPrice } = toRefs(store.getters)
 </script>
 ```
 
-#### 通过映射函数 mapGetters 获取
+##### 3.VCA 通过映射函数 mapGetters 获取
 
-##### 基本使用
+基本使用
 
 App.vue
 
@@ -935,7 +935,7 @@ export default {
 </script>
 ```
 
-##### VCA 结合 mapGetters 做封装
+###### 1.VCA 结合 mapGetters 做封装
 
 App.vue
 
@@ -1007,15 +1007,13 @@ export default function (mapper) {
 
 ---
 
-## Vuex 核心三 mutation
+### 8.Vuex 核心三 mutation
 
-### 使用场景
+修改 Vuex 的 state 的唯一方法是提交 mutation。
 
-- 修改 Vuex 的 state 的唯一方法是提交 mutation。
+#### 1.mutation 基本使用
 
-### 基本使用
-
-#### 传参（第二个参数）
+##### 1.传参（第二个参数）
 
 mutations 中方法传参（第二个参数）。一般用对象。
 
@@ -1066,7 +1064,7 @@ export default {
 </script>
 ```
 
-#### 提交风格
+##### 2.提交风格
 
 mutations 中对象风格的提交方式，基本使用。
 
@@ -1087,7 +1085,7 @@ export default {
 </script>
 ```
 
-#### 标识符值抽成常量
+##### 3.标识符值抽成常量
 
 将 mutations 中标识符值抽成常量，结合 ES6 对象增强语法计算属性名使用。这是一种设计规范，官方文档推荐这么做。
 
@@ -1133,7 +1131,7 @@ export default {
 </script>
 ```
 
-### 重要原则
+#### 2.重要原则
 
 mutation 必须是同步函数
 
@@ -1141,9 +1139,9 @@ mutation 必须是同步函数
 - 每一条 mutation 被记录，devtools 都需要捕捉到前一状态和后一状态的快照；
 - 但是在 mutation 中执行异步操作，就无法追踪到数据的变化；
 
-### VOA（Vue Options Api）中
+#### 3.VOA 中的 mutation
 
-#### 直接获取
+##### 1.VOA 直接获取 mutation
 
 template 中提交 mutations，结合 methods 使用：
 
@@ -1167,7 +1165,7 @@ export default {
 </script>
 ```
 
-#### 通过映射函数 mapMutations
+##### 2.VOA 通过映射函数 mapMutations
 
 template 中取 mutations，VOA 使用 `mapMutations` 辅助函数进行映射。2 种写法。分别的使用场景。
 
@@ -1202,9 +1200,9 @@ export default {
 </script>
 ```
 
-### VCA（Vue Composition API） 中
+#### 4.VCA 中的 mutation
 
-#### 直接获取（推荐）
+##### 1.VCA 直接获取 mutation
 
 template 中直接提交 commit mutations，VCA 结合 methods，
 
@@ -1232,7 +1230,7 @@ export default {
 </script>
 ```
 
-#### 通过映射函数 mapMutations
+##### 2.VCA 通过映射函数 mapMutations
 
 App.vue
 
