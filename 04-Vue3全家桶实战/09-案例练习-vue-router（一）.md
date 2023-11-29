@@ -177,7 +177,9 @@ HTML5 中 history 的 6 种方法改变 URL 而不刷新：
 
 ### 1.vue-router 是什么？
 
-Vue Router 是 Vue.js 的官方路由：它与 Vue.js 核心深度集成，让用 Vue.js 构建单页应用（SPA）变得非常容易；
+Vue Router 是 Vue.js 的官方路由：它与 Vue.js 核心深度集成；
+
+让用 Vue.js 构建单页应用（SPA）变得非常容易；
 
 vue-router 是基于路由和组件的：
 
@@ -367,14 +369,17 @@ route.meta
 
 ### 7.动态路由（匹配路径参数）
 
-#### 使用场景
+#### 1.动态路由使用场景
 
-- 动态匹配路径中的值。
-- 很多时候我们需要将给定匹配模式的路由映射到同一个组件：
-- 例如，我们可能有一个 User 组件，它应该对所有用户进行渲染，但是用户的 ID 是不同的；
-- 在 Vue Router 中，我们可以在路径中使用一个动态字段来实现，我们称之为**路径参数**；
+很多时候我们需要将给定匹配模式的路由映射到同一个组件：
 
-#### 基本使用
+例如，我们可能有一个 User 组件，它应该对所有用户进行渲染，但是用户的 ID 是不同的；
+
+在 Vue Router 中，我们可以在路径中，使用一个动态字段来实现，我们称之为**路径参数**；
+
+动态路由，就是用来动态匹配路径中的值。
+
+#### 2.动态路由基本使用
 
 src / router / index.js
 
@@ -388,11 +393,15 @@ App.vue
 <router-link to="/user/123">用户：123</router-link>
 ```
 
-#### 动态路由组件中获取路径参数
+#### 3.获取 path 参数
 
-1. 在 template 中通过 `$route.params.xxx` 获取值。
-2. 在 VOA 中通过 `this.$route.params.xxx` 获取值。
-3. 在 setup 中，使用 vue-router 插件提供的一个 hook 函数 `useRoute`，返回一个 Route 对象 `route`，其中保存着当前路由相关属性，使用 `route.params.xxx` 取值。
+在 template 中，通过 `$route.params.xxx` 获取值。
+
+在 VOA 中，要通过 `this.$route.params.xxx` 获取值。
+
+在 VCA 中，要使用 *vue-router* 插件提供的一个 hook 函数 `useRoute`，返回一个 Route 对象 `route`；
+
+其中保存着当前路由相关属性，使用 `route.params.xxx` 取值。
 
 User.vue
 
@@ -419,7 +428,9 @@ export default {
 </script>
 ```
 
-#### 动态路由匹配多个参数
+#### 4.匹配多个 path 参数
+
+现有一个动态路由的路径如下：
 
 src / router / index.js
 
@@ -432,7 +443,7 @@ const routes = [{ path: '/user/:id/info/:name', component: () => import('../page
 | /user/:id            | /user/123          | { id: '123' }              |
 | /user/:id/info/:name | /user/123/info/zzt | { id: '123', name: 'zzt' } |
 
-#### 动态路由之间进行切换时，获取动态路由的参数值
+#### 5.切换时获取 path 参数
 
 使用 route 的生命周期 `onBeforeUpdataRoute`
 
@@ -444,6 +455,7 @@ import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 
 const route = useRoute()
 console.log(route.params.id)
+
 // 获取 route 跳转前后的 id
 onBeforeRouteUpdate((to, from) => {
   console.log('from:', from.params.id)
@@ -452,9 +464,9 @@ onBeforeRouteUpdate((to, from) => {
 </script>
 ```
 
-#### 动态路由 NotFount 的匹配
+#### 6.NotFount 的匹配
 
-使用动态路由对 NotFound 页面做处理，匹配规则的 2 种写法。
+使用动态路由，对 NotFound 页面做处理，匹配规则的 2 种写法。
 
 src / router / index.js
 
@@ -476,15 +488,14 @@ NotFound.vue
 <h2>Not Found: {{ $route.params.pathMatch }}</h2>
 ```
 
-> 他们的区别在于解析的时候，方式一不解析"/"，方式二解析“/”
+> 他们的区别在于解析的时候：
+>
+> - 方式一，不解析"/"；
+> - 方式二，解析“/”
 
-### 路由的嵌套（子路由）
+### 8.路由的嵌套（子路由）
 
-#### 使用场景
-
-- 在路由对应的组件页面中，也存在多个组件来回切换的情况。
-
-#### 基本使用
+在路由对应的组件页面中，也存在多个组件，来回切换的情况。
 
 src / router / index.js
 
@@ -498,7 +509,8 @@ const routes = [
     path: '/home',
     component: () => import('../pages/Home.vue'),
     children: [
-      // 嵌套路由中，path 不需要“/”，redirect 需要写完整路径
+      // 嵌套路由中，path 不需要“/”，
+      // redirect 需要写完整路径
       { path: '', redirect: '/home/product' },
       { path: 'product', component: () => import('../pages/HomeProduct.vue') }
     ]
@@ -524,15 +536,11 @@ Home.vue
 </template>
 ```
 
-### 路由的编程式导航（使用代码做页面跳转）
+### 9.路由的编程式导航
 
-#### 使用场景
+使用代码做页面跳转；
 
-通过代码来完成跳转。
-
-#### 基本使用
-
-分别使用 VOA, VCA 实现:
+分别使用 VOA, VCA 实现:。
 
 App.vue
 
@@ -547,12 +555,14 @@ export default {
       this.$router.push('/about')
     }
   },
+
   // VCA 实现。
   setup() {
     const router = useRouter()
     const jumpToAbout = () => {
       router.push('/about')
     }
+
     return { jumpToAbout }
   }
 }
@@ -566,7 +576,7 @@ export default {
 </template>
 ```
 
-#### 对象风格导航
+#### 1.对象风格导航
 
 传入对象，使用 query 传递参数
 
@@ -608,13 +618,14 @@ route.query.age
 </script>
 ```
 
----
+#### 2.编程式导航的 5 个方法
 
-#### 编程导航的 5 个方法
+`push`：可传路径或对象作为参数；
 
-- push：可传路径或对象作为参数。
+`replace`：`router.replace('/about')`，相当于声明式的`<router-link to="/about" replace />`；
 
-- replace：`router.replace('/about')`，相当于声明式的`<router-link to="/about" replace />`
-- go：`router.go(1)`，回退或者前进。
-- back：`router.back()`，相当于 go(-1)
-- forward：`router.forward()`，相当于 go(1)
+`go`：`router.go(1)`，回退或者前进；
+
+`back`：`router.back()`，相当于 go(-1)：
+
+`forward`：`router.forward()`，相当于 go(1)。
