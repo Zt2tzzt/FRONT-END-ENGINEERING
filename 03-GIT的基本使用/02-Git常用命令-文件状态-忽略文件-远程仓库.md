@@ -1,6 +1,8 @@
-# Git 文件的状态
+# 02-Git常用命令-文件状态-忽略文件-远程仓库
 
-## 认识文件状态
+## Git 文件的状态
+
+### 认识文件状态
 
 Git 如何进行文件的状态划分？
 
@@ -13,13 +15,13 @@ Git 如何进行文件的状态划分？
 - 在工作时，可以选择性地将这些修改过的文件放入暂存区，但一般通过 `git add .` 添加所有文件；
 - 然后 commit 所有已暂存的修改，如此反复；
 
-<img src=".//NodeAssets/git文件状态划分.jpg" alt="git文件状态划分" style="zoom:50%;" />
+![git文件状态划分](./NodeAssets/git文件状态划分.jpg)
 
 理解 Git 的操作流程图。
 
-<img src=".//NodeAssets/git操作流程图.jpg" alt="git操作流程图" style="zoom:100%;" />
+![git操作流程图](./NodeAssets/git操作流程图.jpg)
 
-## 检查文件状态
+### 检查文件状态
 
 Git 检查文件状态。
 
@@ -41,14 +43,14 @@ git status
 
 - 左栏指明了暂存区的状态，右栏指明了工作区的状态；
 
-## 添加文件到暂存区（Staged）
+### 添加文件到暂存区（Staged）
 
 Git 将文件添加到暂存区。
 
 - 跟踪新文件命令：
 
   ```shell
-  git add aaa.js # 使用命令 git add 开始跟踪一个文件
+  git add aaa.js ## 使用命令 git add 开始跟踪一个文件
   ```
 
 - 跟踪修改的文件命令： 如果我们已经跟踪了某一个文件，这个时候修改了该文件，也需要重新添加到暂存区中；
@@ -59,7 +61,7 @@ Git 将文件添加到暂存区。
   git add .
   ```
 
-## 提交文件到本地仓库
+### 提交文件到本地仓库
 
 Git 文件更新提交到 git 仓库。
 
@@ -74,10 +76,10 @@ git commit –m "[提交信息]"
 我们修改文件的 add 操作，加上 commit 的操作有点繁琐，那么可以将两个命令结合来使用：
 
 ```shell
-git commit -a -m "[提交信息]" # 该操作只针对 modified 状态的文件
+git commit -a -m "[提交信息]" ## 该操作只针对 modified 状态的文件
 ```
 
-# Git 忽略文件
+## Git 忽略文件
 
 如何设置 Git 的忽略文件。
 
@@ -89,10 +91,9 @@ git commit -a -m "[提交信息]" # 该操作只针对 modified 状态的文件
   - 比如本地环境变量文件；
   - 比如一些日志文件；
   - 比如一些编辑器自动生成的文件；
-- github 上有一个库，维护了各语言开发的项目中需要的 .gitignore 文件
-  - https://github.com/github/gitignore.git
+- [github 上有一个库](https://github.com/github/gitignore.git)，维护了各语言开发的项目中需要的 .gitignore 文件
 
-# Git 校验和
+## Git 校验和
 
 什么是 Git 的校验和？
 
@@ -100,11 +101,11 @@ git commit -a -m "[提交信息]" # 该操作只针对 modified 状态的文件
 - Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）；
 - 这是一个由 40 个十六进制字符（0-9 和 a-f）组成的字符串，基于 Git 中文件的内容或目录结构计算出来；
 
-<img src=".//NodeAssets/git的校验和.jpg" alt="git的校验和" style="zoom:80%;" />
+![git的校验和](./NodeAssets/git的校验和.jpg)
 
-# Git 提交历史
+## Git 提交历史
 
-## 查看 Git 提交历史
+### 查看 Git 提交历史
 
 在提交了若干更新，又或者克隆了某个项目之后，有时候我们想要查看一下所有的历史提交记录。
 
@@ -117,8 +118,8 @@ git log
 这个命令会列出每个提交的 SHA-1 校验和、作者的名字和电子邮件地址、提交时间以及提交说明；
 
 ```shell
-git log --pretty=oneline # 简化展示形式。
-git log --pretty=oneline --graph # 更有利于查看分支的提交记录
+git log --pretty=oneline ## 简化展示形式。
+git log --pretty=oneline --graph ## 更有利于查看分支的提交记录
 ```
 
 查看更加详细的日志信息，其中包括了 HEAD 的切换记录。
@@ -127,7 +128,7 @@ git log --pretty=oneline --graph # 更有利于查看分支的提交记录
 git reflog
 ```
 
-# Git 版本回退
+## Git 版本回退
 
 什么是 Git 的版本回退。
 
@@ -139,7 +140,7 @@ git reflog
 - 理解 HEAD 的最简方式，就是将它看做该分支上的最后一次提交的快照；
 - git 的版本回退，包括分支的切换，本质上都是在改 HEAD。
 
-<img src="NodeAssets/git中的HEAD.jpg" alt="git中的HEAD" style="zoom:80%;" />
+![git中的HEAD](./NodeAssets/git中的HEAD.jpg)
 
 我们可以通过 HEAD 来改变 Git 目前的版本指向：
 
@@ -159,10 +160,10 @@ git reflog
 - 我们可以指定某一个 commit id （校验和）进行回退；
 
   ```shell
-  git reset --hard 2d44982 # 一般使用 id 前7位，保证不重复即可
+  git reset --hard 2d44982 ## 一般使用 id 前7位，保证不重复即可
   ```
 
-# Git 远程仓库管理
+## Git 远程仓库管理
 
 什么是 Git 的远程仓库（Remote Repository）？
 
@@ -179,16 +180,16 @@ git reflog
 - 使用第三方的 Git 服务器：比如 GitHub、Gitee、Gitlab 等等；
 - 在自己服务器搭建一个 Git 服务；
 
-<img src="NodeAssets/git远程服务器.jpg" alt="git远程服务器" style="zoom:80%;" />
+![git远程服务器](./NodeAssets/git远程服务器.jpg)
 
-## 身份验证
+### 身份验证
 
 远程私有仓库的身份认证方式 2 种。
 
 - 基于 HTTP 的凭证存储（Credential Storage）；
 - 基于 SSH 的密钥；
 
-### HTTP 凭证
+#### HTTP 凭证
 
 什么是远程仓库验证中的凭证？
 
@@ -202,11 +203,11 @@ git reflog
 - 选项三：“store” 模式会将凭证用明文的形式存放在磁盘中，并且永不过期；
 - 选项四：如果你使用的是 Mac，Git 还有一种“osxkeychain” 模式，它会将凭证缓存到你系统用户的钥匙串中（加密的）；
 - 选项五：如果你使用的是 Windows，你可以安装一个叫做 “Git Credential Manager for Windows” 的辅助工具（下载 Git 时，可选择携带下载）；
-  - 可以在 https://github.com/Microsoft/Git-Credential-Manager-for-Windows 下载。
+  - 可以在[此处](https://github.com/Microsoft/Git-Credential-Manager-for-Windows)下载。
 
 > Windows 中如何查看凭证？控制面板 -> 用户账户 -> 凭证管理器 -> Windows 凭证
 
-### SSH 密钥
+#### SSH 密钥
 
 远程仓库 SSH 密钥验证
 
@@ -220,11 +221,11 @@ git reflog
 - 如果我们以 SSH 的方式访问 Git 仓库，那么就需要生成对应的公钥和私钥：
 
   ```shell
-  ssh-keygen -t ed25519 -C “[your email]" # 现在常用
-  ssh-keygen -t rsa -b 2048 -C “[your email]" # 以前常用
+  ssh-keygen -t ed25519 -C “[your email]" ## 现在常用
+  ssh-keygen -t rsa -b 2048 -C “[your email]" ## 以前常用
   ```
 
-## 关联远程仓库
+### 关联远程仓库
 
 git pull 遇到的问题，如何解决
 
@@ -232,7 +233,7 @@ git pull 遇到的问题，如何解决
 
   ```shell
   git remote
-  git remote –v # -v 是 —verbose 的缩写（意为冗长的）
+  git remote –v ## -v 是 —verbose 的缩写（意为冗长的）
   ```
 
 - 添加远程地址：我们也可以继续添加远程服务器（让本地的仓库和远程服务器仓库建立连接）：
@@ -256,7 +257,7 @@ git pull 遇到的问题，如何解决
   git remote remove gitlab
   ```
 
-## 与远程仓库合并遇到的问题
+### 与远程仓库合并遇到的问题
 
 1. 修改本地仓库后，使用 `git remote add xxx` 关联远程仓库，再使用 `git pull / git fetch` 拉取远程仓库到本地时。
 
@@ -272,9 +273,9 @@ git pull 遇到的问题，如何解决
    - **解决办法**：如果我们想要直接执行 git fetch （git pull 的第一步）是有一个前提的：必须给当前本地分支设置一个上游分支（跟踪分支）：
 
      ```shell
-     git pull # 先要 pull 或者 fetch 远程仓库分支，本地才能有该分支，如 origin/main
-     git branch --set-upstream-to=origin/main # 将当前分支，与远程拉取到本地的 origin/main 分支进行关联跟踪。
-     git pull # 将上游分支的代码，拉取到当前分支并合并
+     git pull ## 先要 pull 或者 fetch 远程仓库分支，本地才能有该分支，如 origin/main
+     git branch --set-upstream-to=origin/main ## 将当前分支，与远程拉取到本地的 origin/main 分支进行关联跟踪。
+     git pull ## 将上游分支的代码，拉取到当前分支并合并
      ```
 
    > 使用 git clone 下载远程仓库后，master 分支会自动关联跟踪远程 origin/master 分支
@@ -294,5 +295,3 @@ git pull 遇到的问题，如何解决
      ```shell
      git merge --allow-unrelated-histories
      ```
-
-​

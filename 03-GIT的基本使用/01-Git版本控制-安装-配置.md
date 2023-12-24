@@ -1,6 +1,8 @@
-# 版本控制的概念
+# 01-Git版本控制-安装-配置
 
-## 什么是版本控制？
+## 版本控制的概念
+
+### 什么是版本控制？
 
 - 版本控制的英文是 Version control；
 - 是维护工程蓝图的标准做法，能追踪工程蓝图从诞生一直到定案的过程；
@@ -20,7 +22,7 @@
 - 多人开发的代码合并：
   - 项目中通常都是多人开发，将多人代码进行合并，并且在出现冲突时更好的进行处理；
 
-## 版本控制工具的历史是怎样的？
+### 版本控制工具的历史是怎样的？
 
 - 版本控制的史前时代（没有版本控制）：
   - 人们通常通过文件备份的方式来进行管理，再通过 diff 命令来对比两个文件的差异；
@@ -38,17 +40,17 @@
   - 于是 Linus 用了大概一周的时间，开发了 Git 用来取代 BitKeeper；
   - Linus 完成了 Git 的核心设计，在之后 Linus 功成身退，将 Git 交由另外一个 Git 的主要贡献者 Junio C Hamano 来维护；
 
-## 什么是集中式版本控制？
+### 什么是集中式版本控制？
 
 - CVS 和 SVN 都是属于集中式版本控制系统（Centralized Version Control Systems，简称 CVCS）
 - 它们的主要特点是单一的集中管理的服务器，保存所有文件的修订版本；
 - 开发人员通过客户端连接到这台服务器，取出最新的文件或者提交更新；
 
-### 有什么优点?
+#### 有什么优点?
 
 - 这种做法带来了许多好处，特别是相较于老式的本地管理来说，每个人都可以在一定程度上看到项目中的其他人正在做些什么。
 
-### 有什么缺点?
+#### 有什么缺点?
 
 - 集中式版本控制有一个核心的问题：中央服务器不能出现故障：
 - 如果宕机一小时，那么在这一小时内，谁都无法提交更新，也就无法协同工作；
@@ -56,23 +58,23 @@
 
 理解图解
 
-<img src="NodeAssets/集中版本控制图解.jpg" alt="集中式版本控制图解" style="zoom:60%;" />
+![集中式版本控制图解](./NodeAssets/集中版本控制图解.jpg)
 
-## 什么是分布式版本控制？
+### 什么是分布式版本控制？
 
 - Git 是属于分布式版本控制系统（Distributed Version Control System，简称 DVCS ）
 - 客户端并不只提取最新版本的文件快照，而是把完整的代码仓库镜像下载下来，包括完整的历史记录；
 
-### 有什么优点？
+#### 有什么优点？
 
 - 这么一来，任何一处协同工作用的服务器发生故障，事后都可以用任何 一个镜像出来的本地仓库恢复；
 - 因为每一次的克隆操作，实际上都是一次对代码仓库的完整备份；
 
 理解图解
 
-<img src="NodeAssets/分布式版本控制系统.jpg" alt="分布式版本控制系统" style="zoom:80%;" />
+![分布式版本控制系统](./NodeAssets/分布式版本控制系统.jpg)
 
-# Git 安装
+## Git 安装
 
 git 的安装流程。
 
@@ -95,7 +97,7 @@ git 的安装流程。
   - 基本上针对那些不喜欢黑屏（即命令行）编码的人；
   - 它提供了一个图形用户界面来运行 git 命令（本质）；
 
-# Git 配置
+## Git 配置
 
 git 的配置分类，
 
@@ -120,14 +122,14 @@ git 的配置分类，
 git config --global user.name "[username]" #名称
 git config --global user.email "[emailaddress]" #邮箱
 
-git config --global core.autocrlf true # windows 环境下推荐配置，git 提交时，换行符转为 lf
+git config --global core.autocrlf true ## windows 环境下推荐配置，git 提交时，换行符转为 lf
 ```
 
 查找不同级别的配置文件，确认已配置的信息。
 
 ```shell
-git config --system --list # 查看系统 config（配置文件目录：\Git\etc\gitconfig）
-git config --global --list # 查看当前用户 (global) 配置（配置文件目录：C:\User\Administrator\gitconfig）
+git config --system --list ## 查看系统 config（配置文件目录：\Git\etc\gitconfig）
+git config --global --list ## 查看当前用户 (global) 配置（配置文件目录：C:\User\Administrator\gitconfig）
 ```
 
 为 git 命令取别名。
@@ -150,7 +152,7 @@ git config --global alias.st status
 git config --global core.autocrlf true
 ```
 
-# 初始化 Git 仓库
+## 初始化 Git 仓库
 
 我们需要 Git 来管理源代码，那么我们本地也需要有一个 Git 仓库。git 获取仓库的 2 种方式。
 
