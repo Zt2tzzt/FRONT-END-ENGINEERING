@@ -684,7 +684,7 @@ Page({
 
 **方式二：**
 
-在小程序基础库 2.7.3 版本后支持 [EventChannel](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.html)，`wx.navigateTo` 成功的回调结果中，可获取 eventChannel 实例。
+在小程序基础库 2.7.3 版本后支持 [EventChannel](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.html)，`wx.navigateTo` 成功的回调结果中，可获取 `eventChannel` 实例。
 
 Page1 index.js
 
