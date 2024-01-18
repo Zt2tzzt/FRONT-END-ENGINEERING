@@ -1,19 +1,20 @@
-# 02-Git常用命令-文件状态-忽略文件-远程仓库
+# Git常用命令-文件状态-忽略文件-远程仓库
 
-## Git 文件的状态
+## 一、Git 文件的状态
 
-### 认识文件状态
+### 1.认识文件状态
 
-Git 如何进行文件的状态划分？
+实际开发中，我们需要对文件来划分不同的状态，以确定这个文件是否已经归于 Git 仓库的管理：
 
-- 实际开发中，我们需要对文件来划分不同的状态，以确定这个文件是否已经归于 Git 仓库的管理：
-  - 未跟踪（untracked）：默认情况下，Git 仓库下的文件也没有添加到 Git 仓库管理中，我们需要通过 `add` 命令来添加；
-  - 已跟踪：添加到 Git 仓库管理的文件处于已跟踪状态，Git 可以对其进行各种跟踪管理；可以进行状态细分：
-    - `staged`：暂缓区中的文件状态；
-    - `Unmodified`：到达该状态，需要使用 commit 命令，将 staged 中文件提交到 Git 本地仓库
-    - `Modified`：修改了某个文件后，会处于 Modified 状态；
-- 在工作时，可以选择性地将这些修改过的文件放入暂存区，但一般通过 `git add .` 添加所有文件；
-- 然后 commit 所有已暂存的修改，如此反复；
+- 未跟踪（untracked）：默认情况下，Git 仓库下的文件也没有添加到 Git 仓库管理中，我们需要通过 `add` 命令来添加；
+- 已跟踪：添加到 Git 仓库管理的文件处于已跟踪状态，Git 可以对其进行各种跟踪管理；可以进行状态细分：
+  - `staged`：暂缓区中的文件状态；
+  - `Unmodified`：到达该状态，需要使用 commit 命令，将 staged 中文件提交到 Git 本地仓库
+  - `Modified`：修改了某个文件后，会处于 Modified 状态；
+
+在工作时，可以选择性地将这些修改过的文件放入暂存区，但一般通过 `git add .` 添加所有文件；
+
+然后 commit 所有已暂存的修改，如此反复；
 
 ![git文件状态划分](./NodeAssets/git文件状态划分.jpg)
 
@@ -21,7 +22,7 @@ Git 如何进行文件的状态划分？
 
 ![git操作流程图](./NodeAssets/git操作流程图.jpg)
 
-### 检查文件状态
+### 2.检查文件状态
 
 Git 检查文件状态。
 
@@ -34,34 +35,32 @@ git status
   - Git 不会自动将之纳入跟踪范围，除非明确地告诉它“我需要跟踪该文件”；
 - modified files：修改了的文件；
 
-我们也可以查看更加简洁的状态信息：
+也可以查看更加简洁的状态信息：
 
 ```shell
  git status –s
  git status --short
 ```
 
-- 左栏指明了暂存区的状态，右栏指明了工作区的状态；
+左栏指明了暂存区的状态，右栏指明了工作区的状态；
 
-### 添加文件到暂存区（Staged）
+### 3.添加文件到暂存区（Staged）
 
-Git 将文件添加到暂存区。
+跟踪新文件命令：
 
-- 跟踪新文件命令：
+```shell
+git add aaa.js ## 使用命令 git add 开始跟踪一个文件
+```
 
-  ```shell
-  git add aaa.js ## 使用命令 git add 开始跟踪一个文件
-  ```
+跟踪修改的文件命令： 如果我们已经跟踪了某一个文件，这个时候修改了该文件，也需要重新添加到暂存区中；
 
-- 跟踪修改的文件命令： 如果我们已经跟踪了某一个文件，这个时候修改了该文件，也需要重新添加到暂存区中；
+将所有的文件添加到暂存区中：
 
-- 将所有的文件添加到暂存区中：
+```shell
+git add .
+```
 
-  ```shell
-  git add .
-  ```
-
-### 提交文件到本地仓库
+### 4.提交文件到本地仓库
 
 Git 文件更新提交到 git 仓库。
 
@@ -79,33 +78,35 @@ git commit –m "[提交信息]"
 git commit -a -m "[提交信息]" ## 该操作只针对 modified 状态的文件
 ```
 
-## Git 忽略文件
+## 二、Git 忽略文件
 
-如何设置 Git 的忽略文件。
+设置 Git 的忽略文件。
 
-- 一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。
-  - 通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等；
-  - 我们可以创建一个名为 `.gitignore` 的文件，列出要忽略的文件的模式；
-- 在实际开发中，这个文件通常不需要手动创建，在必须的时候添加自己的忽略内容即可；
-- 比如脚手架创建的 Vue 项目自带 .gitignore 文件：包括一些不需要提交的文件、文件夹；
-  - 比如本地环境变量文件；
-  - 比如一些日志文件；
-  - 比如一些编辑器自动生成的文件；
+一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。
+
+- 通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等；
+- 我们可以创建一个名为 `.gitignore` 的文件，列出要忽略的文件的模式；
+
+在实际开发中，这个文件通常不需要手动创建，在必须的时候添加自己的忽略内容即可；
+
+比如脚手架创建的 Vue 项目自带 .gitignore 文件：包括一些不需要提交的文件、文件夹；
+
+- 比如本地环境变量文件；
+- 比如一些日志文件；
+- 比如一些编辑器自动生成的文件；
 - [github 上有一个库](https://github.com/github/gitignore.git)，维护了各语言开发的项目中需要的 .gitignore 文件
 
-## Git 校验和
+## 三、Git 校验和
 
-什么是 Git 的校验和？
+Git 中所有的数据在存储前都会计算校验和，然后以校验和来引用（`git log` 会展示每次 commit 的校验和，也就是每次 commit 的 id）。
 
-- Git 中所有的数据在存储前都会计算校验和，然后以校验和来引用（`git log` 会展示每次 commit 的校验和，也就是每次 commit 的 id）。
-- Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）；
-- 这是一个由 40 个十六进制字符（0-9 和 a-f）组成的字符串，基于 Git 中文件的内容或目录结构计算出来；
+Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）；
+
+这是一个由 40 个十六进制字符（0-9 和 a-f）组成的字符串，基于 Git 中文件的内容或目录结构计算出来；
 
 ![git的校验和](./NodeAssets/git的校验和.jpg)
 
-## Git 提交历史
-
-### 查看 Git 提交历史
+## 四、Git 提交历史
 
 在提交了若干更新，又或者克隆了某个项目之后，有时候我们想要查看一下所有的历史提交记录。
 
@@ -128,21 +129,21 @@ git log --pretty=oneline --graph ## 更有利于查看分支的提交记录
 git reflog
 ```
 
-## Git 版本回退
+## 五、Git 版本回退
 
-什么是 Git 的版本回退。
+如果想要进行版本回退，我们需要先知道目前处于哪一个版本：Git 通过 HEAD 指针记录当前版本。
 
-- 如果想要进行版本回退，我们需要先知道目前处于哪一个版本：Git 通过 HEAD 指针记录当前版本。
-- HEAD 是当前分支引用的指针，它总是指向该分支上的最后一次提交；
+HEAD 是当前分支引用的指针，它总是指向该分支上的最后一次提交；
 
-如何理解 HEAD
+### 1.如何理解 HEAD
 
-- 理解 HEAD 的最简方式，就是将它看做该分支上的最后一次提交的快照；
-- git 的版本回退，包括分支的切换，本质上都是在改 HEAD。
+理解 HEAD 的最简方式，就是将它看做该分支上的最后一次提交的快照；
+
+git 的版本回退，包括分支的切换，本质上都是在改 HEAD。
 
 ![git中的HEAD](./NodeAssets/git中的HEAD.jpg)
 
-我们可以通过 HEAD 来改变 Git 目前的版本指向：
+可以通过 HEAD 来改变 Git 目前的版本指向：
 
 - 指向上一个版本就是 `HEAD^`，指向上上一个版本就是 `HEAD^^`；
 
@@ -163,7 +164,7 @@ git reflog
   git reset --hard 2d44982 ## 一般使用 id 前7位，保证不重复即可
   ```
 
-## Git 远程仓库管理
+## 六、Git 远程仓库管理
 
 什么是 Git 的远程仓库（Remote Repository）？
 
@@ -182,14 +183,14 @@ git reflog
 
 ![git远程服务器](./NodeAssets/git远程服务器.jpg)
 
-### 身份验证
+## 七、GIT 远程仓库身份验证
 
 远程私有仓库的身份认证方式 2 种。
 
 - 基于 HTTP 的凭证存储（Credential Storage）；
 - 基于 SSH 的密钥；
 
-#### HTTP 凭证
+### 1.HTTP 凭证
 
 什么是远程仓库验证中的凭证？
 
@@ -207,7 +208,7 @@ git reflog
 
 > Windows 中如何查看凭证？控制面板 -> 用户账户 -> 凭证管理器 -> Windows 凭证
 
-#### SSH 密钥
+### 2.SSH 密钥
 
 远程仓库 SSH 密钥验证
 
@@ -225,73 +226,74 @@ git reflog
   ssh-keygen -t rsa -b 2048 -C “[your email]" ## 以前常用
   ```
 
-### 关联远程仓库
+## 八、GIT 关联远程仓库
 
 git pull 遇到的问题，如何解决
 
-- 从远程仓库上 clone 下来的代码，会带有自己的远程仓库，查看远程仓库地址：
+从远程仓库上 clone 下来的代码，会带有自己的远程仓库，查看远程仓库地址：
+
+```shell
+git remote
+git remote –v ## -v 是 —verbose 的缩写（意为冗长的）
+```
+
+添加远程地址：我们也可以继续添加远程服务器（让本地的仓库和远程服务器仓库建立连接）：
+
+`git remote add <shortname> <url>`
+
+```shell
+git remote add origin https://gitee.com/Zt2tzzt/front-end--engineering.git
+git remote add gitlab http://152.136.185.210:7888/coderwhy/gitremotedemo.git
+```
+
+重命名远程地址：
+
+```shell
+git remote rename gitlab glab
+```
+
+移除远程地址：
+
+```shell
+git remote remove gitlab
+```
+
+### 1.与远程仓库合并遇到的问题
+
+Ⅰ、修改本地仓库后，使用 `git remote add xxx` 关联远程仓库，再使用 `git pull / git fetch` 拉取远程仓库到本地时。
+
+- **错误**：当前没有 track 分支的错误。“There is no traking information for the current branch”
+
+- **原因**：当前分支没有和远程分支如 origin/master 分支进行关联跟踪。在没有跟踪的情况下，我们直接执行 pull 操作的时候必须指定从哪一个远程仓库中的哪一个分支获取内容；比如：
 
   ```shell
-  git remote
-  git remote –v ## -v 是 —verbose 的缩写（意为冗长的）
+  git pull origin master
+  git fetch origin master
   ```
 
-- 添加远程地址：我们也可以继续添加远程服务器（让本地的仓库和远程服务器仓库建立连接）：
-
-  - `git remote add <shortname> <url>`
+- **解决办法**：如果我们想要直接执行 git fetch （git pull 的第一步）是有一个前提的：必须给当前本地分支设置一个上游分支（跟踪分支）：
 
   ```shell
-  git remote add origin https://gitee.com/Zt2tzzt/front-end--engineering.git
-  git remote add gitlab http://152.136.185.210:7888/coderwhy/gitremotedemo.git
+  git pull ## 先要 pull 或者 fetch 远程仓库分支，本地才能有该分支，如 origin/main
+  git branch --set-upstream-to=origin/main ## 将当前分支，与远程拉取到本地的 origin/main 分支进行关联跟踪。
+  git pull ## 将上游分支的代码，拉取到当前分支并合并
   ```
 
-- 重命名远程地址：
+> 使用 git clone 下载远程仓库后，master 分支会自动关联跟踪远程 origin/master 分支
+
+Ⅱ、使用 `git merge / git pull` 对拉取到本地仓库的代码，进行工作区合并。
+
+- **错误**：拒绝合并不相关的历史。“refusing to merge unrelated histories”
+
+- **原因**：我们将两个不相干的分支进行了合并。
+
+  > 过去 git merge 允许将两个没有共同基础（base，可理解为共同的祖先）的分支进行合并；
+  >
+  > 这导致了一个后果：新创建的项目可能被一个毫不留意的维护者合并了很多没有必要的历史，到一个已经存在的项目中，目前这个命令已经被纠正；
+  >
+  > 但是我们依然可以通过 `--allow-unrelated-histories` 选项来逃逸这个限制，以此合并两个独立的项目；
 
   ```shell
-  git remote rename gitlab glab
+  git merge --allow-unrelated-histories
   ```
-
-- 移除远程地址：
-
-  ```shell
-  git remote remove gitlab
-  ```
-
-### 与远程仓库合并遇到的问题
-
-1. 修改本地仓库后，使用 `git remote add xxx` 关联远程仓库，再使用 `git pull / git fetch` 拉取远程仓库到本地时。
-
-   - **错误**：当前没有 track 分支的错误。“There is no traking information for the current branch”
-
-   - **原因**：当前分支没有和远程分支如 origin/master 分支进行关联跟踪。在没有跟踪的情况下，我们直接执行 pull 操作的时候必须指定从哪一个远程仓库中的哪一个分支获取内容；比如：
-
-     ```shell
-     git pull origin master
-     git fetch origin master
-     ```
-
-   - **解决办法**：如果我们想要直接执行 git fetch （git pull 的第一步）是有一个前提的：必须给当前本地分支设置一个上游分支（跟踪分支）：
-
-     ```shell
-     git pull ## 先要 pull 或者 fetch 远程仓库分支，本地才能有该分支，如 origin/main
-     git branch --set-upstream-to=origin/main ## 将当前分支，与远程拉取到本地的 origin/main 分支进行关联跟踪。
-     git pull ## 将上游分支的代码，拉取到当前分支并合并
-     ```
-
-   > 使用 git clone 下载远程仓库后，master 分支会自动关联跟踪远程 origin/master 分支
-
-2. 使用 `git merge / git pull` 对拉取到本地仓库的代码，进行工作区合并。
-
-   - **错误**：拒绝合并不相关的历史。“refusing to merge unrelated histories”
-
-   - **原因**：我们将两个不相干的分支进行了合并。
-
-     > 过去 git merge 允许将两个没有共同基础（base，可理解为共同的祖先）的分支进行合并；
-     >
-     > 这导致了一个后果：新创建的项目可能被一个毫不留意的维护者合并了很多没有必要的历史，到一个已经存在的项目中，目前这个命令已经被纠正；
-     >
-     > 但是我们依然可以通过 `--allow-unrelated-histories` 选项来逃逸这个限制，以此合并两个独立的项目；
-
-     ```shell
-     git merge --allow-unrelated-histories
-     ```
+  
