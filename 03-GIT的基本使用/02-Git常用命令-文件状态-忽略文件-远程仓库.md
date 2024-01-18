@@ -252,6 +252,12 @@ git remote add gitlab http://152.136.185.210:7888/coderwhy/gitremotedemo.git
 git remote rename gitlab glab
 ```
 
+修改远程仓库地址
+
+```shell
+git remote set-url origin https://gitee.com/Zt2tzzt/front-end--engineering.git
+```
+
 移除远程地址：
 
 ```shell
@@ -296,4 +302,3 @@ git remote remove gitlab
   ```shell
   git merge --allow-unrelated-histories
   ```
-  
