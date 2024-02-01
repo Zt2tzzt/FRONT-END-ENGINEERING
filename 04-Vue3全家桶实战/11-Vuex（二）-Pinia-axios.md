@@ -659,14 +659,17 @@ Pinia 本质上依然是一个状态管理的库，用于跨组件、页面进�
 
 ### 1.Pinia 与 Vuex 的区别（面试）
 
-和 Vuex 相比，Pinia 有很多的优势：
+与 Vuex 相比，Pinia 有很多的优势，比如：
 
-- mutations 不再存在：
-  - mutations 经常被认为是非常冗长的；它最初为了实现 devtools 集成而设计，但这已不再是问题；
-- 不再有 modules 的嵌套结构：
-  - 可以灵活使用每一个 store，它们是通过扁平化的方式来相互使用的；
-  - 也不再有命名空间的概念，不需要记住它们的复杂关系；
-- 更友好的 TypeScript 支持，Vuex 之前对 TS 的支持很不友好；
+mutations 不再存在：
+
+- mutations 经常被认为是非常冗长的；它最初为了实现 devtools 集成而设计，但这已不再是问题；
+
+不再有 modules 的嵌套结构：
+- 可以灵活使用每一个 store，它们是通过扁平化的方式来相互使用的；
+- 也不再有命名空间的概念，不需要记住它们的复杂关系；
+
+更友好的 TypeScript 支持，Vuex 之前对 TS 的支持很不友好；
 
 ![Vuex和Pinia的区别](NodeAssets/Vuex和Pinia的区别.jpg)
 
@@ -717,11 +720,7 @@ Pinia 中一个 store 是一个实体，它持有能够绑定到组件树的状�
 
 使用 `defineStore()` 创建 store 的函数。
 
-它需要一个唯一名称 `name`，作为第一个参数传递；
-
-这个 name，也称为 id，是必要的，
-
-Pinia 使用它来将 store 连接到 devtools。
+它需要一个唯一名称 `name`，作为第一个参数传递；这个 name，也称为 id，是必要的，Pinia 使用它来将 store 连接到 devtools。
 
 返回的函数，统一使用 `useXxx` 作为命名方案，这是约定的规范；
 
