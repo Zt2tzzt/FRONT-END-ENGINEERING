@@ -1,24 +1,26 @@
-# 一、React 是什么？
+# 01-邂逅React-JSX语法
 
-## 1.官方的解释
+## 一、React 是什么？
+
+### 1.官方的说法
 
 官方对它的解释：用于**构建用户界面的 JavaScript 库**；
 
-## 2.前端框架的发展
+### 2.前端框架的发展
 
 目前前端开发，几乎不直接使用原生的 JavaScript 来开发应用程序，而是选择一个 JS 库 / 框架。
 
-- 在过去很长时间，jQuery 是被使用最多的 JS 库；目前已经处于淘汰的边缘了；
+在过去很长时间，jQuery 是被使用最多的 JS 库；目前已经处于淘汰的边缘了；
 
-现在，而无论是国内外，最流行的其实是三大框架：Vue、React、Angular。
+现在，无论是国内还是国外，最流行的其实是三大框架：Vue、React、Angular。
 
-<img src="NodeAssets/React在前端的地位.jpg" alt="React在前端的地位" style="zoom:80%;" />
+![React在前端的地位](NodeAssets/React在前端的地位.jpg)
 
-## 3.React 与其它框架关系
+### 3.React 与其它框架关系
 
 React 由 Facebook 更新和维护，它是大量优秀程序员的思想结晶：
 
-React 不仅仅局限开发者对它的认可；其它流行的框架或多或少也借鉴 React 的思想；
+React 不仅仅局限开发者对它的认可；其它流行的框架，或多或少也借鉴 React 的思想；比如：
 
 - Vue.js 框架设计之初，有很多的灵感来自 Angular 和 React。
 
@@ -29,7 +31,7 @@ React 不仅仅局限开发者对它的认可；其它流行的框架或多或�
 
 React 是前端的先驱者，它引领整个前端的潮流。
 
-## 4.Vue 和 React 选择？
+### 4.Vue 和 React 选择？
 
 首先，React 和 Vue 是前端开发人员必须掌握的两个框架。
 
@@ -38,13 +40,13 @@ React 是前端的先驱者，它引领整个前端的潮流。
 - 大中型公司选择 React 会较多，灵活和稳定；
 - 中小型公司选择 Vue 会较多，易上手和代码统一；
 
-<img src="NodeAssets/Vue和React在中大型公司中的应用.jpg" alt="Vue和React在中大型公司中的应用" style="zoom:80%;" />
+![Vue和React在中大型公司中的应用](NodeAssets/Vue和React在中大型公司中的应用.jpg)
 
-# 二、新技术栈学习方法
+## 二、新技术栈学习方法
 
-<img src="NodeAssets/如何学习一个新技术栈.jpg" alt="如何学习一个新技术栈" style="zoom:80%;" />
+![如何学习一个新技术栈](NodeAssets/如何学习一个新技术栈.jpg)
 
-# 三、React 适用人群
+## 三、React 适用人群
 
 学习 React 要具备那些基础？（什么人适合学习）
 
@@ -52,25 +54,23 @@ React 是前端的先驱者，它引领整个前端的潮流。
 - 高级的 JavaScript 语法掌握牢固。
   - 比如 ES6 以上的语法、this 绑定规则等等；
 
-# 四、React 技术特点
+## 四、React 技术特点
 
-## 1.声明式编程
+### 1.声明式编程
 
-声明式编程，目前是整个大前端，流行的开发的模式。
-
-- 比如 Vue、React、Flutter、SwiftUI；
+声明式编程，目前是整个大前端，流行的开发的模式。比如：Vue、React、Flutter、SwiftUI；都是用生命是编程。
 
 声明式编程允许我们只维护状态，当它改变时，根据最新的状态去渲染 UI 界面；
 
-<img src="NodeAssets/声明时编程的模式.jpg" alt="声明时编程的模式" style="zoom:80%;" />
+![声明时编程的模式](NodeAssets/声明时编程的模式.jpg)
 
-## 2.组件化开发
+### 2.组件化开发
 
 组件化开发，是目前前端的流行趋势，我们会将复杂的界面拆分成一个个小的组件；
 
-<img src="NodeAssets/组件化开发模式.jpg" alt="组件化开发模式" style="zoom:80%;" />
+![组件化开发模式](NodeAssets/组件化开发模式.jpg)
 
-## 3.多平台适配
+### 3.多平台适配
 
 2013 年，React 发布之初，主要是开发 Web 页面；
 
@@ -82,21 +82,22 @@ React 是前端的先驱者，它引领整个前端的潮流。
 
 - VR 未来也许会是一个火爆的应用场景。
 
-<img src="NodeAssets/React多平台视频.jpg" alt="React多平台视频" style="zoom:100%;" />
+![React多平台视频](NodeAssets/React多平台视频.jpg)
 
-# 五、React 初体验（一）
+## 五、React 初体验：创建根组件
 
 在界面上通过 React 显示一个 Hello World
 
-```jsx
+```html
 <body>
 	<div id="root"></div>
 
-	<!-- 添加依赖，三个包，使用 CDN 引入，crossorigin 的属性，这个属性的目的是为了拿到跨域脚本的错误信息-->
+	<!-- 添加依赖，需要三个包，-->
+
+  <!-- 使用 CDN 引入，crossorigin 这个属性的目的是为了拿到跨域脚本的错误信息-->
 	<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <!-- babel -->
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script><!-- babel -->
 
   <!-- 必须添加 `type="text/babel"`，作用是可以让 babel 解析 jsx 的语法 -->
 	<script type="text/babel">
@@ -111,19 +112,25 @@ React 是前端的先驱者，它引领整个前端的潮流。
 </body>
 ```
 
+创建 react 根组件的代码解析：
+
+```jsx
+// React 18 之后的写法
+const root = ReactDOM.createRoot(document.querySelector('#root'))
+root.render(<h2>Hello World</h2>)
+```
+
 `ReactDOM.createRoot`：创建一个 React 根，渲染的内容，会被挂载到这个根中。
 
 `root.render`：渲染根组件。
 
-通过 `{}` 语法来引入外部的变量或者表达式
+通过 `{}` 语法，来引入外部的变量或者表达式
 
-# 六、React 的开发依赖
+## 六、React 的开发依赖
 
-Vue 只依赖一个 vue.js 文件即可；
+对于 Vue 来说，只依赖一个 vue.js 文件即可；
 
-React 必须依赖三个库。这三个库各司其职。
-
-依赖的引入方式：
+然而 React 必须依赖三个库。即上文 CDN 引入的三个库；这三个库各司其职。依赖的引入方式：
 
 - 方式一：直接 CDN 引入。
 
@@ -131,22 +138,24 @@ React 必须依赖三个库。这三个库各司其职。
 
 - 方式三：通过 npm 管理（后续脚手架再使用）。
 
-## 1.react
+### 1.react 依赖
 
-包含 react 所必须的核心代码。
+其中包含 react 所必须的核心代码。
 
-## 2.react-dom
+### 2.react-dom 依赖
 
-渲染在不同平台所需要的核心代码。
+其中包含渲染在不同平台所需要的核心代码。
 
-早期没有 react-dom 库，所有功能都包含在 react 库里；
+早期没有 *react-dom* 库，所有功能都包含在 *react* 库里；
 
-在 React 0.14 版本之后，加入了 react-native 的功能，需要引入 react-dom 依赖：针对 web 端和 native 端完成不同的渲染任务：
+在 React 0.14 版本之后，加入了 react-native 的功能，将 react-dom 拆分为一个独立的包，在使用 react 时引入；
+
+针对 web 端和 native 端，完成不同的渲染任务：
 
 - web 端：react-dom 会将 jsx 最终渲染成真实的 DOM，显示在浏览器中。
 - native 端：react-dom 会将 jsx 最终渲染成原生的控件（比如 Android 中的 `Button`，iOS 中的 `UIButton`）。
 
-## 3.babel
+### 3.babel 依赖
 
 将 jsx 转换成 `React.createElement` 编写的源代码。
 
@@ -161,11 +170,13 @@ babel 与 react 的关系：
 - 不使用 babel，需要使用 `React.createElement` 来编写代码，非常的繁琐，可读性差。
 - 使用 babel，可直接编写 jsx（JavaScript XML）代码；babel 会将 jsx 编译成 `React.createElement` 形式的源码。
 
-# 七、React 初体验（二）
+## 七、React 初体验：实现简单案例
 
-实现案例，点击按钮，修改文本，理解 react 创建根的做法，
+实现案例，点击按钮，修改文本；
 
-- 将文本定义成变量，并在 jsx 中引用。jsx 中对标识符的引用，都是用 `{}`
+理解 react 创建根的做法，
+
+- 将文本定义成变量，并在 jsx 中引用（jsx 中对标识符的引用，都是用 `{}`）
 - jsx 中实现事件的监听，监听按钮的点击。
 - React 在默认情况下，不会进行重新渲染。
 
@@ -206,19 +217,22 @@ babel 与 react 的关系：
 </body>
 ```
 
-# 八、React 组件化开发
+## 八、React 组件化开发
 
 以上案例中，整个逻辑其实可以看做一个整体，将其封装成一个组件：
 
-- 我们知道 `root.render` 参数，是一个 HTML 元素或者一个组件；
+- 我们知道 `root.render` 的参数，是一个 HTML 元素或者一个组件；
 - 所以可以将业务逻辑封装到一个组件中，然后作为参数，传入到 `root.render` 中；
 
-在 React 中，封装一个组件有两种方式，**类组件**和**函数式组件**。先使用类组件。
+在 React 中，封装一个组件有两种方式，**类组件** 和 **函数式组件**；
 
-1. 定义一个类；
-   - 类名首字母必须大写，组件的名称是必须大写的，否则会被认为是 HTML 元素
-   - 继承自 `React.Component`
-2. 实现组件的 `render` 函数，返回的 jsx 内容，就是 React 会渲染的内容。
+这里先使用类组件。
+
+首先，定义一个类；
+- 类名首字母必须大写，组件的名称是必须大写的，否则会被认为是 HTML 元素。
+- 这个类要继承自 `React.Component`。
+
+然后，实现组件的 `render` 函数。返回的 jsx 内容，就是 React 会渲染的内容。
 
 ```jsx
 <body>
@@ -268,7 +282,7 @@ babel 与 react 的关系：
 </body>
 ```
 
-## 1.状态定义
+### 1.状态定义
 
 在组件中的数据，我们可以分成两类：
 
@@ -282,7 +296,7 @@ babel 与 react 的关系：
   - 更新 `this.state` 中的状态值；
   - 通知 React 进行 update 操作；改操作会调用 `render` 函数，使用最新的状态，来渲染界面。
 
-## 2.事件绑定中的 this 指向
+### 2.事件绑定中的 this 指向
 
 在类中定义一个实例方法，将这个方法，绑定到元素的 `onClick` 事件上，这个方法中的 `this` 默认情况下指向 `undefined`
 
@@ -299,9 +313,9 @@ babel 与 react 的关系：
 <button onClick={this.changeText.bind(this)}>改变文本</button>
 ```
 
-# 九、React 初体验（三）
+## 九、React 初体验（三）
 
-## 1.电影列表案例
+### 1.电影列表案例
 
 ```jsx
 <body>
@@ -341,7 +355,7 @@ babel 与 react 的关系：
 </body>
 ```
 
-## 2.计数器案例的
+### 2.计数器案例的
 
 ```jsx
 <body>
@@ -398,7 +412,7 @@ babel 与 react 的关系：
 
 为了方便编写 Demo，生成 VSCode 的 react 渐进式代码片段。
 
-# 十、JSX 是什么？
+## 十、JSX 是什么？
 
 JSX 是一种 JavaScript 的语法扩展（javaScript extension）;
 
@@ -408,7 +422,7 @@ JSX 也在很多地方称之为 JavaScript XML，因为看起就是一段 XML �
 
 它不同于 Vue 中的模块语法，你不需要专门学习模块语法中的一些指令（比如 `v-for`、`v-if`、`v-else`、`v-bind`）；
 
-# 十一、React 为什么用 jsx？（面试）
+## 十一、React 为什么用 jsx？（面试）
 
 React 认为渲染逻辑本质上与其他 UI 逻辑存在内在耦合：
 
@@ -418,7 +432,7 @@ React 认为渲染逻辑本质上与其他 UI 逻辑存在内在耦合：
 
 渲染逻辑与 UI 逻辑之间是密不可分，所以 React 旋转选择用 jsx 将它们组合到了一起，这就是组件（Component）；
 
-# 十二、jsx 书写规范
+## 十二、jsx 书写规范
 
 JSX 的顶层只能有一个根元素，所以一般在最外层包裹一个 `<div>` ,或者 `Fragment`；
 
@@ -426,9 +440,9 @@ jsx 通常包裹在 `()` 中，为进行换行书写，方便阅读。
 
 JSX 中的标签可以是单标签，也可以是双标签；单标签必须以 `/>` 结尾（HTML 中单标签元素可省略）。
 
-# 十三、jsx 使用
+## 十三、jsx 使用
 
-## 1.注释的写法
+### 1.注释的写法
 
 ```jsx
 const divEl = (
@@ -439,7 +453,7 @@ const divEl = (
 )
 ```
 
-## 2.嵌入变量作为子元素
+### 2.嵌入变量作为子元素
 
 情况一：当变量是 `Number`、`String`、`Array` 类型时，可以直接显示 。
 
@@ -449,7 +463,7 @@ const divEl = (
 
 情况三：Object 对象类型不能作为**子元素**在 JSX 语法中引用。
 
-## 3.嵌入表达式
+### 3.嵌入表达式
 
 运算表达式，如三元运算表达式；执行一个函数。
 
@@ -536,7 +550,7 @@ const divEl = (
 </body>
 ```
 
-## 3.元素属性绑定
+### 3.元素属性绑定
 
 动态绑定 class 通常有 3 种方式
 
