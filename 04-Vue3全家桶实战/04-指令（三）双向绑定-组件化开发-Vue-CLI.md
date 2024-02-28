@@ -9,10 +9,11 @@
 
 这要求我们可以在代码逻辑中，获取到用户提交的数据，我们通常会使用 `v-model` 指令来完成：
 
-- `v-model` 指令可以在表单 input、textarea 以及 select 元素上，创建**双向数据绑定**；
-- 它会根据控件类型，自动选取正确的方法来更新元素；
+`v-model` 指令可以在表单 `<input>`、`<textarea>` 、`<select>` 元素上，创建**双向数据绑定**；
 
-尽管看上去有些神奇，但 v-model 本质上是语法糖，它负责监听用户的输入事件，来更新数据，并在某种极端场景下进行一些特殊处理；
+它会根据控件类型，自动选取正确的方法来更新元素；
+
+尽管看上去有些神奇，但 v-model 本质上是语法糖：它负责监听用户的输入事件，来更新数据，并在某种极端场景下进行一些特殊处理；
 
 ### 1.v-model 基本使用
 
@@ -43,11 +44,11 @@
 
 v-model 可在以下表单元素上使用：
 
-- input（checkbox（单选，多选），radio）元素；
-- textarea 元素；
-- select 元素。
+- `<input>`（checkbox（单选，多选），radio）元素；
+- `<textarea>` 元素；
+- `<select>` 元素。
 
-`<input>` 的类型为 `checkout`，`radio` 且有 `v-model` 指令时，
+`<input>` 的类型为 `checkout` or `radio` 且有 `v-model` 指令时，
 
 - `name` 属性（用于做提交时获取 query 字符串的 key）可以省略。将由 v-model 指令的值，代替
 
@@ -135,12 +136,12 @@ v-model 可在以下表单元素上使用：
 </body>
 ```
 
-### 2.v-model 结合值绑定
+### 2.v-model 和值绑定
 
 目前，我们在前面的案例中，大部分的值都是在 `<template>` 中固定好的：
 
-- 比如 gender 的两个输入框值 male、female；
-- 比如 hobbies 的四个输入框值 sing, jump, rap, basketball；
+- 比如 gender 的两个输入框值 `male`、`female`；
+- 比如 hobbies 的四个输入框值 `sing`, `jump`, `rap`, `basketball`；
 
 在真实开发中，数据可能是来自服务器的，那么我们就可以先将值请求下来，绑定到 data 返回的对象中；
 

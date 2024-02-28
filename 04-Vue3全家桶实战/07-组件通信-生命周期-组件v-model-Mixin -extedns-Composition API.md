@@ -1,4 +1,4 @@
-# 组件通信-生命周期-Composition API
+# 组件通信-生命周期-组件v-model-Mixin -extedns-Composition API
 
 ## 一、非父子组件通信
 
@@ -712,7 +712,7 @@ v-model 也可用于组件。绑定多个属性。
 
 如果我们现在封装了一个组件，其他地方在使用这个组件时，是否也可以使用 v-model 来同时完成这两个功能呢？
 
-也是可以的，vue 也支持在组件上使用 v-model；
+答案是可以的，vue 也支持在组件上使用 v-model；
 
 ### 1.组件 v-model 基本使用
 
@@ -864,6 +864,204 @@ export default {
   }
 }
 </script>
+```
+
+### 4.Composition Api
+
+父组件：
+
+```vue
+<template>
+  <CommonInput v-model="inputValue" />
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+
+const inputValue = ref();
+</script>
+```
+
+子组件：
+
+```vue
+<template>
+  <input
+    :value="props.modelValue"
+    @input="emit('update:modelValue', $event.target.value)"
+  />
+</template>
+
+<script setup lang="ts">
+const props = defineProps(["modelValue"]);
+const emit = defineEmits(["update:modelValue"]);
+</script>
+```
+
+### 5.defineModel 实现数据双向绑定
+
+defineModel 是 Vue 3.4 推出的一项新特性。
+
+ `defineModel` 是一个宏，所以不需要从 vue 中 `import` 导入，直接使用就可以了。
+
+这个宏可以用来声明一个双向绑定 prop，通过父组件的 `v-model` 来使用。
+
+父组件：
+
+```vue
+<template>
+  <CommonInput v-model="inputValue" />
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+
+const inputValue = ref();
+</script>
+```
+
+子组件：
+
+```vue
+<template>
+  <input v-model="model" />
+</template>
+
+<script setup lang="ts">
+const model = defineModel();
+model.value = "xxx";
+</script>
+```
+
+以上案例中，直接将 `defineModel` 的返回值使用 `v-model` 绑定到 input 输入框上面；
+
+无需定义 `modelValue` 属性和监听 `update:modelValue` 事件，
+
+`defineModel` 的返回值是一个 `ref`，可以在子组件中修改 `model` 变量的值，并且父组件中的 `inputValue` 变量的值也会同步更新，这样就可以实现双向绑定。
+
+> 实现原理：
+>
+> `defineModel` 其实就是在子组件内定义了一个叫 `model` 的 ref 变量，和 `modelValue` 的 props，并且 `watch` 了 props 中的 `modelValue`。当 `props` 中的`modelValue` 的值改变后，会同步更新 `model` 变量的值。并且当在子组件内改变 `model` 变量的值后会抛出 `update:modelValue` 事件，父组件收到这个事件后就会更新父组件中对应的变量值。
+>
+> ```vue
+>
+> <template>
+>   <input v-model="model" />
+> </template>
+>
+> <script setup lang="ts">
+> import { ref, watch } from "vue";
+>
+> const props = defineProps(["modelValue"]);
+> const emit = defineEmits(["update:modelValue"]);
+> const model = ref();
+>
+> watch(
+>   () => props.modelValue,
+>   () => {
+>     model.value = props.modelValue;
+>   }
+> );
+> watch(model, () => {
+>   emit("update:modelValue", model.value);
+> });
+> </script>
+> ```
+
+### 6.defineModel 定义 type、default 等
+
+既然 `defineModel` 是声明了一个 prop，那同样也可以定义 prop的`type`、`default`。具体代码如下：
+
+```javascript
+const model = defineModel({ type: String, default: "20" });
+```
+
+除了支持 `type` 和 `default`，也支持 `required` 和 `validator`，用法和定义 `prop`时一样。
+
+### 7.defineModel 如何实现多个 v-model 绑定
+
+父组件：
+
+```vue
+<template>
+  <CommonInput v-model:count1="inputValue1" />
+  <CommonInput v-model:count2="inputValue2" />
+</template>
+```
+
+子组件：
+
+```vue
+<script>
+const model1 = defineModel("count1");
+const model2 = defineModel("count2");
+</script>
+```
+
+也可以在多个 `v-model` 中定义 `type`、`default` 等：
+
+```javascript
+const model1 = defineModel("count1", {
+  type: String,
+  default: "aaa",
+});
+```
+
+### 8.defineModel 使用内置修饰符、自定义修饰符
+
+系统内置的修饰符比如 `trim`，父、子组件的写法还是和之前是一样的：
+
+父组件：
+
+```vue
+<CommonInput v-model.trim="inputValue" />
+```
+
+子组件：
+
+```javascript
+const model = defineModel();
+```
+
+`defineModel` 支持自定义修饰符，比如：我们要实现一个将输入框的字母，全部变成大写的 `uppercase` 自定义修饰符，同时也需要使用内置的 `trim` 修饰符。
+
+父组件：
+
+```vue
+<CommonInput v-model.trim.uppercase="inputValue" />
+```
+
+子组件：
+
+```vue
+
+<template>
+  <input v-model="modelValue" />
+</template>
+
+<script setup lang="ts">
+const [modelValue, modelModifiers] = defineModel({
+  // get我们这里不需要
+  set(value) {
+    if (modelModifiers.uppercase) {
+      return value?.toUpperCase();
+    }
+  },
+});
+</script>
+```
+
+这里给 `defineModel` 传进去的第一个参数，就是包含 `get`  和  `set` 方法的对象；
+
+当对 `modelValue` 变量进行读操作时，会走到 `get` 方法里面去，当对`modelValue`变量进行写操作时，会走到 `set` 方法里面去。如果只需要对写操作进行拦截，那么可以不用写 `get`。
+
+`defineModel` 的返回值，也可以解构成两个变量，第一个变量 `modelValue`，就是前面几个例子的 `ref` 对象，用于给 `v-model` 绑定；第二个变量 `modelModifiers` 是一个对象，里面包含了修饰符，在这里有 `trim` 和 `uppercase` 两个修饰符，所以 `modelModifiers` 的值为：
+
+```json
+{
+  trim: true,
+  uppercase: true
+}
 ```
 
 ## 十、Mixin

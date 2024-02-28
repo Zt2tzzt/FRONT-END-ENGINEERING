@@ -73,7 +73,7 @@ API 架构的区别：
   <h2>哈哈哈</h2>
   <p>我是内容, 呵呵呵呵</p>
   <div id="app"></div>
-  
+
   <!-- CDN 地址 -->
   <script src="https://unpkg.com/vue@next"></script>
   <script>
@@ -94,7 +94,7 @@ Vue 的初体验，3 个案例的实现。
 ```html
 <body>
   <div id="app"></div>
-  
+
   <script src="./lib/vue.js"></script>
   <!-- 使用下载到本地的 vue -->
   <script>
@@ -116,7 +116,7 @@ Vue 的初体验，3 个案例的实现。
 ```html
 <body>
   <div id="app"></div>
-  
+
   <script src="./lib/vue.js"></script>
   <script>
     const app = Vue.createApp({
@@ -142,7 +142,7 @@ Vue 的初体验，3 个案例的实现。
 ```html
 <body>
   <div id="app"></div>
-  
+
   <script src="./lib/vue.js"></script>
   <script>
     const app = Vue.createApp({
@@ -186,7 +186,7 @@ Vue 的初体验，3 个案例的实现。
     <button @click="increment">+1</button>
     <button @click="decrement">-1</button>
   </div>
-  
+
   <script src="./lib/vue.js"></script>
   <script>
     const app = Vue.createApp({
@@ -262,7 +262,7 @@ Vue 使用 `template` 的 2 种方式。
   <h2>当前计数: <span class="counter"></span></h2>
   <button class="add">+1</button>
   <button class="sub">-1</button>
-  
+
   <script>
     // 1.获取dom
     const counterEl = document.querySelector('.counter')
@@ -466,7 +466,7 @@ Mustache 语法（双大括号语法/插值语法）的使用。
     <!-- 2. v-bind提供一个语法糖 -->
     <a :href="link">百度一下</a>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
   <script>
     Vue.createApp({
@@ -487,24 +487,24 @@ Mustache 语法（双大括号语法/插值语法）的使用。
 <body>
   <div id="app">
     <div :class="className">哈哈哈哈</div>
-    
+
     <!-- 对象语法: {'className': boolean} / {className: boolean}  -->
     <div :class="{active: isActive}">哈哈哈哈</div>
     <button @click="toggle">切换</button>
-    
+
     <!-- 也可以有多个键值对 -->
     <div :class="{active: isActive, title: true}">呵呵呵呵</div>
-    
+
     <!-- 默认的 class 和动态的 class 结合 -->
     <div class="abc cba" :class="{active: isActive, title: true}">呵呵呵呵</div>
-    
+
     <!-- 将对象放到一个单独的属性中 -->
     <div class="abc cba" :class="classObj">呵呵呵呵</div>
-    
+
     <!-- 将返回的对象放到一个 method(computed) 方法中 -->
     <div class="abc cba" :class="getClassObj()">嘿嘿嘿嘿</div>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
   <script>
     const app = {
@@ -541,14 +541,14 @@ Mustache 语法（双大括号语法/插值语法）的使用。
 <body>
   <div id="app">
     <div :class="['abc', title]">呵呵呵呵</div>
-    
+
     <!-- 在数组语法中，使用三元运算符 -->
     <div :class="['abc', title, isActive ? 'active' : '']">呵呵呵呵</div>
-    
+
     <!-- 在数组语法中，嵌套对象语法 -->
     <div :class="['abc', title, {active: isActive}]"></div>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
   <script>
     const app = {
@@ -573,14 +573,14 @@ Mustache 语法（双大括号语法/插值语法）的使用。
     <div :style="{color: finalColor, 'font-size': '30px'}">哈哈哈</div>
     <div :style="{color: finalColor, fontSize: '30px'}">哈哈哈</div>
     <div :style="{color: finalColor, fontSize: finalFontSize + 'px'}">哈哈哈</div>
-    
+
     <!-- 绑定一个 data 中的属性值，并且是一个对象 -->
     <div :style="FinalStyleObj">呵呵呵</div>
-    
+
     <!-- 调用一个方法 -->
     <div :style="getFinalStyleObj()">嘿嘿嘿</div>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
   <script>
     const app = {
@@ -618,7 +618,7 @@ Mustache 语法（双大括号语法/插值语法）的使用。
   <div id="app">
     <div :style="[style1Obj, style2Obj]">哈哈哈</div>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
   <script>
     const app = {
@@ -646,7 +646,7 @@ Mustache 语法（双大括号语法/插值语法）的使用。
   <div id="app">
     <div :[name]="value">哈哈哈</div>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
   <script>
     const app = {
@@ -674,7 +674,7 @@ Mustache 语法（双大括号语法/插值语法）的使用。
     <div v-bind="info">哈哈哈</div>
     <div :="info">哈哈哈</div>
   </div>
-  
+
   <script src="https://unpkg.com/vue@next"></script>
   <script>
     const app = {
@@ -693,4 +693,20 @@ Mustache 语法（双大括号语法/插值语法）的使用。
     Vue.createApp(app).mount('#app')
   </script>
 </body>
+```
+
+#### 8.同名速记
+
+`v-bind` 同名速记是 Vue 3.4 的新特性。
+
+比如一下这行代码：
+
+```vue
+<img :id="id" :src="src" :alt="alt" />
+```
+
+现在可以将 v-bind 绑定的属性缩短：
+
+```vue
+<img :id :src :alt />
 ```
