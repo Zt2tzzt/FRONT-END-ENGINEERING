@@ -16,7 +16,7 @@ npx 是 npm5.2 之后自带的一个命令。
 
 方式二：修改 `package.json` 中的 scripts
 
-- 运行时，使用 `npm run webpack`，会优先在 node_module 文件夹下找对应命令。
+运行时，使用 `npm run webpack`，会优先在 node_module 文件夹下找对应命令。
 
 ```json
 "scripts": {
@@ -73,7 +73,7 @@ npm deprecate
 
 pnpm 是 performance npm 缩写，主要解决了本地多个项目，重复下载依赖包的问题，
 
-pnpm 4 大优势理解：
+pnpm 四大优势理解：
 
 优势一：快速：pnpm 比其它包管理器快 2 倍。
 
@@ -97,14 +97,17 @@ pnpm 4 大优势理解：
 
 ### 3.硬连接是什么？
 
-硬连接（英语：hard link）是电脑文件系统中的多个文件平等地共享同一个文件存储单元；
+硬连接（英语：hard link）指的是计算机文件系统中的多个文件，平等地共享同一个文件存储单元；
 
 删除一个文件名字后，还可以用其它名字继续访问该文件；
 
 硬连接的弊端：
 
-- 硬链接只能操作文件，不能操作目录，因此，使用 pnpm 下载 axios 时，会将 axios 中的所有文件保存一份在 pnpm 指定的区域内。
-- 硬连接不能跨磁盘，所以项目文件与 pnpm 保存包的特定位置需要在同一磁盘。
+- 硬链接只能操作文件，不能操作目录，
+  - 所以使用 pnpm 下载 axios 时，会将 axios 中的所有文件保存一份在 pnpm 指定的区域内。
+
+- 硬连接不能跨磁盘。
+  - 所以项目文件与 pnpm 保存包的特定位置需要在同一磁盘。
 
 ### 4.软连接是什么？
 
@@ -120,30 +123,39 @@ pnpm 4 大优势理解：
 
 拷贝文件、软连接和硬连接的操作练习。
 
-- 文件的拷贝：文件的拷贝每个人都非常熟悉，会在硬盘中复制出来一份新的文件数据；
+文件的拷贝：文件的拷贝每个人都非常熟悉，会在硬盘中复制出来一份新的文件数据；
 
-  ```shell
-  copy foo.js foo_copy.js ## window
-  cp foo.js foo_copy.js ## macos
-  ```
+```shell
+copy foo.js foo_copy.js ## window
 
-- 文件的硬连接
+cp foo.js foo_copy.js ## macos
+```
 
-  ```shell
-  mklink /H aaa_hard.js aaa.js ## window
-  ln foo.js foo_hard.js ## macos
-  ```
+文件的硬连接
 
-- 文件的软连接：
+```shell
+mklink /H aaa_hard.js aaa.js ## window
 
-  ```shell
-  mklink aaa_soft.js aaa.js ## window
-  ln -s foo.js foo_soft.js ## macos
-  ```
+ln foo.js foo_hard.js ## macos
+```
+
+文件的软连接：
+
+```shell
+mklink aaa_soft.js aaa.js ## window
+
+ln -s foo.js foo_soft.js ## macos
+```
 
 ![文件拷贝、硬连接和软连接的理解](NodeAssets/文件拷贝、硬链接和软连接的理解.jpg)
 
 ### 5.pnpm 原理
+
+pnpm 使用硬链接复用存储在全局存储中的包，然后使用符号链接从 `node_modules` 文件夹中引用这些包。
+
+这种结构确保了包只会被下载和保存一次，并允许包在所有使用该包的项目之间更新。同时，它也为每个项目保持了一个完整且非平铺的 `node_modules` 结构，兼顾了性能和通用性。
+
+### 6.pnpm 优势
 
 pnpm 到底做了哪些操作？（pnpm 最大优势体现）
 
@@ -165,14 +177,22 @@ pnpm 到底做了哪些操作？（pnpm 最大优势体现）
 
 ![pnpm创建非扁平的node_modules 目录](NodeAssets/pnpm创建非扁平的node_modules 目录.jpg)
 
-pnpm 的安装
+### 7.pnpm 安装
 
-- [有很多种安装方式](https://www.pnpm.cn/installation)
-- 可以使用 npm 来安装：`npm install pnpm -g`
+pnpm [有很多种安装方式](https://www.pnpm.cn/installation)
+
+可以使用 npm 来安装：`npm install pnpm -g`
 
 pnpm 的使用。
 
-![npm 与 pnpm 等价命令](NodeAssets/npm 与 pnpm 等价命令.jpg)
+| nom 命令              | pnpm 等价命令       |
+| --------------------- | ------------------- |
+| npm install           | ppm install         |
+| npm install \<pkg\>   | ppm add \<pkg\>     |
+| npm uninstall \<pkg\> | pnpm remove \<pkg\> |
+| npm run \<cmd\>       | pnpm \<cmd\>        |
+
+### 8.pnpm 其它常用命令
 
 获取 pnpm 的存储位置的方式。
 

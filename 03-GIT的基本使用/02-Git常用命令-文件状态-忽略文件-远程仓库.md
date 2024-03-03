@@ -96,6 +96,16 @@ git commit -a -m "[提交信息]" ## 该操作只针对 modified 状态的文件
 - 比如一些编辑器自动生成的文件；
 - [github 上有一个库](https://github.com/github/gitignore.git)，维护了各语言开发的项目中需要的 .gitignore 文件
 
+.gitignore 文件有时不起作用，通常是因为要被忽略的文件，已经被 git 追踪。
+
+在 git 中，取消对该文件的追踪，再进行提交即可。
+
+```shell
+git rm -r --cached 文件名称
+
+git commit
+```
+
 ## 三、Git 校验和
 
 Git 中所有的数据在存储前都会计算校验和，然后以校验和来引用（`git log` 会展示每次 commit 的校验和，也就是每次 commit 的 id）。
