@@ -164,7 +164,7 @@ npm config get cache
 # 查看 npm 镜像：
 npm config get registry
 # 我们可以直接设置 npm 的镜像：
-npm config set registry https://registry.npm.taobao.org
+npm config set registry https://registry.npmmirror.com
 ```
 
 - 但是对于大多数人来说，并不希望将 npm 镜像修改：
@@ -173,6 +173,6 @@ npm config set registry https://registry.npm.taobao.org
 - 这个时候，我们可以使用 cnpm，并且将 cnpm 设置为淘宝的镜像：
 
 ```shell
-npm install -g cnpm --registry=https://registry.npm.taobao.org
+npm install -g cnpm --registry=https://registry.npmmirror.com
 cnpm config get registry
 ```
