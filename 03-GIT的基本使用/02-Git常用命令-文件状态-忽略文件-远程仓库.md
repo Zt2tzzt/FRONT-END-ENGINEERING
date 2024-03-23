@@ -232,8 +232,8 @@ git 的版本回退，包括分支的切换，本质上都是在改 HEAD。
 - 如果我们以 SSH 的方式访问 Git 仓库，那么就需要生成对应的公钥和私钥：
 
   ```shell
-  ssh-keygen -t ed25519 -C “[your email]" ## 现在常用
-  ssh-keygen -t rsa -b 2048 -C “[your email]" ## 以前常用
+  ssh-keygen -t ed25519 -C "your email" # 现在常用
+  ssh-keygen -t rsa -b 2048 -C "your email" # 以前常用
   ```
 
 ## 八、GIT 关联远程仓库
