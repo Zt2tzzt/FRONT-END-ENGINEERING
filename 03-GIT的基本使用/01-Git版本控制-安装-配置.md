@@ -164,6 +164,12 @@ git config --global alias.st status
 git config --global core.autocrlf true
 ```
 
+为 git 命令初始化仓库时，配置默认的分支名为 main
+
+```shell
+git config --global init.defaultBranch main
+```
+
 ## 四、初始化 Git 仓库
 
 使用 Git 来管理源代码，那么我们本地也需要有一个 Git 仓库。

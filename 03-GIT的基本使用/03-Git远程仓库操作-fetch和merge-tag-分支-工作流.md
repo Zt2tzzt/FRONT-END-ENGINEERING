@@ -354,6 +354,18 @@ git branch –d hotfix ## 删除当前分支，删除的是分支指针，提交
 git branch –D hotfix ## 强制删除某一个分支
 ```
 
+### 8.修改分支名
+
+将本地当前分支名改为 main
+
+```shell
+git branch -m main
+
+git branch -M main # 强制更改
+```
+
+
+
 ## 六、Git 分支合并冲突解决
 
 对 2 个分支进行合并（不论远程还是本地），某些情况下会出现冲突。
