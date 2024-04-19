@@ -7,7 +7,7 @@
 
 ### 1.克隆远程仓库代码
 
-从远程仓库 clone 代码：将存储库克隆到新创建的目录中；
+从远程仓库 clone 代码：将存储库克隆到新创建b的目录中；
 
 ```shell
 git clone [url]
@@ -363,8 +363,6 @@ git branch -m main
 
 git branch -M main # 强制更改
 ```
-
-
 
 ## 六、Git 分支合并冲突解决
 

@@ -311,7 +311,6 @@ git pull ## 将上游分支的代码，拉取到当前分支并合并
 > 这导致了一个后果：新创建的项目可能被一个毫不留意的维护者，合并了很多没有必要的历史，到一个已经存在的项目中，
 >
 > 所以，目前这个命令已经被纠正；但是我们依然可以通过 `--allow-unrelated-histories` 选项来逃逸这个限制，以此合并两个独立的项目；
-> 
 
 解决办法一：在合并时，允许两个拥有不同基础（base）的分支进行合并。
 
@@ -324,4 +323,3 @@ git merge --allow-unrelated-histories
 ```shell
 git pull --rebase origin master
 ```
-
