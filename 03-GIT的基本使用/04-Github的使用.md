@@ -1,6 +1,6 @@
 # Github 的使用
 
-## 一、issue 的使用
+## 一、issue
 
 用户提交 issue 后，会有一个编号，通常在标题处表示为 `#xxx`，表示是第 xxx 个 issue。
 
@@ -8,7 +8,7 @@
 
 解决人员修改代码后，提交信息应使用：`fix: #xxx`，这样，在提交记录里，可以直接链接到 issue 的页面。
 
-## 二、Pull Request 的使用
+## 二、Pull Request
 
 创建新分支，或 fork 仓库，才能出发 Pull Request。
 
@@ -36,7 +36,7 @@ git branch -d new-branch
 
 用 fork 触发 pull request，道理与创建新分支触发 pull request 相同。
 
-## 三、release 的使用
+## 三、release
 
 Github 上的 release 是 tag 标签的。
 
@@ -44,7 +44,7 @@ Github 上的 release 是 tag 标签的。
 
 这时，需要指定一个标签，来发行版本。再填写相应的描述，和添加软件发行包的二进制文件（通常是压缩归档文件）即可。
 
-## 四、搜索
+## 四、Search
 
 按 s 键，自动聚焦搜索框。
 
@@ -63,3 +63,39 @@ Github 上的 release 是 tag 标签的。
 在仓库详情页，按 。键，在网页编辑器中，打开代码仓库。
 
 在项目地之前，加上 `gitpod.io/#/` 前缀。不仅能在网页编辑器中打开项目，而且会自动识别项目类型并安装依赖包。这个远程服务器中，预装了大部分环境（如 Java、python、Go、...）可以输入命令来运行项目。
+
+## 五、Actions
+
+Github 是一个远程代码仓库，Github Action 用于自定义化工作流。
+
+当从本地推送代码到 Github 仓库，或在仓库里进行其它动作时，这些都是事件发生的时刻。
+
+当事件发生时，需要指定工作流，来完成一些事情：
+
+- 工作流里，可以有多份工作。
+- 这些工作里，需要执行指定的步骤。
+
+这些工作，本可以在本地运行，但既然通过 Github 触发，那么表示这些工作会在服务器上运行。
+
+服务器可以选择 Github 提供的服务器，或者自己的服务器。
+
+这些工作之间，默认是同时进行的。工作里的步骤，默认则是按照顺序执行的。
+
+```mermaid
+graph LR
+A(>_本地命令行) -->|git push| B(Github)
+    B --> C[工作1]
+      C --> F[步骤1]
+    B --> D[工作2]
+      D --> G[步骤1]
+      D --> I[步骤2]
+      D --> J[步骤3]
+    B --> E[工作2]
+      E --> K[步骤1]
+      E --> L[步骤2]
+      E --> M[步骤3]
+```
+
+Github Action 的配置文件是 .github/workflows/xxx.yml。
+
+将本地仓库，推送到 Github 远程仓库时，Github 会识别上方的 action 配置文件，并启用 Actions 功能。
