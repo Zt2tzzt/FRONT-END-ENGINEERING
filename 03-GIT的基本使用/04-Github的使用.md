@@ -66,6 +66,8 @@ Github 上的 release 是 tag 标签的。
 
 ## 五、Actions
 
+### 1.基本概念
+
 Github 是一个远程代码仓库，Github Action 用于自定义化工作流。
 
 当从本地推送代码到 Github 仓库，或在仓库里进行其它动作时，这些都是事件发生的时刻。
@@ -77,9 +79,9 @@ Github 是一个远程代码仓库，Github Action 用于自定义化工作流�
 
 这些工作，本可以在本地运行，但既然通过 Github 触发，那么表示这些工作会在服务器上运行。
 
-服务器可以选择 Github 提供的服务器，或者自己的服务器。
+- 服务器可以选择 Github 提供的服务器，或者自己的服务器。
 
-这些工作之间，默认是同时进行的。工作里的步骤，默认则是按照顺序执行的。
+这些工作之间，默认是同时进行的。工作里的步骤，默认则是按顺序执行的。
 
 ```mermaid
 graph LR
@@ -96,6 +98,161 @@ A(>_本地命令行) -->|git push| B(Github)
       E --> M[步骤3]
 ```
 
+### 2.案例实践
+
 Github Action 的配置文件是 .github/workflows/xxx.yml。
 
 将本地仓库，推送到 Github 远程仓库时，Github 会识别上方的 action 配置文件，并启用 Actions 功能。
+
+这个 yaml 配置文件，是 DevOps 模式的灵魂文件。
+
+以下是一个 action 配置文件示例：
+
+.github/workflows/zetian.yml
+
+```yaml
+on: push
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: pwd
+      - run: ls
+  job2:
+    runs-on: windows-latest
+    steps:
+      - run: node --version
+```
+
+推送上方文件到 Github 仓库，在 Github 仓库页面，查看 Action 选项卡下新增的工作流。
+
+在其中可以看到工作流执行的每一步详情（包括使用操作系统镜像中配置好的软件，命令执行的结果等等）
+
+### 3.react 项目自动部署
+
+配置一个 react 项目的 github action：
+
+```yaml
+name: 打包React项目
+
+on: push
+
+permissions:
+  contents: write
+
+jobs:
+  npm-build:
+    name: npm-build工作
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 查看环境信息
+        run: |
+          pwd
+          npm -v
+          npm install -g pnpm
+          pnpm -v
+
+
+      - name: 读取仓库内容
+        uses: actions/checkout@v4 # 一个现成的 action，使用它，在 github 服务器上访问仓库内容
+
+      - name: 安装依赖&项目打包
+        run: |
+          pnpm install
+          pnpm build
+
+      - name: 项目部署
+        uses: JamesIves/github-pages-deploy-action@v4 # 部署在 github pages 上
+        with:
+          branch: gh-pages # 会创建 gh-pages 分支，并把上产环境文件放到该分支里。
+          folder: build # react 打包后的生产环境文件，在 build 文件夹里。
+
+```
+
+- [actions/checkout](https://github.com/actions/checkout) 是一个现成的 action，使用它，在 github 服务器上访问仓库内容，
+- 使用 `name` 来为每一项工作，添加名称，增加可读性。
+
+推送代码到远程仓库。
+
+进入 Github 仓库页面 -> Settings -> 右侧 Pages 菜单 -> 指明从 gh-pages 分支开始构建，并保存
+
+然后再进入 Github 仓库页面 -> Action 选项卡 -> 点击最新的工作流（通常是“pages build and deployment ”）
+
+> react 项目打包前，要在 package.json 中，加入如下配置：以便打包服务器能够后找到入口文件提供服务
+>
+> ```json
+> {
+>   "homepage": "./",
+> }
+> ```
+
+### 4.react 项目自动推送 docker 镜像
+
+再项目根目录下，创建一个 `Dockerfile`
+
+```dockerfile
+FROM node:18-alpine
+
+WORKDIR /react-aribnb
+
+COPY public /react-aribnb/public
+COPY src /react-aribnb/src
+COPY package.json /react-aribnb/package.json
+
+RUN npm install
+
+CMD ["npm", "start"]
+```
+
+在 DcokerHub 新建一个仓库 react-aribnb
+
+在 DockerHub 页面点击头像 -> My Account -> 右侧 Security -> New Access Token -> Generate；将生成号的 token 记录下来
+
+在 Github 仓库页面 -> 进入 Settings 选项卡 -> 左侧 Secrets and Variables -> Actions -> New repository secrets；
+
+新增两个 repository secret “DOCKERHUB_USERNAME”、“DOCKERHUB_TOKEN”，将 docker 的账号名，和 docker 中生成的 token，分别保存在其中。
+
+配置一个 github action 配置文件：
+
+```yaml
+name: 构建镜像并推送到DcokerHub
+
+on: push
+
+jobs:
+  npm-build:
+    name: npm-build工作
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 读取仓库内容
+        uses: actions/checkout@v4
+
+      - name: 登录DcokerHub
+        uses: docker/login-action@v3 # 利用现成的 action
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: 构建并推送到DcokerHub
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: zt2tzzt/react-aribnb:latest # 和 dockerhub 仓库对应
+
+```
+
+提交并推送代码到 Github 仓库。等待 Github Action 执行完成。
+
+然后会发现，Github Action 将构建好的镜像，推送到了 DockerHub 中。
+
+在本地拉取 Dockerhub 中的镜像，并创建和运行容器，看看效果：
+
+```shell
+docker run -d \
+  --name react-aribnb \
+  -p 3333:3000 \
+  zt2tzzt/react-aribnb
+```
