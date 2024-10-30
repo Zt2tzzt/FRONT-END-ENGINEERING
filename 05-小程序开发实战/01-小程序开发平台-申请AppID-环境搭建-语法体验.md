@@ -261,7 +261,7 @@ MVVM 架构将我们从命令式编程转移到声明式编程。
 
 ![小程序双线程吗模型](NodeAssets/小程序双线程吗模型.jpg)
 
-了解 skyline 渲染引擎，目前是 Beta 版本。
+了解 [skyline](https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/introduction.html) 渲染引擎，目前是 Beta 版本。
 
 ## 十四、小程序的配置文件
 
@@ -362,7 +362,7 @@ pages / profile / index.json
   "usingComponents": {},
   "navigationBarTitleText": "个人信息",
   "navigationBarBackgroundColor": "#f00",
-  "enablePullDownRefresh": true, // 上拉刷新
+  "enablePullDownRefresh": true, // 下拉刷新
   "onReachBottomDistance": 100 // 触底前 100px，触发触底的回调
 }
 ```
