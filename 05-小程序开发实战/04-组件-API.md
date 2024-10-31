@@ -252,7 +252,9 @@ Component({
 
 Component 所在页面的生命周期 [官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/lifetimes.html)
 
-还有一些特殊的生命周期，它们并非与组件有很强的关联，但有时组件需要获知，以便组件内部处理。这样的生命周期称为“组件所在页面的生命周期”，在 pageLifetimes 定义段中定义。
+还有一些特殊的生命周期，它们并非与组件有很强的关联，但有时组件需要获知，以便组件内部处理。
+
+这样的生命周期称为“组件所在页面的生命周期”，在 `pageLifetimes` 定义段中定义。
 
 ```js
 Component({
@@ -286,7 +288,7 @@ Component 的 observers option [官方文档](https://developers.weixin.qq.com/m
 
 ### 1.网络请求 API
 
-微信提供了专属的 API 接口,用于网络请求: [wx.request](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)
+微信提供了专属的 API 接口，用于网络请求: [wx.request](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)
 
 比较关键的几个属性解析:
 
@@ -401,7 +403,7 @@ ztRequest
   })
 ```
 
-> 与页面展示不相干的数据，
+> 与页面展示不相干的数据（不需要做响应式的数据），
 >
 > - 可定义在 data 中，直接使用 `this.data.xxx = xxx` 修改，
 > - 也可以直接定义在实例对象中，直接使用 `this.xxx = xxx` 修改。
@@ -416,7 +418,7 @@ ztRequest
 - 域名不能使用 IP 地址（小程序的局域网 IP 除外）或 localhost；
 - 可以配置端口，
   - 如 `https://myserver.com:8080`
-  - 如果向 `https://myserver.com` 或 `https://myserver.com:9091` 等 URL 请求，则会失败。
+  - 如果再向 `https://myserver.com` 或 `https://myserver.com:9091` 等 URL 请求，则会失败。
 - 如果不配置端口。
   - 如 `https://myserver.com`；
   - 那么请求的 URL 中也不能包含端口；
@@ -535,6 +537,8 @@ wx.getSystemInfo({
 })
 ```
 
+从基础库 [2.20.1](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 开始，本接口停止维护，请使用 [wx.getSystemSetting](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemSetting.html)**、**[wx.getAppAuthorizeSetting](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getAppAuthorizeSetting.html)**、**[wx.getDeviceInfo](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getDeviceInfo.html)**、**[wx.getWindowInfo](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getWindowInfo.html)**、**[wx.getAppBaseInfo](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getAppBaseInfo.html) 代替
+
 ### 6.获取位置信息
 
 开发中，我们需要经常获取用户的位置信息，以方便给用户提供相关的服务： 我们可以通过 API 获取：[wx.getLocation](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html)
@@ -618,6 +622,10 @@ wx.setStorage({
 | [wx.navigateTo](https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateTo.html)     | 保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面。使用 [wx.navigateBack](https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html) 可以返回到原页面。小程序中页面栈最多十层 |
 | [wx.navigateBack](https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html) | 关闭当前页面，返回上一页面或多级页面。可通过 [getCurrentPages](https://developers.weixin.qq.com/miniprogram/dev/reference/api/getCurrentPages.html) 获取当前的页面栈，决定需要返回几层。                         |
 
+> 由于 WebView 的内存占用较大，页面层级最多有 10 层，
+>
+> 而 Skyline 在内存方面更有优势，因此在连续 Skyline 页面跳转（复用同一引擎实例）的情况下，不再有该限制。
+
 基本使用：
 
 index.js
@@ -648,9 +656,7 @@ index.html
 
 #### 3.跳转时传递数据
 
-**方式一：**
-
-在路径后面拼接。`?queryString`
+**方式一：**在路径后面拼接。`?queryString`
 
 Page1 index.js
 
@@ -665,7 +671,7 @@ Page({
 })
 ```
 
-Page2 detail.js
+Page2 / detail.js
 
 ```js
 Page({
@@ -682,11 +688,9 @@ Page({
 })
 ```
 
-**方式二：**
+**方式二：**在小程序基础库 2.7.3 版本后支持 [EventChannel](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.html)，`wx.navigateTo` 成功的回调结果中，可获取 `eventChannel` 实例。
 
-在小程序基础库 2.7.3 版本后支持 [EventChannel](https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.html)，`wx.navigateTo` 成功的回调结果中，可获取 `eventChannel` 实例。
-
-Page1 index.js
+Page1 / index.js
 
 ```js
 Page({
@@ -894,15 +898,15 @@ unionid 用于在微信生态（小程序，公众号等等）中，识别唯一
 
    ```js
    import { getCode, checkSession, checkToken, getToken } from "../../service/login";
-
+   
    App({
       async onLaunch() {
         // 1.获取 Storage 中的 token
         const token = wx.getStorageSync('token') || ""
-
+   
         // 2.获取 session 是否过期的状态
         const isSessionExpire = await checkSession()
-
+   
         // 3.如果 token 有值，且 session 没有过期，则验证 token 是否过期，否则直接进行登录操作。
         if (token && isSessionExpire) {
           const checkResult = await checkToken(token)
@@ -914,7 +918,7 @@ unionid 用于在微信生态（小程序，公众号等等）中，识别唯一
           this.login()
         }
       }
-
+   
       // 4.封装登录的方法
       async login() {
         // 1.获取 code

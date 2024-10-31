@@ -196,6 +196,18 @@ index.wxml
 - 字符串，代表在 for 循环遍历的 item 中某个 property，该 property 的值需要是列表中唯一的字符串或数字，且不能动态改变。
 - 保留关键字 `*this` 代表在 for 循环中的 item 本身，这种表示需要 item 本身是一个唯一的字符串或者数字。
 
+#### 5.Skyline 特性
+
+Skyline 引擎支持了相似节点的样式共享，使得样式只需要计算一次便能共享给其它相似节点，大大提升了样式计算的性能。
+
+一般来说，我们会用 WXML 模板语法 `wx:for` 来展开列表，因此只需要在列表项声明 `list-item` 就能启动样式共享（后续版本会识别 `wx:for` 而自动启用）
+
+```html
+<scroll-view type="list" scroll-y>
+    <view wx:for="" list-item> {{index}} </view>
+</scroll-view>
+```
+
 ## 二、WXS 语法
 
 WXS（WeiXin Script）是小程序的一套脚本语言，结合 WXML，可以构建出页面的结构。
@@ -218,7 +230,7 @@ WXS 使用的限制和特点：
 >
 > - 如果这么设计，底层需要进行频繁的传递，会造成较大的性能损耗。
 >
-> wxs 运行在 webview 线程中。不要在其中做耗时操作，会影响性能。
+> wxs 运行在 webview 线程中。所以不要在其中做耗时操作，会影响性能。
 
 ### 1.写在 `<wxs>` 标签中
 

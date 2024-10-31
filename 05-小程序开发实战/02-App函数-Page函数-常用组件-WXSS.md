@@ -222,8 +222,8 @@ text 组件：[官方文档](https://developers.weixin.qq.com/miniprogram/dev/co
 常用的属性
 
 - `user-select` 属性决定文本内容是否可以让用户选中。
-- `space` 有三个取值(了解)。
-- `decode` 是否解码(了解)，默认不解码，即展示原字符。
+- `space` 有三个取值（了解）。
+- `decode` 是否解码（了解），默认不解码，即展示原字符。
   - decode 可以解析的有 `&nbsp;` `&lt;` `&gt;` `&amp;` `&apos;` `&ensp;` `&emsp;`
 
 index.wxml
@@ -381,8 +381,8 @@ scroll-view 组件：[官方文档·](https://developers.weixin.qq.com/miniprogr
 
 - scroll-view 可以实现局部滚动；
 - scroll-view 组件实现滚动的前提：
-  - 有固定高度/宽度，
-  - 内容大于固定高度/宽度。
+  - 容器有固定高度/宽度，
+  - 容器的内容大于固定高度/宽度。
   - 设置了朝哪个方向滚动（添加 `scroll-x` 或者 `scroll-y` 属性）。
 - scroll-view 如果要开启 flex 布局，需要添加属性 `enable-flex`;
 
