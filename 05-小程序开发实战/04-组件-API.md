@@ -810,6 +810,8 @@ Page({
 
 ### 2.认识小程序登录流程
 
+[官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html)
+
 ![小程序登录流程](NodeAssets/小程序登录流程.jpg)
 
 ### 3.openid 和 unionid
