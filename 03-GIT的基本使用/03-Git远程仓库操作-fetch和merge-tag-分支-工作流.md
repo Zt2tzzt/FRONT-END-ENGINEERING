@@ -520,3 +520,51 @@ git merge experiment
 ## 十、Git 命令速查表图解
 
 ![git命令速查表](./NodeAssets/git命令速查表.jpg)
+
+## 十一、Git 提交中删除某个文件
+
+在 macOS 系统中，`.DS_Store` 文件用于存储目录的自定义属性，如图标位置和背景色选择。然而，这些文件在 Git 仓库中通常是不需要的，可能会引发不必要的麻烦。 [博客园+3CSDN博客+3CSDN博客+3](https://blog.csdn.net/weixin_43593871/article/details/122770880?utm_source=chatgpt.com)
+
+要从 Git 仓库中删除已提交的 `.DS_Store` 文件，并防止其再次被提交，您可以按照以下步骤操作：
+
+1. **删除已提交的 `.DS_Store` 文件**
+
+   在终端中导航到您的项目根目录，然后执行以下命令，删除项目中所有已被 Git 跟踪的 `.DS_Store` 文件：
+
+   ```bash
+   find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+   ```
+
+此命令会查找并删除项目中所有被 Git 跟踪的 `.DS_Store` 文件。
+
+1. **将 `.DS_Store` 添加到 `.gitignore` 文件**
+
+   为了防止将来的提交中包含 `.DS_Store` 文件，您需要将其添加到 `.gitignore` 文件中。编辑项目根目录下的 `.gitignore` 文件，添加以下内容：
+
+   ```bash
+   **/.DS_Store
+   ```
+
+这将告诉 Git 忽略项目中所有目录下的 `.DS_Store` 文件。
+
+1. **提交更改**
+
+   执行以下命令，将上述更改提交到仓库：
+
+   ```bash
+   git add .gitignore
+   git commit -m "Remove .DS_Store files and update .gitignore"
+   ```
+
+1. **全局忽略 `.DS_Store` 文件（可选）**
+
+   如果您希望在所有 Git 仓库中都忽略 `.DS_Store` 文件，可以将其添加到全局 `.gitignore` 文件中。执行以下命令：
+
+   ```bash
+   echo '**/.DS_Store' >> ~/.gitignore_global
+   git config --global core.excludesfile ~/.gitignore_global
+   ```
+
+这将确保在所有 Git 仓库中，`.DS_Store` 文件都被忽略。
+
+通过以上步骤，您可以有效地从 Git 仓库中删除 `.DS_Store` 文件，并防止其在未来的提交中被包含。
