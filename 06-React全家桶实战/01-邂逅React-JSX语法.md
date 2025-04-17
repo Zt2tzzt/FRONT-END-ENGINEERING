@@ -1,4 +1,4 @@
-# 01-邂逅React-JSX语法
+# 01-邂逅 React-JSX 语法
 
 ## 一、React 是什么？
 
@@ -58,7 +58,7 @@ React 是前端的先驱者，它引领整个前端的潮流。
 
 ### 1.声明式编程
 
-声明式编程，目前是整个大前端，流行的开发的模式。比如：Vue、React、Flutter、SwiftUI；都是用生命是编程。
+声明式编程，目前是整个大前端，流行的开发的模式。比如：Vue、React、Flutter、SwiftUI；都是用声明式编程。
 
 声明式编程允许我们只维护状态，当它改变时，根据最新的状态去渲染 UI 界面；
 
@@ -88,31 +88,35 @@ React 是前端的先驱者，它引领整个前端的潮流。
 
 在界面上通过 React 显示一个 Hello World
 
+01-Learn-react-basic/01-react 初体验/01-第一个 React 程序.html
+
 ```html
 <body>
-	<div id="root"></div>
+  <div id="root"></div>
 
-	<!-- 添加依赖，需要三个包，-->
+  <!-- 添加依赖，需要三个包，-->
 
   <!-- 使用 CDN 引入，crossorigin 这个属性的目的是为了拿到跨域脚本的错误信息-->
-	<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script><!-- babel -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <!-- babel -->
 
   <!-- 必须添加 `type="text/babel"`，作用是可以让 babel 解析 jsx 的语法 -->
-	<script type="text/babel">
+  <script type="text/babel">
     // React 18 之前的写法 *
-		ReactDOM.render(<h2>Hello world</h2>, document.querySelector('#root'))
+    ReactDOM.render(<h2>Hello world</h2>, document.querySelector('#root'))
 
     // React 18 之后的写法
-		const root = ReactDOM.createRoot(document.querySelector('#root'))
-		root.render(<h2>Hello World</h2>)
-
-	</script>
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    root.render(<h2>Hello World</h2>)
+  </script>
 </body>
 ```
 
 创建 react 根组件的代码解析：
+
+01-Learn-react-basic/01-react 初体验/01-第一个 React 程序.html
 
 ```jsx
 // React 18 之后的写法
@@ -130,7 +134,7 @@ root.render(<h2>Hello World</h2>)
 
 对于 Vue 来说，只依赖一个 vue.js 文件即可；
 
-然而 React 必须依赖三个库。即上文 CDN 引入的三个库；这三个库各司其职。依赖的引入方式：
+然而 React 必须依赖三个库。即上文 CDN 引入的三个库；这三个库**各司其职**。依赖的引入方式：
 
 - 方式一：直接 CDN 引入。
 
@@ -146,7 +150,7 @@ root.render(<h2>Hello World</h2>)
 
 其中包含渲染在不同平台所需要的核心代码。
 
-早期没有 *react-dom* 库，所有功能都包含在 *react* 库里；
+早期没有 _react-dom_ 库，所有功能都包含在 _react_ 库里；
 
 在 React 0.14 版本之后，加入了 react-native 的功能，将 react-dom 拆分为一个独立的包，在使用 react 时引入；
 
@@ -159,7 +163,7 @@ root.render(<h2>Hello World</h2>)
 
 将 jsx 转换成 `React.createElement` 编写的源代码。
 
-> Babel 是一个工具链，最早用于在旧浏览器或环境中将 ES6+ 代码转成向后兼容的版本。
+> Babel 是一个工具链，最早用于在旧浏览器或环境中，将 ES6+ 代码转成向后兼容的版本。
 >
 > 现在主要用于语法转换，源代码转换等。
 >
@@ -168,7 +172,7 @@ root.render(<h2>Hello World</h2>)
 babel 与 react 的关系：
 
 - 不使用 babel，需要使用 `React.createElement` 来编写代码，非常的繁琐，可读性差。
-- 使用 babel，可直接编写 jsx（JavaScript XML）代码；babel 会将 jsx 编译成 `React.createElement` 形式的源码。
+- 使用 babel，可直接编写 **jsx（JavaScript XML）**代码；babel 会将 jsx 编译成 `React.createElement` 形式的源码。
 
 ## 七、React 初体验：实现简单案例
 
@@ -180,40 +184,44 @@ babel 与 react 的关系：
 - jsx 中实现事件的监听，监听按钮的点击。
 - React 在默认情况下，不会进行重新渲染。
 
+01-Learn-react-basic/01-react 初体验/02-HelloReact 案例.html
+
 ```jsx
 <body>
 
-	<div id="root"></div>
+  <div id="root"></div>
 
-	<!-- 引入下载到本地的依赖 -->
-	<script src="../../lib/react.development.js"></script>
-	<script src="../../lib/react-dom.development.js"></script>
-	<script src="../../lib/babel.min.js"></script>
+  <!-- 引入下载到本地的依赖 -->
+  <!-- 添加依赖，三个包，使用 CDN 引入 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-	<script type="text/babel">
-		const root = ReactDOM.createRoot(document.querySelector('#root'))
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
 
-		// 1.将文本定义成变量
-		let msg = 'Hello world'
+    // 1.将文本定义成变量
+    let msg = 'Hello world'
 
-		// 2.定义按钮点击执行的函数
-		function onbtnClick() {
-			msg = 'Hello React'
-			render()
-		}
+    // 2.定义按钮点击执行的函数
+    function onbtnClick() {
+      msg = 'Hello React'
+      render()
+    }
 
-		// 3.封装一个渲染函数，并调用一次。
-		function render() {
-			// 第一个括号表示 render 方法执行，第二个括号表示 jsx 代码块整体
-			root.render((
-				<div>
-					<h2>{ msg }</h2>
-					<button onClick={ onbtnClick }>修改文本</button>
-				</div>
-			))
-		}
-		render()
-	</script>
+    // 3.封装一个渲染函数，并调用一次。
+    function render() {
+      // 第一个括号表示 render 方法执行，第二个括号表示 jsx 代码块整体
+      root.render((
+        <div>
+          <h2>{ msg }</h2>
+          <button onClick={ onbtnClick }>修改文本</button>
+        </div>
+      ))
+    }
+    render()
+  </script>
 </body>
 ```
 
@@ -229,56 +237,61 @@ babel 与 react 的关系：
 这里先使用类组件。
 
 首先，定义一个类；
-- 类名首字母必须大写，组件的名称是必须大写的，否则会被认为是 HTML 元素。
+
+- 类名首字母必须**大写**，组件的名称是必须大写的，否则会被认为是 HTML 元素。
 - 这个类要继承自 `React.Component`。
 
 然后，实现组件的 `render` 函数。返回的 jsx 内容，就是 React 会渲染的内容。
 
+01-Learn-react-basic/01-react 初体验/03-HelloReact 重构.html
+
 ```jsx
 <body>
-	<div id="root"></div>
+  <div id="root"></div>
 
-	<script src="../../lib/react.development.js"></script>
-	<script src="../../lib/react-dom.development.js"></script>
-	<script src="../../lib/babel.min.js"></script>
+  <!-- 添加依赖，三个包，使用 CDN 引入 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-	<script type="text/babel">
-		// 使用组件进行代码重构
-		class App extends React.Component {
-			constructor() {
-				super()
-				// 组件的状态
-				this.state = {
-					msg: 'Hello World',
-					name: 'zzt',
-					age: 18
-				}
+  <script type="text/babel">
+    // 使用组件进行代码重构
+    class App extends React.Component {
+      constructor() {
+        super()
+        // 组件的状态
+        this.state = {
+          msg: 'Hello World',
+          name: 'zzt',
+          age: 18
+        }
 
-				// 为在 jsx 标签属性中使用的方法提前绑定好 this
-				this.onBtnClick = this.onBtnClick.bind(this)
-			}
+        // 为在 jsx 标签属性中使用的方法提前绑定好 this
+        this.onBtnClick = this.onBtnClick.bind(this)
+      }
 
-			onBtnClick() {
-				this.setState({
-					msg: 'Hello React'
-				})
-			}
+      onBtnClick() {
+        this.setState({
+          msg: 'Hello React'
+        })
+      }
 
-			// 渲染内容 render 方法
-			render() {
-				return (
-					<div>
-						<h2>{ this.state.msg }</h2>
-						<button onClick={ this.onBtnClick }>修改文本</button>
-					</div>
-				)
-			}
-		}
+      // 渲染内容 render 方法
+      render() {
+        return (
+          <div>
+            <h2>{ this.state.msg }</h2>
+            <button onClick={ this.onBtnClick }>修改文本</button>
+          </div>
+        )
+      }
+    }
 
-		// 将组件渲染到界面上
-		const root = ReactDOM.createRoot(document.querySelector('#root'))
-		root.render(<App/>)
-	</script>
+    // 将组件渲染到界面上
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    root.render(<App/>)
+  </script>
 </body>
 ```
 
@@ -289,22 +302,22 @@ babel 与 react 的关系：
 - 参与界面更新的数据：当数据变化时，需要更新组件渲染的内容；
 - 不参与界面更新的数据：当数据变化时，不需要更新组建渲染的内容；
 
-参与界面更新的数据称之为是**参与数据流**，这个数据是定义在当前对象的 `state` 中
+参与界面更新的数据，称之为是**参与数据流**，这个数据是定义在当前对象的 `state` 中
 
 - 在构造函数中进行初始化 `this.state = {...}`
 - 当数据发生变化时，调用 `this.setState` ，该方法是从 `React.Component` 继承过来的，会做两件事：
   - 更新 `this.state` 中的状态值；
-  - 通知 React 进行 update 操作；改操作会调用 `render` 函数，使用最新的状态，来渲染界面。
+  - 通知 React 进行 update 操作；该操作会调用 `render` 函数，使用最新的状态，来渲染界面。
 
 ### 2.事件绑定中的 this 指向
 
 在类中定义一个实例方法，将这个方法，绑定到元素的 `onClick` 事件上，这个方法中的 `this` 默认情况下指向 `undefined`
 
 1. 原生的 DOM 操作中，监听点击，监听函数中的 `this` 指向节点对象（比如 button 对象）；
-2. React 中的代码，并非直接渲染成真实的 DOM，我们所使用 JSX 编写的 `<button>` 只是一个语法糖，它的本质是 React 的 Element 对象；
+2. React 中的代码，并非直接渲染成真实的 DOM，我们所使用 JSX 编写的 `<button>` 只是一个语法糖，它的本质是 **React 的 Element 对象**；
 3. React 在执行 React 的 Element 对象上绑定的函数时，并没有为它绑定 `this`；所以默认情况下就是一个 `undefined`；
    1. ES6 中使用 class，里面的实例方法，默认开启**严格模式**；React 项目中，引用的 babel 库，其中也会开启**严格模式**。
-   2. 而在严格模式下，`this` 的默认就是 `undefined`。
+   2. 而在严格模式下，`this` 的默认绑定就是 `undefined`。
    3. jsx 代码会被 babel 编译为一段 js 代码，这段代码运行在**严格模式**中，因此，在 jsx 中引用类的实例方法，方法中的 `this` 默认绑定的是 `undefined`。
 
 综上所述，在绑定事件处理的函数中，想要使用当前组件实例对象，即 `this`，需要在绑定事件处理函数前，给该函数绑定 `this`：
@@ -317,96 +330,104 @@ babel 与 react 的关系：
 
 ### 1.电影列表案例
 
+01-Learn-react-basic/01-react 初体验/04-案例二-电影列表.html
+
 ```jsx
 <body>
-	<div id="root"></div>
+  <div id="root"></div>
 
-	<script src="../../lib/react.development.js"></script>
-	<script src="../../lib/react-dom.development.js"></script>
-	<script src="../../lib/babel.min.js"></script>
+  <!-- 添加依赖，三个包，使用 CDN 引入 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-	<script type="text/babel">
-		// 封装 App 组件
-		class App extends React.Component {
-			constructor() {
-				super()
-				this.state = {
-					movies: ['星际穿越', '大话西游', '盗梦空间', '黑客帝国']
-				}
-			}
+  <script type="text/babel">
+    // 封装 App 组件
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          movies: ['星际穿越', '大话西游', '盗梦空间', '黑客帝国']
+        }
+      }
 
-			render() {
-				return (
-					<div>
-						<h2>电影列表</h2>
-						<ul>
-							{ this.state.movies.map(item => <li>{ item }</li>) }
-						</ul>
-					</div>
-				)
-			}
-		}
+      render() {
+        return (
+          <div>
+            <h2>电影列表</h2>
+            <ul>
+              { this.state.movies.map(item => <li>{ item }</li>) }
+            </ul>
+          </div>
+        )
+      }
+    }
 
-		// 创建 root
-		const root = ReactDOM.createRoot(document.querySelector('#root'))
-		// 渲染组件
-		root.render(<App/>)
-	</script>
+    // 创建 root
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    // 渲染组件
+    root.render(<App/>)
+  </script>
 </body>
 ```
 
 ### 2.计数器案例的
 
+01-Learn-react-basic/01-react 初体验/05-案例三-计数器案例实现.html
+
 ```jsx
 <body>
-	<div id="root"></div>
+  <div id="root"></div>
 
-	<script src="../../lib/react.development.js"></script>
-	<script src="../../lib/react-dom.development.js"></script>
-	<script src="../../lib/babel.min.js"></script>
+  <!-- 添加依赖，三个包，使用 CDN 引入 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-	<script type="text/babel">
+  <script type="text/babel">
 
-		// 封装 App 组件
-		class App extends React.Component {
-			constructor() {
-				super()
-				this.state = {
-					counter: 100
-				}
-				this.increment = this.increment.bind(this)
-				this.decrement = this.decrement.bind(this)
-			}
+    // 封装 App 组件
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          counter: 100
+        }
+        this.increment = this.increment.bind(this)
+        this.decrement = this.decrement.bind(this)
+      }
 
-			increment() {
-				this.setState({
-					couter: ++this.state.counter
-				})
-			}
-			decrement() {
-				this.setState({
-					couter: --this.state.counter
-				})
-			}
+      increment() {
+        this.setState({
+          couter: ++this.state.counter
+        })
+      }
+      decrement() {
+        this.setState({
+          couter: --this.state.counter
+        })
+      }
 
-			render() {
-				const counter = this.state.counter
+      render() {
+        const counter = this.state.counter
 
-				return (
-					<div>
-						<h2>当前计数：{ counter }</h2>
-						<button onClick={ this.increment }>+1</button>
-						<button onClick={ this.decrement }>-1</button>
-					</div>
-				)
-			}
-		}
+        return (
+          <div>
+            <h2>当前计数：{ counter }</h2>
+            <button onClick={ this.increment }>+1</button>
+            <button onClick={ this.decrement }>-1</button>
+          </div>
+        )
+      }
+    }
 
-		// 创建 root 对象
+    // 创建 root 对象
     const root = ReactDOM.createRoot(document.querySelector('#root'))
-		// 渲染组件
-		root.render(<App/>)
-	</script>
+    // 渲染组件
+    root.render(<App/>)
+  </script>
 </body>
 ```
 
@@ -434,11 +455,11 @@ React 认为渲染逻辑本质上与其他 UI 逻辑存在内在耦合：
 
 ## 十二、jsx 书写规范
 
-JSX 的顶层只能有一个根元素，所以一般在最外层包裹一个 `<div>` ,或者 `Fragment`；
+JSX 的顶层，只能有一个根元素，所以一般在最外层，包裹一个 `<div>` ,或者 `Fragment`；
 
-jsx 通常包裹在 `()` 中，为进行换行书写，方便阅读。
+JSX 通常包裹在小括号 `()` 中，为进行换行书写，方便阅读。
 
-JSX 中的标签可以是单标签，也可以是双标签；单标签必须以 `/>` 结尾（HTML 中单标签元素可省略）。
+JSX 中的标签，可以是单标签，也可以是双标签；单标签必须以 `/>` 结尾（HTML 中单标签元素可省略）。
 
 ## 十三、jsx 使用
 
@@ -459,94 +480,101 @@ const divEl = (
 
 情况二：当变量是 `null`、`undefined`、`Boolean` 类型时，内容为空；
 
-- 如需显示，要转成字符串； 比如 1.`toString` 方法；2.和空字符串拼接；3.`String(变量)` 等方式；
+- 如需显示，要转成字符串； 比如：
+  1. 使用 `toString()` 方法；
+  2. 和空字符串拼接；
+  3. 使用 `String(变量)` 等方式；
 
-情况三：Object 对象类型不能作为**子元素**在 JSX 语法中引用。
+情况三：Object 对象类型，不能作为**子元素**在 JSX 语法中引用。
 
 ### 3.嵌入表达式
 
-运算表达式，如三元运算表达式；执行一个函数。
+运算表达式，比如三元运算表达式；执行一个函数。
 
 > react 中没有计算属性，完全在 jsx 中处理。
+
+01-Learn-react-basic/02-JSX基本语法/04-JSX中插入内容.html
 
 ```jsx
 <body>
 
-	<div id="root"></div>
+  <div id="root"></div>
 
-	<script src="../../lib/react.development.js"></script>
-	<script src="../../lib/react-dom.development.js"></script>
-	<script src="../../lib/babel.min.js"></script>
+  <!-- 添加依赖，三个包，使用 CDN 引入 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-	<script type="text/babel">
-		class App extends React.Component {
-			constructor() {
-				super()
-				this.state = {
-					counter: 100,
-					msg: 'Hello React',
-					movies: ['星际穿越', '大话西游', '盗梦空间', '黑客帝国'],
+  <script type="text/babel">
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          counter: 100,
+          msg: 'Hello React',
+          movies: ['星际穿越', '大话西游', '盗梦空间', '黑客帝国'],
 
-					aaa: undefined,
-					bbb: null,
-					ccc: true,
+          aaa: undefined,
+          bbb: null,
+          ccc: true,
 
-					friend: { name: 'kobe', age: 30, address: 'LA' },
+          friend: { name: 'kobe', age: 30, address: 'LA' },
 
-					firstname: 'jesse',
-					lastname: 'lingard',
-					age: 29,
+          firstname: 'jesse',
+          lastname: 'lingard',
+          age: 29,
 
-				}
-			}
+        }
+      }
 
-			render() {
-				const { msg, counter, movies } = this.state
-				const { aaa, bbb, ccc } = this.state
-				const { friend } = this.state
-				const { firstname, lastname, age } = this.state
+      render() {
+        const { msg, counter, movies } = this.state
+        const { aaa, bbb, ccc } = this.state
+        const { friend } = this.state
+        const { firstname, lastname, age } = this.state
 
-				const fullName = firstname + lastname
-				const liEls = movies.map(item => <li> { item } </li>)
+        const fullName = firstname + lastname
+        const liEls = movies.map(item => <li> { item } </li>)
 
-				return (
-					<div>
-						{ /* 可直接显示出来 */ }
-						<h2>{ counter }</h2>
-						<h2>{ msg }</h2>
-						<h2>{ movies }</h2>
+        return (
+          <div>
+            { /* 可直接显示出来 */ }
+            <h2>{ counter }</h2>
+            <h2>{ msg }</h2>
+            <h2>{ movies }</h2>
 
-						{ /* undefined / null / Boolean 显示成文本 */ }
-						<h2>{ String(aaa) } 或 { aaa + '' }</h2>
-						<h2>{ String(bbb) } 或 { bbb + '' }</h2>
-						<h2>{ ccc.toString() }</h2>
+            { /* undefined / null / Boolean 显示成文本 */ }
+            <h2>{ String(aaa) } 或 { aaa + '' }</h2>
+            <h2>{ String(bbb) } 或 { bbb + '' }</h2>
+            <h2>{ ccc.toString() }</h2>
 
-						{ /* Object 类型不能作为 jsx 标签的子元素被引用 */ }
-						<h2>{ friend.name }</h2>
-						<h2>{ Object.keys(friend) }</h2>
+            { /* Object 类型不能直接作为 jsx 标签的子元素被引用 */ }
+            <h2>{ friend.name }</h2>
+            <h2>{ Object.keys(friend) }</h2>
 
-						{ /* 插入计算结果 */ }
-						<h2>{ fullName }</h2>
-						<ul>{ liEls }</ul>
+            { /* 插入计算结果 */ }
+            <h2>{ fullName }</h2>
+            <ul>{ liEls }</ul>
 
-						{ /* 插入表达式 */ }
-						<h2>{ age >= 18 ? '成年人' : '未成年人'  }</h2>
+            { /* 插入表达式 */ }
+            <h2>{ age >= 18 ? '成年人' : '未成年人'  }</h2>
 
-						{ /* 调用方法 */ }
-						<ul>{ this.getMovieEls() }</ul>
-					</div>
-				)
-			}
+            { /* 调用方法 */ }
+            <ul>{ this.getMovieEls() }</ul>
+          </div>
+        )
+      }
 
-			getMovieEls() {
-				console.log('this:', this)
-				return this.state.movies.map(item => <li>{ item }</li>)
-			}
-		}
+      getMovieEls() {
+        console.log('this:', this)
+        return this.state.movies.map(item => <li>{ item }</li>)
+      }
+    }
 
-		const root = ReactDOM.createRoot(document.querySelector('#root'))
-		root.render(<App/>)
-	</script>
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    root.render(<App/>)
+  </script>
 </body>
 ```
 
@@ -554,60 +582,62 @@ const divEl = (
 
 动态绑定 class 通常有 3 种方式
 
-动态绑定 style （内联样式）有很多方式？先了解 1 种基本方式。
+动态绑定 style（内联样式）有很多方式？先了解 1 种基本方式。
 
 ```jsx
 <body>
-	<div id="root"></div>
+  <div id="root"></div>
 
-	<script src="../../lib/react.development.js"></script>
-	<script src="../../lib/react-dom.development.js"></script>
-	<script src="../../lib/babel.min.js"></script>
+  <!-- 添加依赖，三个包，使用 CDN 引入 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-	<script type="text/babel">
-		class App extends React.Component {
-			constructor() {
-				super()
-				this.state = {
-					title: '哈哈哈',
-					imgUrl: 'https://images5.alphacoders.com/109/1096785.jpg',
-					isActive: true,
-					styleObj: {
-						color: 'red',
-						fontSize: '30px'
-					}
-				}
-			}
+  <script type="text/babel">
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          title: '哈哈哈',
+          imgUrl: 'https://images5.alphacoders.com/109/1096785.jpg',
+          isActive: true,
+          styleObj: {
+            color: 'red',
+            fontSize: '30px'
+          }
+        }
+      }
 
-			render() {
-				const { title, imgUrl, isActive, styleObj } = this.state
+      render() {
+        const { title, imgUrl, isActive, styleObj } = this.state
 
-				// 绑定 class 写法一
-				const classList1 = `abc cba ${ isActive ? 'active' : '' }`
-				// 绑定 class 写法二
-				const classList2 = ['abc', 'cba']
-				if (isActive) classList2.push('active')
-				// 绑定 class 写法三，第三方库 classnames，一般通过 npm install classnames 引入
+        // 绑定 class 写法一
+        const classList1 = `abc cba ${ isActive ? 'active' : '' }`
+        // 绑定 class 写法二
+        const classList2 = ['abc', 'cba']
+        if (isActive) classList2.push('active')
+        // 绑定 class 写法三，第三方库 classnames，一般通过 npm install classnames 引入
 
-				return (
-					<div>
-						{ /* 基本属性绑定 */ }
-						<h2 title={ title }>title 属性绑定</h2>
-						<img src={ imgUrl } />
+        return (
+          <div>
+            { /* 基本属性绑定 */ }
+            <h2 title={ title }>title 属性绑定</h2>
+            <img src={ imgUrl } />
 
-						{ /* 绑定 class 属性，最好使用 className */ }
-						<h2 className={ classList1 }>绑定 class 属性</h2>
-						<h2 className={ classList2.join(' ') }>绑定 class 属性</h2>
+            { /* 绑定 class 属性，最好使用 className */ }
+            <h2 className={ classList1 }>绑定 class 属性</h2>
+            <h2 className={ classList2.join(' ') }>绑定 class 属性</h2>
 
-						{ /* 绑定 style 属性，即绑定对象类型 */ }
-						<h2 style={ styleObj }>绑定 style 属性</h2>
-					</div>
-				)
-			}
-		}
+            { /* 绑定 style 属性，即绑定对象类型 */ }
+            <h2 style={ styleObj }>绑定 style 属性</h2>
+          </div>
+        )
+      }
+    }
 
-		const root = ReactDOM.createRoot(document.querySelector('#root'))
-		root.render(<App/>)
-	</script>
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    root.render(<App/>)
+  </script>
 </body>
 ```
